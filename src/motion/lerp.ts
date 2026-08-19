@@ -161,7 +161,7 @@ export function wecken(): void {
  *
  * @param ziel     wird in jedem Bild gefragt — muss billig sein.
  * @param anwenden bekommt den nachgezogenen Wert.
- * @param faktor   Anteil je Bild bei 60 Hz; Standard ist `--lerp` aus dem
+ * @param faktor   Anteil je Bild bei 60 Hz; Standard ist `--nachzug-seite` aus dem
  *                 Stylesheet. Er wird beim Anmelden EINMAL gelesen — ein
  *                 Token-Zugriff in der Bildschleife wäre ein `getComputedStyle`
  *                 je Bild und je Nachzieher.
@@ -177,7 +177,7 @@ export function nachziehen(
   const n: Nachzieher = {
     ziel,
     anwenden,
-    faktor: faktor ?? tokens().lerp,
+    faktor: faktor ?? tokens().nachzug.seite,
     wert: 0,
     frisch: true,
     wach: true,

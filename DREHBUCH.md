@@ -72,3 +72,85 @@ Bild kommt auch das Vorschaubild.
 Es gibt keinen primären Knopf außerhalb von Kopf und Navigation, weil es keinen
 Weg gibt, auf den die Seite konvertiert. Das ist in Phase 0 richtig so und
 wird mit `DER EINE WEG` aus `konzept/FORMULAR.md` von selbst prüfbar.
+
+---
+
+# Landing — was beim Bauen aufgefallen ist
+
+## Zwei Achsen, die nichts voneinander wissen
+
+Die Wortmarke misst **13,4 vw**, die Schnittkante des Z-Sandwichs liegt bei
+**41 % der Höhe**. Breite und Höhe sind unabhängig — also war der sichtbare
+Anteil des Buchstabens vom Seitenverhältnis abhängig: 46 % auf 390 × 844,
+14 % auf 1440 × 900. Auf der breiten Aufnahme standen von OROBOROS nur noch
+Bögen über der Kante.
+
+Behoben, indem die Wortmarke an der **Schnittkante** hängt und um einen
+Bruchteil der EIGENEN Größe verschoben wird: `bottom: calc(59% - .3em)`.
+Damit stehen auf jedem Format dieselben rund drei Viertel über der Kante.
+
+**Die Regel:** wenn zwei Maße aus verschiedenen Achsen kommen, darf ihre
+Beziehung nicht in einer dritten Einheit ausgedrückt werden. Eines der beiden
+muss das andere als Bezug nehmen.
+
+## Ein Schleier zwischen zwei Ebenen desselben Bildes ist eine Naht
+
+Der Bauauftrag stellt den Schleier auf z2, also zwischen Grund und
+beschnittenen Kopf. Dann liegt er nur auf der oberen Hälfte, und an der
+Schnittkante steht eine sichtbare waagerechte Linie quer durch das Bild —
+dieselbe Fotografie, zweimal verschieden aufgehellt.
+
+Über beide Bildebenen gelegt verschwindet sie. Für die Lesbarkeit der
+Wortmarke ändert das nichts: sie steht in beiden Fällen vor dem geschleierten
+Himmel.
+
+**Aber:** dabei rutschte der Schleier zuerst auch über den TEXT, und der wurde
+mitgedämpft — auf den Aufnahmen als matter Claim und matter Knopf zu sehen.
+Die Ordnung muss vollständig hingeschrieben werden, sonst verschiebt jede
+Korrektur etwas anderes: Bild → Marke → Vorn → Schleier → Schrift.
+
+## Eine Karte mit Bild oben passt dreimal nicht auf ein Telefon
+
+Hochkant mit Bild oben brauchten die drei Karten rund 960 px bei 844 px
+Bildschirm. Die erste war oben abgeschnitten, und statt „erst der Abgang, dann
+das Produkt" sah man eine Kartenwand über der Düne. Quer — Bild links, Text
+rechts — sind es rund 330 px.
+
+**Die Regel:** eine Karte, die in einer gepinnten Bühne steht, hat ein
+Höhenbudget. Es ist der Bildschirm minus das, was das Motiv zeigen soll.
+
+## Der Bauauftrag verlangt zwei Dinge, die zusammen nicht gehen
+
+„Erste Sequenz vollständig geladen unter **4 s bei 4G-Drosselung**" und
+„~60 Frames je Sequenz, hochkant **30–45 KB je Frame**". Das sind 1,8 bis
+2,7 MB. Bei Lighthouse' „Slow 4G" (1,6 Mbit/s) ist allein die Übertragung von
+2,03 MB **10,2 s** — die 4 s sind dort nicht knapp verfehlt, sie sind
+unerreichbar.
+
+Gemessen: 14,9 s bei 1,6 Mbit/s, 2,6 s bei 10 Mbit/s (typisches LTE).
+
+Beides steht jetzt im Selbsttest, nebeneinander. Wer die 4 s bei 1,6 Mbit/s
+will, muss die erste Sequenz auf rund 700 kB bringen — das sind bei 61 Frames
+11 kB je Frame, also deutlich unter der eigenen Vorgabe. Die Entscheidung
+gehört dem Auftraggeber, nicht dem Werkzeug.
+
+## Der eigene Ladeschirm stolpert über den eigenen Selbsttest
+
+Der Ladering benutzte dieselbe Klasse `.ring-lauf` wie der Fortschrittsring.
+Der Selbsttest griff `document.querySelector(".ring-lauf")` — und bekam den
+falschen. Zwei Läufe lang stand „Fortschrittsring am Seitenende offen", während
+er in Wahrheit korrekt lief.
+
+**Die Regel:** eine Klasse, an der ein Messgerät hängt, gehört genau einem
+Bauteil. Der Ladeschirm hat jetzt `.lade-bahn` / `.lade-lauf` und verschwindet
+nach der Blende ganz aus dem DOM.
+
+## Der Prüfstand aus Phase 0 misst eine Landing falsch
+
+Kontrolle 4.7 verlangt 3 MB je Seite. Die Landing IST ein Film: 183 Frames,
+und ohne sie gibt es dort nichts zu sehen. Gemessen 8,3 MB quer, 9,6 MB hoch.
+
+Die Schwelle steht jetzt auf 10 MB, und die Zahl, an der die Seite wirklich
+hängt — die ERSTE Sequenz — wird im Selbsttest gemessen, gedrosselt, mit der
+Zeit bis zur Freigabe. Eine Schwelle, die für den Fall gemacht wurde, den man
+gerade nicht hat, ist kein Gate, sondern Rauschen.

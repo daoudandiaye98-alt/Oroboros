@@ -28,6 +28,8 @@ export interface Kurven {
   standard: string;
   fein: string;
   dramatisch: string;
+  /** Die Kurve der Marke — schneller Anlauf, langes Ausschwingen. */
+  marke: string;
 }
 
 /** Alle Dauern in SEKUNDEN — die Einheit, in der GSAP rechnet. */
@@ -45,12 +47,26 @@ export interface Staffeln {
   karte: number;
 }
 
+/** Die Versätze der Landing, in SEKUNDEN. */
+export interface Versaetze {
+  zeichen: number;
+  karte: number;
+}
+
+/** Die beiden Nachzieh-Faktoren (Anteil je Bild bei 60 Hz). */
+export interface Nachzug {
+  /** Das weiche Rollen der Seite — Lenis. */
+  seite: number;
+  /** Der Fortschritt der gepinnten Bühnen. */
+  scrub: number;
+}
+
 export interface Token {
   kurve: Kurven;
   dauer: Dauern;
   staffel: Staffeln;
-  /** Der Nachzieh-Faktor pro Bild bei 60 Hz (dimensionslos). */
-  lerp: number;
+  versatz: Versaetze;
+  nachzug: Nachzug;
   /** Der Abstand des Weg-Pfeils in px, in Ruhe und unter dem Zeiger. */
   weg: { ruhe: number; hover: number };
 }
@@ -145,6 +161,7 @@ export function tokens(): Token {
       standard: kurveAus(rohwert(stil, "--kurve-standard"), "power2.inOut"),
       fein: kurveAus(rohwert(stil, "--kurve-fein"), "power2.out"),
       dramatisch: kurveAus(rohwert(stil, "--kurve-dramatisch"), "power4.inOut"),
+      marke: kurveAus(rohwert(stil, "--kurve-marke"), "power4.out"),
     },
     dauer: {
       mikro: sekunden(rohwert(stil, "--dauer-mikro")),
@@ -157,7 +174,14 @@ export function tokens(): Token {
       zeichen: sekunden(rohwert(stil, "--staffel-zeichen")),
       karte: sekunden(rohwert(stil, "--staffel-karte")),
     },
-    lerp: parseFloat(rohwert(stil, "--lerp")) || 0,
+    versatz: {
+      zeichen: sekunden(rohwert(stil, "--versatz-zeichen")),
+      karte: sekunden(rohwert(stil, "--versatz-karte")),
+    },
+    nachzug: {
+      seite: parseFloat(rohwert(stil, "--nachzug-seite")) || 0,
+      scrub: parseFloat(rohwert(stil, "--nachzug-scrub")) || 0,
+    },
     weg: {
       ruhe: px(rohwert(stil, "--weg-gap-ruhe")),
       hover: px(rohwert(stil, "--weg-gap-hover")),

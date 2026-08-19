@@ -77,14 +77,14 @@ export interface SeitenZiel {
 }
 
 /**
- * In Phase 0 gibt es genau eine Seite mit Inhalt: den Selbsttest.
+ * Zwei Seiten: die Landing und der Selbsttest des Werks.
  *
- * Die Wurzel steht bewusst NICHT in dieser Liste. Sie ist in Phase 0 leer, und
- * eine leere Seite zu vermessen liefert lauter grüne Zahlen, die nichts über
- * das Werk aussagen. Sie kommt in Phase 1 dazu, zusammen mit dem, was auf ihr
- * steht.
+ * Die Landing steht jetzt drin, weil auf ihr etwas steht. In Phase 0 war sie
+ * leer, und eine leere Seite zu vermessen liefert lauter grüne Zahlen, die
+ * nichts aussagen.
  */
 export const SEITEN: SeitenZiel[] = [
+  { name: "landing", pfad: "/" },
   { name: "werkstatt", pfad: "/werkstatt" },
 ];
 
@@ -109,8 +109,22 @@ export const SCHWELLEN = {
   /** Waagerechter Überlauf in px, ab dem gemeldet wird (1 px sind Rundungen). */
   ueberlauf_px: 1,
 
-  /** 4.7 — Gewicht je Seite in Byte. */
-  gewicht_seite: 3_000_000,
+  /**
+   * 4.7 — Gewicht je Seite in Byte.
+   *
+   * ANGEHOBEN von 3 auf 10 MB, mit Grund und ungern. Drei Millionen sind die
+   * richtige Zahl für eine Seite aus Text und Bildern. Die Landing IST aber
+   * ein Film: 183 Frames in drei Sequenzen, und ohne sie gibt es dort
+   * überhaupt nichts zu sehen. Gemessen: 8,3 MB quer, 9,6 MB hoch.
+   *
+   * Die Zahl, an der die Landing wirklich hängt, ist eine andere und steht
+   * im Bauauftrag: die ERSTE Sequenz — das, was vor dem ersten Bild geladen
+   * sein muss — soll unter 2,5 MB bleiben. Sie wird in
+   * `pruefstand/selbsttest.mjs` gemessen, gedrosselt auf 4G, zusammen mit der
+   * Zeit bis zur Freigabe. Diese Schwelle hier deckt nur noch den Fall ab,
+   * dass jemand versehentlich das Doppelte ausliefert.
+   */
+  gewicht_seite: 10_000_000,
 
   /** Wie viele der kleinsten/größten Werte im Bericht landen. */
   liste_laenge: 10,
@@ -123,10 +137,12 @@ export const SCHWELLEN = {
  * misst man eine Fläche, die noch in Bewegung ist, und nennt das Ergebnis einen
  * Befund. Längster Fall heute: der Auftritt in `/werkstatt`. Er läuft die
  * Rollen NACHEINANDER an, also summieren sich die Dauern: eine Schlagzeile
- * (`--dauer-block` 700 ms plus 11 × `--staffel-wort` 100 ms) und vier Karten
- * (700 ms plus 3 × 50 ms) ergeben rund 2,7 s. Mit Reserve: 3200 ms.
+ * (`--dauer-block` 820 ms plus 11 × `--staffel-wort` 100 ms) und vier Karten
+ * ergeben rund 2,9 s. Die Landing braucht länger: erst laden 61 Frames, dann
+ * blendet der Ladeschirm 1400 ms aus, dann läuft der Auftritt bis 2900 ms.
+ * Mit Reserve: 6500 ms.
  */
-export const RUHE_MS = 3200;
+export const RUHE_MS = 6500;
 
 /** Chromium-Pfad, falls die Umgebung einen mitbringt (Container, CI). */
 export const CHROMIUM_PFAD = process.env.PRUEFSTAND_CHROMIUM ?? undefined;

@@ -142,7 +142,7 @@ function Beweis() {
       {/* ————— Block D — der nachziehende Punkt ————— */}
       <section style={{ padding: "8rem 2rem", minHeight: "60vh" }}>
         <p style={{ margin: 0, opacity: 0.6 }}>
-          Block D · lerp.ts · der Punkt zieht dem Zeiger nach (Faktor --lerp)
+          Block D · lerp.ts · der Punkt zieht dem Zeiger nach (Faktor --nachzug-seite)
         </p>
       </section>
       <div
