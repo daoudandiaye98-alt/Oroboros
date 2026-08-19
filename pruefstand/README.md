@@ -80,6 +80,22 @@ Stil sehen: `:focus` ist beweisbar, `:focus-visible` nicht.
 **3.3 hält Bewegung an, bevor es misst.** Gemessen wird der ruhende Zustand.
 Ein Kontrast, der nur während einer Blende zu niedrig ist, fällt hier nicht auf.
 
+## Wenn der Browser nicht nach außen kommt
+
+In manchen Containern (auch dem, in dem Phase 0 gebaut wurde) erreicht Chromium
+das offene Netz nicht, obwohl node es erreicht. Erkennbar an
+`net::ERR_CONNECTION_RESET` bei **jeder** Adresse, auch bei `example.com` —
+also nicht am Ziel, sondern an der Umgebung. Geprüft am 19.08.2026: mit und
+ohne Proxy, mit und ohne `--disable-quic`, mit ignorierten Zertifikatsfehlern,
+innerhalb und außerhalb der Sandbox — dieselbe Meldung.
+
+Der Ausweg ist der lokale Lauf gegen `npx vite preview`. Er misst denselben
+Code, der veröffentlicht würde, aus demselben Commit — nur ohne die Auslieferung
+durch Vercel. Was er damit NICHT sieht: Kopfzeilen, Weiterleitungen, Statuscodes
+und alles, was am Rand entschieden wird. Genau diese Grenze muss im Bericht
+stehen; ein lokaler Lauf, der als Aussage über die Vorschau ausgegeben wird,
+wäre eine Behauptung.
+
 ## Dokumentierte Ausnahmen
 
 Keine.
