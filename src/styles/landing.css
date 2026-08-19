@@ -198,12 +198,23 @@ html.landing body {
   color: var(--creme);
   background: none;
   border: 0;
-  padding: 0;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: var(--weg-gap-ruhe);
   transition: gap var(--dauer-hover) var(--kurve-marke);
+  /*
+   * Die Trefferfläche wächst, die Zeile bleibt stehen.
+   *
+   * Der Knopf war 169 × 15 px — gemessen mit dem Prüfstand, Kontrolle 3.5,
+   * auf 390 und 844. WCAG 2.5.8 verlangt 44 px, und 15 px sind auf einem
+   * Telefon kein Ziel, sondern ein Glücksspiel. Das Polster vergrößert die
+   * Fläche nach oben und unten, das negative Aussenmaß zieht die Zeile
+   * wieder an ihren Platz: optisch identisch, mit dem Finger dreimal so gut
+   * zu treffen.
+   */
+  padding-block: 15px;
+  margin-block: -15px;
 }
 .weg:hover, .weg:focus-visible { gap: var(--weg-gap-hover); }
 .weg-strich {

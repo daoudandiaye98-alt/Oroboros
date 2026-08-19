@@ -7,14 +7,11 @@
     <meta name="description" content="Eine Wüstenotter zieht durch die Düne, rollt sich ein und wird zum Ouroboros. Eine Seite, eine Bewegung." />
     <meta name="theme-color" content="#0E0A06" />
     <!--
-      Das Werk ist ein Template, kein Auftritt. Solange nichts darauf steht,
-      hat es in keinem Index etwas verloren. Die Zeile wird in Phase 1 bewusst
-      entfernt — für /werkstatt bleibt sie dauerhaft (siehe src/main.tsx).
+      Kein globales `noindex`: die Landing SOLL gefunden werden. Nur
+      /werkstatt schließt sich selbst aus — gesetzt in src/main.tsx, weil
+      diese Hülle beide Adressen ausliefert.
     -->
-    <!-- Kein Zeichen in Phase 0, aber auch kein 404 im Protokoll: eine leere
-         Daten-Adresse beendet die Suche des Browsers, ohne etwas zu laden. -->
-    <link rel="icon" href="data:," />
-    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="/zeichen.svg" type="image/svg+xml" />
   </head>
   <body>
     <div id="wurzel"></div>
