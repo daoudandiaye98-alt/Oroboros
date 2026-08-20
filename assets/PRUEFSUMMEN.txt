@@ -15,8 +15,8 @@ d86cd3b9f19afc29  2227028  assets/quer/trav.png
 75ff435054805e17  3764082  assets/quer/kopf-quelle.mp4
 311d4058cee7c995  4776945  assets/quer/traverse-quelle.mp4
 ecd589fcda776998  68110447  assets/film-3x4.mp4
-fcc003feb5b5ea4d  26785751  assets/rueckfahrt-3x4.mp4
+b041c009be89a1f5  11455021  assets/rueckfahrt-3x4.mp4
 6fed4be360fe27ea  76595820  assets/film-16x9.mp4
-e8ba3c70a212b731  30016982  assets/rueckfahrt-16x9.mp4
+dc816a6918134202  10452298  assets/rueckfahrt-16x9.mp4
 e6ceaf4c509697e0  18209719  assets/film-9x16.mp4
-88786569f35d6b49  6902621  assets/rueckfahrt-9x16.mp4
+a6d7346e7bd77d26  10228087  assets/rueckfahrt-9x16.mp4

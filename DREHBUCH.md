@@ -414,3 +414,139 @@ Eigengröße von 300 × 150, und bei `width: auto` gewinnt sie. Die Staubfläche
 lag als 300 × 150 großes Feld in der linken oberen Ecke, und der Übergang
 spielte dort statt in der Mitte. `width: 100%; height: 100%` dazu — dieselbe
 Zeile, die bei `.ebene` aus demselben Grund steht.
+
+# Kontinuität und Kamera-Architektur
+
+## Ein Maßstab, der ein Bild kleiner macht als sein Fenster, ist keine Gestaltung
+
+Phase 2 brachte den Ring auf sein Zielmaß, indem sie das ganze Bild schrumpfte
+und den frei werdenden Rand mit dem mittleren Sandton füllte. Beides stand so
+im Auftrag, und beides war falsch — die Füllung war die sichtbare Kante, und
+ROBOROS lief in sie hinein.
+
+Die Ursache ist eine Verwechslung von Kamera und Objektiv. Eine Kamera wählt
+einen Ausschnitt; sie macht das Bild nicht kleiner. Was sie darf, ist innerhalb
+dessen zu wandern, was `cover` ohnehin abschneidet — der Overscan-Reserve. Alles
+darüber hinaus legt Fläche frei, und jede Füllung dieser Fläche ist ein
+Pflaster auf einem architektonischen Fehler.
+
+**Die Regel:** wenn eine Transformation Fläche freilegt, ist nicht die Füllung
+zu verbessern, sondern die Transformation zu ersetzen. Die Größe kommt aus der
+WAHL DES FRAMES, nicht aus einem Faktor.
+
+## Die Bedingung des Auftrags war unerfüllbar, und das Nachrechnen sagte es
+
+§3 verlangte, den Ring an den linken Rand zu schwenken, mit der Bedingung
+`|schwenk| + 2 <= overscanX`. Nachgerechnet mit den gemessenen Ringdaten:
+
+| Fenster | overscanX | nötiger Schwenk |
+|---|---|---|
+| 1440 × 900 | 87 px | −540 px |
+| 844 × 390 | 0 px | −284 px |
+
+Der Ring sitzt über die ganze Rückfahrt bei cx ≈ 0,51 — in der Bildmitte. Ihn
+an den Rand zu bringen heißt, eine halbe Fensterbreite zu schwenken. Der im
+Auftrag vorgesehene Ausweg (ein früherer Frame) hilft nicht, weil cx sich über
+die ganze Fahrt nur um 0,06 ändert.
+
+Umgedreht geht es: nicht der Ring geht zum Wort, sondern das Wort zum Ring.
+Gewählt wird der früheste Frame, bei dem die ganze Zeile ins Fenster passt.
+
+**Die Regel:** eine Bedingung, die in keinem Zielfenster erfüllbar ist, ist
+keine Anforderung an die Umsetzung, sondern ein Fehler in der Anforderung. Sie
+wird nachgerechnet und benannt, bevor eine Zeile entsteht — nicht durch eine
+Näherung ersetzt, die niemand geprüft hat.
+
+## Ein Schwellwert kann Schlange und Sand nicht trennen — eine Form kann es
+
+Der Auftrag gab ein Messverfahren vor: Graustufen, Schwelle Median − 9, größte
+zusammenhängende Region. Es misst die Kuhle mit ihrem Außenschatten, mit einem
+Fehler, der über die Fahrt von 4 auf 51 % wächst, und ab 9,0 s greift es einen
+Dünenschatten am anderen Bildrand.
+
+Der Grund steht im Material: Körper rgb(228,186,122), Sand rgb(215,176,121).
+Was den Ring auszeichnet, ist keine Helligkeit, sondern eine FORM — ein heller
+Kranz um eine dunkle Mitte. Genau darauf antwortet der Detektor jetzt, und der
+Fehlerfall verschwindet, ohne dass eine Sonderregel nötig wäre.
+
+**Die Regel:** wenn zwei Dinge im gemessenen Kanal identisch sind, hilft kein
+besserer Schwellwert. Dann ist der Kanal falsch gewählt.
+
+## Das Suchfenster ist die eigentliche Messung
+
+Mit ±16 % Radiusspielraum rastete der Detektor ab Frame 66 auf die
+sonnenbeschienene Sichel IM Ring um — dieselbe Form, halb so groß. Kein
+Absturz, keine Warnung, nur eine falsche Zahl. Die Fahrt schrumpft 2,8 % je
+Frame; ein Fenster von 0,93 bis 1,01 schließt den Halbierungssprung aus.
+
+**Die Regel:** ein Verfolger, der mehr zulässt, als die Physik hergibt, ist
+kein robuster Verfolger, sondern ein Zufallsgenerator mit Vorgeschichte.
+
+## Zwei Größen, die gegeneinander eintauschbar sind, gehören nicht in dieselbe Suche
+
+Mitte und Radius gemeinsam zu optimieren verbesserte die Mitte und
+verschlechterte den Durchmesser: die Kantenantwort lässt sich auch dadurch
+erhöhen, dass der Kreis kleiner UND verschoben wird. Abwechselnd verfeinert
+kommt jeder Schritt aus einer Frage.
+
+## Der Schnitt lag nicht dort, wo der Auftrag ihn vermutete
+
+Gesucht wurde ein Bruch zwischen Staub und Film. Gemessen war der Bruch die
+ÜBERGABE: der Staub lag in einer festen Ebene über der Bühne, der Schleier der
+Bühne darunter. Beim Aushängen der Ladeszene legte sich der Schleier
+schlagartig über das Bild — 41 bis 47 Stufen von 255 in einem Schritt.
+
+Der Staub gehört in die Bühne, unter den Schleier. Dann gilt für ihn dieselbe
+Abdunklung wie für das Bild danach, durchgehend.
+
+**Die Regel:** ein Übergang zwischen zwei Zuständen bricht dort, wo die beiden
+Zustände in verschiedenen Ebenenordnungen leben. Nicht die Blende reparieren —
+die Ebenen zusammenlegen.
+
+## Wann die letzte Zelle aufgeht, entscheidet über die Rate — nicht die Kurvenform
+
+Die Enthüllungsrate war dreimal zu hoch, und dreimal lag es an derselben Sache:
+die Maske war schon vor dem Ende der Zeitachse fertig, und der ganze Weg
+drängte sich in den Rest. Nacheinander gefunden:
+
+- Faktor 1,0: verrauschte Zellen erreichten nur 0,48 Deckkraft — das Bild wurde
+  nie voll undurchsichtig, und die Übergabe sprang.
+- `dichte² · 1,7`: Sättigung bei 0,83.
+- `dichte · 1,85`: Sättigung bei 0,63 — schlechter, nicht besser.
+- Kornzuschlag mit Gewicht 1: der Staub deckt nach dem Setzen JEDE Maskenzelle
+  fünffach, der Zuschlag galt also überall und halbierte den Weg noch einmal.
+
+Richtig ist, den Faktor so zu wählen, dass die verrauschteste Zelle GENAU bei
+`dichte = 1` aufgeht, und den Kornzuschlag klein zu halten.
+
+**Die Regel:** bei einer geschwellten Auflösung bestimmt nicht das Easing die
+Rate, sondern der Abstand zwischen der ersten und der letzten Schwelle.
+
+## Eine Prüfung, die sich selbst misst, prüft nichts
+
+Die Helligkeitsprüfung analysierte jede Aufnahme sofort im Browser. Auf
+1440 × 900 kamen so in fünf Sekunden vier Proben zustande — der gemeldete
+„Schritt über 120 ms" umfasste 500 ms. Und die Bildratenmessung lief während
+der Aufnahmeschleife, in der `page.screenshot()` den Hauptfaden anhält: 28 statt
+55 Bilder je Sekunde.
+
+Dazu drei Prüfungen, die das Falsche fanden:
+
+- „dunkelster Bildpunkt 11" war nicht der Seitenhintergrund, sondern ROBOROS —
+  die Schrift steht in genau dieser Farbe.
+- „Rand ohne Textur" war der Schleier, der dort absichtlich fast schwarz ist.
+- Die Texturschwelle 1,2 stammte aus einem Vergleich, in dem die FÜLLUNG mit
+  1,79 über dem echten Bild mit 1,52 lag. Sie hat nie getrennt, was sie
+  trennen sollte.
+
+**Die Regel:** jede gefallene Prüfung wird zuerst gegen sich selbst geprüft.
+Miss sie, was sie behauptet? Erst danach wird am Gegenstand geändert.
+
+## Kein Messwert hat das Raster gemeldet
+
+Helligkeit, Bildrate, Kantentextur, Kontrast — alles grün, während über der
+Düne ein grobes Rechteckraster lag, weil die Maskenzellen acht Bildpunkte breit
+waren und hart schalteten. Gesehen hat es die Aufnahme, nicht die Zahl.
+
+**Die Regel:** Mechanik grün heißt nicht fertig. Es heißt, dass man jetzt
+hinsehen darf.

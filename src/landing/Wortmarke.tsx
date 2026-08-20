@@ -24,13 +24,21 @@ export interface WortmarkeEigenschaften {
   klasse?: string;
   /** Was vorgelesen wird, falls es nicht `text` ist. */
   beschriftung?: string;
+  /**
+   * Referenz auf die Zeile — die Kamera misst an ihr die Wortbreite.
+   *
+   * Sie muss an der ECHTEN Zeile mit der ECHTEN Schrift gemessen werden: aus
+   * ihr folgt, welcher Frame gewählt wird, und eine geratene Breite hieße ein
+   * falscher Frame, den man erst in der Aufnahme sieht.
+   */
+  aussen?: React.RefObject<HTMLDivElement | null>;
 }
 
 export function Wortmarke({
-  text, auf, klasse = "wortmarke", beschriftung,
+  text, auf, klasse = "wortmarke", beschriftung, aussen,
 }: WortmarkeEigenschaften) {
   return (
-    <div className={`${klasse}${auf ? " auf" : ""}`} aria-label={beschriftung ?? text}>
+    <div ref={aussen} className={`${klasse}${auf ? " auf" : ""}`} aria-label={beschriftung ?? text}>
       {Array.from(text).map((zeichen, i) => (
         <span className="schacht" aria-hidden="true" key={`${zeichen}-${i}`}>
           <span

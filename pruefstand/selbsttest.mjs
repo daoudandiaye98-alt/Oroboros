@@ -284,66 +284,19 @@ for (const f of FORMATE) {
 
 
   /*
-   * STEHT DIE SCHLANGE IM WORT ODER DANEBEN?
+   * DIE FRAGE „STEHT DIE SCHLANGE IM WORT" IST UMGEZOGEN.
    *
-   * Die Frage lässt sich rechnen, und sie muss gerechnet werden: „sieht
-   * richtig aus" ist auf einer Aufnahme bei 39 % Fensterbreite Sandfläche
-   * keine belastbare Aussage. Gerechnet wird aus drei Quellen, die alle DIE
-   * SEITE selbst liefert — die Ringmaße stehen als `data-ring` am Canvas, die
-   * Quellgröße kommt aus dem geladenen Frame, die Verwandlung aus dem
-   * berechneten Stil. Kein Sollwert wird aus dem Quelltext abgeschrieben.
+   * Sie stand hier und rechnete aus `data-ring` am Canvas — drei Zahlen, die
+   * eine ganze Sequenz beschrieben. Seit dem Kontinuitäts-Auftrag gibt es die
+   * nicht mehr: der Ring wird in JEDEM Frame vermessen (`ring.json`), und
+   * welcher Frame die Bühne beendet, hängt vom Fenster ab.
+   *
+   * Zuständig ist jetzt `pruefstand/abnahme.mjs`. Es liest `data-aufbau` und
+   * prüft, was dort zu prüfen ist: dass der Schwenk in der Overscan-Reserve
+   * bleibt, dass kein Rand frei wird, dass kein Bildpunkt den Seitengrund
+   * zeigt. Diese Prüfung hier stehen zu lassen hieße, zwei Geräte auf dieselbe
+   * Frage anzusetzen, von denen eines veraltet ist.
    */
-  const sitz = await page.evaluate(() => {
-    const c = document.querySelector("canvas");
-    const platz = document.querySelector(".lockup-ring");
-    const kastenEl = document.querySelector(".bild");
-    if (!c || !platz || !kastenEl || !c.dataset.ring) return null;
-    const [cx, cy, dAnteil] = c.dataset.ring.split(",").map(Number);
-    return new Promise((ok) => {
-      const probe = new Image();
-      probe.onload = () => {
-        const W = c.clientWidth, H = c.clientHeight;
-        const deckung = Math.max(W / probe.naturalWidth, H / probe.naturalHeight);
-        const bb = probe.naturalWidth * deckung, bh = probe.naturalHeight * deckung;
-        const natX = (W - bb) / 2 + cx * bb;
-        const natY = (H - bh) / 2 + cy * bh;
-        const natD = dAnteil * bb;
-        const m = new DOMMatrix(getComputedStyle(c).transform);
-        // Der Kasten ohne Verwandlung: der Canvas liegt deckungsgleich auf .bild.
-        const k = kastenEl.getBoundingClientRect();
-        const ringX = k.left + W / 2 + (natX - W / 2) * m.a + m.e;
-        const ringY = k.top + H / 2 + (natY - H / 2) * m.d + m.f;
-        const r = platz.getBoundingClientRect();
-        return ok({
-          maßstab: m.a,
-          ring: { x: ringX, y: ringY, d: natD * m.a },
-          platz: { x: r.left + r.width / 2, y: r.top + r.height / 2, d: r.width },
-          fenster: W,
-        });
-      };
-      probe.src = c.dataset.probe;
-    });
-  });
-  if (!sitz) {
-    fehlt("Ring und Buchstabenplatz nicht messbar");
-  } else {
-    const dx = Math.abs(sitz.ring.x - sitz.platz.x);
-    const dy = Math.abs(sitz.ring.y - sitz.platz.y);
-    const dd = Math.abs(sitz.ring.d - sitz.platz.d);
-    zeile(`   Ring ${sitz.ring.d.toFixed(0)} px bei ${sitz.ring.x.toFixed(0)}/${sitz.ring.y.toFixed(0)}`
-      + ` · Buchstabenplatz ${sitz.platz.d.toFixed(0)} px bei ${sitz.platz.x.toFixed(0)}/${sitz.platz.y.toFixed(0)}`
-      + ` · Verwandlung ${sitz.maßstab.toFixed(3)}×`);
-    (dx <= 3 && dy <= 3)
-      ? passt(`Ring sitzt IM Buchstaben (${dx.toFixed(1)} / ${dy.toFixed(1)} px daneben)`)
-      : fehlt(`Ring steht ${dx.toFixed(0)} / ${dy.toFixed(0)} px neben dem Buchstaben`);
-    dd <= 2 ? passt(`Ringgröße trifft den Platz (${dd.toFixed(1)} px Abweichung)`)
-      : fehlt(`Ring ${sitz.ring.d.toFixed(0)} px gegen Platz ${sitz.platz.d.toFixed(0)} px`);
-    sitz.maßstab <= 1.001
-      ? passt(`kein Hochrechnen im Schlussbild (Verwandlung ${sitz.maßstab.toFixed(3)}×)`)
-      : fehlt(`Verwandlung rechnet ${sitz.maßstab.toFixed(2)}× hoch`);
-    const anteil = sitz.ring.d / sitz.fenster;
-    zeile(`   Ring = ${(anteil * 100).toFixed(1)} % der Fensterbreite (Auftrag: 22,9 bis 23,1 %)`);
-  }
 
   /*
    * WIRD DAS SCHLUSSBILD DUNKLER?

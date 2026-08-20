@@ -240,7 +240,9 @@ export function canvasSpannen(canvas: HTMLCanvasElement, quelle?: HTMLImageEleme
  * nicht kennt: `object-fit` wirkt auf das Element, nicht auf das, was
  * hineingemalt wird. Ohne diese vier Zeilen wäre jedes Bild verzerrt.
  */
-export function zeichneDeckend(canvas: HTMLCanvasElement, bild: HTMLImageElement): void {
+export function zeichneDeckend(
+  canvas: HTMLCanvasElement, bild: HTMLImageElement, schwenkX = 0,
+): void {
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
   const cb = canvas.width;
@@ -248,7 +250,17 @@ export function zeichneDeckend(canvas: HTMLCanvasElement, bild: HTMLImageElement
   const massstab = Math.max(cb / bild.naturalWidth, ch / bild.naturalHeight);
   const b = bild.naturalWidth * massstab;
   const h = bild.naturalHeight * massstab;
-  ctx.drawImage(bild, (cb - b) / 2, (ch - h) / 2, b, h);
+  /*
+   * Der Schwenk kommt in CSS-Bildpunkten und wird hier in Canvas-Bildpunkte
+   * umgerechnet. Die beiden sind bei Gerätedichte 2 nicht dasselbe, und ein
+   * ungerechneter Schwenk wäre auf dem Telefon doppelt so weit wie gemeint.
+   *
+   * ER WIRD NICHT GEKLEMMT. Wer ihn setzt, hat vorher gegen den Overscan
+   * gerechnet (`kamera.ts`); ein Klemmen hier würde einen Rechenfehler dort
+   * still verschlucken, statt ihn sichtbar zu machen.
+   */
+  const inCanvas = schwenkX * (cb / Math.max(1, canvas.clientWidth));
+  ctx.drawImage(bild, (cb - b) / 2 + inCanvas, (ch - h) / 2, b, h);
 }
 
 /**
@@ -288,18 +300,19 @@ export function frameStelle(anteil: number, anzahl: number): { i: number; t: num
  */
 export function zeichneStelle(
   canvas: HTMLCanvasElement, seq: Sequenz, anteil: number, blenden: boolean,
+  schwenkX = 0, anzahl = seq.anzahl,
 ): void {
-  const { i, t } = frameStelle(anteil, seq.anzahl);
+  const { i, t } = frameStelle(anteil, anzahl);
   const a = naechstesBild(seq, i);
   if (!a) return;
-  zeichneDeckend(canvas, a);
-  if (!blenden || t <= 0.001 || i + 1 >= seq.anzahl) return;
+  zeichneDeckend(canvas, a, schwenkX);
+  if (!blenden || t <= 0.001 || i + 1 >= anzahl) return;
   const b = seq.bilder[i + 1];
   if (!b || b === a) return;
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
   ctx.globalAlpha = t;
-  zeichneDeckend(canvas, b);
+  zeichneDeckend(canvas, b, schwenkX);
   ctx.globalAlpha = 1;
 }
 

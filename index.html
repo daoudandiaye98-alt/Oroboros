@@ -2,7 +2,13 @@
 <html lang="de">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+      `viewport-fit=cover`: das Bild läuft bis unter Notch und Gestenleiste,
+      statt in einem weißen Rahmen zu stehen. Erst damit liefern
+      `env(safe-area-inset-*)` überhaupt Werte ungleich null — der Text hält
+      seinen Abstand dann selbst, siehe `.sicherer-rand` in `landing.css`.
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Oroboros Design</title>
     <meta name="description" content="Eine Wüstenotter zieht durch die Düne, rollt sich ein und wird zum Ouroboros. Eine Seite, eine Bewegung." />
     <meta name="theme-color" content="#0E0A06" />

@@ -87,9 +87,10 @@
    * statt einer Rollposition. Deshalb stehen hier Millisekunden.
    *
    * `--zeichnen-marke` ist der Zug, mit dem sich der Ouroboros schreibt.
-   * Die fünf Schläge danach sind der Übergang in den Film: die Linie zerfällt
-   * (A), der Staub treibt auseinander (B), er fällt (C), er setzt sich zum
-   * ersten Bild (D), das Bild steht und wird übergeben (E).
+   * Die sechs Schläge danach sind der Übergang in den Film: die Linie zerfällt
+   * (A), der Staub treibt auseinander (B), er fällt (C), er setzt sich und die
+   * Maske öffnet das Bild (D), der Staub dünnt aus (E), der Rest weht als
+   * Flugsand darüber hinweg (F).
    */
   --zeichnen-marke: 1500ms;
   --schlag-a:  600ms;
@@ -97,6 +98,10 @@
   --schlag-c:  700ms;
   --schlag-d:  900ms;
   --schlag-e: 1100ms;
+  /* Und danach hört es nicht auf: die letzten Körner wehen als Flugsand über
+     das Bild weiter. Ohne diesen Schlag gäbe es einen Moment, in dem etwas
+     endet — und ein Ende ist eine Naht. */
+  --schlag-f:  600ms;
 
   /* Der ruhige Pfad kennt keine Partikel: halten, blenden, fertig. */
   --ruhe-halt:   800ms;
@@ -155,7 +160,10 @@
 
   --siegel-von:    0.94;
   --siegel-bis:    1.00;
-  --siegel-skala:  0.98;
+  /* Das Siegel steigt, es wächst nicht. Ein Maßstab auf der Bühne ist seit
+     dem Kontinuitäts-Auftrag ausgeschlossen — auch für Text, damit die Regel
+     keine Ausnahme kennt, an der sie sich später wieder aufweicht. */
+  --siegel-weg:     14px;
 
   /* Die vier Farben. Mehr gibt es nicht. */
   --tief:   #0E0A06;

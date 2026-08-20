@@ -45,6 +45,8 @@ html.landing body {
   font-weight: 200;
   background: var(--tief);
   color: var(--creme);
+  /* Waagerecht gibt es nichts zu rollen. `clip` statt `hidden`: `hidden`
+     erzeugt einen Rollkontext, in dem `position: sticky` anders rechnet. */
   overflow-x: clip;
 }
 
@@ -69,7 +71,17 @@ html.landing body {
  * statt zu schlieren — die Rückfahrt hat dafür 50 Frames dazubekommen und die
  * Bühne 120 svh mehr Weg.
  */
-.buehne { position: relative; height: 420svh; }
+.buehne {
+  position: relative;
+  height: 420svh;
+  /*
+   * `svh`, nicht `vh` und nicht `dvh`. `vh` wächst und schrumpft mit der
+   * Adressleiste; `dvh` tut dasselbe, nur benannt. Beides verschiebt die ganze
+   * Choreografie mitten im Rollen, weil die Bühnenhöhe der Weg IST, über den
+   * die Frames verteilt sind. `svh` ist die kleine, stabile Fassung.
+   */
+  overscroll-behavior-y: none;
+}
 
 .bild {
   position: sticky;
@@ -82,15 +94,15 @@ html.landing body {
 /**
  * Die Ordnung der Ebenen.
  *
- *   0 Grund      der Sandton, auf dem das Schlussbild steht
  *   1 Bild       Canvas bzw. Standbild
  *   2 Schleier   damit der Text darauf steht
  *   3 Text       Wortmarke, Hinweis, Siegel
  *
- * Der Grund liegt UNTER dem Bild und ist die ganze Seite über unsichtbar: der
- * Canvas deckt ihn. Erst im letzten Fünftel, wenn der Ausschnitt schrumpft,
- * kommt er an den Rändern zum Vorschein. Seine Farbe wird nicht geschrieben,
- * sondern aus dem Film gelesen (siehe `farbenLesen`).
+ * ES GIBT KEINE GRUNDEBENE MEHR. Bis zum Kontinuitäts-Auftrag lag unter dem
+ * Bild eine Fläche im mittleren Sandton — sie kam zum Vorschein, sobald das
+ * Bild am Ende geschrumpft wurde, und war die sichtbare Kante. Das Bild wird
+ * nicht mehr geschrumpft, also gibt es nichts mehr zu füllen. Die Ebene ist
+ * ersatzlos fort, nicht durch eine bessere ersetzt.
  *
  * Der Text MUSS über dem Schleier liegen. Lag er darunter — ein Fehler aus
  * der verworfenen Fassung, an den Aufnahmen als matter Text zu sehen —, zog
@@ -103,8 +115,22 @@ html.landing body {
   width: 100%;
   height: 100%;
 }
-.ebene-grund { z-index: 0; opacity: 0; pointer-events: none; }
-.ebene-bild { object-fit: cover; z-index: 1; transform-origin: 50% 50%; }
+.ebene-bild { object-fit: cover; z-index: 1; }
+
+/*
+ * Misst, was sich das Gerät an den Rändern nimmt — Notch, abgerundete Ecken,
+ * Gestenleiste. Unsichtbar und ohne Fläche; gelesen wird nur sein `padding`.
+ * Ohne diese Messung liefe die Zeile auf einem iPhone im Querformat unter die
+ * abgerundete Ecke.
+ */
+.sicherer-rand {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  visibility: hidden;
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
 .ebene-schleier { background: var(--schleier); z-index: 2; pointer-events: none; }
 .ebene-text { z-index: 3; pointer-events: none; }
 
@@ -167,7 +193,7 @@ html.landing body {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: clamp(26px, 5vh, 54px);
+  bottom: calc(clamp(26px, 5svh, 54px) + env(safe-area-inset-bottom, 0px));
   margin: 0;
   text-align: center;
   font-family: var(--schrift-titel);
@@ -186,43 +212,34 @@ html.landing body {
 /*
  * Das Schlussbild: OROBOROS, dessen erstes O die Schlange ist.
  *
- * Der Kasten `.lockup-ring` ist LEER. Er hält nur den Platz frei, an dem der
- * Ring stehen wird; gefüllt wird er vom Film, indem sich der Ausschnitt
- * dorthin verschiebt. Deshalb steht hier keine Position und kein Versatz —
- * `src/landing/lockup.ts` MISST diesen Kasten und richtet das Bild danach.
- * Zwei Zahlen, die dasselbe meinen, gibt es an dieser Stelle nicht.
+ * DIE ZEILE STEHT DORT, WO DER FILM SEINEN RING HAT. Bis zum Kontinuitäts-
+ * Auftrag war es umgekehrt: die Zeile stand mittig, und das Bild wurde
+ * geschrumpft und geschoben, bis der Ring in ihren freien Kasten passte. Das
+ * Schrumpfen hat den Rand freigelegt, das Schieben hat ihn vergrößert.
  *
- * Seine Größe kommt als `--ring-mass` von dort, weil sie davon abhängt, wie
- * weit der Film reicht — eine Eigenschaft des Materials, die kein Stylesheet
- * kennen kann.
+ * Jetzt kommen `left`, `top`, `--ring-mass` und `--lockup-schrift` aus
+ * `kamera.ts`. Hier steht kein Maß und keine Position — nur, dass es eine
+ * Zeile ist, deren erstes Zeichen ein leerer Kasten bleibt. Gefüllt wird er
+ * vom Film.
  */
-.siegel {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(18px, 3.4svh, 40px);
-  text-align: center;
-}
-.siegel p { margin: 0; }
-
 .lockup {
+  position: absolute;
   display: flex;
   align-items: center;
-  justify-content: center;
   /* Der Abstand zwischen Ring und Wort. In em, damit er mit der Schrift
-     mitwächst — ein fester Wert risse bei 54 px auf und klebte bei 198 px. */
+     mitwächst — ein fester Wert risse bei 40 px auf und klebte bei 200 px. */
   gap: .12em;
   font-size: var(--lockup-schrift, 54px);
   line-height: 1;
   white-space: nowrap;
+  /* Senkrecht an der Ringmitte ausgerichtet; `top` ist die Mitte, nicht die
+     Oberkante. */
+  transform: translateY(-50%);
 }
 
-/* RING LINKS. Er ist das erste O, also steht er vor dem Rest — nicht daneben,
-   nicht dahinter. `flex-shrink: 0`, damit ihn ein enges Fenster nicht
-   zusammendrückt: ein gestauchter Ring passte nicht mehr zum Bild darunter. */
+/* RING LINKS. Er ist das erste O, also steht er vor dem Rest. `flex-shrink: 0`,
+   damit ihn ein enges Fenster nicht zusammendrückt: ein gestauchter Ring passte
+   nicht mehr zum Bild darunter. */
 .lockup-ring {
   flex: 0 0 auto;
   width: var(--ring-mass, 90px);
@@ -239,25 +256,35 @@ html.landing body {
 /* Jeder Buchstabe einzeln, damit er einzeln kommen kann. */
 .lockup-zeichen { display: inline-block; }
 
+/*
+ * Das Siegel steht unter der Zeile, mittig, mit sicherem Rand.
+ *
+ * Es folgt der Zeile NICHT: es hat seine eigene Stelle im Bild, und die soll
+ * sich nicht mit dem Fenster verschieben. Der Abstand nach unten enthält
+ * `env(safe-area-inset-bottom)` — auf einem iPhone liegt dort die Gestenleiste.
+ */
 .siegel-unten {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(clamp(24px, 9svh, 92px) + env(safe-area-inset-bottom, 0px));
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 14px;
+  text-align: center;
   will-change: transform, opacity;
 }
+.siegel-unten p { margin: 0; }
 .siegel-unter {
   font-family: var(--schrift-titel);
   font-size: clamp(10px, 1.2vw, 13px);
   letter-spacing: .42em;
   text-transform: uppercase;
   /*
-   * Dunkel statt Gold.
-   *
-   * Gold auf hellem Sand kommt auf 1,6:1 — es war nur auf der Abdunklung
-   * lesbar, und die ist fort. `--tief` auf dem gemessenen Sandton liegt bei
-   * 12,4:1. Das ist keine neue Farbe: es ist dieselbe, mit der die Wortmarke
-   * am Ende steht.
+   * Dunkel statt Gold. Gold auf hellem Sand kommt auf 1,6:1 — es war nur auf
+   * der Abdunklung lesbar, und die ist seit Phase 2 fort. `--tief` auf dem
+   * Sand liegt bei über 8:1.
    */
   color: var(--tief);
 }
@@ -357,29 +384,23 @@ html.landing body {
  * hieße, dass einer den anderen jedes Bild überschreibt.
  */
 /*
- * `width`/`height` ausdrücklich, nicht nur `inset: 0`.
+ * Der Staub liegt in der Bühne, direkt über dem Film und UNTER dem Schleier.
  *
- * Ein Canvas ist ein ersetztes Element mit EIGENER Größe (300 × 150). Bei
- * `width: auto` gewinnt diese Eigengröße, und `inset: 0` wird still ignoriert —
- * die Fläche blieb 300 × 150 in der linken oberen Ecke, und der Staub flog
- * dort statt in der Mitte. Bei `.ebene` steht es aus demselben Grund.
+ * `width`/`height` ausdrücklich, nicht nur `inset: 0`: ein Canvas ist ein
+ * ersetztes Element mit Eigengröße 300 × 150, und bei `width: auto` gewinnt
+ * die. Die Fläche blieb 300 × 150 in der linken oberen Ecke, und der Staub
+ * flog dort statt in der Mitte.
  */
-.lade-staub {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
+.lade-staub { z-index: 1; pointer-events: none; }
 
 /*
- * Der schwarze Grund weicht, die Marke weicht — beide getrennt.
+ * Die Marke weicht, sobald sie zu Staub geworden ist.
  *
- * Die Marke muss fort sein, sobald sie zu Staub geworden ist (Schlag A); der
- * Grund darf erst gehen, wenn der Staub sich zum Bild gesetzt hat (Schlag D).
- * Ein gemeinsames Ausblenden hätte entweder die Marke stehen lassen, während
- * ihr Staub schon fliegt, oder den Film aufgedeckt, bevor er verdeckt sein
- * sollte.
+ * Der Grund weicht NICHT mehr per CSS: seit dem Kontinuitäts-Auftrag malt der
+ * Staub-Canvas ihn selbst und lässt ihn mit der Partikeldichte von `--tief`
+ * zum Sandton von Frame 0 wandern. Ein Umschalten der
+ * Hintergrundfarbe — und sei es weich — wäre wieder eine Blende zwischen zwei
+ * Zuständen statt einer Verwandlung.
  */
 .ladeschirm-inhalt {
   display: flex;
@@ -392,7 +413,12 @@ html.landing body {
    vorbei, das Zerfallensein nicht. An den Schlag gehängt kam die Marke beim
    zweiten Schlag zurück und stand danach über der Düne. */
 .ladeschirm[data-zerfallen="ja"] .ladeschirm-inhalt { opacity: 0; }
-.ladeschirm[data-grund="weg"] { background: transparent; }
+/*
+ * Und der Grund der Ladeszene wird durchsichtig, sobald der Staub übernimmt.
+ * Sichtbar ist das nicht: der Staub-Canvas malt in genau diesem Moment noch
+ * `--tief`, dieselbe Farbe. Erst danach lässt er sie zum Sand wandern.
+ */
+.ladeschirm[data-zerfallen="ja"] { background: transparent; }
 
 /* Der ruhige Pfad: kein Staub, nur halten und blenden. */
 .ladeschirm[data-ruhig="ja"] {
@@ -459,23 +485,30 @@ html.landing body {
   .buehne { height: 100svh; }
   .zeichen-schacht { transform: none; transition: none; }
   .hinweis { display: none; }
-  .siegel {
-    justify-content: flex-end;
-    padding-bottom: clamp(24px, 8svh, 80px);
-  }
   .siegel-unten { opacity: 1 !important; transform: none !important; }
-  .lockup { font-size: clamp(30px, 7.4vw, 74px); }
+  /*
+   * Im Ruhemodus fährt keine Kamera, also setzt auch niemand `left` und `top`.
+   * Die Zeile bekommt deshalb hier ihre eigene Stelle: mittig über dem
+   * Standbild, in einer Größe, die zum ruhenden Bild passt.
+   */
+  .lockup {
+    left: 50%;
+    top: 46%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(30px, 7.4vw, 74px);
+  }
   .wortmarke { bottom: auto; top: clamp(20px, 7svh, 64px); color: var(--tief); }
   .ebene-schleier { opacity: 0; }
 }
 :root.ruhige-bewegung .buehne { height: 100svh; }
 :root.ruhige-bewegung .zeichen-schacht { transform: none; transition: none; }
 :root.ruhige-bewegung .hinweis { display: none; }
-:root.ruhige-bewegung .siegel {
-  justify-content: flex-end;
-  padding-bottom: clamp(24px, 8svh, 80px);
-}
 :root.ruhige-bewegung .siegel-unten { opacity: 1 !important; transform: none !important; }
-:root.ruhige-bewegung .lockup { font-size: clamp(30px, 7.4vw, 74px); }
+:root.ruhige-bewegung .lockup {
+  left: 50%;
+  top: 46%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(30px, 7.4vw, 74px);
+}
 :root.ruhige-bewegung .wortmarke { bottom: auto; top: clamp(20px, 7svh, 64px); color: var(--tief); }
 :root.ruhige-bewegung .ebene-schleier { opacity: 0; }

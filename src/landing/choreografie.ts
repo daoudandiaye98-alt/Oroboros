@@ -31,9 +31,9 @@ export interface Choreografie {
   lockup: Fenster;
   /** Wann treten die sieben Buchstaben einzeln dazu? */
   schrift: Fenster;
-  /** Wann kommt das Siegel, und aus welchem Maßstab? */
+  /** Wann kommt das Siegel, und aus welcher Höhe steigt es? */
   siegel: Fenster;
-  siegelSkala: number;
+  siegelWeg: number;
 }
 
 export function choreografie(): Choreografie {
@@ -46,18 +46,21 @@ export function choreografie(): Choreografie {
     lockup: [zahl(s, "--lockup-von"), zahl(s, "--lockup-bis")],
     schrift: [zahl(s, "--schrift-von"), zahl(s, "--schrift-bis")],
     siegel: [zahl(s, "--siegel-von"), zahl(s, "--siegel-bis")],
-    siegelSkala: zahl(s, "--siegel-skala"),
+    siegelWeg: zahl(s, "--siegel-weg"),
   };
 }
 
-/**
- * Die Anzahl Frames — von `scripts/sequenz-bauen.mjs` erzeugt.
+/*
+ * HIER STAND `FRAMES`.
  *
- * 100 Hauptfilm plus 50 Rückfahrt. Die Zahl steht hier und im Bauskript;
- * laufen sie auseinander, fehlt der Sequenz das Ende und `naechstesBild`
- * liefert null — sichtbar sofort, nicht erst in Produktion.
+ * Die Zahl ist mit dem Kontinuitäts-Auftrag entfallen, und das ist kein
+ * Aufräumen: wie viele Frames eine Bühne braucht, hängt seit der Umstellung
+ * auf Kamerafahrt vom FENSTER ab. Auf 1440 × 900 endet sie bei Frame 141, auf
+ * 390 × 844 bei 161. Eine feste Zahl hätte entweder zu früh geendet — dann
+ * steht der Ring falsch — oder zu viel geladen. Gerechnet wird sie in
+ * `kamera.ts` aus `ring.json`.
  */
-export const FRAMES = 150;
+
 
 /** Jeder wievielte Frame steckt im Vorlauf. Muss zum Bauskript passen. */
 export const VORLAUF_SCHRITT = 4;
@@ -87,38 +90,3 @@ export function satzWaehlen(): SatzName {
   if (!window.matchMedia("(orientation: portrait)").matches) return SAETZE.quer;
   return window.matchMedia("(max-aspect-ratio: 3/4)").matches ? SAETZE.schmal : SAETZE.hoch;
 }
-
-/**
- * Wo der Ring im LETZTEN Frame steht — gemessen, nicht angenommen.
- *
- * Die Verwandlung am Ende muss den Ring des Tieres genau dorthin bringen, wo
- * im Wort das erste O stünde. Dafür braucht sie drei Zahlen je Satz: wo der
- * Ring sitzt und wie groß er ist. Beides ist eine Eigenschaft des Bildes, kein
- * Gestaltungswert — deshalb steht es hier und nicht in `bewegung.css`.
- *
- * GEMESSEN, WIE: über jedes `f150.webp` wurde eine Ellipse gelegt und so lange
- * nachgezogen, bis sie die Außenkante des Schlangenkörpers rundherum berührt
- * (`pruefstand/ringmass.mjs`). Die Aufnahmen liegen im Bericht.
- *
- * Der Bauauftrag nennt für „hoch" 0,570 und für „quer" 0,523 der Breite und
- * schreibt dazu „gemessen am letzten Frame der Rückfahrt". Beide Zahlen
- * stimmen — aber am ERSTEN Frame der Rückfahrt (f101: 3:4 senkrecht 0,5692,
- * 9:16 waagerecht 0,5310). Am letzten ist der Ring längst kleiner, denn genau
- * das tut eine Rückfahrt. Siehe Bericht.
- */
-export interface Ringmass {
-  /** Die Maße des Frames in Bildpunkten. */
-  breite: number;
-  hoehe: number;
-  /** Mitte des Rings — Anteil der Bildbreite bzw. der Bildhöhe. */
-  cx: number;
-  cy: number;
-  /** Außendurchmesser waagerecht, als Anteil der BILDBREITE. */
-  d: number;
-}
-
-export const RING: Record<SatzName, Ringmass> = {
-  "film-3x4":  { breite: 828,  hoehe: 1108, cx: 0.3825, cy: 0.5574, d: 0.2342 },
-  "film-9x16": { breite: 716,  hoehe: 1284, cx: 0.3815, cy: 0.5985, d: 0.1982 },
-  "film-16x9": { breite: 1284, hoehe: 716,  cx: 0.4935, cy: 0.4977, d: 0.2332 },
-};
