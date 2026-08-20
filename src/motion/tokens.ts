@@ -152,3 +152,17 @@ export const BILD_SKALA = 1.06;
 
 /** Anteil des Containers, der sichtbar sein muss, damit der Auftritt läuft. */
 export const AUFTRITT_ANTEIL = 0.2;
+
+/**
+ * Eine einzelne Dauer aus dem Stylesheet, in Millisekunden.
+ *
+ * Für die Ladeszene: sie ist die einzige Stelle der Seite mit einer echten
+ * Zeitachse, und ihre fünf Schläge stehen — wie jede andere Dauer auch — in
+ * `bewegung.css`. Ohne diesen Zugang stünden dort Zahlen im TypeScript, und
+ * das Gesetz aus Phase 0 hätte seine erste Ausnahme.
+ *
+ * Frisch gelesen bei jedem Aufruf, aus demselben Grund wie `tokens()`.
+ */
+export function dauer(name: string): number {
+  return sekunden(rohwert(getComputedStyle(document.documentElement), name)) * 1000;
+}

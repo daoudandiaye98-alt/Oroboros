@@ -316,3 +316,76 @@ export function naechstesBild(seq: Sequenz, index: number): HTMLImageElement | n
   for (let i = index + 1; i < seq.anzahl; i++) if (seq.bilder[i]) return seq.bilder[i];
   return null;
 }
+
+/**
+ * Ein grobes Raster Farben aus einem Bild — und deren Mittel.
+ *
+ * ZWEI VERWENDUNGEN, EINE MESSUNG. Der Staub der Ladeszene bekommt seine
+ * Farben aus dem ersten Frame, die Randfüllung des Schlussbildes ihren Ton aus
+ * dem Mittel derselben Probe. Beides aus derselben Quelle zu ziehen ist nicht
+ * bloß sparsam: schriebe man den Sandton irgendwo als Hexwert hin, wäre er
+ * beim nächsten Farbkorrektur-Durchgang des Films still falsch — und Sand, der
+ * nicht ganz zum Sand passt, sieht man sofort als Kante.
+ *
+ * `raster` × `raster` Proben, heruntergerechnet über einen kleinen Canvas.
+ * Das Herunterrechnen mittelt bereits über die Fläche; einzelne Bildpunkte
+ * abzugreifen fischte stattdessen Rauschen heraus.
+ */
+export interface Farbprobe {
+  /** Alle Proben, je drei Werte (r, g, b) hintereinander. */
+  punkte: Uint8ClampedArray;
+  /** Wie viele Proben je Achse. */
+  raster: number;
+  /** Das Mittel über alle Proben, als CSS-Farbe. */
+  mittel: string;
+  /**
+   * Das Mittel über den RAND der Probe, als CSS-Farbe.
+   *
+   * Für die Randfüllung des Schlussbildes, und zwar die RECHTE Spalte, nicht
+   * der ganze Rand. Das Bild wandert am Ende nach links, damit sein Ring auf
+   * den Platz des ersten O kommt; die Fläche, die dabei frei wird, liegt fast
+   * vollständig rechts (auf 1440 × 900 sind es 39 % der Breite, oben und unten
+   * je 6 %). Eine Füllung, die zum Mittel aller vier Kanten passt, passt damit
+   * genau dort nicht, wo die Naht lang ist. Gemessen: das Flächenmittel war
+   * deutlich satter als der Sand, an dem es anlag — die Naht war die
+   * auffälligste Linie im Bild.
+   */
+  rand: string;
+}
+
+export function farbenLesen(bild: HTMLImageElement, raster = 24): Farbprobe | null {
+  if (!bild.naturalWidth) return null;
+  const cv = document.createElement("canvas");
+  cv.width = raster;
+  cv.height = raster;
+  const ctx = cv.getContext("2d", { willReadFrequently: true });
+  if (!ctx) return null;
+  ctx.drawImage(bild, 0, 0, raster, raster);
+  let daten: ImageData;
+  try {
+    daten = ctx.getImageData(0, 0, raster, raster);
+  } catch {
+    // Ein verunreinigter Canvas wirft hier. Die Frames kommen von derselben
+    // Herkunft, also darf das nicht passieren — wenn doch, lieber keine Farbe
+    // als eine Ausnahme, die die ganze Ladeszene mitnimmt.
+    return null;
+  }
+  const punkte = new Uint8ClampedArray(raster * raster * 3);
+  let sr = 0, sg = 0, sb = 0;
+  let kr = 0, kg = 0, kb = 0, kn = 0;
+  for (let i = 0; i < raster * raster; i++) {
+    const r = daten.data[i * 4], g = daten.data[i * 4 + 1], b = daten.data[i * 4 + 2];
+    punkte[i * 3] = r; punkte[i * 3 + 1] = g; punkte[i * 3 + 2] = b;
+    sr += r; sg += g; sb += b;
+    if (i % raster === raster - 1) { kr += r; kg += g; kb += b; kn++; }
+  }
+  const n = raster * raster;
+  const farbe = (r: number, g: number, b: number, teiler: number) =>
+    `rgb(${Math.round(r / teiler)}, ${Math.round(g / teiler)}, ${Math.round(b / teiler)})`;
+  return {
+    punkte,
+    raster,
+    mittel: farbe(sr, sg, sb, n),
+    rand: farbe(kr, kg, kb, Math.max(1, kn)),
+  };
+}

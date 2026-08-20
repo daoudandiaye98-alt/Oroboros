@@ -54,6 +54,70 @@ async function abdruck(page) {
   });
 }
 
+/**
+ * Kontrast eines Textes gegen das, was WIRKLICH hinter ihm steht.
+ *
+ * Gemessen am Bildpunkt, nicht an einer CSS-Farbe: hinter dem Text liegt eine
+ * Fotografie, und was von ihr ankommt, weiß nur die Aufnahme. Der Text wird
+ * kurz unsichtbar gemacht, der Grund fotografiert, dann zurückgestellt —
+ * dieselbe Technik wie in `pruefstand/messen.ts`.
+ *
+ * Seit Phase 2 misst diese Funktion in beide Richtungen: bis dahin stand
+ * heller Text auf abgedunkeltem Bild, jetzt dunkler auf hellem Sand. Der
+ * hellste Grundpunkt ist für dunklen Text der schlechteste Fall — für hellen
+ * wäre es der dunkelste. Beide Fälle stecken in derselben Formel, weil sie
+ * über `hell` und `dunkel` sortiert, statt eine Reihenfolge anzunehmen.
+ */
+async function kontraste(page, auswahl) {
+  const felder = await page.evaluate((auswahl) => {
+    const raus = [];
+    for (const el of document.querySelectorAll(auswahl)) {
+      const r = el.getBoundingClientRect();
+      raus.push({
+        text: el.textContent.slice(0, 22), farbe: getComputedStyle(el).color,
+        groesse: parseFloat(getComputedStyle(el).fontSize),
+        gewicht: parseInt(getComputedStyle(el).fontWeight, 10) || 400,
+        x: Math.max(0, Math.floor(r.x)), y: Math.max(0, Math.floor(r.y)),
+        b: Math.max(1, Math.ceil(r.width)), h: Math.max(1, Math.ceil(r.height)),
+      });
+    }
+    return raus;
+  }, auswahl);
+  await page.evaluate((auswahl) => document.querySelectorAll(auswahl)
+    .forEach((el) => { el.style.visibility = "hidden"; }), auswahl);
+  await page.waitForTimeout(200);
+  for (const f of felder) {
+    const bild = await page.screenshot({ clip: { x: f.x, y: f.y, width: f.b, height: f.h } });
+    const { hellste } = await page.evaluate(async (b64) => {
+      const bild = new Image();
+      await new Promise((ok) => { bild.onload = ok; bild.src = "data:image/png;base64," + b64; });
+      const c = document.createElement("canvas");
+      c.width = bild.width; c.height = bild.height;
+      const ctx = c.getContext("2d");
+      ctx.drawImage(bild, 0, 0);
+      const d = ctx.getImageData(0, 0, c.width, c.height).data;
+      const kanal = (v) => { const s = v / 255; return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4); };
+      let max = -1, farbe = null;
+      for (let i = 0; i < d.length; i += 4) {
+        const l = 0.2126 * kanal(d[i]) + 0.7152 * kanal(d[i + 1]) + 0.0722 * kanal(d[i + 2]);
+        if (l > max) { max = l; farbe = [d[i], d[i + 1], d[i + 2]]; }
+      }
+      return { hellste: { l: max, farbe } };
+    }, bild.toString("base64"));
+    const [r, g, bl] = f.farbe.match(/\d+/g).map(Number);
+    const kanal = (v) => { const s = v / 255; return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4); };
+    const lt = 0.2126 * kanal(r) + 0.7152 * kanal(g) + 0.0722 * kanal(bl);
+    const [hell, dunkel] = lt >= hellste.l ? [lt, hellste.l] : [hellste.l, lt];
+    const wert = (hell + 0.05) / (dunkel + 0.05);
+    const gross = f.groesse >= 24 || (f.gewicht >= 700 && f.groesse >= 18.66);
+    const soll = gross ? 3 : 4.5;
+    const satz = `„${f.text}" ${f.groesse.toFixed(0)}px → ${wert.toFixed(2)}:1 gegen hellsten Grund rgb(${hellste.farbe.join(",")}), soll ${soll}`;
+    wert >= soll ? passt(satz) : fehlt(satz);
+  }
+  await page.evaluate((auswahl) => document.querySelectorAll(auswahl)
+    .forEach((el) => { el.style.visibility = ""; }), auswahl);
+}
+
 for (const f of FORMATE) {
   zeile(`\n═════ ${f.name} ═════`);
   const page = await browser.newPage({
@@ -68,10 +132,16 @@ for (const f of FORMATE) {
   page.on("response", (r) => { if (r.status() >= 400) netzFehler.push(`${r.url().slice(-40)} ${r.status()}`); });
 
   await page.goto(BASIS, { waitUntil: "domcontentloaded" });
+  /*
+   * Gewartet wird, bis die Ladeszene AUS DEM DOM ist, nicht bis sie „fertig"
+   * meldet. Seit Phase 2 liegen zwischen beidem die fünf Schläge des
+   * Übergangs — 4,2 s, in denen die Seite noch gesperrt ist. Wer auf das
+   * Fertigsignal misst, misst mitten in den Staub hinein.
+   */
   await page.waitForFunction(
-    () => document.querySelector('.ladeschirm[data-fertig="ja"]') !== null,
-    null, { timeout: 60_000 },
-  ).catch(() => zeile("   (Ladeschirm wurde nicht fertig)"));
+    () => document.querySelector(".ladeschirm") === null,
+    null, { timeout: 90_000 },
+  ).catch(() => zeile("   (die Ladeszene übergab nicht)"));
   await page.waitForTimeout(2500);
 
   // Der Aufbau: genau eine Bühne, und nichts von dem, was der verworfene
@@ -83,6 +153,7 @@ for (const f of FORMATE) {
     ring: document.querySelectorAll(".ring").length,
     abspann: document.querySelectorAll("footer, .abspann").length,
     kapitel: document.querySelectorAll(".kolumnentitel").length,
+    dunkel: document.querySelectorAll(".dunkel").length,
     textknoten: document.querySelectorAll(".wortmarke, .hinweis, .siegel").length,
   }));
   zeile(`   Bühnen ${aufbau.buehnen} · Canvas ${aufbau.canvas} · Textelemente ${aufbau.textknoten}`);
@@ -91,6 +162,8 @@ for (const f of FORMATE) {
   const zuviel = aufbau.karten + aufbau.ring + aufbau.abspann + aufbau.kapitel;
   zuviel === 0 ? passt("keine Karte, kein Ring, kein Abspann, kein Kapiteltitel")
     : fehlt(`${zuviel} Element(e), die nicht gebaut werden sollten`);
+  aufbau.dunkel === 0 ? passt("keine flächige Abdunklung im DOM")
+    : fehlt(`${aufbau.dunkel}× .dunkel — der Filter sollte in Phase 2 fort sein`);
 
   // Wortmarke: Größe UND vollständig im Bild.
   const marke = await page.evaluate(() => {
@@ -124,7 +197,7 @@ for (const f of FORMATE) {
     const sicht = await page.evaluate(() => ({
       hinweis: +getComputedStyle(document.querySelector(".hinweis")).opacity,
       marke: +getComputedStyle(document.querySelector(".wortmarke").parentElement).opacity,
-      siegel: +getComputedStyle(document.querySelector(".siegel")).opacity,
+      siegel: +getComputedStyle(document.querySelector(".siegel-unten")).opacity,
     }));
     await page.screenshot({ path: `${ORDNER}/${f.name}-${String(Math.round(t * 100)).padStart(3, "0")}.png` });
     zeile(`   ${String(Math.round(t * 100)).padStart(3)} %  ${a.da ? a.farben + " Farbwerte" : "KEIN CANVAS"}`
@@ -197,70 +270,120 @@ for (const f of FORMATE) {
     const weg = b.offsetHeight - window.innerHeight;
     return { weg, hoehe: b.offsetHeight, fenster: window.innerHeight };
   });
-  const FRAMES = 100, VON = 0.02, BIS = 0.86;
+  const FRAMES = 150, VON = 0.02, BIS = 0.80;
   const proWechsel = glatt.weg * (BIS - VON) / (FRAMES - 1);
   zeile(`   Bühne ${glatt.hoehe} px, Fenster ${glatt.fenster} px → Scrollweg ${glatt.weg} px`
     + ` · ${proWechsel.toFixed(1)} px je Bildwechsel`);
   proWechsel <= 30 ? passt("≤ 30 px je Bildwechsel") : fehlt(`${proWechsel.toFixed(1)} px je Bildwechsel`);
 
-  /*
-   * Der Kontrast der Siegeltexte gegen das, was hinter ihnen steht.
-   *
-   * Gemessen am Bildpunkt, nicht an einer CSS-Farbe: hinter dem Siegel liegt
-   * eine Fotografie mit einer Abdunklung darüber, und was davon ankommt,
-   * weiß nur die Aufnahme. Der Text wird kurz unsichtbar gemacht, der Grund
-   * fotografiert, dann zurückgestellt — dieselbe Technik wie in
-   * `pruefstand/messen.ts`.
-   */
+  /* Der Kontrast im Schlussbild — dunkler Text auf hellem Sand, ohne den
+     Filter, der ihn bis Phase 2 getragen hat. */
   await page.evaluate((y) => window.scrollTo(0, y), Math.round(hoehe));
   await page.waitForTimeout(1500);
-  const felder = await page.evaluate(() => {
-    const raus = [];
-    for (const el of document.querySelectorAll(".siegel p")) {
-      const r = el.getBoundingClientRect();
-      raus.push({
-        text: el.textContent.slice(0, 22), farbe: getComputedStyle(el).color,
-        groesse: parseFloat(getComputedStyle(el).fontSize),
-        gewicht: parseInt(getComputedStyle(el).fontWeight, 10) || 400,
-        x: Math.max(0, Math.floor(r.x)), y: Math.max(0, Math.floor(r.y)),
-        b: Math.max(1, Math.ceil(r.width)), h: Math.max(1, Math.ceil(r.height)),
-      });
-    }
-    return raus;
+  await kontraste(page, ".siegel p, .lockup-wort");
+
+
+  /*
+   * STEHT DIE SCHLANGE IM WORT ODER DANEBEN?
+   *
+   * Die Frage lässt sich rechnen, und sie muss gerechnet werden: „sieht
+   * richtig aus" ist auf einer Aufnahme bei 39 % Fensterbreite Sandfläche
+   * keine belastbare Aussage. Gerechnet wird aus drei Quellen, die alle DIE
+   * SEITE selbst liefert — die Ringmaße stehen als `data-ring` am Canvas, die
+   * Quellgröße kommt aus dem geladenen Frame, die Verwandlung aus dem
+   * berechneten Stil. Kein Sollwert wird aus dem Quelltext abgeschrieben.
+   */
+  const sitz = await page.evaluate(() => {
+    const c = document.querySelector("canvas");
+    const platz = document.querySelector(".lockup-ring");
+    const kastenEl = document.querySelector(".bild");
+    if (!c || !platz || !kastenEl || !c.dataset.ring) return null;
+    const [cx, cy, dAnteil] = c.dataset.ring.split(",").map(Number);
+    return new Promise((ok) => {
+      const probe = new Image();
+      probe.onload = () => {
+        const W = c.clientWidth, H = c.clientHeight;
+        const deckung = Math.max(W / probe.naturalWidth, H / probe.naturalHeight);
+        const bb = probe.naturalWidth * deckung, bh = probe.naturalHeight * deckung;
+        const natX = (W - bb) / 2 + cx * bb;
+        const natY = (H - bh) / 2 + cy * bh;
+        const natD = dAnteil * bb;
+        const m = new DOMMatrix(getComputedStyle(c).transform);
+        // Der Kasten ohne Verwandlung: der Canvas liegt deckungsgleich auf .bild.
+        const k = kastenEl.getBoundingClientRect();
+        const ringX = k.left + W / 2 + (natX - W / 2) * m.a + m.e;
+        const ringY = k.top + H / 2 + (natY - H / 2) * m.d + m.f;
+        const r = platz.getBoundingClientRect();
+        return ok({
+          maßstab: m.a,
+          ring: { x: ringX, y: ringY, d: natD * m.a },
+          platz: { x: r.left + r.width / 2, y: r.top + r.height / 2, d: r.width },
+          fenster: W,
+        });
+      };
+      probe.src = c.dataset.probe;
+    });
   });
-  await page.evaluate(() => document.querySelectorAll(".siegel p")
-    .forEach((el) => { el.style.visibility = "hidden"; }));
-  await page.waitForTimeout(200);
-  for (const f of felder) {
-    const bild = await page.screenshot({ clip: { x: f.x, y: f.y, width: f.b, height: f.h } });
-    const { hellste } = await page.evaluate(async (b64) => {
+  if (!sitz) {
+    fehlt("Ring und Buchstabenplatz nicht messbar");
+  } else {
+    const dx = Math.abs(sitz.ring.x - sitz.platz.x);
+    const dy = Math.abs(sitz.ring.y - sitz.platz.y);
+    const dd = Math.abs(sitz.ring.d - sitz.platz.d);
+    zeile(`   Ring ${sitz.ring.d.toFixed(0)} px bei ${sitz.ring.x.toFixed(0)}/${sitz.ring.y.toFixed(0)}`
+      + ` · Buchstabenplatz ${sitz.platz.d.toFixed(0)} px bei ${sitz.platz.x.toFixed(0)}/${sitz.platz.y.toFixed(0)}`
+      + ` · Verwandlung ${sitz.maßstab.toFixed(3)}×`);
+    (dx <= 3 && dy <= 3)
+      ? passt(`Ring sitzt IM Buchstaben (${dx.toFixed(1)} / ${dy.toFixed(1)} px daneben)`)
+      : fehlt(`Ring steht ${dx.toFixed(0)} / ${dy.toFixed(0)} px neben dem Buchstaben`);
+    dd <= 2 ? passt(`Ringgröße trifft den Platz (${dd.toFixed(1)} px Abweichung)`)
+      : fehlt(`Ring ${sitz.ring.d.toFixed(0)} px gegen Platz ${sitz.platz.d.toFixed(0)} px`);
+    sitz.maßstab <= 1.001
+      ? passt(`kein Hochrechnen im Schlussbild (Verwandlung ${sitz.maßstab.toFixed(3)}×)`)
+      : fehlt(`Verwandlung rechnet ${sitz.maßstab.toFixed(2)}× hoch`);
+    const anteil = sitz.ring.d / sitz.fenster;
+    zeile(`   Ring = ${(anteil * 100).toFixed(1)} % der Fensterbreite (Auftrag: 22,9 bis 23,1 %)`);
+  }
+
+  /*
+   * WIRD DAS SCHLUSSBILD DUNKLER?
+   *
+   * Die Abdunklung ist aus dem Quelltext entfernt — das prüft schon der
+   * Aufbau oben. Diese Messung prüft die WIRKUNG: die mittlere Helligkeit des
+   * ganzen Fensters, einmal am Ende des Films und einmal im Schlussbild. Sie
+   * fiele auch dann auf, wenn die Abdunklung unter einem anderen Namen
+   * zurückkäme oder ein Schleier stehen bliebe.
+   */
+  const helligkeit = async () => {
+    const b = await page.screenshot();
+    return page.evaluate(async (b64) => {
       const bild = new Image();
       await new Promise((ok) => { bild.onload = ok; bild.src = "data:image/png;base64," + b64; });
       const c = document.createElement("canvas");
-      c.width = bild.width; c.height = bild.height;
+      c.width = 160; c.height = Math.round(160 * bild.height / bild.width);
       const ctx = c.getContext("2d");
-      ctx.drawImage(bild, 0, 0);
+      ctx.drawImage(bild, 0, 0, c.width, c.height);
       const d = ctx.getImageData(0, 0, c.width, c.height).data;
       const kanal = (v) => { const s = v / 255; return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4); };
-      let max = -1, farbe = null;
+      let summe = 0, n = 0;
       for (let i = 0; i < d.length; i += 4) {
-        const l = 0.2126 * kanal(d[i]) + 0.7152 * kanal(d[i + 1]) + 0.0722 * kanal(d[i + 2]);
-        if (l > max) { max = l; farbe = [d[i], d[i + 1], d[i + 2]]; }
+        summe += 0.2126 * kanal(d[i]) + 0.7152 * kanal(d[i + 1]) + 0.0722 * kanal(d[i + 2]);
+        n++;
       }
-      return { hellste: { l: max, farbe } };
-    }, bild.toString("base64"));
-    const [r, g, bl] = f.farbe.match(/\d+/g).map(Number);
-    const kanal = (v) => { const s = v / 255; return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4); };
-    const lt = 0.2126 * kanal(r) + 0.7152 * kanal(g) + 0.0722 * kanal(bl);
-    const [hell, dunkel] = lt >= hellste.l ? [lt, hellste.l] : [hellste.l, lt];
-    const wert = (hell + 0.05) / (dunkel + 0.05);
-    const gross = f.groesse >= 24 || (f.gewicht >= 700 && f.groesse >= 18.66);
-    const soll = gross ? 3 : 4.5;
-    const satz = `„${f.text}" ${f.groesse.toFixed(0)}px → ${wert.toFixed(2)}:1 gegen hellsten Grund rgb(${hellste.farbe.join(",")}), soll ${soll}`;
-    wert >= soll ? passt(satz) : fehlt(satz);
-  }
-  await page.evaluate(() => document.querySelectorAll(".siegel p")
-    .forEach((el) => { el.style.visibility = ""; }));
+      return summe / n;
+    }, b.toString("base64"));
+  };
+  await page.evaluate((y) => window.scrollTo(0, y), Math.round(hoehe * 0.79));
+  await page.waitForTimeout(1600);
+  const vorher = await helligkeit();
+  await page.evaluate((y) => window.scrollTo(0, y), Math.round(hoehe));
+  await page.waitForTimeout(1600);
+  const nachher = await helligkeit();
+  zeile(`   Mittlere Helligkeit: Filmende ${vorher.toFixed(3)} → Schlussbild ${nachher.toFixed(3)}`
+    + ` (${((nachher / vorher - 1) * 100).toFixed(1)} %)`);
+  nachher >= vorher * 0.97
+    ? passt("das Schlussbild wird nicht dunkler")
+    : fehlt(`das Schlussbild verliert ${((1 - nachher / vorher) * 100).toFixed(0)} % Helligkeit`);
 
   fehler.length === 0 ? passt("0 JS-Fehler") : fehlt(`${fehler.length} JS-Fehler: ${fehler.slice(0, 3).join(" | ")}`);
   netzFehler.length === 0 ? passt("0 fehlgeschlagene Netzanfragen")
@@ -289,7 +412,7 @@ zeile("\n═════ RUHEMODUS (prefers-reduced-motion) ═════");
       geladen: bild?.complete && bild?.naturalWidth > 0,
       marke: +getComputedStyle(document.querySelector(".wortmarke")).opacity,
       markeSichtbar: getComputedStyle(document.querySelector(".wortmarke")).display !== "none",
-      siegel: +getComputedStyle(document.querySelector(".siegel")).opacity,
+      siegel: +getComputedStyle(document.querySelector(".siegel-unten")).opacity,
       hoehe: document.body.scrollHeight,
       fenster: window.innerHeight,
     };
@@ -303,6 +426,17 @@ zeile("\n═════ RUHEMODUS (prefers-reduced-motion) ═════");
   (z.markeSichtbar && z.marke > 0.98) ? passt("Wortmarke sofort sichtbar") : fehlt("Wortmarke nicht sichtbar");
   z.siegel > 0.98 ? passt("Siegel sofort sichtbar") : fehlt("Siegel nicht sichtbar");
   (z.hoehe / z.fenster) < 1.2 ? passt("Seite normal hoch") : fehlt(`${(z.hoehe / z.fenster).toFixed(1)} Bildschirme im Ruhemodus`);
+  /*
+   * Kontrast auch HIER, und das ist der Punkt.
+   *
+   * Der Ruhemodus zeigt ein Standbild ohne Schleier und ohne Abdunklung: alles
+   * darauf steht auf hellem Sand. Bis Phase 2 trug diese Stelle die Abdunklung
+   * mit `opacity: 1 !important` — sie fiel weg, und damit fiel eine
+   * Voraussetzung weg, die niemand mehr geprüft hätte. Die Pixelmessung des
+   * Prüfstands kann es nicht: sie meldet innerhalb gepinnter Bühnen
+   * `nicht_prüfbar`, weil ihre Aufnahme die Seite selbst verschiebt.
+   */
+  await kontraste(page, ".siegel p, .lockup-wort, .wortmarke");
   await page.screenshot({ path: `${ORDNER}/ruhe-390x844.png`, fullPage: true });
   fehler.length === 0 ? passt("0 JS-Fehler") : fehlt(`${fehler.length} JS-Fehler: ${fehler[0]}`);
   await page.close();

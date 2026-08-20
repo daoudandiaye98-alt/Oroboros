@@ -1,19 +1,36 @@
 /**
- * OROBOROS — zeichenweise.
+ * Ein Wort, zeichenweise.
  *
  * Jeder Buchstabe fährt aus einem eigenen Schacht nach oben herein. Der
  * Schacht (`overflow: hidden`) ist der Grund, warum man die Buchstaben nicht
  * vorher unterhalb der Zeile stehen sieht.
  *
+ * ZWEI AUFTRITTE, EINE KOMPONENTE. Am Anfang der Seite steht OROBOROS; am Ende
+ * steht ROBOROS neben dem Ring, der das erste O IST. Beide treten gleich auf,
+ * mit demselben Versatz je Zeichen — deshalb ist es dieselbe Komponente mit
+ * einer anderen Klasse und nicht zweimal derselbe Code.
+ *
  * BARRIEREFREIHEIT: Der Container trägt `aria-label` mit dem ganzen Wort, die
  * Zeichen sind `aria-hidden`. Ein Screenreader, der acht Einzelbuchstaben
- * vorliest, macht aus einer Wortmarke ein Buchstabieren. Dieselbe Regel wie
- * in `src/motion/split.ts` — hier eigens gesetzt, weil die Zeichen wegen der
- * Schächte anders verschachtelt sind als dort.
+ * vorliest, macht aus einer Wortmarke ein Buchstabieren. Am Ende ist das
+ * `aria-label` OROBOROS, obwohl nur ROBOROS geschrieben steht: das O ist da,
+ * es ist bloß ein Bild — und wer die Seite hört statt sieht, soll das Wort
+ * bekommen, nicht die Lücke.
  */
-export function Wortmarke({ text, auf }: { text: string; auf: boolean }) {
+export interface WortmarkeEigenschaften {
+  text: string;
+  auf: boolean;
+  /** Die Klasse der Zeile. `wortmarke` am Anfang, `lockup-wort` am Ende. */
+  klasse?: string;
+  /** Was vorgelesen wird, falls es nicht `text` ist. */
+  beschriftung?: string;
+}
+
+export function Wortmarke({
+  text, auf, klasse = "wortmarke", beschriftung,
+}: WortmarkeEigenschaften) {
   return (
-    <div className={`wortmarke${auf ? " auf" : ""}`} aria-label={text}>
+    <div className={`${klasse}${auf ? " auf" : ""}`} aria-label={beschriftung ?? text}>
       {Array.from(text).map((zeichen, i) => (
         <span className="schacht" aria-hidden="true" key={`${zeichen}-${i}`}>
           <span

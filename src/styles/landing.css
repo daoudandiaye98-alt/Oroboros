@@ -55,16 +55,21 @@ html.landing body {
  * Adressleiste, und ein Bild, dessen Höhe sich beim Scrollen ändert, springt.
  * `svh` ist die kleine, stabile Fassung.
  *
- * 300 svh, NICHT 520.
+ * 420 svh, und die Zahl ist gerechnet, nicht gewählt.
  *
  * Die Höhe ist der Weg, über den die Frames verteilt werden — sie entscheidet
- * über die Glätte. Gerechnet: 520 svh minus ein Bildschirm sind auf 844 px
- * Fensterhöhe 4389 px Scrollweg; verteilt auf 40 Frames sind das 110 px
- * zwischen zwei Bildwechseln. So weit auseinander sieht man die einzelnen
- * Schritte. 300 svh und 100 Frames ergeben 25 px — dicht genug, dass es zu
- * Bewegung verschmilzt.
+ * über die Glätte. 420 svh minus ein Bildschirm sind auf 844 px Fensterhöhe
+ * 2701 px Scrollweg. Davon gehören dem Film 0,78 (von 0,02 bis 0,80), also
+ * 2107 px, verteilt auf 149 Schritte: 14 px zwischen zwei Bildwechseln. Auf
+ * 1440 × 900 sind es 15 px.
+ *
+ * Zum Vergleich, beides gemessen: bei 110 px sieht man zwei Schlangen
+ * übereinander, weil die Überblendung zwei zu verschiedene Bilder mischt; bei
+ * 25 px verschmilzt es. 14 px ist der Bereich, in dem die Blende glättet,
+ * statt zu schlieren — die Rückfahrt hat dafür 50 Frames dazubekommen und die
+ * Bühne 120 svh mehr Weg.
  */
-.buehne { position: relative; height: 300svh; }
+.buehne { position: relative; height: 420svh; }
 
 .bild {
   position: sticky;
@@ -77,9 +82,15 @@ html.landing body {
 /**
  * Die Ordnung der Ebenen.
  *
+ *   0 Grund      der Sandton, auf dem das Schlussbild steht
  *   1 Bild       Canvas bzw. Standbild
  *   2 Schleier   damit der Text darauf steht
  *   3 Text       Wortmarke, Hinweis, Siegel
+ *
+ * Der Grund liegt UNTER dem Bild und ist die ganze Seite über unsichtbar: der
+ * Canvas deckt ihn. Erst im letzten Fünftel, wenn der Ausschnitt schrumpft,
+ * kommt er an den Rändern zum Vorschein. Seine Farbe wird nicht geschrieben,
+ * sondern aus dem Film gelesen (siehe `farbenLesen`).
  *
  * Der Text MUSS über dem Schleier liegen. Lag er darunter — ein Fehler aus
  * der verworfenen Fassung, an den Aufnahmen als matter Text zu sehen —, zog
@@ -92,25 +103,26 @@ html.landing body {
   width: 100%;
   height: 100%;
 }
-.ebene-bild { object-fit: cover; z-index: 1; }
+.ebene-grund { z-index: 0; opacity: 0; pointer-events: none; }
+.ebene-bild { object-fit: cover; z-index: 1; transform-origin: 50% 50%; }
 .ebene-schleier { background: var(--schleier); z-index: 2; pointer-events: none; }
 .ebene-text { z-index: 3; pointer-events: none; }
 
 /*
- * Die flächige Abdunklung am Ende.
+ * HIER STAND DIE ABDUNKLUNG. Sie ist mit Phase 2 ersatzlos fort.
  *
- * Flächig und nicht radial: das Motiv ist am Schluss selbst schon ein Kreis,
- * und ein zweiter, aus Licht gezeichneter darüber ergäbe zwei Kreise. Das
- * Bild soll zurücktreten, nicht eingerahmt werden.
- */
-/*
- * .62 statt der im Auftrag genannten .55.
+ * `.dunkel` legte am Ende rgba(14,10,6,.62) über das ganze Bild, damit cremes
+ * und goldenes Siegel darauf 4,5:1 erreichten. Der Preis war das Schlussbild:
+ * die Sonne auf dem Sand, auf die zwei Auflösungspässe hingearbeitet hatten,
+ * lag am Ende unter zwei Dritteln Schwarz.
  *
- * Gemessen mit dem Selbsttest: bei .55 kam die Unterzeile „DESIGN" — Gold auf
- * dem abgedunkelten Bild — auf 4,45:1 gegen geforderte 4,5:1. Kein Redesign,
- * keine neue Farbe: nur sieben Hundertstel mehr Dichte hinter demselben Gold.
+ * Der Kontrast kommt jetzt aus der anderen Richtung — dunkler Text auf hellem
+ * Sand statt hellem Text auf abgedunkeltem Sand. Gemessen wird er dadurch
+ * nicht weniger; nachzulesen im Bericht, Steuerung 3.3.
+ *
+ * Auch der Schleier blendet zum Schluss weg: seine untere Kante ist zu 88 %
+ * schwarz, und das ist dieselbe Abdunklung, nur an einer anderen Stelle.
  */
-.dunkel { background: rgba(14, 10, 6, .62); z-index: 2; pointer-events: none; }
 
 /* ————————————————————————————— Wortmarke ————————————————————————————— */
 
@@ -169,8 +181,21 @@ html.landing body {
 }
 .hinweis.auf { opacity: 1; }
 
-/* ————————————————————————————— Siegel ————————————————————————————— */
+/* ——————————————————————— Lockup und Siegel ——————————————————————— */
 
+/*
+ * Das Schlussbild: OROBOROS, dessen erstes O die Schlange ist.
+ *
+ * Der Kasten `.lockup-ring` ist LEER. Er hält nur den Platz frei, an dem der
+ * Ring stehen wird; gefüllt wird er vom Film, indem sich der Ausschnitt
+ * dorthin verschiebt. Deshalb steht hier keine Position und kein Versatz —
+ * `src/landing/lockup.ts` MISST diesen Kasten und richtet das Bild danach.
+ * Zwei Zahlen, die dasselbe meinen, gibt es an dieser Stelle nicht.
+ *
+ * Seine Größe kommt als `--ring-mass` von dort, weil sie davon abhängt, wie
+ * weit der Film reicht — eine Eigenschaft des Materials, die kein Stylesheet
+ * kennen kann.
+ */
 .siegel {
   position: absolute;
   inset: 0;
@@ -178,58 +203,203 @@ html.landing body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 14px;
+  gap: clamp(18px, 3.4svh, 40px);
   text-align: center;
-  will-change: transform, opacity;
 }
 .siegel p { margin: 0; }
-.siegel-marke {
-  font-size: clamp(30px, 7.4vw, 74px);
-  font-weight: 200;
-  letter-spacing: .16em;
+
+.lockup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Der Abstand zwischen Ring und Wort. In em, damit er mit der Schrift
+     mitwächst — ein fester Wert risse bei 54 px auf und klebte bei 198 px. */
+  gap: .12em;
+  font-size: var(--lockup-schrift, 54px);
   line-height: 1;
+  white-space: nowrap;
+}
+
+/* RING LINKS. Er ist das erste O, also steht er vor dem Rest — nicht daneben,
+   nicht dahinter. `flex-shrink: 0`, damit ihn ein enges Fenster nicht
+   zusammendrückt: ein gestauchter Ring passte nicht mehr zum Bild darunter. */
+.lockup-ring {
+  flex: 0 0 auto;
+  width: var(--ring-mass, 90px);
+  height: var(--ring-mass, 90px);
+}
+
+.lockup-wort {
+  font-family: var(--schrift-marke);
+  font-weight: 200;
+  letter-spacing: .05em;
+  color: var(--tief);
+}
+
+/* Jeder Buchstabe einzeln, damit er einzeln kommen kann. */
+.lockup-zeichen { display: inline-block; }
+
+.siegel-unten {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  will-change: transform, opacity;
 }
 .siegel-unter {
   font-family: var(--schrift-titel);
   font-size: clamp(10px, 1.2vw, 13px);
   letter-spacing: .42em;
   text-transform: uppercase;
-  color: var(--gold);
+  /*
+   * Dunkel statt Gold.
+   *
+   * Gold auf hellem Sand kommt auf 1,6:1 — es war nur auf der Abdunklung
+   * lesbar, und die ist fort. `--tief` auf dem gemessenen Sandton liegt bei
+   * 12,4:1. Das ist keine neue Farbe: es ist dieselbe, mit der die Wortmarke
+   * am Ende steht.
+   */
+  color: var(--tief);
 }
 .siegel-strich {
   width: clamp(48px, 8vw, 92px);
   height: 1px;
-  background: rgba(224, 180, 114, .5);
+  background: rgba(14, 10, 6, .42);
 }
 .siegel-satz {
   font-family: var(--schrift-zeile);
   font-style: italic;
   font-size: clamp(16px, 2vw, 22px);
-  color: rgba(244, 237, 226, .92);
+  color: rgba(14, 10, 6, .86);
   max-width: 26ch;
 }
 
-/* ——————————————————————————— Ladeschirm ——————————————————————————— */
+/* ——————————————————————————— Ladeszene ——————————————————————————— */
 
+/*
+ * KEIN LADEBALKEN, KEINE PROZENTZAHL.
+ *
+ * Bis Phase 2 stand hier ein Kreis, der sich im Takt der geladenen Frames
+ * füllte, mit der Zahl in der Mitte. Das ist die Bauform, die jede zweite
+ * Seite im Netz benutzt — und damit war das Erste, was jemand von dieser Marke
+ * sah, austauschbar. Eine Wartezeit lässt sich nicht wegzaubern, aber man kann
+ * entscheiden, was in ihr passiert.
+ *
+ * Jetzt zeichnet sich der Ouroboros. Der Zug dauert seine 1500 ms, unabhängig
+ * davon, wie schnell die Frames kommen: eine Linie, deren Tempo am Netz hängt,
+ * ist wieder ein Ladebalken, nur ohne Skala.
+ */
 .ladeschirm {
   position: fixed;
   inset: 0;
   z-index: 50;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(26px, 4svh, 44px);
   background: var(--tief);
-  transition: opacity var(--dauer-szene) var(--kurve-marke);
 }
-.ladeschirm[data-fertig="ja"] { opacity: 0; pointer-events: none; }
-.lade-bahn { fill: none; stroke: rgba(244, 237, 226, .22); stroke-width: 1.5; }
-.lade-lauf { fill: none; stroke: var(--gold); stroke-width: 1.5; stroke-linecap: round; }
-.ladeschirm-zahl {
-  position: absolute;
-  font-family: var(--schrift-titel);
-  font-size: 12px;
-  letter-spacing: .16em;
+
+/* 64 px auf 390, 96 px auf 1440 — dazwischen mitwachsend. */
+.lade-marke {
+  width: clamp(64px, 6.67vw, 96px);
+  height: clamp(64px, 6.67vw, 96px);
+  overflow: visible;
+}
+
+/*
+ * `pathLength="100"` steht im Markup, damit hier 100 stehen kann.
+ *
+ * Ohne das müsste die tatsächliche Bogenlänge (103,8 bei r = 17 und 350°)
+ * hier als Zahl stehen — und bei jeder Änderung am Pfad nachgerechnet werden.
+ * So beschreibt das SVG seine eigene Länge und das Stylesheet zählt in
+ * Prozent.
+ */
+.lade-zug {
+  fill: none;
+  stroke: var(--creme);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  transition: stroke-dashoffset var(--zeichnen-marke) var(--kurve-marke);
+}
+.lade-kopf {
+  fill: var(--creme);
+  opacity: 0;
+  /* Der Kopf kommt erst, wenn der Körper fast herum ist — vorher gäbe es
+     einen Kopf ohne Schlange. */
+  transition: opacity var(--dauer-block) var(--kurve-marke);
+  transition-delay: calc(var(--zeichnen-marke) * .72);
+}
+.ladeschirm[data-zug="ja"] .lade-zug { stroke-dashoffset: 0; }
+.ladeschirm[data-zug="ja"] .lade-kopf { opacity: 1; }
+
+.lade-satz {
+  margin: 0;
+  font-family: var(--schrift-zeile);
+  font-style: italic;
+  font-size: clamp(15px, 1.32vw, 19px);
+  letter-spacing: .01em;
   color: var(--creme);
+  opacity: 0;
+  transition: opacity var(--dauer-szene) var(--kurve-marke);
+  transition-delay: calc(var(--zeichnen-marke) * .45);
 }
+.ladeschirm[data-zug="ja"] .lade-satz { opacity: .82; }
+
+/*
+ * Der Staub.
+ *
+ * Eigener Canvas über der Szene, nicht der Hero-Canvas: der zeichnet zur
+ * selben Zeit schon seinen ersten Frame, und zwei Zeichner auf einer Fläche
+ * hieße, dass einer den anderen jedes Bild überschreibt.
+ */
+/*
+ * `width`/`height` ausdrücklich, nicht nur `inset: 0`.
+ *
+ * Ein Canvas ist ein ersetztes Element mit EIGENER Größe (300 × 150). Bei
+ * `width: auto` gewinnt diese Eigengröße, und `inset: 0` wird still ignoriert —
+ * die Fläche blieb 300 × 150 in der linken oberen Ecke, und der Staub flog
+ * dort statt in der Mitte. Bei `.ebene` steht es aus demselben Grund.
+ */
+.lade-staub {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/*
+ * Der schwarze Grund weicht, die Marke weicht — beide getrennt.
+ *
+ * Die Marke muss fort sein, sobald sie zu Staub geworden ist (Schlag A); der
+ * Grund darf erst gehen, wenn der Staub sich zum Bild gesetzt hat (Schlag D).
+ * Ein gemeinsames Ausblenden hätte entweder die Marke stehen lassen, während
+ * ihr Staub schon fliegt, oder den Film aufgedeckt, bevor er verdeckt sein
+ * sollte.
+ */
+.ladeschirm-inhalt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: inherit;
+  transition: opacity var(--schlag-a) var(--kurve-standard);
+}
+/* `data-zerfallen`, NICHT `data-schlag="zerfall"`: der Schlag ist nach 600 ms
+   vorbei, das Zerfallensein nicht. An den Schlag gehängt kam die Marke beim
+   zweiten Schlag zurück und stand danach über der Düne. */
+.ladeschirm[data-zerfallen="ja"] .ladeschirm-inhalt { opacity: 0; }
+.ladeschirm[data-grund="weg"] { background: transparent; }
+
+/* Der ruhige Pfad: kein Staub, nur halten und blenden. */
+.ladeschirm[data-ruhig="ja"] {
+  transition: opacity var(--ruhe-blende) var(--kurve-standard);
+  transition-delay: var(--ruhe-halt);
+}
+.ladeschirm[data-ruhig="ja"][data-fertig="ja"] { opacity: 0; pointer-events: none; }
 
 /* ————————————————————————————— Auftritt ————————————————————————————— */
 
@@ -250,15 +420,31 @@ html.landing body {
 /* ————————————————————————— Der Ruhemodus ————————————————————————— */
 
 /*
- * Bei „Bewegung reduzieren" ist die Seite EIN Bildschirm, nicht 520 svh.
+ * Bei „Bewegung reduzieren" ist die Seite EIN Bildschirm, nicht 420 svh.
  *
  * Die Bühnenhöhe ist Weg für eine Bewegung. Fällt die Bewegung weg, bleibt
- * nur der Weg — fünf Bildschirme, auf denen sich nichts tut. Das ist keine
+ * nur der Weg — vier Bildschirme, auf denen sich nichts tut. Das ist keine
  * Rücksichtnahme, das ist eine Zumutung.
  *
  * Das `!important` beim Siegel ist richtig und nicht faul: sein
  * Anfangszustand steht als Inline-Stil im Markup, damit bei langsamer
  * Verbindung nichts aufblitzt, und Inline schlägt jede Klasse.
+ *
+ * Das Lockup steht hier als GANZES WORT. Sein erstes O ist sonst ein Loch,
+ * das der Film füllt — und im Ruhemodus fährt der Ausschnitt nicht dorthin.
+ * Ein Wort mit einer Lücke wäre schlechter als eines ohne Bild.
+ *
+ * DER SCHLEIER GEHT AUS, UND ZWAR HIER AUCH.
+ *
+ * Im Lauf blendet ihn die Bühnenschleife über das letzte Fünftel weg. Im
+ * Ruhemodus läuft keine Schleife — er stünde also auf voller Stärke, und seine
+ * untere Kante ist zu 88 % schwarz. Genau dort steht seit Phase 2 dunkler
+ * Text. Gemessen war „DESIGN" damit fast unsichtbar: dunkel auf dunkel, weil
+ * zwei richtige Entscheidungen an verschiedenen Stellen getroffen wurden.
+ *
+ * Ohne Schleier ist der Grund überall heller Sand, und alles darauf ist
+ * dunkel — auch die Wortmarke oben, die im Lauf creme ist. Ein Bild, eine
+ * Regel.
  */
 /*
  * Wortmarke UND Siegel sind sofort da — beide, nicht eines.
@@ -274,22 +460,22 @@ html.landing body {
   .zeichen-schacht { transform: none; transition: none; }
   .hinweis { display: none; }
   .siegel {
-    opacity: 1 !important;
-    transform: none !important;
     justify-content: flex-end;
     padding-bottom: clamp(24px, 8svh, 80px);
   }
-  .dunkel { opacity: 1 !important; }
-  .wortmarke { bottom: auto; top: clamp(20px, 7svh, 64px); }
+  .siegel-unten { opacity: 1 !important; transform: none !important; }
+  .lockup { font-size: clamp(30px, 7.4vw, 74px); }
+  .wortmarke { bottom: auto; top: clamp(20px, 7svh, 64px); color: var(--tief); }
+  .ebene-schleier { opacity: 0; }
 }
 :root.ruhige-bewegung .buehne { height: 100svh; }
 :root.ruhige-bewegung .zeichen-schacht { transform: none; transition: none; }
 :root.ruhige-bewegung .hinweis { display: none; }
 :root.ruhige-bewegung .siegel {
-  opacity: 1 !important;
-  transform: none !important;
   justify-content: flex-end;
   padding-bottom: clamp(24px, 8svh, 80px);
 }
-:root.ruhige-bewegung .dunkel { opacity: 1 !important; }
-:root.ruhige-bewegung .wortmarke { bottom: auto; top: clamp(20px, 7svh, 64px); }
+:root.ruhige-bewegung .siegel-unten { opacity: 1 !important; transform: none !important; }
+:root.ruhige-bewegung .lockup { font-size: clamp(30px, 7.4vw, 74px); }
+:root.ruhige-bewegung .wortmarke { bottom: auto; top: clamp(20px, 7svh, 64px); color: var(--tief); }
+:root.ruhige-bewegung .ebene-schleier { opacity: 0; }

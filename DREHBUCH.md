@@ -300,3 +300,117 @@ Querformatmaterial gibt. Für das Telefon fehlt derselbe Schritt: ein
 sind 1,26× Vergrößerung, und daran ändert kein Encoder etwas. Auf 1600 px zu
 skalieren macht die Datei 31 % größer und erfindet die Differenz. Echte
 Auflösung kommt nur aus echtem Hochskalieren der QUELLE.
+
+# Phase 2
+
+## Die Zahl im Auftrag stimmte — sie stand nur am falschen Frame
+
+Der Bauauftrag nennt den Ring des Schlussbildes mit 0,570 (hoch) und 0,523
+(quer) der Bildbreite und schreibt dazu „gemessen am letzten Frame der
+Rückfahrt". Am letzten Frame gemessen sind es 0,2342 und 0,0746. Der Faktor
+zwischen Auftrag und Material ist 2,4 beziehungsweise 7,0 — bei einem so
+groben Unterschied liegt der Verdacht auf einem Tippfehler nahe, und ein
+Tippfehler wäre nicht zu klären gewesen.
+
+Er war keiner. Am ERSTEN Frame der Rückfahrt misst der 3:4-Satz senkrecht
+0,5692, der 9:16-Satz waagerecht 0,5310. Das sind die 0,570 und die 0,523.
+Die Beschriftung der Zeile war falsch, nicht die Messung — und weil eine
+Rückfahrt genau das tut, wonach sie heißt, ist der Ring am Ende kleiner.
+
+**Die Regel:** eine Zahl, die um ein Vielfaches danebenliegt, ist selten
+falsch abgeschrieben. Meistens ist sie richtig gemessen und falsch
+beschriftet. Wer sie nur meldet, verliert die Information; wer sucht, wo sie
+stimmt, findet die Stelle — und weiß danach, was gemeint war.
+
+## Ein Maßstab über 1 ist keine Gestaltung, sondern ein Materialfehler
+
+Das Lockup braucht den Ring bei 0,229 der Fensterbreite. Was der Film davon
+liefert, entscheidet, ob die Verwandlung verkleinern darf oder vergrößern
+muss — und Vergrößern heißt Hochrechnen, ausgerechnet am schärfsten Moment
+der Seite.
+
+Gemessen auf 1440 × 900 mit dem alten 16:9-Satz: Ring 120 px, gebraucht 330,
+Maßstab 2,74. Die beiden Hochformate lagen bei 0,98 und 0,96 — sie stimmten,
+weil ihre Rückfahrten weniger weit zurückziehen. Die 16:9-Fahrt zieht nach
+5,04 s bis auf ein Siebtel der Fensterbreite zurück; bei 0,80 s steht der
+Ring bei 0,243, also genau am gebrauchten Maß.
+
+Die Lösung war deshalb kein Code, sondern ein Zeitbereich im Bauskript:
+`rueckDauer: 0.80` für 16:9, 50 Frames aus der ersten Sekunde statt aus fünf.
+Gleiche Aufnahme, gleiches Gewicht, richtiger Ausschnitt der Fahrt.
+
+**Die Regel:** wo eine Kette aus Material, Bauskript und Laufzeitcode ein
+Maß verfehlt, ist die billigste Stelle fast nie der Laufzeitcode. Ein
+`Math.min(1, …)` als Kappung gehört trotzdem dorthin — nicht um zu
+korrigieren, sondern damit ein künftiger Materialwechsel auffällt, statt
+still unscharf zu werden.
+
+## Der Ring musste den Buchstaben finden, nicht der Buchstabe den Ring
+
+Wo im Wort das erste O steht, weiß erst der Umbruch: die Breite von
+„ROBOROS" hängt an der geladenen Schrift, und die Zeile ist mittig. Also
+wird der freigelassene Kasten GEMESSEN und das Bild danach ausgerichtet —
+statt beide aus derselben Formel zu rechnen und zu hoffen, dass sie
+dieselbe bleibt. Der Selbsttest misst am Ende 0,0 px Abweichung in beiden
+Ansichtsgrößen; das ist kein Zufall, sondern die Bauart.
+
+Zweimal ging es dabei schief, und beide Male auf dieselbe Weise: eine
+Messung, die den eigenen vorigen Eingriff mitmisst. Erst die Zeile, die mit
+noch anliegender Verschiebung vermessen wurde (der Ring saß 121 px unter
+seinem Buchstaben), dann der Canvas, dessen `getBoundingClientRect` bereits
+verwandelt zurückkommt. Beide Male half derselbe Griff: vor dem Messen
+zurücksetzen, oder einen Bezug wählen, den der Eingriff nicht anfasst.
+
+## Senkrecht schwenkt das Bild nicht, sondern der Satz
+
+Der Ring sitzt in der Bildmitte, im Wort steht er links — waagerecht muss
+das Bild also wandern. Senkrecht müsste es nicht, und tat es doch: das
+Ergebnis war ein geschrumpftes Rechteck in der linken oberen Ecke, mit
+Sandbändern rechts UND unten. Es sah aus wie ein Fehler im Umbruch.
+
+Umgekehrt stimmt es: das Bild bleibt senkrecht mittig, die Textspalte rückt
+dorthin, wo der Ring danach steht. Die Bänder liegen dann oben und unten
+gleich hoch, und es bleibt eine einzige senkrechte Kante.
+
+**Die Regel:** wenn zwei Dinge zusammenfinden müssen, bewegt man das, dessen
+Bewegung nichts kostet. Eine Textspalte kann überall stehen. Ein Bild, das
+sich verschiebt, gibt seinen Rand her.
+
+## Eine Farbe, die man schreibt, ist beim nächsten Farbdurchgang falsch
+
+Die Fläche neben dem geschrumpften Schlussbild — auf 1440 × 900 sind es 39 %
+der Breite — braucht einen Sandton. Er wird nicht geschrieben, sondern aus
+dem Film gelesen: aus der rechten Spalte des letzten Frames, weil die Naht
+dort verläuft. Gemessen an der Naht rgb(178,144,100) im Bild gegen
+rgb(178,146,101) in der Füllung.
+
+Zwei Umwege lagen dazwischen. Das Mittel des ERSTEN Frames war deutlich
+satter — Frame 1 ist die tiefstehende Sonne, Frame 150 die Aufsicht am
+Mittag. Und das Mittel über alle vier Kanten zog der Schatten der Kuhle nach
+unten. Die Probe muss von der Stelle kommen, an der sie anliegt.
+
+## Zwei richtige Entscheidungen ergeben zusammen eine falsche
+
+Phase 2 nahm die flächige Abdunklung weg und stellte den Text im Schlussbild
+auf dunkel — beides richtig, beides gemessen (11,1:1 statt der geforderten
+4,5:1). Im Ruhemodus läuft aber keine Bühnenschleife, und deshalb blieb dort
+der Schleier stehen, dessen untere Kante zu 88 % schwarz ist. Genau dort
+stand jetzt dunkler Text. „DESIGN" war fast unsichtbar.
+
+Gefunden hat es kein Prüfstand: Steuerung 3.3 meldet innerhalb gepinnter
+Bühnen `nicht_prüfbar`, weil ihre Aufnahme die Seite selbst verschiebt.
+Gefunden hat es eine Aufnahme, die angesehen wurde. Die Messung kam danach —
+als eigener Durchgang im Selbsttest, damit sie beim nächsten Mal zuerst
+kommt.
+
+**Die Regel:** wo ein Zweig eine Voraussetzung nicht teilt, erbt er auch
+ihre Aufhebung nicht. Jede Bedingung, die ein Zweig anders hat, ist eine
+eigene Messung wert.
+
+## Ein Canvas ist ein ersetztes Element
+
+`position: absolute; inset: 0` streckt einen Canvas nicht. Er hat eine
+Eigengröße von 300 × 150, und bei `width: auto` gewinnt sie. Die Staubfläche
+lag als 300 × 150 großes Feld in der linken oberen Ecke, und der Übergang
+spielte dort statt in der Mitte. `width: 100%; height: 100%` dazu — dieselbe
+Zeile, die bei `.ebene` aus demselben Grund steht.

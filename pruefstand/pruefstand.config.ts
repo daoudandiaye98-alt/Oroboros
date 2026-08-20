@@ -129,11 +129,18 @@ export const SCHWELLEN = {
  *
  * Sie muss über der längsten Eröffnung liegen, die eine Seite abspielt — sonst
  * misst man eine Fläche, die noch in Bewegung ist, und nennt das Ergebnis einen
- * Befund. Längster Fall: die Landing lädt erst 40 Frames, blendet dann den
- * Ladeschirm über 1400 ms aus und lässt danach die Wortmarke zeichenweise
- * auflaufen. Mit Reserve: 5000 ms.
+ * Befund.
+ *
+ * Längster Fall ist seit Phase 2 die Landing: 38 Frames Vorlauf, dann zeichnet
+ * sich der Ouroboros über 1500 ms, dann zerfällt er in fünf Schlägen von
+ * zusammen 4200 ms zu Staub, und erst danach läuft die Wortmarke zeichenweise
+ * auf (450 ms Verzug plus siebenmal 55 ms plus 820 ms). Das sind rund 7,4 s
+ * ohne das Laden selbst. Mit Reserve: 10 000 ms.
+ *
+ * Das kostet je Messpunkt fünf Sekunden mehr. Der Alternative — früher messen
+ * und die Zahlen erklären — traut man beim zweiten Mal nicht mehr.
  */
-export const RUHE_MS = 5000;
+export const RUHE_MS = 10_000;
 
 /** Chromium-Pfad, falls die Umgebung einen mitbringt (Container, CI). */
 export const CHROMIUM_PFAD = process.env.PRUEFSTAND_CHROMIUM ?? undefined;

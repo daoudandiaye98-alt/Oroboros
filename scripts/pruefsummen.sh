@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 #
-# Prüft die vierzehn Quelldateien gegen assets/PRUEFSUMMEN.txt.
+# Prüft alle Quelldateien gegen assets/PRUEFSUMMEN.txt.
+#
+# Die Zahl steht nicht mehr im Text: sie war „vierzehn", dann kamen mit Phase 2
+# sechs Filme dazu, und eine Zahl in einer Meldung, die niemand mitpflegt, ist
+# schlechter als keine.
 #
 # Verglichen werden die ersten 16 Stellen des SHA-256 UND die Größe in Byte.
 # `sha256sum -c` kann das Format nicht lesen (gekürzte Summe, zusätzliche
@@ -9,6 +13,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 fehler=0
+anzahl=0
 while read -r summe groesse datei; do
   [ -z "${datei:-}" ] && continue
   if [ ! -f "$datei" ]; then
@@ -23,6 +28,7 @@ while read -r summe groesse datei; do
     fehler=1
   else
     echo "  ok         $datei  $summe  $groesse"
+    anzahl=$((anzahl + 1))
   fi
 done < assets/PRUEFSUMMEN.txt
 
@@ -32,4 +38,4 @@ if [ "$fehler" != 0 ]; then
   echo "nichts ersetzen, nichts nachgenerieren. Melden." >&2
   exit 1
 fi
-echo "Alle vierzehn Quellen stimmen."
+echo "Alle $anzahl Quellen stimmen."

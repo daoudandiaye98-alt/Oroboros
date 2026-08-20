@@ -81,6 +81,28 @@
   --auftritt-marke: 450ms;
 
   /*
+   * ————————————————— Die Ladeszene —————————————————
+   *
+   * Der Ladevorgang ist die einzige Stelle der Seite, die eine Zeitachse hat
+   * statt einer Rollposition. Deshalb stehen hier Millisekunden.
+   *
+   * `--zeichnen-marke` ist der Zug, mit dem sich der Ouroboros schreibt.
+   * Die fünf Schläge danach sind der Übergang in den Film: die Linie zerfällt
+   * (A), der Staub treibt auseinander (B), er fällt (C), er setzt sich zum
+   * ersten Bild (D), das Bild steht und wird übergeben (E).
+   */
+  --zeichnen-marke: 1500ms;
+  --schlag-a:  600ms;
+  --schlag-b:  900ms;
+  --schlag-c:  700ms;
+  --schlag-d:  900ms;
+  --schlag-e: 1100ms;
+
+  /* Der ruhige Pfad kennt keine Partikel: halten, blenden, fertig. */
+  --ruhe-halt:   800ms;
+  --ruhe-blende: 500ms;
+
+  /*
    * ————————————————— Die Choreografie des einen Akts —————————————————
    *
    * Alles hier sind ANTEILE am Fortschritt der Bühne (0 = oben, 1 = unten),
@@ -92,10 +114,13 @@
    * `getComputedStyle` sie unverändert zurück.
    */
 
-  /* Der Film. Vorn und hinten ein Rest, damit der erste und der letzte
-     Frame je einen Moment stehen bleiben, statt vorbeizuhuschen. */
+  /* Der Film. Vorn ein Rest, damit der erste Frame einen Moment steht.
+     Hinten endet er bei 0,80 — nicht, damit etwas stehen bleibt, sondern
+     weil ab dort die Verwandlung läuft. Zwei Bewegungen gleichzeitig auf
+     demselben Bild (die Kamera fährt noch zurück, während der Ausschnitt
+     schon wandert) liest sich als Ruckeln, nicht als Choreografie. */
   --film-von:      0.02;
-  --film-bis:      0.86;
+  --film-bis:      0.80;
 
   /* Der Hinweis verschwindet nach der ersten Geste. */
   --hinweis-von:   0.01;
@@ -107,12 +132,29 @@
   --marke-bis:     0.24;
   --marke-weg:      60px;
 
-  /* Am Ende legt sich das Bild flächig zurück, damit das Siegel steht. */
-  --dunkel-von:    0.88;
-  --dunkel-bis:    0.97;
+  /*
+   * Das letzte Fünftel: der Ring wird das erste O.
+   *
+   * Der Ausschnitt wandert und schrumpft, bis der Ring des Tieres genau dort
+   * steht, wo im Wort das erste O stünde. Der Film hält dabei auf seinem
+   * letzten Frame — die Ringmaße in `choreografie.ts` sind an genau diesem
+   * Frame gemessen und wären an jedem anderen falsch.
+   *
+   * Es gibt hier KEINE Abdunklung mehr. Sie stand bis Phase 2 an dieser
+   * Stelle und nahm dem Schlussbild genau das, worauf zwei Auflösungspässe
+   * hingearbeitet hatten: das Licht auf dem Sand. Der Text darauf ist
+   * stattdessen dunkel — dieselbe Lesbarkeit, ohne den Preis.
+   */
+  --lockup-von:    0.80;
+  --lockup-bis:    0.94;
 
-  --siegel-von:    0.90;
-  --siegel-bis:    0.99;
+  /* Die sieben Buchstaben treten im letzten Zehntel einzeln dazu, mit
+     demselben Versatz wie am Anfang der Seite. */
+  --schrift-von:   0.90;
+  --schrift-bis:   1.00;
+
+  --siegel-von:    0.94;
+  --siegel-bis:    1.00;
   --siegel-skala:  0.98;
 
   /* Die vier Farben. Mehr gibt es nicht. */
