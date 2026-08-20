@@ -73,52 +73,47 @@
    */
 
   /*
-   * Die Verzüge des Auftritts von Akt I.
+   * Der eine Verzug der Seite.
    *
-   * Sie sind die einzige Zeitachse der ganzen Seite, die NICHT am Scroll
-   * hängt — der Moment des Ankommens, bevor der Nutzer etwas getan hat.
-   * Danach übernimmt die Rollposition und gibt keine Zeit mehr her.
+   * Die Wortmarke ist das Einzige, was von selbst auftritt. Danach gibt es
+   * auf dieser Seite keine Zeitachse mehr — alles hängt an der Rollposition.
    */
-  --auftritt-marke: 1300ms;
-  --auftritt-claim: 2300ms;
-  --auftritt-titel: 2500ms;
-  --auftritt-weg:   2900ms;
-
-  /* Akt I — der Kopf */
-  --akt1-kopf-zoom:        0.12;  /* zusätzlicher Maßstab über die ganze Bühne */
-  --akt1-marke-weg:         70px; /* wie weit die Wortmarke nach oben zieht    */
-  --akt1-marke-aus-von:    0.55;
-  --akt1-marke-aus-bis:    0.92;
-  --akt1-sequenz-ab:       0.05;  /* ab hier atmet das Tier                    */
-
-  /* Akt II — der Weg */
-  --akt2-zeile-weg:         42px;
-  --akt2-zeile-aus-von:    0.70;
-  --akt2-zeile-aus-bis:    0.90;
-  --akt2-karte-weg:         42px;
-  --akt2-karte-von:        0.52;  /* erste Karte; jede weitere um             */
-  --akt2-karte-bis:        0.78;
-  --akt2-karte-versatz:    0.05;  /* … diesen Anteil später                   */
-
-  /* Akt III — der Kreis */
-  --akt3-rollen-von:       0.02;  /* Fenster, in dem sich das Tier einrollt   */
-  --akt3-rollen-bis:       0.80;
-  --akt3-dunkel-von:       0.78;
-  --akt3-dunkel-bis:       0.96;
-  --akt3-siegel-von:       0.84;
-  --akt3-siegel-bis:       0.99;
-  --akt3-siegel-weg:        18px;
+  --auftritt-marke: 450ms;
 
   /*
-   * Die Gewichte des Fortschrittsrings.
+   * ————————————————— Die Choreografie des einen Akts —————————————————
    *
-   * Sie summieren sich auf 1,00 — sonst schlösse sich der Kreis am Seitenende
-   * nicht, und genau das ist die Aussage der Marke. Die Verteilung folgt der
-   * Höhe der Akte (180 / 280 / 400 svh), nicht dem Bauchgefühl.
+   * Alles hier sind ANTEILE am Fortschritt der Bühne (0 = oben, 1 = unten),
+   * keine Zeiten. Sie stehen trotzdem hier: es sind Bewegungswerte, und die
+   * Regel aus Phase 0 kennt keine Ausnahme für „ist ja nur ein Bruchteil".
+   * Wer die Seite umtaktet, tut es hier — ohne eine .tsx zu öffnen.
+   *
+   * Einheitenlose Zahlen brauchen `--x: 0.55;` — ohne Einheit liest
+   * `getComputedStyle` sie unverändert zurück.
    */
-  --ring-akt1: 0.22;
-  --ring-akt2: 0.34;
-  --ring-akt3: 0.44;
+
+  /* Der Film. Vorn und hinten ein Rest, damit der erste und der letzte
+     Frame je einen Moment stehen bleiben, statt vorbeizuhuschen. */
+  --film-von:      0.02;
+  --film-bis:      0.86;
+
+  /* Der Hinweis verschwindet nach der ersten Geste. */
+  --hinweis-von:   0.01;
+  --hinweis-bis:   0.09;
+
+  /* Die Wortmarke zieht nach oben weg und ist früh fort — sie gehört dem
+     Anfang, nicht dem Film. */
+  --marke-von:     0.05;
+  --marke-bis:     0.24;
+  --marke-weg:      60px;
+
+  /* Am Ende legt sich das Bild flächig zurück, damit das Siegel steht. */
+  --dunkel-von:    0.88;
+  --dunkel-bis:    0.97;
+
+  --siegel-von:    0.90;
+  --siegel-bis:    0.99;
+  --siegel-skala:  0.98;
 
   /* Die vier Farben. Mehr gibt es nicht. */
   --tief:   #0E0A06;
@@ -134,18 +129,17 @@
    * lesbar bleiben. Ohne ihn fällt 3.3 auf jedem zweiten Bild.
    */
   /*
-   * ABWEICHUNG, gemessen: der Bauauftrag nennt .18 bei 58 % und .9 bei 100 %.
-   * Auf 844 × 390 — dem Telefon quer — schneidet `cover` das Bild so, dass an
-   * der Stelle des Claims heller Sand steht. Gemessen mit dem Prüfstand,
-   * Kontrolle 3.3: 3,33:1 gegen geforderte 4,5:1, hellster Bildpunkt
-   * rgb(168,120,60). Die untere Hälfte ist deshalb dichter. Oben und in der
-   * klaren Zone bleibt alles, wie es war — dort stand nie ein Text.
+   * Oben dunkel für den Hinweis, in der oberen Bildmitte klar, damit das
+   * Motiv atmet, unten fast deckend. Der Text, den er zu tragen hat, ist
+   * jetzt nur noch der Rollhinweis — der Claim-Absatz und die Karten des
+   * verworfenen Auftrags sind fort, deshalb darf die untere Hälfte wieder
+   * dünner sein als in jener Fassung.
    */
   --schleier: linear-gradient(180deg,
-    rgba(14, 10, 6, .55) 0%,
-    rgba(14, 10, 6, 0)   27%,
-    rgba(14, 10, 6, .42) 58%,
-    rgba(14, 10, 6, .96) 100%);
+    rgba(14, 10, 6, .5)  0%,
+    rgba(14, 10, 6, 0)   32%,
+    rgba(14, 10, 6, .08) 62%,
+    rgba(14, 10, 6, .88) 100%);
 }
 
 @media (prefers-reduced-motion: reduce) {

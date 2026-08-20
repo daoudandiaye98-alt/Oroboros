@@ -23,6 +23,7 @@
  */
 import { gsap } from "gsap";
 import { AUFTRITT_ANTEIL, BILD_SKALA, WEG_Y, ruhig, tokens } from "./tokens";
+import { kurven } from "./kurven";
 import { zerlege } from "./split";
 
 export type Rolle = "kicker" | "schlagzeile" | "zeile" | "karte" | "bild";
@@ -126,12 +127,13 @@ function gruppen(container: HTMLElement): Gruppe[] {
  */
 function gruppeSpielen(tl: gsap.core.Timeline, gruppe: Gruppe, still: boolean): void {
   const t = tokens();
+  const k = kurven();
   const { glieder, rolle } = gruppe;
 
   if (rolle === "bild") {
     tl.fromTo(glieder,
       { opacity: 0, scale: still ? 1 : BILD_SKALA },
-      { opacity: 1, scale: 1, duration: t.dauer.szene, ease: t.kurve.dramatisch, stagger: 0 });
+      { opacity: 1, scale: 1, duration: t.dauer.szene, ease: k.dramatisch, stagger: 0 });
     return;
   }
 
@@ -144,14 +146,14 @@ function gruppeSpielen(tl: gsap.core.Timeline, gruppe: Gruppe, still: boolean): 
     if (still) {
       // Nur Blende, und zwar an der Hülle: keine Translation, keine Staffelung.
       tl.fromTo(glieder, { opacity: 0 },
-        { opacity: 1, duration: t.dauer.block, ease: t.kurve.standard, stagger: 0 }, "<");
+        { opacity: 1, duration: t.dauer.block, ease: k.standard, stagger: 0 }, "<");
       return;
     }
     if (teile.length === 0) return;
     tl.fromTo(teile,
       { opacity: 0, y: WEG_Y },
       {
-        opacity: 1, y: 0, duration: t.dauer.block, ease: t.kurve.standard,
+        opacity: 1, y: 0, duration: t.dauer.block, ease: k.standard,
         stagger: rolle === "schlagzeile" ? t.staffel.wort : t.staffel.zeichen,
       });
     return;
@@ -161,7 +163,7 @@ function gruppeSpielen(tl: gsap.core.Timeline, gruppe: Gruppe, still: boolean): 
   tl.fromTo(glieder,
     { opacity: 0, y: still ? 0 : WEG_Y },
     {
-      opacity: 1, y: 0, duration: t.dauer.block, ease: t.kurve.standard,
+      opacity: 1, y: 0, duration: t.dauer.block, ease: k.standard,
       stagger: still ? 0 : (rolle === "karte" ? t.staffel.karte : 0),
     });
 }

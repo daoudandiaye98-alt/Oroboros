@@ -11,15 +11,18 @@
  * Selbst gehostet über @fontsource, kein Google-Fonts-Link.
  *
  * Ein Link auf fonts.googleapis.com heißt: eine zusätzliche DNS-Auflösung,
- * ein zusätzlicher Verbindungsaufbau und ein Stylesheet, das erst DANN die
- * eigentlichen Schriftdateien anfordert — drei Runden, bevor der erste
- * Buchstabe in der richtigen Schrift steht. Bei einer Wortmarke über 13 vw
- * ist der Sprung von der Ersatzschrift zur richtigen kein Detail, sondern das
- * Erste, was man sieht.
+ * ein Verbindungsaufbau und ein Stylesheet, das erst DANN die Schriftdateien
+ * anfordert — drei Runden, bevor der erste Buchstabe richtig steht. Bei einer
+ * Wortmarke über 13 vw ist der Sprung von der Ersatzschrift zur richtigen
+ * kein Detail, sondern das Erste, was man sieht.
+ */
+/*
+ * Jost nur in 200. Der Schnitt 300 stand hier und wurde von keinem einzigen
+ * Text benutzt — Hinweis und Unterzeile sind Space Mono, der Siegelsatz ist
+ * EB Garamond, Wortmarke und Siegelmarke sind 200. 13 kB, die auf dem
+ * kritischen Pfad einer Seite lagen, die auf ihr erstes Bild wartet.
  */
 @import "@fontsource/jost/latin-200.css";
-@import "@fontsource/jost/latin-300.css";
-@import "@fontsource/eb-garamond/latin-400.css";
 @import "@fontsource/eb-garamond/latin-400-italic.css";
 @import "@fontsource/space-mono/latin-400.css";
 
@@ -39,23 +42,23 @@ html.landing body {
 
 .landing-seite {
   font-family: var(--schrift-marke);
-  font-weight: 300;
+  font-weight: 200;
   background: var(--tief);
   color: var(--creme);
   overflow-x: clip;
 }
 
 /*
- * Der Bühnenkasten und sein stehendes Kind.
+ * Die eine Bühne und ihr stehendes Kind.
  *
  * `svh` statt `vh`: auf dem Telefon wächst und schrumpft `vh` mit der
  * Adressleiste, und ein Bild, dessen Höhe sich beim Scrollen ändert, springt.
  * `svh` ist die kleine, stabile Fassung.
+ *
+ * 520 svh sind der Weg, über den der Film läuft. Kürzer wird er hektisch,
+ * länger zäh — bei 50 Frames sind das rund zehn Bildschirmhöhen je Frame.
  */
-.buehne { position: relative; }
-.buehne-1 { height: 180svh; }
-.buehne-2 { height: 280svh; }
-.buehne-3 { height: 400svh; }
+.buehne { position: relative; height: 520svh; }
 
 .bild {
   position: sticky;
@@ -65,269 +68,95 @@ html.landing body {
   background: var(--tief);
 }
 
-/** Jede Ebene füllt die Bühne. Die Ordnung macht `z-index`, nicht die Reihenfolge. */
+/**
+ * Die Ordnung der Ebenen.
+ *
+ *   1 Bild       Canvas bzw. Standbild
+ *   2 Schleier   damit der Text darauf steht
+ *   3 Text       Wortmarke, Hinweis, Siegel
+ *
+ * Der Text MUSS über dem Schleier liegen. Lag er darunter — ein Fehler aus
+ * der verworfenen Fassung, an den Aufnahmen als matter Text zu sehen —, zog
+ * der Schleier ihn mit ins Dunkle: er wurde nicht lesbarer, sondern nur
+ * gemeinsam mit dem Grund gedämpft.
+ */
 .ebene {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
 }
-
-/*
- * Die Ordnung der Ebenen, einmal und für alle drei Akte.
- *
- *   1 Bild        Grund und Canvas
- *   2 Marke       die Wortmarke — hinter dem Kopf, das ist das Z-Sandwich
- *   3 Vorn        der beschnittene Kopf
- *   4 Schleier    über BEIDEN Bildebenen, sonst steht eine Naht am Schnitt
- *   5 Schrift     Kolumnentitel, Claim, Knopf, Karten, Siegel
- *
- * Die Schrift MUSS über dem Schleier liegen. Lag sie darunter (ein Fehler aus
- * dem ersten Durchgang, an den Aufnahmen als matter Claim und matter Knopf zu
- * sehen), zog der Schleier den Text mit ins Dunkle: er wurde nicht besser
- * lesbar, sondern nur gemeinsam mit dem Grund gedämpft.
- */
 .ebene-bild { object-fit: cover; z-index: 1; }
-.ebene-marke { z-index: 2; }
-.ebene-vorn { z-index: 3; }
-.ebene-schleier { background: var(--schleier); z-index: 4; pointer-events: none; }
-.ebene-text { z-index: 5; }
-
-/* ———————————————————————————— Akt I — Kopf ———————————————————————————— */
+.ebene-schleier { background: var(--schleier); z-index: 2; pointer-events: none; }
+.ebene-text { z-index: 3; pointer-events: none; }
 
 /*
- * Das Z-Sandwich.
+ * Die flächige Abdunklung am Ende.
  *
- * Dieselbe Aufnahme liegt zweimal übereinander: einmal ganz als Grund, einmal
- * beschnitten als vorderste Ebene. Dazwischen die Wortmarke. Beschnitten wird
- * mit `clip-path`, NICHT freigestellt — eine Freistellung erzeugt an den
- * Hörnern und am Sandkorn-Rand einen hellen Saum, den man auf dunklem Grund
- * sofort sieht. Der gerade Schnitt hat keinen Saum, weil er durch das Bild
- * selbst geht.
- *
- * 41 % liegt knapp unter den Hornspitzen: die Hörner bleiben HINTER der
- * Wortmarke, die Kopfmasse davor. Genau diese Kante ist der Effekt.
+ * Flächig und nicht radial: das Motiv ist am Schluss selbst schon ein Kreis,
+ * und ein zweiter, aus Licht gezeichneter darüber ergäbe zwei Kreise. Das
+ * Bild soll zurücktreten, nicht eingerahmt werden.
  */
-.kopf-vorn { clip-path: inset(41% 0 0 0); }
+.dunkel { background: rgba(14, 10, 6, .55); z-index: 2; pointer-events: none; }
 
-/*
- * Die Wortmarke wird an der SCHNITTKANTE verankert, nicht an der Fensterhöhe.
- *
- * `top: 38%` war der Fehler: die Schriftgröße wächst mit der BREITE (13,4 vw),
- * die Schnittkante liegt bei 41 % der HÖHE. Auf 390 × 844 blieben davon 46 %
- * des Buchstabens sichtbar, auf 1440 × 900 nur noch 14 % — gemessen an den
- * Aufnahmen des Selbsttests, auf denen von OROBOROS nur noch Bögen übrig waren.
- * Zwei Achsen, die nichts voneinander wissen.
- *
- * `bottom: calc(59% - .3em)` bindet die Unterkante der Zeile an dieselbe
- * Kante wie den Schnitt und verschiebt sie um einen Bruchteil der EIGENEN
- * Größe. Damit stehen auf jedem Format dieselben rund drei Viertel des
- * Buchstabens über der Kante — die Zahl hängt nicht mehr vom Fenster ab.
- */
+/* ————————————————————————————— Wortmarke ————————————————————————————— */
+
 .wortmarke {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: calc(59% - .3em);
+  /*
+   * Verankert an der Unterkante, nicht an `top`.
+   *
+   * Die Schriftgröße wächst mit der BREITE (13,4 vw), eine Prozentangabe von
+   * oben rechnet in der HÖHE. Zwei Achsen, die nichts voneinander wissen: mit
+   * `top` wanderte die Zeile bei breiten Fenstern aus dem Bild. Gemessen in
+   * der verworfenen Fassung: auf 1440 × 900 standen von OROBOROS nur noch
+   * Bögen im Bild.
+   */
+  bottom: calc(58% - .3em);
   display: flex;
   justify-content: center;
-  gap: 0;
-  /*
-   * Kein oberes Limit.
-   *
-   * Der Bauauftrag schreibt `clamp(40px, 13.4vw, 150px)` — der Deckel bei
-   * 150 px unterschreitet ab 1120 px Fensterbreite aber genau die Abnahme,
-   * die „Wortmarke ≥ 13 vw" verlangt (bei 1440 px wären es 10,4 vw). Von den
-   * beiden Angaben gewinnt die Abnahme: „Kleiner ist ein Fehler. Die
-   * Wortmarke muss den Bildschirm füllen."
-   */
   font-size: max(40px, 13.4vw);
   font-weight: 200;
   letter-spacing: .05em;
   line-height: .95;
   white-space: nowrap;
-  pointer-events: none;
 }
 
 /** Jedes Zeichen ein eigener Kasten — anders lässt sich nichts staffeln. */
-.zeichen {
-  display: inline-block;
-  will-change: transform;
-}
+.zeichen { display: inline-block; will-change: transform; }
 
 /*
- * Der Schacht, in dem ein Zeichen von unten hereinfährt.
+ * Der Schacht, aus dem ein Zeichen von unten hereinfährt.
  *
  * `overflow: hidden` am Elternteil, damit das Zeichen nicht sichtbar ist,
- * bevor es an seinem Platz ist. Ohne den Schacht sieht man acht Buchstaben
+ * bevor es an seinem Platz steht. Ohne den Schacht sähe man acht Buchstaben
  * unterhalb der Zeile herumstehen und hochrutschen.
  */
 .schacht { display: inline-block; overflow: hidden; vertical-align: bottom; }
 
-/*
- * Der Kolumnentitel steht in CREME, nicht in Gold.
- *
- * Gold ist die Akzentfarbe und trägt überall dort, wo sie auf Dunkel sitzt —
- * Kartennamen, Ringlauf, Haarlinien. Oben links steht sie aber über dem
- * hellsten Fleck der ganzen Seite, dem geschleierten Himmel von Akt I: rund
- * 3,2:1 und damit unter den geforderten 4,5:1. Creme kommt dort auf über 5:1.
- * Eine Akzentfarbe, die man nicht lesen kann, ist kein Akzent.
- */
-.kolumnentitel {
-  font-family: var(--schrift-titel);
-  font-size: clamp(9px, 1.05vw, 12px);
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  color: var(--creme);
-}
+/* ————————————————————————————— Hinweis ————————————————————————————— */
 
-.claim {
-  font-family: var(--schrift-zeile);
-  font-style: italic;
-  font-size: clamp(17px, 2.1vw, 23px);
-  line-height: 1.45;
-  max-width: 22ch;
-  color: var(--creme);
-}
-
-.weg {
+.hinweis {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: clamp(26px, 5vh, 54px);
+  margin: 0;
+  text-align: center;
   font-family: var(--schrift-titel);
   font-size: clamp(10px, 1.1vw, 12px);
-  letter-spacing: .18em;
+  letter-spacing: .34em;
   text-transform: uppercase;
   color: var(--creme);
-  background: none;
-  border: 0;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--weg-gap-ruhe);
-  transition: gap var(--dauer-hover) var(--kurve-marke);
-  /*
-   * Die Trefferfläche wächst, die Zeile bleibt stehen.
-   *
-   * Der Knopf war 169 × 15 px — gemessen mit dem Prüfstand, Kontrolle 3.5,
-   * auf 390 und 844. WCAG 2.5.8 verlangt 44 px, und 15 px sind auf einem
-   * Telefon kein Ziel, sondern ein Glücksspiel. Das Polster vergrößert die
-   * Fläche nach oben und unten, das negative Aussenmaß zieht die Zeile
-   * wieder an ihren Platz: optisch identisch, mit dem Finger dreimal so gut
-   * zu treffen.
-   */
-  padding-block: 15px;
-  margin-block: -15px;
+  opacity: 0;
+  transition: opacity var(--dauer-szene) var(--kurve-marke);
+  transition-delay: calc(var(--auftritt-marke) * 2);
 }
-.weg:hover, .weg:focus-visible { gap: var(--weg-gap-hover); }
-.weg-strich {
-  display: block;
-  width: 44px;
-  height: 1px;
-  background: var(--gold);
-}
+.hinweis.auf { opacity: 1; }
 
-/* ———————————————————————————— Akt II — Weg ———————————————————————————— */
-
-.zeile {
-  font-family: var(--schrift-zeile);
-  font-size: clamp(29px, 9.2vw, 86px);
-  font-weight: 400;
-  line-height: 1.02;
-  letter-spacing: -.01em;
-}
-
-.karten {
-  display: grid;
-  gap: clamp(10px, 2vw, 22px);
-  grid-template-columns: 1fr;
-}
-
-.karte {
-  border: 1px solid rgba(224, 180, 114, .28);
-  background: rgba(14, 10, 6, .62);
-  backdrop-filter: blur(6px);
-  padding: clamp(10px, 1.8vw, 20px);
-  will-change: transform, opacity;
-}
-.karte-bild {
-  object-fit: cover;
-  filter: grayscale(.25) contrast(1.05);
-}
-
-/*
- * Schmales Gerät: die Karten liegen QUER, Bild links, Text rechts.
- *
- * Hochkant und mit Bild oben brauchten die drei Karten rund 960 px — mehr als
- * der ganze Bildschirm von 844 px. Gemessen im Selbsttest: die erste Karte war
- * oben abgeschnitten, und statt „erst der Abgang, dann das Produkt" sah man
- * eine Kartenwand über der Düne. Quer sind es rund 330 px, und die untere
- * Hälfte der Bühne trägt sie, ohne das Tier zu verdecken.
- */
-.karte {
-  display: grid;
-  grid-template-columns: 84px 1fr;
-  grid-template-rows: auto auto;
-  gap: 4px clamp(10px, 3vw, 14px);
-  align-items: center;
-}
-.karte-bild { grid-row: 1 / 3; width: 84px; height: 84px; }
-.karte-name { align-self: end; }
-.karte-text { align-self: start; }
-
-/* Ab hier ist Platz für drei nebeneinander, jede wieder mit Bild oben. */
-@media (min-width: 780px) {
-  .karten { grid-template-columns: repeat(3, 1fr); }
-  .karte {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: stretch;
-  }
-  .karte-bild { width: 100%; height: auto; aspect-ratio: 16 / 10; }
-}
-.karte-name {
-  font-family: var(--schrift-titel);
-  font-size: 11px;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: var(--gold);
-}
-.karte-text {
-  font-size: clamp(13px, 1.35vw, 15px);
-  line-height: 1.5;
-  color: rgba(244, 237, 226, .84);
-}
-
-/* ——————————————————————————— Akt III — Kreis ——————————————————————————— */
-
-/*
- * Die radiale Abdunklung.
- *
- * Sie lässt die Mitte stehen und frisst den Rand — dadurch wird aus der
- * Fotografie ein Zeichen, ohne dass ein zweiter, freigestellter Ring
- * darübergelegt werden müsste. Genau der wäre der Fehler: zwei Kreise.
- * Der Ring IM Bild ist das Logo.
- */
-.dunkel {
-  /*
-   * Zwei Lagen, und die untere ist eine Korrektur.
-   *
-   * Der Bauauftrag nennt nur den radialen Verlauf mit `transparent 26%`. Der
-   * frisst den Rand und lässt die Mitte hell — auf einem dunklen Motiv wäre
-   * das richtig. Hier steht das Siegel aber IM Ring, auf hellem Sand: cremer
-   * Text auf hellem Sand ist rund 2:1 und damit weit unter den geforderten
-   * 4,5:1. Gemessen an der Aufnahme bei 100 % Scrolltiefe.
-   *
-   * Die flache Lage darunter senkt das ganze Bild ab. Der Effekt bleibt
-   * derselbe — der Rand verschwindet zuerst, der Ring bleibt am längsten
-   * stehen und wird zum Zeichen —, nur ist die Mitte jetzt dunkel genug, dass
-   * der Text darauf lesbar ist. Ein zweiter, freigestellter Ring wäre die
-   * andere Lösung gewesen und ausdrücklich verboten.
-   */
-  background:
-    radial-gradient(ellipse at 50% 52%,
-      transparent 26%, rgba(14, 10, 6, .92) 100%),
-    rgba(14, 10, 6, .62);
-  pointer-events: none;
-}
+/* ————————————————————————————— Siegel ————————————————————————————— */
 
 .siegel {
   position: absolute;
@@ -340,6 +169,7 @@ html.landing body {
   text-align: center;
   will-change: transform, opacity;
 }
+.siegel p { margin: 0; }
 .siegel-marke {
   font-size: clamp(30px, 7.4vw, 74px);
   font-weight: 200;
@@ -362,34 +192,8 @@ html.landing body {
   font-family: var(--schrift-zeile);
   font-style: italic;
   font-size: clamp(16px, 2vw, 22px);
-  color: rgba(244, 237, 226, .9);
+  color: rgba(244, 237, 226, .92);
   max-width: 26ch;
-}
-
-/* ————————————————————————— Fortschrittsring ————————————————————————— */
-
-.ring {
-  position: fixed;
-  right: clamp(12px, 2.2vw, 26px);
-  top: 50%;
-  transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
-  z-index: 20;
-  pointer-events: none;
-}
-.ring svg { display: block; width: 40px; height: 40px; transform: rotate(-90deg); }
-.ring-bahn { fill: none; stroke: rgba(244, 237, 226, .22); stroke-width: 1.5; }
-.ring-lauf { fill: none; stroke: var(--gold); stroke-width: 1.5; stroke-linecap: round; }
-.ring-schrift {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  font-family: var(--schrift-titel);
-  font-size: 10px;
-  letter-spacing: .04em;
-  color: var(--creme);
 }
 
 /* ——————————————————————————— Ladeschirm ——————————————————————————— */
@@ -405,12 +209,7 @@ html.landing body {
 }
 .ladeschirm[data-fertig="ja"] { opacity: 0; pointer-events: none; }
 .lade-bahn { fill: none; stroke: rgba(244, 237, 226, .22); stroke-width: 1.5; }
-.lade-lauf {
-  fill: none;
-  stroke: var(--gold);
-  stroke-width: 1.5;
-  stroke-linecap: round;
-}
+.lade-lauf { fill: none; stroke: var(--gold); stroke-width: 1.5; stroke-linecap: round; }
 .ladeschirm-zahl {
   position: absolute;
   font-family: var(--schrift-titel);
@@ -419,62 +218,7 @@ html.landing body {
   color: var(--creme);
 }
 
-/* ————————————————————————————— Abspann ————————————————————————————— */
-
-/*
- * Der Abspann bleibt flach.
- *
- * Er steht im normalen Fluss unter der letzten Bühne — jeder Pixel Höhe
- * schiebt am Seitenende das gepinnte Bild nach oben aus dem Sichtfeld. Mit
- * 120 px Polster oben und unten war der Ring am untersten Punkt der Seite
- * oben angeschnitten; gemessen an der Aufnahme 1440 × 900 bei 100 %. Zwei
- * Zeilen brauchen keine 330 px.
- */
-.abspann {
-  padding: clamp(22px, 3vw, 34px) clamp(18px, 5vw, 64px);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 18px;
-  justify-content: space-between;
-  align-items: baseline;
-  border-top: 1px solid rgba(224, 180, 114, .18);
-}
-
-/* ————————————————————————————— Auftritte ————————————————————————————— */
-
-/*
- * `.auf` ist der Zielzustand, nicht der Anfangszustand.
- *
- * Der Anfangszustand steht IM MARKUP (`.verborgen` aus Phase 0 plus der
- * Versatz hier), damit bei langsamer Verbindung nichts aufblitzt. Erst wenn
- * JavaScript `.auf` setzt, läuft die Bewegung.
- */
-.steigt {
-  opacity: 0;
-  transform: translateY(20px);
-  transition:
-    opacity var(--dauer-block) var(--kurve-marke),
-    transform var(--dauer-block) var(--kurve-marke);
-  transition-delay: var(--verzug, 0ms);
-}
-.steigt.auf { opacity: 1; transform: none; }
-
-.blendet {
-  opacity: 0;
-  transition: opacity var(--dauer-szene) var(--kurve-marke);
-  transition-delay: var(--verzug, 0ms);
-}
-.blendet.auf { opacity: 1; }
-
-.zoomt {
-  opacity: 0;
-  transform: scale(1.09);
-  transition:
-    opacity var(--dauer-szene) var(--kurve-marke),
-    transform calc(var(--dauer-szene) * 2) var(--kurve-marke);
-  transition-delay: var(--verzug, 0ms);
-}
-.zoomt.auf { opacity: 1; transform: none; }
+/* ————————————————————————————— Auftritt ————————————————————————————— */
 
 /*
  * Der Verzug je Zeichen wird HIER gerechnet, nicht in der Komponente.
@@ -490,52 +234,49 @@ html.landing body {
 }
 .auf .zeichen-schacht { transform: none; }
 
-/* Die drei benannten Verzüge des Auftritts von Akt I. */
-.verzug-claim { --verzug: var(--auftritt-claim); }
-.verzug-titel { --verzug: var(--auftritt-titel); }
-.verzug-weg   { --verzug: var(--auftritt-weg); }
+/* ————————————————————————— Der Ruhemodus ————————————————————————— */
 
 /*
- * Bei „Bewegung reduzieren" wird nichts verschoben und nichts gestaffelt.
+ * Bei „Bewegung reduzieren" ist die Seite EIN Bildschirm, nicht 520 svh.
  *
- * Die Elemente sind dann sofort da — der Fallback nimmt die Bewegung, nicht
- * den Inhalt. Umgesetzt als eigene Regel und nicht nur über die Token, weil
- * hier auch die Verschiebung selbst wegfallen muss, nicht bloß ihre Dauer.
+ * Die Bühnenhöhe ist Weg für eine Bewegung. Fällt die Bewegung weg, bleibt
+ * nur der Weg — fünf Bildschirme, auf denen sich nichts tut. Das ist keine
+ * Rücksichtnahme, das ist eine Zumutung.
+ *
+ * Das `!important` beim Siegel ist richtig und nicht faul: sein
+ * Anfangszustand steht als Inline-Stil im Markup, damit bei langsamer
+ * Verbindung nichts aufblitzt, und Inline schlägt jede Klasse.
+ */
+/*
+ * Wortmarke UND Siegel sind sofort da — beide, nicht eines.
+ *
+ * Sie kollidieren nur, solange sie beide in der Mitte stehen: im Lauf tut das
+ * nichts, weil die Wortmarke längst fort ist, wenn das Siegel kommt. Steht
+ * alles gleichzeitig, muss der Platz aufgeteilt werden. Die Wortmarke rückt
+ * nach oben, das Siegel in die untere Hälfte. Der Rollhinweis entfällt: es
+ * gibt nichts mehr, wohin er zeigen könnte.
  */
 @media (prefers-reduced-motion: reduce) {
-  .steigt, .blendet, .zoomt { opacity: 1; transform: none; transition: none; }
+  .buehne { height: 100svh; }
   .zeichen-schacht { transform: none; transition: none; }
-}
-:root.ruhige-bewegung .steigt,
-:root.ruhige-bewegung .blendet,
-:root.ruhige-bewegung .zoomt { opacity: 1; transform: none; transition: none; }
-:root.ruhige-bewegung .zeichen-schacht { transform: none; transition: none; }
-
-/* ————————————————————— Der Ruhemodus als Ganzes ————————————————————— */
-
-/*
- * Bei „Bewegung reduzieren" ist die Seite drei Bildschirme, nicht 860 svh.
- *
- * Die Bühnenhöhen sind Weg für eine Bewegung. Fällt die Bewegung weg, bleibt
- * nur der Weg — 860 svh, auf denen sich nichts tut. Das ist keine
- * Rücksichtnahme, das ist eine Zumutung. Die Kästen fallen deshalb auf ihre
- * natürliche Höhe zurück und das Bild hört auf zu kleben.
- *
- * Die `!important` sind hier richtig und nicht faul: die Anfangszustände von
- * Karten, Siegel und Abdunklung stehen als Inline-Stil im Markup (damit bei
- * langsamer Verbindung nichts aufblitzt), und Inline schlägt jede Klasse. Nur
- * `!important` kommt daran vorbei — genau dafür gibt es das Schlüsselwort.
- */
-@media (prefers-reduced-motion: reduce) {
-  .buehne-1, .buehne-2, .buehne-3 { height: auto; }
-  .bild { position: relative; }
-  .karte, .siegel { opacity: 1 !important; transform: none !important; }
+  .hinweis { display: none; }
+  .siegel {
+    opacity: 1 !important;
+    transform: none !important;
+    justify-content: flex-end;
+    padding-bottom: clamp(24px, 8svh, 80px);
+  }
   .dunkel { opacity: 1 !important; }
+  .wortmarke { bottom: auto; top: clamp(20px, 7svh, 64px); }
 }
-:root.ruhige-bewegung .buehne-1,
-:root.ruhige-bewegung .buehne-2,
-:root.ruhige-bewegung .buehne-3 { height: auto; }
-:root.ruhige-bewegung .bild { position: relative; }
-:root.ruhige-bewegung .karte,
-:root.ruhige-bewegung .siegel { opacity: 1 !important; transform: none !important; }
+:root.ruhige-bewegung .buehne { height: 100svh; }
+:root.ruhige-bewegung .zeichen-schacht { transform: none; transition: none; }
+:root.ruhige-bewegung .hinweis { display: none; }
+:root.ruhige-bewegung .siegel {
+  opacity: 1 !important;
+  transform: none !important;
+  justify-content: flex-end;
+  padding-bottom: clamp(24px, 8svh, 80px);
+}
 :root.ruhige-bewegung .dunkel { opacity: 1 !important; }
+:root.ruhige-bewegung .wortmarke { bottom: auto; top: clamp(20px, 7svh, 64px); }

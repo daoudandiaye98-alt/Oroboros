@@ -154,3 +154,83 @@ Die Schwelle steht jetzt auf 10 MB, und die Zahl, an der die Seite wirklich
 hängt — die ERSTE Sequenz — wird im Selbsttest gemessen, gedrosselt, mit der
 Zeit bis zur Freigabe. Eine Schwelle, die für den Fall gemacht wurde, den man
 gerade nicht hat, ist kein Gate, sondern Rauschen.
+
+---
+
+# Landing, zweite Fassung — der eine Akt
+
+## Drei Bühnen lesen sich wie drei Seiten
+
+Die verworfene Fassung hatte drei gepinnte Akte mit Kapiteltiteln, Karten,
+Claim und Fortschrittsring. Jedes Stück für sich war gebaut wie bestellt — das
+Ergebnis war trotzdem falsch, weil die Vorgabe „eine Animation beim Scrollen"
+lautete und nicht „eine Struktur aus drei Kapiteln".
+
+**Die Regel:** eine Struktur, die aus einer Referenzseite stammt und nicht aus
+dem Satz des Auftraggebers, ist geraten. Wenn ein Bauauftrag mehr Gliederung
+enthält als die ursprüngliche Bitte, ist die Gliederung der Fehler.
+
+## Ein Messgerät, das den Server falsch nachstellt, misst nichts
+
+`vite preview` liefert unkomprimiert aus. Der Ladezeit-Test maß 341 kB
+JavaScript, wo im Netz 61 kB ankommen — 5,4 s statt der tatsächlichen Zeit.
+Dazu gab Playwrights `response.body()` die ENTPACKTEN Bytes zurück; erst
+`request().sizes()` nennt die übertragenen.
+
+Behoben mit `pruefstand/server.mjs`: statisch, mit gzip, Bilder und Schriften
+ausgenommen. Gzip statt Brotli — Vercel liefert Brotli, die Messung irrt
+also zur pessimistischen Seite. Das ist die richtige Richtung.
+
+## Eine Bibliothek, die niemand ruft, wiegt trotzdem
+
+Die Landing animiert nichts mit GSAP — ihre ganze Bewegung ist `drawImage`.
+Trotzdem lag GSAP mit ScrollTrigger und CustomEase auf ihrem kritischen Pfad,
+weil `motion/tokens.ts` die Kurven registrierte und alles `tokens()` liest.
+
+Getrennt: `kurven.ts` hat GSAP, `tokens.ts` liest nur noch Zahlen; die
+Werkstatt wird nachgeladen. Kritischer Pfad von 122,9 auf 70,3 kB gzip.
+
+**Die Regel:** eine Datei, die alle importieren, darf nichts importieren, das
+nicht alle brauchen.
+
+## Vier Sekunden sind ein Budget für die SEITE, nicht für die Sequenz
+
+Der Auftrag rechnete 685 kB bei 1,6 Mbit/s zu 3,5 s. Durch dieselbe Leitung
+kommen aber auch JavaScript, Stylesheet und Schriften — gemessen 125 kB —
+plus rund 0,8 s Verbindungsaufbau und Entpacken. Mit der Originalrezeptur
+waren es 5,0 s.
+
+Der Auftrag nannte den Hebel selbst: Framezahl oder Breite senken. 4 Bilder je
+Sekunde, 420 px, Güte 45 → 482 kB → **3,8 s gemessen**.
+
+## Die Bildpunkt-Messung des Prüfstands kann keine gepinnte Bühne
+
+`page.screenshot` mit einem Ausschnitt in SEITENkoordinaten rollt die Seite
+selbst dorthin. In einer scroll-getriebenen Bühne ändert genau dieses Rollen
+das Bild — zwischen der Aufnahme mit Text und der ohne steht ein anderer
+Frame. Der Vergleich hält die Änderung für Schrift.
+
+Gemessen: die Siegelmarke wurde auf allen vier Breiten mit 1,05 bis 1,09
+gegen einen fast weißen Grund gemeldet. Der „Grund" war die eigene Schrift
+aus der ersten Aufnahme. An Ort und Stelle sind es 4,11 bis 6,99:1.
+
+Kontrolle 3.3 sagt dort jetzt `nicht_pruefbar` und nennt das Werkzeug, das es
+kann. **Die Regel:** ein Messgerät, das etwas nicht messen kann, sagt das —
+es liefert keine Zahl, die von der Reihenfolge zweier Aufnahmen abhängt.
+
+## Das Seitenverhältnis des Materials ist eine Entscheidung, keine Einstellung
+
+3:4 auf einem 9:19,5-Telefon: `cover` schneidet **38 % der Breite** weg.
+Dieselbe Sequenz auf 1440 × 900: **53 % der Höhe** weg, dazu 3,43×
+hochskaliert von 420 px Quellbreite.
+
+Kein Code behebt das. Es braucht Material im Zielformat — genau das, was der
+Auftrag mit dem `-l`-Satz bereits vorsieht. Beide Zahlen misst der Selbsttest
+jetzt bei jedem Lauf und druckt sie, damit darüber mit Zahlen entschieden
+wird und nicht nach Gefühl.
+
+## Backticks in einem Kommentar innerhalb eines Template-Strings
+
+Kosten zehn Minuten und einen Parserfehler an einer Stelle, die mit dem
+Kommentar nichts zu tun hat. Im Browser-Code eines `page.evaluate` gibt es
+keine Backticks — auch nicht in Prosa.

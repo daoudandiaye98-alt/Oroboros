@@ -1,16 +1,17 @@
 /**
  * Der Ladeschirm.
  *
- * KEINE BÜHNE STARTET HALB GELADEN. Eine Sequenz, der Frames fehlen, springt
- * beim Scrollen — und ein Sprung sieht aus wie ein Fehler, nicht wie ein
- * Ladezustand. Deshalb wird Akt I vollständig geladen, bevor überhaupt etwas
- * zu sehen ist, und der Ladering sagt die ganze Zeit, wie weit er ist.
+ * NICHTS IST SCROLLBAR, BEVOR ALLE FRAMES DA SIND. Eine Sequenz, der Frames
+ * fehlen, springt beim Scrollen — und ein Sprung sieht aus wie ein Fehler,
+ * nicht wie ein Ladezustand. Der Ring sagt die ganze Zeit, wie weit er ist.
  *
- * Er zeigt denselben Kreis wie die Navigation. Das erste, was der Nutzer von
- * der Marke sieht, ist ein Kreis, der sich schließt.
+ * Er zeigt einen Kreis, der sich schließt. Das Erste, was jemand von dieser
+ * Marke sieht, ist damit dasselbe wie das Letzte.
  */
 import { useEffect, useRef, useState } from "react";
-import { UMFANG } from "./Fortschrittsring";
+
+/** Umfang des Kreises: 2·π·18 ≈ 113. Steht auch im `stroke-dasharray`. */
+export const UMFANG = 113;
 
 export function Ladeschirm({ anteil, fertig }: { anteil: number; fertig: boolean }) {
   const el = useRef<HTMLDivElement>(null);
@@ -19,12 +20,10 @@ export function Ladeschirm({ anteil, fertig }: { anteil: number; fertig: boolean
   /*
    * Nach der Blende verschwindet der Ladeschirm aus dem DOM.
    *
-   * Er ist eine feste Fläche über der ganzen Seite mit z-index 50. Auch
-   * durchsichtig und ohne Zeigerereignisse bleibt er ein Deckel, unter dem
-   * später etwas hängenbleiben kann — und er hielt bis eben eine zweite
-   * `.ring-lauf` im Dokument, über die der eigene Selbsttest gestolpert ist.
-   * Gewartet wird auf das Ende der Blende, nicht auf eine abgezählte Zeit:
-   * die Dauer steht im Stylesheet und darf sich dort ändern.
+   * Er ist eine feste Fläche über der ganzen Seite. Auch durchsichtig und
+   * ohne Zeigerereignisse bleibt er ein Deckel, unter dem etwas hängenbleiben
+   * kann. Gewartet wird auf das Ende der Blende, nicht auf eine abgezählte
+   * Zeit: die Dauer steht im Stylesheet und darf sich dort ändern.
    */
   useEffect(() => {
     const knoten = el.current;

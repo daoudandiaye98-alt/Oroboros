@@ -3,47 +3,49 @@
 Das Template, aus dem jede Kundenseite geforkt wird — und die Landing von
 Oroboros Design.
 
-**Die Landing** (`/`) ist eine einzige Seite und eine einzige durchlaufende
-Bewegung: eine Wüstenotter zieht durch die Düne, rollt sich ein und wird zum
-Ouroboros. Drei gepinnte Bühnen, vollständig scroll-gebunden, keine
-Autoplay-Zeitachse. Bewegung ausschließlich als Canvas-Bildsequenz — kein
-`<video>`.
+**Die Landing** (`/`) ist eine Seite, eine gepinnte Bühne, eine Bewegung: die
+Hornviper zieht durch die Düne, verlangsamt, rollt sich ein, schließt zum
+Ouroboros — die Kamera fährt auf Aufsicht. Ein durchgehender Film aus EINER
+Aufnahme, vollständig scroll-gebunden, kein `<video>`.
 
-**Das Fundament** (Phase 0) trägt sie: eine Bewegungssprache in Zahlen, vier
+Darüber liegen genau drei Textelemente: die Wortmarke am Anfang, der
+Rollhinweis, das Siegel am Ende. Sonst nichts.
+
+**Das Fundament** (Phase 0) trägt sie: eine Bewegungssprache in Zahlen,
 Module, die sie ausführen, eine Beweis-Route unter `/werkstatt`, an der man
 sie einzeln nachmisst, und ein Prüfstand gegen die ZERA-Kontrollen.
 
-## Die drei Akte
+## Die Bewegung
 
-| | Höhe | Inhalt | Sequenz |
-|---|---|---|---|
-| I · Kopf | 180 svh | Blickkontakt, Wortmarke im Z-Sandwich | `head-*` |
-| II · Weg | 280 svh | die Otter quert, dann steigen drei Karten | `trav-*` |
-| III · Kreis | 400 svh | sie rollt sich ein, das Bild wird zum Zeichen | `coil-*` (rückwärts) |
+Bühne 520 svh, darin ein `position: sticky`-Kind über 100 svh. Der Fortschritt
+wird mit `--nachzug-scrub` geglättet; alle Fenster stehen in `bewegung.css`.
 
-Rechts mittig läuft ein Fortschrittsring mit. Am Seitenende ist er
-geschlossen — das ist die Aussage der Marke, ausgedrückt durch die Navigation.
+| | Fenster | Wirkung |
+|---|---|---|
+| Film | 0.02 → 0.86 | Frame per `Math.round`, harter Wechsel |
+| Hinweis | 0.01 → 0.09 | blendet aus |
+| Wortmarke | 0.05 → 0.24 | blendet aus, zieht 60 px nach oben |
+| Abdunklung | 0.88 → 0.97 | flächig |
+| Siegel | 0.90 → 0.99 | blendet ein, Maßstab .98 → 1 |
 
 ## Assets
 
-Die vierzehn Quelldateien liegen unter `assets/` **im Repo**, nicht in
-`.gitignore`: der CDN-Pfad, aus dem sie stammen, ist eine Generierungsablage
-und keine dauerhafte Adresse.
+Eine Quelle: `assets/film-hoch.mp4` — 3:4, 828 × 1108, 10 s. **Im Repo**, nicht
+in `.gitignore`: der CDN-Pfad, aus dem sie stammt, ist eine
+Generierungsablage und keine dauerhafte Adresse.
 
 ```bash
-bash scripts/assets-holen.sh      # Erstbezug, prüft alle 14 Prüfsummen
-bash scripts/pruefsummen.sh       # nur prüfen
-node scripts/sequenzen-bauen.mjs  # Frames + Standbilder neu erzeugen
+bash scripts/pruefsummen.sh       # prüft alle Quellen
+node scripts/sequenz-bauen.mjs    # Frames neu erzeugen
 ```
 
-Die erzeugten Frames liegen unter `public/seq/` und `public/still/`, ebenfalls
-im Repo — der Vercel-Build braucht dadurch kein ffmpeg. Beide Formatsätze sind
-vorhanden (3:4 und 16:9); welcher geladen wird, entscheidet beim Start ein
-einziges `matchMedia('(orientation: portrait)')`.
+40 Frames à 420 px, WebP q45 → 482 kB, unter `public/seq/film-p/`, ebenfalls
+im Repo, damit der Vercel-Build kein ffmpeg braucht.
 
-Schlägt eine Prüfsumme fehl: **melden, nicht ersetzen und nicht
-nachgenerieren.** Alle Bilder sind gegen dieselbe Referenzaufnahme verriegelt;
-ein nachgeneriertes Motiv wechselt zwischen den Akten das Tier.
+Unter `assets/hoch/` und `assets/quer/` liegen noch die vierzehn Quellen des
+**verworfenen** Drei-Akt-Auftrags. Sie werden von nichts mehr benutzt und
+bleiben nur liegen, weil sie referenz-verriegelt sind und nicht nachgeneriert
+werden dürfen. Wer sie nicht mehr will, löscht sie bewusst.
 
 ## Loslegen
 
@@ -61,6 +63,7 @@ npm run dev        # http://localhost:5173/werkstatt
 | `npm run gesetz` | prüft das Gesetz der drei Kurven (siehe unten) |
 | `npm run pruefstand` | misst `/` und `/werkstatt` auf 1280 / 1920 / 844 quer / 390 |
 | `npm run selbsttest` | fährt die Landing in beiden Formaten ab, misst die Bewegung |
+| `node pruefstand/server.mjs` | liefert `dist/` mit gzip aus — für ehrliche Ladezeiten |
 
 ## Das Gesetz der drei Kurven
 

@@ -7,12 +7,17 @@
  * KEIN ROUTER. Zwei Adressen sind eine Fallunterscheidung, keine Navigation;
  * eine Bibliothek dafür wäre Gewicht ohne Gegenwert. Kommt eine dritte Seite,
  * kommt der Router mit ihr.
+ *
+ * DIE WERKSTATT WIRD NACHGELADEN, die Landing nicht. Sie bringt GSAP mit
+ * ScrollTrigger und CustomEase mit — rund 70 kB gzip, die auf der Landing
+ * niemand braucht: deren ganze Bewegung ist `drawImage` in einer eigenen
+ * Bildschleife. Statisch importiert lagen sie auf dem kritischen Pfad einer
+ * Seite, die auf ihr erstes Bild wartet.
  */
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./styles/index.css";
 import Landing from "./landing/Landing";
-import Werkstatt from "./pages/Werkstatt";
 
 const pfad = location.pathname.replace(/\/+$/, "");
 const werkstatt = pfad === "/werkstatt";
@@ -59,6 +64,11 @@ if (werkstatt) {
 }
 kanonisch();
 
-createRoot(document.getElementById("wurzel")!).render(
-  <StrictMode>{werkstatt ? <Werkstatt /> : <Landing />}</StrictMode>,
-);
+const wurzel = createRoot(document.getElementById("wurzel")!);
+
+if (werkstatt) {
+  const { default: Werkstatt } = await import("./pages/Werkstatt");
+  wurzel.render(<StrictMode><Werkstatt /></StrictMode>);
+} else {
+  wurzel.render(<StrictMode><Landing /></StrictMode>);
+}

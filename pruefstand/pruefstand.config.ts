@@ -112,19 +112,13 @@ export const SCHWELLEN = {
   /**
    * 4.7 — Gewicht je Seite in Byte.
    *
-   * ANGEHOBEN von 3 auf 10 MB, mit Grund und ungern. Drei Millionen sind die
-   * richtige Zahl für eine Seite aus Text und Bildern. Die Landing IST aber
-   * ein Film: 183 Frames in drei Sequenzen, und ohne sie gibt es dort
-   * überhaupt nichts zu sehen. Gemessen: 8,3 MB quer, 9,6 MB hoch.
-   *
-   * Die Zahl, an der die Landing wirklich hängt, ist eine andere und steht
-   * im Bauauftrag: die ERSTE Sequenz — das, was vor dem ersten Bild geladen
-   * sein muss — soll unter 2,5 MB bleiben. Sie wird in
-   * `pruefstand/selbsttest.mjs` gemessen, gedrosselt auf 4G, zusammen mit der
-   * Zeit bis zur Freigabe. Diese Schwelle hier deckt nur noch den Fall ab,
-   * dass jemand versehentlich das Doppelte ausliefert.
+   * Zurück auf drei Millionen. Die Schwelle stand zwischenzeitlich auf zehn,
+   * weil die verworfene Fassung der Landing 183 Frames in drei Sequenzen lud.
+   * Der eine Akt lädt 40 Frames, rund 610 kB die ganze Seite — der Grund für
+   * die Ausnahme ist fort, also ist auch die Ausnahme fort. Eine angehobene
+   * Schwelle, deren Anlass niemand mehr kennt, ist kein Gate.
    */
-  gewicht_seite: 10_000_000,
+  gewicht_seite: 3_000_000,
 
   /** Wie viele der kleinsten/größten Werte im Bericht landen. */
   liste_laenge: 10,
@@ -135,14 +129,11 @@ export const SCHWELLEN = {
  *
  * Sie muss über der längsten Eröffnung liegen, die eine Seite abspielt — sonst
  * misst man eine Fläche, die noch in Bewegung ist, und nennt das Ergebnis einen
- * Befund. Längster Fall heute: der Auftritt in `/werkstatt`. Er läuft die
- * Rollen NACHEINANDER an, also summieren sich die Dauern: eine Schlagzeile
- * (`--dauer-block` 820 ms plus 11 × `--staffel-wort` 100 ms) und vier Karten
- * ergeben rund 2,9 s. Die Landing braucht länger: erst laden 61 Frames, dann
- * blendet der Ladeschirm 1400 ms aus, dann läuft der Auftritt bis 2900 ms.
- * Mit Reserve: 6500 ms.
+ * Befund. Längster Fall: die Landing lädt erst 40 Frames, blendet dann den
+ * Ladeschirm über 1400 ms aus und lässt danach die Wortmarke zeichenweise
+ * auflaufen. Mit Reserve: 5000 ms.
  */
-export const RUHE_MS = 6500;
+export const RUHE_MS = 5000;
 
 /** Chromium-Pfad, falls die Umgebung einen mitbringt (Container, CI). */
 export const CHROMIUM_PFAD = process.env.PRUEFSTAND_CHROMIUM ?? undefined;

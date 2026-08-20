@@ -3,8 +3,7 @@
  *
  * Jede Zahl kommt aus `src/styles/bewegung.css`. Diese Datei ist die Brücke —
  * dasselbe Verhältnis wie `motion/tokens.ts` zu den Dauern und Kurven. Im
- * Komponentencode steht danach kein einziger Bewegungswert mehr, und wer die
- * Seite umtaktet, öffnet keine .tsx.
+ * Komponentencode steht danach kein einziger Bewegungswert mehr.
  *
  * Gelesen wird bei jedem Aufruf frisch, aus demselben Grund wie in
  * `tokens.ts`: `prefers-reduced-motion` und der Schalter am Wurzelelement
@@ -17,59 +16,39 @@ function zahl(stil: CSSStyleDeclaration, name: string): number {
   return Number.isFinite(wert) ? wert : 0;
 }
 
+/** Ein Fenster im Fortschritt: von … bis. */
+export type Fenster = [number, number];
+
 export interface Choreografie {
-  akt1: {
-    kopfZoom: number;
-    markeWeg: number;
-    markeAus: [number, number];
-    sequenzAb: number;
-  };
-  akt2: {
-    zeileWeg: number;
-    zeileAus: [number, number];
-    karteWeg: number;
-    karteVon: number;
-    karteBis: number;
-    karteVersatz: number;
-  };
-  akt3: {
-    rollen: [number, number];
-    dunkel: [number, number];
-    siegel: [number, number];
-    siegelWeg: number;
-  };
-  ring: [number, number, number];
+  /** In welchem Fenster läuft der Film ab? */
+  film: Fenster;
+  /** Wann blendet der Rollhinweis aus? */
+  hinweis: Fenster;
+  /** Wann blendet die Wortmarke aus, und wie weit zieht sie dabei? */
+  marke: Fenster;
+  markeWeg: number;
+  /** Wann legt sich die flächige Abdunklung? */
+  dunkel: Fenster;
+  /** Wann kommt das Siegel, und aus welchem Maßstab? */
+  siegel: Fenster;
+  siegelSkala: number;
 }
 
 export function choreografie(): Choreografie {
   const s = getComputedStyle(document.documentElement);
   return {
-    akt1: {
-      kopfZoom: zahl(s, "--akt1-kopf-zoom"),
-      markeWeg: zahl(s, "--akt1-marke-weg"),
-      markeAus: [zahl(s, "--akt1-marke-aus-von"), zahl(s, "--akt1-marke-aus-bis")],
-      sequenzAb: zahl(s, "--akt1-sequenz-ab"),
-    },
-    akt2: {
-      zeileWeg: zahl(s, "--akt2-zeile-weg"),
-      zeileAus: [zahl(s, "--akt2-zeile-aus-von"), zahl(s, "--akt2-zeile-aus-bis")],
-      karteWeg: zahl(s, "--akt2-karte-weg"),
-      karteVon: zahl(s, "--akt2-karte-von"),
-      karteBis: zahl(s, "--akt2-karte-bis"),
-      karteVersatz: zahl(s, "--akt2-karte-versatz"),
-    },
-    akt3: {
-      rollen: [zahl(s, "--akt3-rollen-von"), zahl(s, "--akt3-rollen-bis")],
-      dunkel: [zahl(s, "--akt3-dunkel-von"), zahl(s, "--akt3-dunkel-bis")],
-      siegel: [zahl(s, "--akt3-siegel-von"), zahl(s, "--akt3-siegel-bis")],
-      siegelWeg: zahl(s, "--akt3-siegel-weg"),
-    },
-    ring: [zahl(s, "--ring-akt1"), zahl(s, "--ring-akt2"), zahl(s, "--ring-akt3")],
+    film: [zahl(s, "--film-von"), zahl(s, "--film-bis")],
+    hinweis: [zahl(s, "--hinweis-von"), zahl(s, "--hinweis-bis")],
+    marke: [zahl(s, "--marke-von"), zahl(s, "--marke-bis")],
+    markeWeg: zahl(s, "--marke-weg"),
+    dunkel: [zahl(s, "--dunkel-von"), zahl(s, "--dunkel-bis")],
+    siegel: [zahl(s, "--siegel-von"), zahl(s, "--siegel-bis")],
+    siegelSkala: zahl(s, "--siegel-skala"),
   };
 }
 
-/** Die Anzahl Frames je Sequenz — von `scripts/sequenzen-bauen.mjs` erzeugt. */
-export const FRAMES = 61;
+/** Die Anzahl Frames — von `scripts/sequenz-bauen.mjs` erzeugt. */
+export const FRAMES = 40;
 
-/** Der geladene Formatsatz. Einmal beim Start bestimmt, siehe `Landing.tsx`. */
-export type Satz = "p" | "l";
+/** Der Name der einen Sequenz unter `public/seq/`. */
+export const SEQUENZ = "film-p";

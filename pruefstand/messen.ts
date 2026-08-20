@@ -96,6 +96,27 @@ interface TextKandidat {
   bildQuelle: string;
   /** Nicht leer, wenn ein fremdes Element über der Textmitte liegt. */
   verdecktVon: string;
+  /**
+   * Steht der Text in einer `position: sticky`-Bühne?
+   *
+   * Dann ist die Bildpunkt-Messung unten NICHT anwendbar, und zwar aus einem
+   * Grund, der sich nicht wegprogrammieren lässt: `page.screenshot` mit einem
+   * Ausschnitt in SEITENkoordinaten rollt die Seite selbst dorthin. In einer
+   * gepinnten, scroll-getriebenen Bühne ändert genau dieses Rollen das Bild —
+   * zwischen der Aufnahme MIT Text und der ohne steht ein anderer Frame, eine
+   * andere Abdunklung, eine andere Deckkraft. Der Vergleich hält diese
+   * Änderung dann für Schrift und liest den Grund an den falschen Stellen ab.
+   *
+   * Gemessen am 20.08.2026 an der Landing: die Siegelmarke wurde auf allen
+   * vier Breiten mit 1,05 bis 1,09 gegen einen fast weißen Grund gemeldet —
+   * der „Grund" war die eigene Schrift aus der ersten Aufnahme. An Ort und
+   * Stelle, mit stehender Seite, sind es 4,11 bis 6,99:1.
+   *
+   * Deshalb sagt die Kontrolle hier `nicht_pruefbar` und nennt das Werkzeug,
+   * das es kann: `pruefstand/selbsttest.mjs`. Eine Zahl, die von der
+   * Reihenfolge zweier Aufnahmen abhängt, ist keine Messung.
+   */
+  gepinnt: boolean;
   rect: { x: number; y: number; b: number; h: number };
   /** Rollstand beim Einsammeln — die Aufnahme braucht Seiten-, nicht Fensterkoordinaten. */
   rollY: number;
@@ -177,6 +198,13 @@ const SAMMLE_TEXT = `(() => {
     // Ohne undurchsichtigen Grund in der Kette weiß CSS die Wahrheit erst recht nicht.
     if (!grundGefunden) ueberBild = true;
 
+    // Steht der Text in einer gepinnten Bühne? Dann ist die Bildpunkt-Messung
+    // unten nicht anwendbar — siehe die Erklaerung an gepinnt in TextKandidat.
+    let gepinnt = false;
+    for (let a = el; a; a = a.parentElement) {
+      if (getComputedStyle(a).position === 'sticky') { gepinnt = true; break; }
+    }
+
     // Liegt etwas Fremdes über der Mitte des Textes (Einwilligungsfenster, Overlay),
     // ist der Text gar nicht sichtbar — dann gibt es keinen Kontrast zu messen.
     let verdecktVon = '';
@@ -197,7 +225,7 @@ const SAMMLE_TEXT = `(() => {
     treffer.push({
       marke, auswahl: wegSelektor(el), text: text.slice(0, 40), farbe: cs.color,
       groesse: parseFloat(cs.fontSize), gewicht: parseInt(cs.fontWeight, 10) || 400,
-      grund, schichten, ueberBild, bildQuelle, verdecktVon,
+      grund, schichten, ueberBild, bildQuelle, verdecktVon, gepinnt,
       rect: { x: r.x, y: r.y, b: r.width, h: r.height },
       rollY: window.scrollY,
     });
@@ -321,6 +349,18 @@ export async function messeKontrast(page: Page, seite: string, breite: number): 
 
     let grundFarbe: Rgb | null = null;
     let notiz = "";
+
+    if (k.gepinnt) {
+      befunde.push({
+        kontrolle: "3.3", gate: true, status: "nicht_pruefbar", seite, breite,
+        auswahl: k.auswahl, gemessen: null, schwelle,
+        notiz: `„${k.text}" steht in einer gepinnten Bühne. Die Bildpunkt-Messung `
+          + "rollt die Seite und verändert damit genau das Bild, das sie messen will. "
+          + "Gemessen wird dieser Text von `pruefstand/selbsttest.mjs` an Ort und "
+          + "Stelle, bei stehender Seite.",
+      });
+      continue;
+    }
 
     if (k.ueberBild) {
       const punkte = await bildpunkteHinterText(page, k);
