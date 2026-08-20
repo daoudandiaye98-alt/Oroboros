@@ -25,6 +25,61 @@ export interface Sequenz {
   bilder: (HTMLImageElement | null)[];
 }
 
+/**
+ * Der Nachschub in voller Auflösung.
+ *
+ * Er ersetzt die Bilder EINZELN im selben Array, während gescrollt wird. Wer
+ * gerade Frame 30 sieht, sieht ihn scharf werden, sobald er da ist; die
+ * Bewegung stockt dabei nicht, weil nie auf etwas gewartet wird. Das ist der
+ * ganze Zweck der Stufung: die Freigabe hängt am kleinen Satz, die Schärfe am
+ * großen, und beide Fragen bekommen ihre eigene Antwort.
+ */
+export interface NachschubOptionen {
+  /** Wird gerufen, wenn ein Frame durch seine scharfe Fassung ersetzt wurde. */
+  beiErsatz?: (fertig: number, von: number) => void;
+}
+
+/**
+ * Lädt die volle Auflösung nach und tauscht sie einzeln ein.
+ *
+ * Der Reihe nach, nicht alle auf einmal: hundert gleichzeitige Anfragen
+ * konkurrieren um dieselbe Leitung und kommen am Ende alle später an. Ein
+ * kleines Fenster gleichzeitiger Anfragen hält die Leitung voll, ohne sie zu
+ * verstopfen — und die frühen Frames sind zuerst scharf, also genau die, die
+ * zuerst gesehen werden.
+ */
+export function ladeNachschub(
+  name: string, seq: Sequenz, opts: NachschubOptionen = {},
+): () => void {
+  const FENSTER = 6;
+  let naechster = 0;
+  let ersetzt = 0;
+  let abgebrochen = false;
+
+  const eines = () => {
+    if (abgebrochen || naechster >= seq.anzahl) return;
+    const i = naechster++;
+    const bild = new Image();
+    bild.decoding = "async";
+    const weiter = () => {
+      ersetzt++;
+      opts.beiErsatz?.(ersetzt, seq.anzahl);
+      eines();
+    };
+    bild.onload = () => {
+      if (!abgebrochen) seq.bilder[i] = bild;
+      weiter();
+    };
+    // Ein einzelnes fehlgeschlagenes Bild ist kein Grund aufzuhören: der
+    // Vorlauf-Frame bleibt stehen, und der Rest wird trotzdem scharf.
+    bild.onerror = weiter;
+    bild.src = frameAdresse(name, i);
+  };
+
+  for (let n = 0; n < FENSTER; n++) eines();
+  return () => { abgebrochen = true; };
+}
+
 export interface LadeOptionen {
   /** Wird bei jedem angekommenen Frame gerufen — für den Ladering. */
   beiFortschritt?: (anteil: number) => void;
@@ -76,6 +131,51 @@ export function ladeSequenz(name: string, anzahl: number, opts: LadeOptionen = {
   return seq;
 }
 
+/**
+ * Lädt den Vorlauf: jeden `schritt`-ten Frame, und füllt die Lücken.
+ *
+ * Das Ergebnis ist ein VOLLSTÄNDIGES Array — jeder der `anzahl` Plätze trägt
+ * ein Bild, die dazwischenliegenden nur eben dasselbe wie ihr Vorgänger. Damit
+ * ist die Zusage „nichts ist scrollbar, bevor alles geladen ist" gehalten,
+ * ohne dass alles geladen sein muss: es gibt keinen leeren Platz, an dem die
+ * Bewegung stocken könnte. Die Zwischenframes werden später vom Nachschub
+ * einzeln durch ihre eigenen ersetzt.
+ */
+export function ladeVorlauf(
+  name: string, anzahl: number, schritt: number, opts: LadeOptionen = {},
+): Sequenz {
+  const stuetzen: number[] = [];
+  for (let i = 0; i < anzahl; i += schritt) stuetzen.push(i);
+  const seq: Sequenz = { anzahl, fertig: 0, bereit: false, bilder: new Array(anzahl).fill(null) };
+  let da = 0;
+
+  const angekommen = () => {
+    da++;
+    opts.beiFortschritt?.(da / stuetzen.length);
+    if (da < stuetzen.length || seq.bereit) return;
+    // Alle Stützen da: die Lücken mit der jeweils letzten Stütze füllen.
+    let letzte: HTMLImageElement | null = null;
+    for (let i = 0; i < anzahl; i++) {
+      if (seq.bilder[i]) letzte = seq.bilder[i];
+      else seq.bilder[i] = letzte;
+    }
+    seq.fertig = anzahl;
+    seq.bereit = true;
+    opts.beiFertig?.();
+  };
+
+  stuetzen.forEach((i, n) => {
+    const bild = new Image();
+    bild.decoding = "async";
+    bild.onload = () => { seq.bilder[i] = bild; angekommen(); };
+    bild.onerror = angekommen;
+    // Der Vorlauf ist eigenständig durchnummeriert: sein n-ter Frame ist der
+    // (n * schritt)-te der vollen Stufe.
+    bild.src = frameAdresse(name, n);
+  });
+  return seq;
+}
+
 /* ————————————————————————————— Zeichnen ————————————————————————————— */
 
 /**
@@ -88,8 +188,42 @@ export function ladeSequenz(name: string, anzahl: number, opts: LadeOptionen = {
  * Gibt `false` zurück, wenn sich nichts geändert hat; der Aufrufer spart sich
  * dann das Neuzeichnen.
  */
-export function canvasSpannen(canvas: HTMLCanvasElement): boolean {
-  const dichte = Math.min(window.devicePixelRatio || 1, 2);
+export function canvasSpannen(canvas: HTMLCanvasElement, quelle?: HTMLImageElement | null): boolean {
+  let dichte = Math.min(window.devicePixelRatio || 1, 2);
+  /*
+   * Der Canvas wird nie größer aufgespannt, als die Quelle ihn füllen kann.
+   *
+   * Ein 1284 px breiter Frame auf einen 2880 px breiten Canvas zu zeichnen
+   * heißt: die Grafikkarte interpoliert 2880 Spalten aus 1284. Genau dasselbe
+   * täte der Browser danach beim Verkleinern auf die CSS-Größe — nur zweimal
+   * und teurer. Wird der Canvas stattdessen auf die Auflösung der Quelle
+   * begrenzt, gibt es genau eine Skalierung, sie passiert im Compositor, und
+   * jedes gezeichnete Bildpunkt entspricht einem echten Bildpunkt der Quelle.
+   *
+   * Das macht das Bild NICHT schärfer, als die Quelle ist — dafür braucht es
+   * größere Quellen. Es verhindert nur, dass zweimal interpoliert wird.
+   */
+  if (quelle && quelle.naturalWidth > 0) {
+    /*
+     * MINIMUM der beiden Achsen, nicht Maximum.
+     *
+     * Damit `cover` nicht hochskaliert, muss die Quelle BEIDE Achsen decken:
+     * Canvasbreite ≤ Quellbreite UND Canvashöhe ≤ Quellhöhe. Die bindende
+     * Achse ist also die knappere — mit `max` erlaubte der Deckel eine
+     * Dichte, die die andere Achse nicht tragen konnte. Gemessen auf
+     * 390 × 844: Deckel gab 2,0 frei, der Canvas wurde 780 × 1688, und das
+     * 828 × 1108 große Bild musste um 1,52 gedehnt werden.
+     *
+     * Der Boden bei 1 bleibt: unter die CSS-Auflösung wird nie gegangen. Das
+     * würde die Vergrößerung nur vom Canvas in den Compositor verschieben und
+     * die Messzahl schönen, ohne ein einziges Detail zu gewinnen.
+     */
+    const passt = Math.min(
+      quelle.naturalWidth / Math.max(1, canvas.clientWidth),
+      quelle.naturalHeight / Math.max(1, canvas.clientHeight),
+    );
+    dichte = Math.min(dichte, Math.max(1, passt));
+  }
   const b = Math.round(canvas.clientWidth * dichte);
   const h = Math.round(canvas.clientHeight * dichte);
   if (b < 1 || h < 1) return false;
@@ -118,15 +252,55 @@ export function zeichneDeckend(canvas: HTMLCanvasElement, bild: HTMLImageElement
 }
 
 /**
- * Der Frame zu einem Fortschritt — HART gerundet, nie überblendet.
+ * Der Frame zu einem Fortschritt — hart gerundet.
  *
- * Zwischen zwei Frames zu blenden erzeugt bei großen Bildsprüngen Schlieren:
- * man sieht zwei Schlangen gleichzeitig, halbdurchsichtig. Die Weichheit muss
- * aus dem Nachzug der Rollposition kommen, nicht aus Alpha.
+ * Für alles, was nur wissen will, WELCHES Bild gerade dran ist.
  */
 export function frameZu(anteil: number, anzahl: number): number {
   if (anzahl < 1) return 0;
   return Math.max(0, Math.min(anzahl - 1, Math.round(anteil * (anzahl - 1))));
+}
+
+/**
+ * Die exakte Stelle zwischen zwei Frames.
+ *
+ * `{ i, t }` — Frame `i` und der Bruchteil `t` zum nächsten.
+ */
+export function frameStelle(anteil: number, anzahl: number): { i: number; t: number } {
+  if (anzahl < 2) return { i: 0, t: 0 };
+  const f = Math.max(0, Math.min(anzahl - 1, anteil * (anzahl - 1)));
+  const i = Math.floor(f);
+  return { i, t: f - i };
+}
+
+/**
+ * Zeichnet die Stelle zwischen zwei Frames, linear überblendet.
+ *
+ * DAS WAR LANGE VERBOTEN, UND DER GRUND IST WEGGEFALLEN. Bei 40 Frames auf
+ * 520 svh lagen 110 px Scrollweg zwischen zwei Bildern; zwei so weit
+ * auseinanderliegende Bilder halb übereinander ergeben Schlieren — man sieht
+ * zwei Schlangen. Bei 100 Frames auf 300 svh sind es 25 px, und die
+ * Nachbarbilder unterscheiden sich so wenig, dass die Blende die Stufen
+ * glättet, statt Doppelbilder zu erzeugen.
+ *
+ * Zeigen die Aufnahmen doch Schlieren, gehört die Blende wieder aus und die
+ * Framezahl hoch — nicht umgekehrt.
+ */
+export function zeichneStelle(
+  canvas: HTMLCanvasElement, seq: Sequenz, anteil: number, blenden: boolean,
+): void {
+  const { i, t } = frameStelle(anteil, seq.anzahl);
+  const a = naechstesBild(seq, i);
+  if (!a) return;
+  zeichneDeckend(canvas, a);
+  if (!blenden || t <= 0.001 || i + 1 >= seq.anzahl) return;
+  const b = seq.bilder[i + 1];
+  if (!b || b === a) return;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+  ctx.globalAlpha = t;
+  zeichneDeckend(canvas, b);
+  ctx.globalAlpha = 1;
 }
 
 /**

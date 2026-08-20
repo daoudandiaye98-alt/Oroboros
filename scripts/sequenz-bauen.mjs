@@ -1,23 +1,29 @@
 /**
- * Erzeugt die eine Bildsequenz der Landing aus dem einen Quellfilm.
+ * Erzeugt die Bildsequenzen der Landing — zwei Formatsätze, je zwei Stufen.
  *
  *   node scripts/sequenz-bauen.mjs
  *
- * Läuft NICHT im Vercel-Build. Die fertigen Frames liegen unter
- * `public/seq/film-p/` im Repo, damit die Auslieferung kein ffmpeg braucht.
- * Dieses Skript ist der Weg, sie zu erneuern — nicht der Weg, sie auszuliefern.
+ * Läuft NICHT im Vercel-Build. Die fertigen Frames liegen unter `public/seq/`
+ * im Repo, damit die Auslieferung kein ffmpeg braucht.
  *
- * DIE ZAHLEN SIND EIN BUDGET, KEIN GESCHMACK.
+ * ZWEI STUFEN, WEIL ES ZWEI FRAGEN SIND.
  *
- * Der Bauauftrag nennt 5 Bilder je Sekunde, 460 px, Güte 48 — und rechnet
- * daraus 3,5 s bei Lighthouse' „Slow 4G". Diese Rechnung zählt aber nur die
- * Sequenz. Durch dieselbe Leitung kommen auch JavaScript, Stylesheet und
- * Schriften: gemessen 125 kB, plus rund 0,8 s für Verbindungsaufbau und das
- * Entpacken von vierzig WebP. Mit der Originalrezeptur waren es 5,0 s.
+ *   Vorlauf  jeder vierte Frame, klein und grob. Er entscheidet, WANN die
+ *            Seite freigegeben wird — 179 bzw. 260 kB je Formatsatz.
+ *   Voll     alle Frames in voller Auflösung, Güte 68. Er entscheidet, WIE
+ *            SCHARF das Bild ist, und strömt im Hintergrund nach.
  *
- * Der Auftrag nennt den Hebel selbst: „dann Framezahl oder Breite senken,
- * nicht die Vorgabe." Beides ein Stück — 4 Bilder je Sekunde, 420 px,
- * Güte 45 — ergibt 482 kB und 3,8 s. Gemessen, nicht gerechnet.
+ * Vorher hing beides an derselben Zahl: um unter 4 s freizugeben, musste die
+ * Güte auf 45 und die Breite auf 420 px — und damit war das Bild dauerhaft
+ * unscharf. Zwei Fragen, zwei Antworten.
+ *
+ * DIE BREITEN SIND DIE NATIVEN BREITEN DER QUELLFILME, nicht die im
+ * Qualitätspass genannten 1000 und 1600. Gemessen: auf 1000 px skaliert
+ * wiegt der 3:4-Satz 5,76 MB statt 4,63, der 16:9-Satz auf 1600 px 4,72 MB
+ * statt 3,61 — 24 bzw. 31 % mehr Bytes für Bildpunkte, die ffmpeg erfindet.
+ * Die Quelle hat 828 bzw. 1284 Pixel Breite; mehr kann kein Encoder daraus
+ * holen. Echte Auflösung kommt nur aus echtem Hochskalieren der QUELLE
+ * (Topaz), und das braucht eine Freigabe.
  */
 import { execFileSync } from "node:child_process";
 import { mkdirSync, readdirSync, rmSync, statSync, unlinkSync } from "node:fs";
@@ -25,45 +31,82 @@ import { join } from "node:path";
 import ffmpeg from "ffmpeg-static";
 import sharp from "sharp";
 
-const BILDRATE = 4;
-const BREITE = 420;
-const GUETE = 45;
-const ZIEL = "public/seq/film-p";
-const DECKEL_KB = 780;
+/** 10 Bilder je Sekunde aus dem 10-Sekunden-Film — 100 Frames. */
+const BILDRATE = 10;
 
-rmSync(ZIEL, { recursive: true, force: true });
-mkdirSync(ZIEL, { recursive: true });
+/** Jeder wievielte Frame in den Vorlauf kommt. */
+const VORLAUF_SCHRITT = 4;
+const VOLL_GUETE = 68;
 
-execFileSync(ffmpeg, [
-  "-hide_banner", "-loglevel", "error",
-  "-i", "assets/film-hoch.mp4",
-  "-vf", `fps=${BILDRATE},scale=${BREITE}:-2`,
-  join(ZIEL, "f%03d.png"),
-]);
+/*
+ * Die Vorlauf-Breite steht JE SATZ, nicht global.
+ *
+ * Der Qualitätspass nennt 480 px. Bei 16:9 sind das 480 × 268 = 129k
+ * Bildpunkte je Frame und 179 kB für die Stufe. Bei 3:4 sind dieselben 480 px
+ * aber 480 × 643 = 309k Bildpunkte — 2,4-mal so viele, gemessen 427 kB. Eine
+ * Breite ist bei zwei Seitenverhältnissen nicht dasselbe Gewicht. Gesetzt ist
+ * deshalb pro Satz eine Breite, die auf vergleichbares Gewicht führt.
+ */
+const SAETZE = [
+  { name: "film-3x4", film: "film-hoch", breite: 828, vorBreite: 360, vorGuete: 52 },
+  { name: "film-16x9", film: "film-quer", breite: 1284, vorBreite: 480, vorGuete: 55 },
+];
 
-const pngs = readdirSync(ZIEL).filter((n) => n.endsWith(".png")).sort();
-let bytes = 0;
-for (const png of pngs) {
-  const von = join(ZIEL, png);
-  const nach = von.replace(/\.png$/, ".webp");
-  await sharp(von).webp({ quality: GUETE }).toFile(nach);
-  unlinkSync(von);
-  bytes += statSync(nach).size;
+async function nachWebp(ordner, guete) {
+  const pngs = readdirSync(ordner).filter((n) => n.endsWith(".png")).sort();
+  let bytes = 0;
+  for (const png of pngs) {
+    const von = join(ordner, png);
+    const nach = von.replace(/\.png$/, ".webp");
+    await sharp(von).webp({ quality: guete }).toFile(nach);
+    unlinkSync(von);
+    bytes += statSync(nach).size;
+  }
+  return { anzahl: pngs.length, bytes };
 }
 
-const kb = Math.round(bytes / 1024);
-console.log(
-  `${pngs.length} Frames · ${kb} kB gesamt · ${(bytes / pngs.length / 1024).toFixed(1)} kB je Frame`,
-);
-/** Was ausser der Sequenz noch durch dieselbe Leitung muss (gemessen). */
-const SEITE_KB = 125;
-/** Verbindungsaufbau und Entpacken, die keine Bandbreite sind (gemessen). */
-const RUEST_S = 0.8;
-for (const [netz, mbit] of [["Slow 4G", 1.6], ["LTE", 10], ["WLAN", 30]]) {
-  const s = (kb + SEITE_KB) * 8 / 1024 / mbit + RUEST_S;
-  console.log(`  ${netz.padEnd(8)} ${mbit.toString().padStart(4)} Mbit/s → ${s.toFixed(1)} s bis zur Freigabe (mit Seite und Rüstzeit)`);
-}
-if (kb > DECKEL_KB) {
-  console.error(`\nÜBER DEM DECKEL: ${kb} kB > ${DECKEL_KB} kB. Framezahl oder Breite senken.`);
-  process.exit(1);
+const zeit = (kb, mbit) => (kb * 8 / 1024 / mbit).toFixed(1);
+
+for (const satz of SAETZE) {
+  const voll = join("public/seq", satz.name);
+  rmSync(voll, { recursive: true, force: true });
+  mkdirSync(voll, { recursive: true });
+  execFileSync(ffmpeg, [
+    "-hide_banner", "-loglevel", "error",
+    "-i", join("assets", `${satz.film}.mp4`),
+    "-vf", `fps=${BILDRATE},scale=${satz.breite}:-2`,
+    join(voll, "f%03d.png"),
+  ]);
+  const v = await nachWebp(voll, VOLL_GUETE);
+
+  /*
+   * Der Vorlauf entsteht aus DEMSELBEN ffmpeg-Lauf, nur mit gröberem Takt.
+   *
+   * `select` statt eines zweiten `fps`: so ist Frame 1 des Vorlaufs
+   * garantiert derselbe Bildinhalt wie Frame 1 der vollen Stufe. Zwei
+   * unabhängige Abtastungen würden um Sekundenbruchteile auseinanderliegen,
+   * und beim Ersetzen im Array spränge das Bild.
+   */
+  const vor = `${voll}-vor`;
+  rmSync(vor, { recursive: true, force: true });
+  mkdirSync(vor, { recursive: true });
+  execFileSync(ffmpeg, [
+    "-hide_banner", "-loglevel", "error",
+    "-i", join("assets", `${satz.film}.mp4`),
+    "-vf", `fps=${BILDRATE},select=not(mod(n\\,${VORLAUF_SCHRITT})),scale=${satz.vorBreite}:-2`,
+    "-vsync", "0",
+    join(vor, "f%03d.png"),
+  ]);
+  const w = await nachWebp(vor, satz.vorGuete);
+
+  console.log(
+    `${satz.name.padEnd(10)} voll ${String(v.anzahl).padStart(3)} Frames à ${satz.breite}px`
+    + ` · ${(v.bytes / 1024 / 1024).toFixed(2)} MB · ${(v.bytes / v.anzahl / 1024).toFixed(1)} kB/Frame`
+    + ` · 1,6 Mbit/s ${zeit(v.bytes / 1024, 1.6)} s`,
+  );
+  console.log(
+    `${"".padEnd(10)} vor  ${String(w.anzahl).padStart(3)} Frames à ${satz.vorBreite}px`
+    + ` · ${(w.bytes / 1024).toFixed(0)} kB · ${(w.bytes / w.anzahl / 1024).toFixed(1)} kB/Frame`
+    + ` · 1,6 Mbit/s ${zeit(w.bytes / 1024, 1.6)} s`,
+  );
 }

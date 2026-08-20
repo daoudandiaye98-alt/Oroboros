@@ -55,10 +55,16 @@ html.landing body {
  * Adressleiste, und ein Bild, dessen Höhe sich beim Scrollen ändert, springt.
  * `svh` ist die kleine, stabile Fassung.
  *
- * 520 svh sind der Weg, über den der Film läuft. Kürzer wird er hektisch,
- * länger zäh — bei 50 Frames sind das rund zehn Bildschirmhöhen je Frame.
+ * 300 svh, NICHT 520.
+ *
+ * Die Höhe ist der Weg, über den die Frames verteilt werden — sie entscheidet
+ * über die Glätte. Gerechnet: 520 svh minus ein Bildschirm sind auf 844 px
+ * Fensterhöhe 4389 px Scrollweg; verteilt auf 40 Frames sind das 110 px
+ * zwischen zwei Bildwechseln. So weit auseinander sieht man die einzelnen
+ * Schritte. 300 svh und 100 Frames ergeben 25 px — dicht genug, dass es zu
+ * Bewegung verschmilzt.
  */
-.buehne { position: relative; height: 520svh; }
+.buehne { position: relative; height: 300svh; }
 
 .bild {
   position: sticky;
@@ -97,7 +103,14 @@ html.landing body {
  * und ein zweiter, aus Licht gezeichneter darüber ergäbe zwei Kreise. Das
  * Bild soll zurücktreten, nicht eingerahmt werden.
  */
-.dunkel { background: rgba(14, 10, 6, .55); z-index: 2; pointer-events: none; }
+/*
+ * .62 statt der im Auftrag genannten .55.
+ *
+ * Gemessen mit dem Selbsttest: bei .55 kam die Unterzeile „DESIGN" — Gold auf
+ * dem abgedunkelten Bild — auf 4,45:1 gegen geforderte 4,5:1. Kein Redesign,
+ * keine neue Farbe: nur sieben Hundertstel mehr Dichte hinter demselben Gold.
+ */
+.dunkel { background: rgba(14, 10, 6, .62); z-index: 2; pointer-events: none; }
 
 /* ————————————————————————————— Wortmarke ————————————————————————————— */
 

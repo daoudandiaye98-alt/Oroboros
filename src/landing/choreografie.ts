@@ -48,7 +48,32 @@ export function choreografie(): Choreografie {
 }
 
 /** Die Anzahl Frames — von `scripts/sequenz-bauen.mjs` erzeugt. */
-export const FRAMES = 40;
+export const FRAMES = 100;
 
-/** Der Name der einen Sequenz unter `public/seq/`. */
-export const SEQUENZ = "film-p";
+/** Jeder wievielte Frame steckt im Vorlauf. Muss zum Bauskript passen. */
+export const VORLAUF_SCHRITT = 4;
+
+/**
+ * Die Formatsätze.
+ *
+ * Ausgewählt wird EINMAL beim Laden über `matchMedia`. Kein Nachladen beim
+ * Drehen: den zweiten Satz mitten in der Sitzung zu holen hieße, hundert
+ * Bilder anzufordern, während jemand gerade schaut. Der geladene Satz läuft
+ * per `cover` weiter — das schneidet, aber es stockt nicht.
+ *
+ * ES FEHLT EIN DRITTER SATZ. Für das Telefon im Hochformat (9:19,5) bräuchte
+ * es 9:16-Material; 3:4 füllt ein solches Display nicht ohne Schnitt.
+ * Solange er fehlt, bekommt das Telefon den 3:4-Satz — sichtbar besser als
+ * vorher, aber nicht formatgerecht. Nichts wird dafür nachgeneriert: das
+ * bräche die Referenzverriegelung des Tieres.
+ */
+export const SAETZE = {
+  hoch: "film-3x4",
+  quer: "film-16x9",
+} as const;
+
+export type SatzName = typeof SAETZE[keyof typeof SAETZE];
+
+export function satzWaehlen(): SatzName {
+  return window.matchMedia("(orientation: portrait)").matches ? SAETZE.hoch : SAETZE.quer;
+}

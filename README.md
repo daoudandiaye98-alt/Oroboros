@@ -17,12 +17,12 @@ sie einzeln nachmisst, und ein Prüfstand gegen die ZERA-Kontrollen.
 
 ## Die Bewegung
 
-Bühne 520 svh, darin ein `position: sticky`-Kind über 100 svh. Der Fortschritt
+Bühne 300 svh, darin ein `position: sticky`-Kind über 100 svh. Der Fortschritt
 wird mit `--nachzug-scrub` geglättet; alle Fenster stehen in `bewegung.css`.
 
 | | Fenster | Wirkung |
 |---|---|---|
-| Film | 0.02 → 0.86 | Frame per `Math.round`, harter Wechsel |
+| Film | 0.02 → 0.86 | Frame linear überblendet (bei 14 px je Bildwechsel gibt es keine Schlieren) |
 | Hinweis | 0.01 → 0.09 | blendet aus |
 | Wortmarke | 0.05 → 0.24 | blendet aus, zieht 60 px nach oben |
 | Abdunklung | 0.88 → 0.97 | flächig |
@@ -30,17 +30,36 @@ wird mit `--nachzug-scrub` geglättet; alle Fenster stehen in `bewegung.css`.
 
 ## Assets
 
-Eine Quelle: `assets/film-hoch.mp4` — 3:4, 828 × 1108, 10 s. **Im Repo**, nicht
-in `.gitignore`: der CDN-Pfad, aus dem sie stammt, ist eine
-Generierungsablage und keine dauerhafte Adresse.
+Zwei Quellen, beide **im Repo** (der CDN-Pfad, aus dem sie stammen, ist eine
+Generierungsablage und keine dauerhafte Adresse):
+
+| Datei | Format | Maße | Prüfsumme |
+|---|---|---|---|
+| `assets/film-hoch.mp4` | 3:4 | 828 × 1108 · 10 s | `dfe5ef2ed6f48ac3` |
+| `assets/film-quer.mp4` | 16:9 | 1284 × 716 · 10 s | `62915077ec10bf47` |
 
 ```bash
 bash scripts/pruefsummen.sh       # prüft alle Quellen
 node scripts/sequenz-bauen.mjs    # Frames neu erzeugen
 ```
 
-40 Frames à 420 px, WebP q45 → 482 kB, unter `public/seq/film-p/`, ebenfalls
-im Repo, damit der Vercel-Build kein ffmpeg braucht.
+Daraus je Satz **zwei Stufen**, unter `public/seq/`, ebenfalls im Repo, damit
+der Vercel-Build kein ffmpeg braucht:
+
+| Satz | Vorlauf | Volle Stufe |
+|---|---|---|
+| `film-3x4` | 25 Frames à 360 px q52 · 260 kB | 100 Frames à 828 px q68 · 4,63 MB |
+| `film-16x9` | 25 Frames à 480 px q55 · 179 kB | 100 Frames à 1284 px q68 · 3,61 MB |
+
+Der **Vorlauf** entscheidet, WANN die Seite freigegeben wird; er füllt die
+Lücken zwischen seinen Stützen, sodass das Frame-Array von der ersten Sekunde
+an vollständig ist. Die **volle Stufe** entscheidet, WIE SCHARF das Bild ist,
+und strömt danach im Hintergrund nach — sie ersetzt die Frames einzeln,
+während gescrollt wird.
+
+**Es fehlt ein 9:16-Satz.** Für das Telefon im Hochformat (9:19,5) füllt 3:4
+nicht ohne Schnitt — gemessen fallen 38 % der Breite weg. Solange er fehlt,
+bekommt das Telefon den 3:4-Satz.
 
 Unter `assets/hoch/` und `assets/quer/` liegen noch die vierzehn Quellen des
 **verworfenen** Drei-Akt-Auftrags. Sie werden von nichts mehr benutzt und

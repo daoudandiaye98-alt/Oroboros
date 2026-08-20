@@ -63,6 +63,9 @@ for (const f of FORMATE) {
   const fehler = [];
   page.on("pageerror", (e) => fehler.push(e.message.slice(0, 200)));
   page.on("console", (m) => { if (m.type() === "error") fehler.push("konsole: " + m.text().slice(0, 200)); });
+  const netzFehler = [];
+  page.on("requestfailed", (r) => netzFehler.push(`${r.url().slice(-40)} ${r.failure()?.errorText}`));
+  page.on("response", (r) => { if (r.status() >= 400) netzFehler.push(`${r.url().slice(-40)} ${r.status()}`); });
 
   await page.goto(BASIS, { waitUntil: "domcontentloaded" });
   await page.waitForFunction(
@@ -154,17 +157,51 @@ for (const f of FORMATE) {
    */
   const schnitt = await page.evaluate(() => {
     const c = document.querySelector("canvas");
-    const bild = { b: 420, h: 562 };   // Maße der Sequenz, siehe scripts/sequenz-bauen.mjs
-    const s = Math.max(c.clientWidth / bild.b, c.clientHeight / bild.h);
-    return {
-      massstab: s,
-      wegBreite: 1 - c.clientWidth / (bild.b * s),
-      wegHoehe: 1 - c.clientHeight / (bild.h * s),
-    };
+    // Das tatsächlich gezeichnete Bild fragen, nicht eine Zahl aus dem Bauskript.
+    const probe = document.createElement("img");
+    return new Promise((ok) => {
+      probe.onload = () => {
+        const iw = probe.naturalWidth, ih = probe.naturalHeight;
+        const s = Math.max(c.width / iw, c.height / ih);
+        ok({
+          quelle: `${iw}×${ih}`,
+          canvas: `${c.width}×${c.height}`,
+          css: `${c.clientWidth}×${c.clientHeight}`,
+          dichte: (c.width / c.clientWidth).toFixed(2),
+          faktorCanvas: s,
+          faktorGeraet: Math.max(
+            (c.clientWidth * (window.devicePixelRatio || 1)) / iw,
+            (c.clientHeight * (window.devicePixelRatio || 1)) / ih,
+          ),
+          wegBreite: 1 - c.width / (iw * s),
+          wegHoehe: 1 - c.height / (ih * s),
+        });
+      };
+      probe.src = document.querySelector("canvas").dataset.probe;
+    });
   });
-  zeile(`   Ausschnitt: ${schnitt.massstab.toFixed(2)}× vergrößert`
-    + ` · ${(schnitt.wegBreite * 100).toFixed(0)} % der Breite`
-    + ` und ${(schnitt.wegHoehe * 100).toFixed(0)} % der Höhe fallen weg`);
+  zeile(`   Quelle ${schnitt.quelle} · Canvas ${schnitt.canvas} (CSS ${schnitt.css}, Dichte ${schnitt.dichte})`);
+  zeile(`   Vergrößerung Quelle→Canvas ${schnitt.faktorCanvas.toFixed(2)}×`
+    + ` · Quelle→Gerätepixel ${schnitt.faktorGeraet.toFixed(2)}×`);
+  zeile(`   Beschnitt: ${(schnitt.wegBreite * 100).toFixed(0)} % der Breite,`
+    + ` ${(schnitt.wegHoehe * 100).toFixed(0)} % der Höhe`);
+  schnitt.faktorCanvas <= 1.001 ? passt("kein Hochskalieren auf den Canvas (Faktor ≤ 1,0)")
+    : fehlt(`Canvas wird ${schnitt.faktorCanvas.toFixed(2)}× hochskaliert`);
+  Math.max(schnitt.wegBreite, schnitt.wegHoehe) < 0.15
+    ? passt(`Beschnitt unter 15 %`)
+    : fehlt(`Beschnitt ${(Math.max(schnitt.wegBreite, schnitt.wegHoehe) * 100).toFixed(0)} % — braucht formatgerechtes Material`);
+
+  // px je Bildwechsel — die Zahl hinter der Glätte.
+  const glatt = await page.evaluate(() => {
+    const b = document.querySelector(".buehne");
+    const weg = b.offsetHeight - window.innerHeight;
+    return { weg, hoehe: b.offsetHeight, fenster: window.innerHeight };
+  });
+  const FRAMES = 100, VON = 0.02, BIS = 0.86;
+  const proWechsel = glatt.weg * (BIS - VON) / (FRAMES - 1);
+  zeile(`   Bühne ${glatt.hoehe} px, Fenster ${glatt.fenster} px → Scrollweg ${glatt.weg} px`
+    + ` · ${proWechsel.toFixed(1)} px je Bildwechsel`);
+  proWechsel <= 30 ? passt("≤ 30 px je Bildwechsel") : fehlt(`${proWechsel.toFixed(1)} px je Bildwechsel`);
 
   /*
    * Der Kontrast der Siegeltexte gegen das, was hinter ihnen steht.
@@ -226,6 +263,8 @@ for (const f of FORMATE) {
     .forEach((el) => { el.style.visibility = ""; }));
 
   fehler.length === 0 ? passt("0 JS-Fehler") : fehlt(`${fehler.length} JS-Fehler: ${fehler.slice(0, 3).join(" | ")}`);
+  netzFehler.length === 0 ? passt("0 fehlgeschlagene Netzanfragen")
+    : fehlt(`${netzFehler.length} Netzfehler: ${netzFehler.slice(0, 3).join(" | ")}`);
   await page.close();
 }
 
@@ -297,8 +336,21 @@ for (const netz of [{ name: "Slow 4G (Lighthouse)", mbit: 1.6, rtt: 150 }, { nam
   const kb = bytes / 1024;
   zeile(`   ${netz.name.padEnd(21)} ${frames} Frames · ${kb.toFixed(0)} kB · ${dauer.toFixed(1)} s bis zur Freigabe`);
   if (netz.mbit === 1.6) {
-    kb <= 780 ? passt("Sequenz ≤ 780 kB") : fehlt(`Sequenz ${kb.toFixed(0)} kB`);
     dauer < 4 ? passt("Freigabe unter 4 s bei 1,6 Mbit/s") : fehlt(`Freigabe erst nach ${dauer.toFixed(1)} s bei 1,6 Mbit/s`);
+    // Und jetzt die volle Stufe: sie strömt nach, während schon gescrollt
+    // werden kann. Gewartet wird, bis jeder Frame durch seine scharfe
+    // Fassung ersetzt ist.
+    const t1 = Date.now();
+    await page.waitForFunction(
+      () => performance.getEntriesByType("resource")
+        .filter((r) => /\/seq\/[^/]+\/f\d+\.webp$/.test(r.name) && !/-vor\//.test(r.name)).length >= 100,
+      null, { timeout: 120_000 },
+    ).catch(() => zeile("   (volle Stufe kam nicht vollständig an)"));
+    const gesamt = (Date.now() - start) / 1000;
+    zeile(`   ${"".padEnd(21)} volle Stufe komplett nach ${gesamt.toFixed(1)} s`
+      + ` (${((Date.now() - t1) / 1000).toFixed(1)} s davon im Hintergrund, nach der Freigabe)`);
+    gesamt < 12 ? passt("volle Stufe unter 12 s bei 1,6 Mbit/s")
+      : fehlt(`volle Stufe erst nach ${gesamt.toFixed(1)} s bei 1,6 Mbit/s`);
   }
   await page.close();
 }

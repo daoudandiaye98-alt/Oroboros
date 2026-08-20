@@ -234,3 +234,69 @@ wird und nicht nach Gefühl.
 Kosten zehn Minuten und einen Parserfehler an einer Stelle, die mit dem
 Kommentar nichts zu tun hat. Im Browser-Code eines `page.evaluate` gibt es
 keine Backticks — auch nicht in Prosa.
+
+---
+
+# Qualitätspass am Hero
+
+## Freigabezeit und Bildschärfe waren dieselbe Zahl
+
+Solange eine einzige Sequenz beides entscheiden musste, war jede Verbesserung
+der einen eine Verschlechterung der anderen: um unter vier Sekunden
+freizugeben, musste die Güte auf 45 und die Breite auf 420 px — und damit war
+das Bild dauerhaft unscharf.
+
+Zwei Stufen lösen das. Der **Vorlauf** (jeder vierte Frame, klein und grob)
+entscheidet, WANN freigegeben wird. Die **volle Stufe** entscheidet, WIE
+SCHARF es ist, und strömt danach im Hintergrund nach; sie ersetzt die Frames
+einzeln im selben Array, während gescrollt wird.
+
+Der Trick, damit dabei nichts stockt: der Vorlauf füllt die Lücken zwischen
+seinen Stützen mit der jeweils letzten Stütze. Das Array ist also von der
+ersten Sekunde an VOLLSTÄNDIG — es gibt keinen leeren Platz. Gemessen: 2,6 s
+bis zur Freigabe bei 1,6 Mbit/s statt 3,8 s, bei besserem Bild.
+
+**Die Regel:** wenn zwei Anforderungen an derselben Zahl hängen und
+gegeneinander ziehen, ist nicht die Zahl falsch, sondern dass es eine ist.
+
+## Eine Breite ist bei zwei Seitenverhältnissen nicht dasselbe Gewicht
+
+480 px Vorlaufbreite ergeben bei 16:9 129k Bildpunkte je Frame und 179 kB;
+bei 3:4 sind dieselben 480 px 309k Bildpunkte und 427 kB. Der Vorlauf steht
+deshalb je Satz: 480 px für 16:9, 360 px für 3:4.
+
+## Der Canvas-Deckel muss BEIDE Achsen decken
+
+Ich hatte ihn mit `Math.max` der beiden Achsverhältnisse geschrieben. Damit
+das `cover` nicht hochskaliert, muss die Quelle aber beide Achsen tragen —
+die bindende ist die knappere, also `Math.min`. Gemessen auf 390 × 844: mit
+`max` gab der Deckel Dichte 2,0 frei, der Canvas wurde 780 × 1688, und das
+828 × 1108 große Bild musste um 1,52 gedehnt werden. Mit `min`: Dichte 1,31,
+Canvas 512 × 1108, Faktor 1,00.
+
+Der Boden bei 1 bleibt: unter die CSS-Auflösung wird nie gegangen. Das würde
+die Vergrößerung nur vom Canvas in den Compositor verschieben und die
+Messzahl schönen, ohne ein Detail zu gewinnen.
+
+## Überblenden war nicht falsch, sondern nur bei 110 px falsch
+
+Das alte Verbot galt für Bildsprünge über 100 px Scrollweg — zwei so weit
+auseinanderliegende Bilder halb übereinander ergeben Doppelbilder. Bei 100
+Frames auf 300 svh sind es 14 px, und dieselbe Blende glättet die Stufen,
+statt Schlieren zu erzeugen.
+
+**Die Regel:** eine Verbotsregel gehört an ihre Bedingung geschrieben, nicht
+an ihren Gegenstand. „Nie überblenden" war zu kurz; „nicht überblenden, wenn
+die Nachbarbilder weit auseinanderliegen" ist die Regel.
+
+## Zwei Grenzen, die kein Code aufhebt
+
+**Seitenverhältnis:** 3:4 füllt ein 9:19,5-Display nicht — 38 % der Breite
+fallen weg. 16:9 auf 1440 × 900 fällt von 53 % auf 11 %, weil es jetzt echtes
+Querformatmaterial gibt. Für das Telefon fehlt derselbe Schritt: ein
+9:16-Satz.
+
+**Quellauflösung:** 1284 px Quellbreite auf einem 1440 px breiten Fenster
+sind 1,26× Vergrößerung, und daran ändert kein Encoder etwas. Auf 1600 px zu
+skalieren macht die Datei 31 % größer und erfindet die Differenz. Echte
+Auflösung kommt nur aus echtem Hochskalieren der QUELLE.
