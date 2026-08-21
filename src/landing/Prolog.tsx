@@ -352,7 +352,22 @@ export function Prolog({ bereit, film, ruhig, beiUebergabe }: PrologEigenschafte
         ctx.clearRect(0, 0, cb, ch);
         ctx.fillStyle = `rgb(${tief[0]},${tief[1]},${tief[2]})`;
         ctx.fillRect(0, 0, cb, ch);
-        schriftZeichnen(1, auf);
+        /*
+         * NULL, NICHT EINS.
+         *
+         * Der erste Parameter ist der Stand der EROSION: 0 heißt „noch nichts
+         * abgetragen", 1 heißt „ganz fort". Hier stand 1 — und damit fiel
+         * `schriftZeichnen` durch beide Zweige, ohne etwas zu zeichnen. Der
+         * Schlag „satz" zeigte deshalb nie einen Satz, sondern nur den
+         * dunklen Grund; sichtbar wurde die Zeile erst im ersten Bild der
+         * Erosion, wo sie sofort zu zerfallen begann.
+         *
+         * Aufgefallen ist es, als der Film künstlich verzögert wurde und der
+         * Schlag lange genug stand, um ihn aufzunehmen: eine vollständig
+         * schwarze Fläche, elf Sekunden lang. Auf einer langsamen Leitung ist
+         * genau das die zweite Hälfte des gemeldeten Schwarzbildes.
+         */
+        schriftZeichnen(0, auf);
         if (filmBereitRef.current && t > auftrittMs) { phase = "erosion"; start = jetzt; }
         lauf = requestAnimationFrame(zeichnen);
         return;
@@ -568,6 +583,17 @@ export function Prolog({ bereit, film, ruhig, beiUebergabe }: PrologEigenschafte
     const kannLos = () => {
       if (filmBereitRef.current) return;
       filmBereitRef.current = true;
+      /*
+       * `autoplay` hat den Film angestoßen, damit überhaupt geladen wird —
+       * siehe die Erklärung am `<video>`. Jetzt steht er wieder still, am
+       * ersten Bild. Gespielt wird erst nach der Erosion, wie gehabt.
+       *
+       * Sichtbar ist davon nichts: der Schleier ist im Schlag „satz"
+       * vollflächig deckend, und `currentTime = 0` nimmt die zwei, drei
+       * Bilder zurück, die bis hierher gelaufen sein können.
+       */
+      vd.pause();
+      try { vd.currentTime = 0; } catch { /* vor dem ersten Bild nicht setzbar */ }
       setFilmBereit(true);
       farbenLesen();
     };
@@ -659,6 +685,32 @@ export function Prolog({ bereit, film, ruhig, beiUebergabe }: PrologEigenschafte
         <video
           ref={video}
           className="prolog-film"
+          /*
+            `autoplay` — UND ES GEHT NICHT UM AUTOMATISCHES ABSPIELEN.
+
+            Der Film wird nach wie vor erst am Ende der Erosion gestartet; das
+            `loadeddata` unten hält ihn sofort wieder an und spult auf null
+            zurück. Das Attribut steht hier, weil es die einzige deklarative
+            Art ist, einen Browser zum LADEN zu bewegen, der `preload` nicht
+            befolgt.
+
+            Gemessen an genau dieser Datei, isoliert:
+
+              preload="auto", kein play()   → loadeddata nach 338 ms
+              preload="none", kein play()   → STILLE, readyState 0
+              preload="none", mit play()    → loadeddata nach  21 ms
+              preload="none", autoplay      → loadeddata nach  16 ms
+
+            iOS Safari behandelt `preload` bei einem Video ohne `autoplay` wie
+            `none`: es lädt kein Byte, bis jemand `play()` ruft. Der Prolog
+            wartete aber auf `loadeddata`, BEVOR er `play()` rief — beide
+            warteten aufeinander. Auf dem Schirm war das der schwarze Grund.
+
+            `muted` und `playsInline` sind die Bedingung dafür, dass iOS das
+            Autoplay überhaupt erlaubt; ohne sie wäre es abgelehnt und die
+            Klemme bliebe.
+          */
+          autoPlay
           muted
           playsInline
           preload="auto"
