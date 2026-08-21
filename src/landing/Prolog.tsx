@@ -158,6 +158,9 @@ export function Prolog({ bereit, film, ruhig, beiUebergabe }: PrologEigenschafte
   const video = useRef<HTMLVideoElement>(null);
   const schleier = useRef<HTMLCanvasElement>(null);
   const [zerfallen, setZerfallen] = useState(false);
+  const [abgelaufen, setAbgelaufen] = useState(false);
+  /** Der Film kommt nicht. Gesetzt vom Zeitlimit oder vom Fehler am Video. */
+  const ohneFilmRef = useRef(false);
   const [filmBereit, setFilmBereit] = useState(false);
   const [ruhigFertig, setRuhigFertig] = useState(false);
   /** Nur für den Prüfstand: wie viele Körner die Schrift ergeben hat. */
@@ -431,7 +434,18 @@ export function Prolog({ bereit, film, ruhig, beiUebergabe }: PrologEigenschafte
           phase = "film";
           ctx.clearRect(0, 0, cb, ch);
           setZerfallen(true);
-          vd.play().catch(() => { /* Autostart verweigert — siehe unten */ });
+          if (ohneFilmRef.current) {
+            // Nichts abzuspielen. Das Ende ist trotzdem erreicht, sonst
+            // wartete die Übergabe unten auf ein `ended`, das nie kommt.
+            setAbgelaufen(true);
+          } else {
+            vd.play().catch((e) => {
+              console.error("Oroboros: Prolog konnte nicht starten — " + String(e)
+                + ". Es wird ohne Film übergeben.");
+              ohneFilmRef.current = true;
+              setAbgelaufen(true);
+            });
+          }
         }
         lauf = requestAnimationFrame(zeichnen);
         return;
@@ -525,30 +539,94 @@ export function Prolog({ bereit, film, ruhig, beiUebergabe }: PrologEigenschafte
       }
     }
 
-    /* ————— Der Film ————— */
+    /* ————— Der Film, und was passiert, wenn er nicht kommt ————— */
+
+    /*
+     * KEIN WARTEN OHNE FRIST.
+     *
+     * Hier stand nur `addEventListener("loadeddata", …)`. Kam das Ereignis
+     * nie — Dekoderfehler, blockierte Datei, ein Safari im Stromsparmodus,
+     * das nicht vorlädt —, blieb der Schlag „satz" für immer stehen. Auf dem
+     * Schirm ist das `--tief`, also praktisch Schwarz, mit einem kleinen
+     * cremefarbenen Satz. Kein Fehler in der Konsole, keine fehlgeschlagene
+     * Anfrage, `body { overflow: hidden }` bleibt gesetzt: eine Seite, die
+     * ausgeliefert wird und trotzdem nichts zeigt.
+     *
+     * Nachgestellt, indem `/prolog/**` abgewiesen wurde: nach 25 s stand die
+     * Seite in `phase: "satz"`, `overflow: hidden`, mit null Konsolenfehlern.
+     *
+     * Jetzt gibt es drei Wege heraus, und alle drei melden sich:
+     *   · `error` am Video — sofort, der Film kommt nicht.
+     *   · `--prolog-geduld` verstrichen, ohne dass ein Bild da ist — der Film
+     *     kommt zu spät, es geht ohne ihn weiter.
+     *   · das Zeitlimit in der Übergabe unten, falls die Heldenframes fehlen.
+     *
+     * Ohne Film läuft die Erosion trotzdem: der Sand weht fort, und darunter
+     * liegt die Bühne mit ihrem ersten Frame. Das ist kein Ersatz für den
+     * Prolog, aber es ist eine Seite, die man benutzen kann.
+     */
     const kannLos = () => {
+      if (filmBereitRef.current) return;
       filmBereitRef.current = true;
       setFilmBereit(true);
       farbenLesen();
     };
+    const ohneFilm = (grund: string) => {
+      if (filmBereitRef.current) return;
+      ohneFilmRef.current = true;
+      console.error(`Oroboros: Prolog ohne Film — ${grund}. `
+        + "Der Prolog läuft ohne ihn weiter, damit die Seite nicht stehen bleibt.");
+      kannLos();
+    };
+    /*
+     * OHNE `capture`, UND NUR MIT `vd.error`.
+     *
+     * Die erste Fassung hörte mit `capture: true`. Damit fing sie auch das
+     * `error` der einzelnen `<source>`-Elemente ab — und genau das feuert im
+     * Normalfall: das Chromium des Prüfstands kann H.264 nicht, verwirft die
+     * erste Quelle und nimmt die zweite. Der Prolog hielt sich daraufhin für
+     * kaputt und übergab nach 4,7 s statt den Film zu spielen.
+     *
+     * Das `error` des VIDEO-Elements feuert erst, wenn keine Quelle mehr
+     * übrig ist, und setzt dabei `vd.error`. Beides wird geprüft.
+     */
+    const beiVideofehler = () => {
+      if (!vd.error) return;
+      ohneFilm(`Video-Fehler ${vd.error.code}`);
+    };
     vd.addEventListener("loadeddata", kannLos);
+    vd.addEventListener("error", beiVideofehler);
     if (vd.readyState >= 2) kannLos();
+    const geduld = dauer("--prolog-geduld");
+    const frist = window.setTimeout(
+      () => ohneFilm(`kein Bild nach ${(geduld / 1000).toFixed(0)} s`), geduld);
 
     lauf = requestAnimationFrame(zeichnen);
     return () => {
       laeuft = false;
       cancelAnimationFrame(lauf);
+      window.clearTimeout(frist);
       vd.removeEventListener("loadeddata", kannLos);
+      vd.removeEventListener("error", beiVideofehler);
     };
   }, [ruhig, beiUebergabe]);
 
   /*
-   * Übergeben wird erst, wenn BEIDES steht: der Film ist durchgelaufen und die
+   * Übergeben wird, wenn BEIDES steht: der Film ist durchgelaufen und die
    * Frames der Heldensequenz sind da. Der Film hält am letzten Bild — und das
    * ist derselbe Ausschnitt wie Frame 1 der Sequenz, gemessene Differenz 3,1
    * von 255. Wer wartet, sieht deshalb ein Standbild, keinen Ladezustand.
+   *
+   * UND ES WIRD ÜBERGEBEN, WENN DIE FRAMES NICHT KOMMEN.
+   *
+   * `ladeVorlauf` zählt auch fehlgeschlagene Bilder mit (`img.onerror` ruft
+   * denselben Zähler wie `img.onload`, siehe `motion/sequenz.ts`), ein
+   * einzelnes fehlendes Bild hält also nichts auf. Bleibt eine Anfrage aber
+   * offen — kein `load`, kein `error`, nur Stille —, käme `beiFertig` nie.
+   * Nach `--prolog-geduld` wird deshalb übergeben, egal wie viele Frames
+   * fehlen, und der Grund steht in der Konsole. Fehlende Frames bleiben
+   * `null`; der Zeichner behält an ihrer Stelle den letzten gültigen Frame.
    */
-  const [abgelaufen, setAbgelaufen] = useState(false);
   useEffect(() => {
     const vd = video.current;
     if (!vd || ruhig) return;
@@ -557,8 +635,16 @@ export function Prolog({ bereit, film, ruhig, beiUebergabe }: PrologEigenschafte
     return () => vd.removeEventListener("ended", e);
   }, [ruhig]);
   useEffect(() => {
-    if (ruhig || !abgelaufen || !bereit) return;
-    beiUebergabe();
+    if (ruhig || !abgelaufen) return;
+    if (bereit) { beiUebergabe(); return; }
+    const geduld = dauer("--prolog-geduld");
+    const id = window.setTimeout(() => {
+      console.error(`Oroboros: Heldensequenz nach ${(geduld / 1000).toFixed(0)} s `
+        + "nicht vollständig — es wird trotzdem übergeben. Fehlende Frames "
+        + "bleiben leer, der Zeichner hält den letzten gültigen.");
+      beiUebergabe();
+    }, geduld);
+    return () => window.clearTimeout(id);
   }, [abgelaufen, bereit, ruhig, beiUebergabe]);
 
   return (

@@ -112,6 +112,21 @@
   --prolog-auftritt: 900ms;
   --prolog-erosion: 3600ms;
 
+  /*
+   * Die Geduld: wie lange auf etwas gewartet wird, das vielleicht nicht kommt.
+   *
+   * Sie gilt NICHT für die Laufzeit des Prologs — der Film dauert seine elf
+   * Sekunden, und die sind Gestaltung, keine Wartezeit. Sie gilt für jede
+   * Stelle, an der die Seite auf ein Ereignis wartet: das erste Bild des
+   * Films, und die Frames der Heldensequenz. Verstreicht sie, geht es ohne
+   * weiter und der Grund steht in der Konsole.
+   *
+   * Zwölf Sekunden, weil der Film bei 1,6 Mbit/s in 5,5 s geladen ist und
+   * sein erstes Bild lange davor steht. Wer nach zwölf Sekunden noch kein
+   * einziges Bild hat, bekommt auch keines mehr.
+   */
+  --prolog-geduld: 12000ms;
+
   /* Der ruhige Pfad kennt keine Körner: der Satz steht, blendet, fertig. */
   --prolog-ruhig-stand:  800ms;
   --prolog-ruhig-blende: 500ms;
