@@ -24,9 +24,6 @@ export interface Choreografie {
   film: Fenster;
   /** Wann blendet der Rollhinweis aus? */
   hinweis: Fenster;
-  /** Wann blendet die Wortmarke aus, und wie weit zieht sie dabei? */
-  marke: Fenster;
-  markeWeg: number;
   /** Wann wandert der Ausschnitt, bis der Ring das erste O ist? */
   lockup: Fenster;
   /** Wann treten die sieben Buchstaben einzeln dazu? */
@@ -41,8 +38,6 @@ export function choreografie(): Choreografie {
   return {
     film: [zahl(s, "--film-von"), zahl(s, "--film-bis")],
     hinweis: [zahl(s, "--hinweis-von"), zahl(s, "--hinweis-bis")],
-    marke: [zahl(s, "--marke-von"), zahl(s, "--marke-bis")],
-    markeWeg: zahl(s, "--marke-weg"),
     lockup: [zahl(s, "--lockup-von"), zahl(s, "--lockup-bis")],
     schrift: [zahl(s, "--schrift-von"), zahl(s, "--schrift-bis")],
     siegel: [zahl(s, "--siegel-von"), zahl(s, "--siegel-bis")],
@@ -73,13 +68,21 @@ export const VORLAUF_SCHRITT = 4;
  * Bilder anzufordern, während jemand gerade schaut. Der geladene Satz läuft
  * per `cover` weiter — das schneidet, aber es stockt nicht.
  *
- * Drei Sätze, weil zwei nicht reichten. Ein Telefon im Hochformat ist heute
- * 9:19,5 und nicht 3:4; der 3:4-Satz füllte es nur mit einem Schnitt, der
- * links und rechts ein Fünftel des Bildes wegnahm. Die Grenze liegt bei 3/4:
- * schmaler als das bekommt 9:16, breiter das ursprüngliche 3:4.
+ * ZWEI SÄTZE, NICHT DREI — und der dritte ist nicht aus Sparsamkeit gefallen.
+ *
+ * Der Prolog liegt in 3:4 und 16:9 vor, und ein eigener 9:16-Prolog wäre neues
+ * Material. Ein schmales Telefon, das den Prolog in 3:4 sieht und danach die
+ * Heldensequenz in 9:16, bekommt an der Fuge einen Schnitt: dieselbe Szene,
+ * zwei verschiedene Aufnahmen, die Schlange einmal nach links und einmal nach
+ * rechts. Gemessen auf 390 × 844 sind das 16,7 von 255 — über der Schwelle von
+ * 12, die für den ganzen Prolog gilt. Mit dem 3:4-Satz sind es 3,1.
+ *
+ * Der Preis ist der Beschnitt: `cover` nimmt einem 3:4-Bild auf 390 × 844
+ * 38 % der Breite. Er kostet die Komposition nichts — das Tier steht mittig —
+ * und er ist der Grund, warum das Lockup dort überhaupt zentriert stehen kann:
+ * dieser Beschnitt IST die Overscan-Reserve, aus der der Schwenk kommt.
  */
 export const SAETZE = {
-  schmal: "film-9x16",
   hoch: "film-3x4",
   quer: "film-16x9",
 } as const;
@@ -87,6 +90,10 @@ export const SAETZE = {
 export type SatzName = typeof SAETZE[keyof typeof SAETZE];
 
 export function satzWaehlen(): SatzName {
-  if (!window.matchMedia("(orientation: portrait)").matches) return SAETZE.quer;
-  return window.matchMedia("(max-aspect-ratio: 3/4)").matches ? SAETZE.schmal : SAETZE.hoch;
+  return window.matchMedia("(orientation: portrait)").matches ? SAETZE.hoch : SAETZE.quer;
+}
+
+/** Welcher Prologfilm zu einem Satz gehört. */
+export function prologFilm(satz: SatzName): "3x4" | "16x9" {
+  return satz === SAETZE.hoch ? "3x4" : "16x9";
 }

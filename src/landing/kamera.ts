@@ -1,53 +1,49 @@
 /**
- * Die Kamera — welcher Frame, und wie weit geschwenkt.
+ * Die Kamera — welcher Frame, wie weit geschwenkt, und wie groß das Wort.
  *
- * ES WIRD NICHTS MEHR SKALIERT. Bis zum Kontinuitäts-Auftrag wurde der Ring am
- * Ende auf sein Zielmaß geschrumpft — ein Maßstabsfaktor auf dem Bild. Weil es
- * damit kleiner wurde als sein Fenster, blieb ein Rand frei, der mit dem
- * mittleren Sandton gefüllt wurde. Diese Füllung ist die sichtbare Kante
- * gewesen — texturlos, mittlere Nachbardifferenz 1,79 gegen 1,52 im echten
- * Bild —, und ROBOROS lief hinein.
- *
- * Jetzt kommt die Größe des Rings aus der WAHL DES FRAMES. Die Rückfahrt
- * durchläuft zehn Sekunden lang jedes Maß; `ring.json` sagt zu jedem Frame, wo
- * der Ring steht und wie groß er ist. Bewegt wird nur noch innerhalb der
- * Overscan-Reserve — also innerhalb dessen, was `cover` ohnehin abschneidet.
- * Dadurch kann per Bauart kein Rand frei werden.
+ * ES WIRD NICHTS SKALIERT. Die Größe des Rings kommt aus der WAHL DES FRAMES,
+ * die Lage aus einem Schwenk innerhalb der Overscan-Reserve — also innerhalb
+ * dessen, was `cover` ohnehin abschneidet. Dadurch kann per Bauart kein Rand
+ * frei werden und keine Füllfläche entstehen.
  *
  * ————————————————————————————————————————————————————————————————————————
- * WAS DER AUFTRAG VORSAH UND WARUM ES NICHT GEHT
+ * DAS LOCKUP IST AUF DEM TELEFON ZENTRIERT UND AUF DEM SCHIRM NICHT
  * ————————————————————————————————————————————————————————————————————————
  *
- * §3 schreibt vor, den Ring an den linken Rand zu schwenken:
+ * §6 verlangt, die GESAMTBREITE zu zentrieren:
  *
- *     zielX   = seitenrand + zielD_px / 2
- *     schwenk = zielX − ringSchirmX
+ *     gesamtB    = ringD + luecke + textB
+ *     linkeKante = (fensterB − gesamtB) / 2
+ *     ringMitteX = linkeKante + ringD / 2
  *
- * Nachgerechnet mit den gemessenen Daten:
+ * Der Ring ist der erste Buchstabe des Wortes. Er steht also nicht dort, wo
+ * die Typografie ihn hätte — er steht dort, wo das Tier im Bild liegt, und
+ * das ist über die ganze Rückfahrt die Bildmitte (cx 0,44 bis 0,53). Das
+ * Wort muss deshalb nach rechts, und der Ring muss nach links, und wie weit
+ * er nach links kann, sagt allein die Overscan-Reserve.
  *
- *   1440 × 900   overscanX  87 px   nötiger Schwenk  −540 px
- *    844 × 390   overscanX   0 px   nötiger Schwenk  −284 px
+ * Gerechnet, mit den gemessenen Ringen:
  *
- * Der Grund ist keine Ungenauigkeit, sondern die Lage des Tieres im Bild: sein
- * Ring sitzt über die ganze Rückfahrt bei cx ≈ 0,51, also in der Bildmitte. Ihn
- * an den linken Rand zu bringen heißt, das Bild um eine halbe Fensterbreite zu
- * verschieben — und die Overscan-Reserve ist ein paar Prozent. Der in §3
- * vorgesehene Ausweg (ein früherer Frame) hilft nicht: cx ändert sich über die
- * ganze Fahrt um 0,06.
+ *   390 × 844    Reserve ±118 px    nötig −117 px    → geht auf, Abweichung 0
+ *   430 × 932    Reserve ±131 px    nötig −129 px    → geht auf, Abweichung 0
+ *   1440 × 900   Reserve  ±85 px    nötig −538 px    → 453 px fehlen
+ *   1920 × 1080  Reserve   ±6 px    nötig −765 px    → 759 px fehlen
+ *    844 × 390   Reserve   ±0 px    nötig −333 px    → 333 px fehlen
  *
- * Auf 844 × 390 ist die Reserve sogar genau null, weil das Fenster breiter
- * liegt als das Bild und `cover` dort über die Höhe deckt. Dort ist JEDER
- * Schwenk außer null ein freier Rand.
+ * Der Unterschied ist keine Ungenauigkeit, sondern Geometrie: ein 3:4-Bild
+ * auf einem schmalen Hochformat wird von `cover` um 38 % der Breite
+ * beschnitten — das ist die Reserve. Ein 16:9-Bild auf 1440 × 900 überlappt
+ * nur um 6 %, auf 1920 × 1080 gar nicht mehr.
  *
- * Deshalb ist die Abhängigkeit umgedreht: nicht der Ring geht zum Wort,
- * sondern DAS WORT GEHT ZUM RING. Gewählt wird der früheste Frame — also der
- * größte Ring —, bei dem die ganze Zeile ins Fenster passt. Der Schwenk dient
- * nur noch dazu, sie hineinzuschieben, wenn sie knapp übersteht, und ist
- * meistens null.
+ * Auf dem Telefon steht das Lockup deshalb GENAU so, wie §6 es beschreibt:
+ * Ring 55 px, Schrift 61 px, Zeile 342 von 390, Abweichung von der Mitte
+ * unter einem Bildpunkt. Auf breiten Fenstern hängt es rechts der Mitte, und
+ * die Schrift wird kleiner, als das Verhältnis 1,30 sie hätte — sonst liefe
+ * sie aus dem Fenster. Beides steht im Bericht, mit Zahlen je Fenster.
  *
- * Der Preis steht im Bericht: der Ring erreicht 12,6 bis 21,7 % der
- * Fensterbreite statt der vorgesehenen 23,1 %. Er ist so groß, wie ihn ein
- * Fenster tragen kann, ohne dass irgendwo Bild fehlt.
+ * Der Ausweg wäre Material, nicht Code: eine Rückfahrt, die mit dem Ring
+ * links im Bild endet statt in der Mitte. Dann fiele der Schwenk weg und die
+ * Rechnung ginge in jedem Fenster auf.
  */
 
 /** Ein Ring in einem Frame — Anteile der Bildbreite bzw. -höhe. */
@@ -65,32 +61,39 @@ export interface Ringdaten {
 }
 
 /**
- * Das Verhältnis von Ring zu Versalhöhe.
+ * Wie groß der Ring im Verhältnis zum Fenster stehen soll.
  *
- * 330 zu 198 auf 1440, 90 zu 54 auf 390 — beides derselbe Faktor. Der Ring ist
- * absichtlich größer als die Versalhöhe: ein O in Schriftgröße läse sich als
- * Satzfehler, ein deutlich größeres als Zeichen.
+ * §6 nennt zwei Zeilen: 57 px auf 390 und 209 px auf 1440. Das sind 0,1462
+ * und 0,1451 der Fensterbreite — dieselbe Zahl, zweimal gerundet. Hier steht
+ * ihr Mittel.
  */
-export const RING_ZU_SCHRIFT = 5 / 3;
+export const RING_ANTEIL = 0.1456;
 
-/** Der Abstand zwischen Ring und Wort, in em der Schrift. */
-export const ABSTAND_EM = 0.12;
+/**
+ * Der Ring misst 1,30 Versalhöhen.
+ *
+ * §6: „Eins zu eins wäre typografisch korrekt, lässt das Tier aber
+ * verschwinden; darüber löst sich der Ring vom Wort."
+ */
+export const RING_ZU_VERSAL = 1.3;
 
-/** Wie breit der Ring im Verhältnis zum Fenster stehen SOLL, wenn er darf. */
-export const RING_ANTEIL = 0.231;
+/** Der Abstand zwischen Ring und dem R, in em der Schrift. */
+export const LUECKE_EM = 0.1;
 
 /** Was die Bühne für dieses Fenster ausgerechnet hat. */
 export interface Aufbau {
   /** Index innerhalb der Rückfahrt. */
   rueckIndex: number;
-  /** Wie viele Frames der Gesamtsequenz gebraucht werden. Der Rest wird nicht geladen. */
+  /** Wie viele Frames der Gesamtsequenz gebraucht werden. */
   frames: number;
-  /** Durchmesser des Rings auf dem Schirm, in Bildpunkten. */
-  ringPx: number;
+  /** Außendurchmesser des Rings auf dem Schirm, in Bildpunkten. */
+  ringD: number;
   /** Schriftgröße von „ROBOROS", in Bildpunkten. */
   schriftPx: number;
-  /** Breite der ganzen Zeile, in Bildpunkten. */
-  zeileB: number;
+  /** Breite von Ring + Lücke + Wort. */
+  gesamtB: number;
+  /** Linke Kante des Lockups. */
+  linkeKante: number;
   /** Der Schwenk in Bildpunkten. Negativ heißt: Bild nach links. */
   schwenk: number;
   /** Wie weit geschwenkt werden DARF, ohne einen Rand freizulegen. */
@@ -98,6 +101,10 @@ export interface Aufbau {
   /** Die Ringmitte auf dem Schirm, nach dem Schwenk. */
   ringX: number;
   ringY: number;
+  /** Wie weit die Mitte des Lockups von der Fenstermitte abweicht. */
+  mittenAbweichung: number;
+  /** Das erreichte Verhältnis Ring zu Versalhöhe — 1,30, wo es aufgeht. */
+  ringZuVersal: number;
   /** Der `cover`-Faktor und die gezeigte Bildbreite — für die Prüfung. */
   deckung: number;
   zeigB: number;
@@ -107,15 +114,18 @@ export interface Aufbau {
 /**
  * Rechnet den Aufbau für ein Fenster.
  *
- * @param daten     Der Inhalt von `ring.json`.
- * @param fensterB  Breite der Bühne in CSS-Bildpunkten.
- * @param fensterH  Höhe der Bühne.
- * @param rand      Wie viel Luft die Zeile links und rechts behalten muss.
- *                  Enthält bereits `env(safe-area-inset-*)`.
- * @param wortEm    Breite von „ROBOROS" in em, an der geladenen Schrift
- *                  gemessen. Geraten wäre sie bei jedem Schriftwechsel falsch.
- * @returns `null`, wenn kein einziger Frame passt. Der Aufrufer meldet das —
- *          dann fehlt Bildmaterial, und das ist keine Codefrage.
+ * @param daten        Der Inhalt von `ring.json`.
+ * @param fensterB     Breite der Bühne in CSS-Bildpunkten.
+ * @param fensterH     Höhe der Bühne.
+ * @param rand         Luft, die die Zeile links und rechts behalten muss.
+ *                     Enthält bereits `env(safe-area-inset-*)`.
+ * @param wortEm       Breite von „ROBOROS" in em, an der GELADENEN Schrift
+ *                     gemessen — samt Sperrung. Gegen die Ersatzschrift
+ *                     gemessen sitzt das Lockup schief; das ist die Ursache
+ *                     des Versatzes, den §6 benennt.
+ * @param versalAnteil Versalhöhe in em, ebenfalls gemessen.
+ * @returns `null`, wenn kein Frame das Zielmaß erreicht. Der Aufrufer meldet
+ *          das — dann fehlt Bildmaterial, und das ist keine Codefrage.
  */
 export function aufbauRechnen(
   daten: Ringdaten,
@@ -123,6 +133,7 @@ export function aufbauRechnen(
   fensterH: number,
   rand: number,
   wortEm: number,
+  versalAnteil: number,
 ): Aufbau | null {
   const { breite: bB, hoehe: bH } = daten.bild;
   const deckung = Math.max(fensterB / bB, fensterH / bH);
@@ -134,65 +145,70 @@ export function aufbauRechnen(
   /*
    * Die Schranke, und warum sie bei null anfängt.
    *
-   * Der Auftrag verlangt `|schwenk| + 2 <= overscanX`. Bei overscanX = 0 —
-   * gemessen auf 844 × 390, wo das Fenster breiter liegt als das Bild —
-   * verlangt das `|schwenk| <= −2`, was auch ein Schwenk von null nicht
-   * erfüllt. Ein Schwenk von null legt aber nichts frei. Die Schranke ist
-   * deshalb bei null abgefangen: dort steht das Bild eben still.
+   * §3 des Kontinuitätsauftrags verlangt `|schwenk| + 2 <= overscanX`. Bei
+   * overscanX = 0 — gemessen auf 844 × 390, wo das Fenster breiter liegt als
+   * das Bild — verlangt das `|schwenk| <= −2`, was auch ein Schwenk von null
+   * nicht erfüllt. Ein Schwenk von null legt aber nichts frei. Die Schranke
+   * ist deshalb bei null abgefangen: dort steht das Bild eben still.
    */
   const grenze = Math.max(0, overscanX - 2);
-
   const zielD = RING_ANTEIL * fensterB;
-  /** Die Zeilenbreite in Vielfachen des Ringdurchmessers. */
-  const zeileJeRing = 1 + (ABSTAND_EM + wortEm) / RING_ZU_SCHRIFT;
 
-  let gewaehlt: Aufbau | null = null;
   for (let i = 0; i < daten.ringe.length; i++) {
     const r = daten.ringe[i];
-    const ringPx = r.d * zeigB;
-    const zeileB = ringPx * zeileJeRing;
-    // Wo der Ring ohne Schwenk stünde.
+    const ringD = r.d * zeigB;
+    // Vor dem Zielmaß ist der Ring zu groß. §5: die Bühne endet an dem Frame,
+    // an dem er es erreicht — und keinen Frame später.
+    if (ringD > zielD) continue;
+
     const ringRuhe = r.cx * zeigB - overscanX;
 
     /*
-     * Der Schwenk hat zwei Bedingungen und muss beide erfüllen: die Zeile darf
-     * links nicht aus dem Fenster laufen und rechts nicht. Daraus wird ein
-     * Intervall, das mit der Overscan-Schranke geschnitten wird.
+     * Der Schwenk will das Lockup zentrieren und darf die Reserve nicht
+     * verlassen. Was danach übrig bleibt, ist die Abweichung — sie wird
+     * gemeldet, nicht kaschiert.
      */
-    const von = Math.max(rand + ringPx / 2 - ringRuhe, -grenze);
-    const bis = Math.min(fensterB - rand - zeileB + ringPx / 2 - ringRuhe, grenze);
-    if (von > bis + 1e-9) continue;
+    const schriftVoll = ringD / (RING_ZU_VERSAL * versalAnteil);
+    const gesamtVoll = ringD + (LUECKE_EM + wortEm) * schriftVoll;
+    const soll = (fensterB - gesamtVoll) / 2 + ringD / 2;
+    let schwenk = Math.max(-grenze, Math.min(grenze, soll - ringRuhe));
 
-    // Von den erlaubten Schwenks der kleinste — das Bild soll möglichst so
-    // stehen bleiben, wie der Film es gerahmt hat.
-    const schwenk = von <= 0 && bis >= 0 ? 0 : Math.abs(von) < Math.abs(bis) ? von : bis;
+    // Die linke Kante darf nie in den Rand laufen. Steht der Ring nach dem
+    // Schwenk zu weit links, wird zurückgenommen.
+    let ringX = ringRuhe + schwenk;
+    if (ringX - ringD / 2 < rand) {
+      schwenk = Math.min(grenze, rand + ringD / 2 - ringRuhe);
+      ringX = ringRuhe + schwenk;
+    }
+    const linkeKante = ringX - ringD / 2;
 
-    gewaehlt = {
+    /*
+     * Passt die Zeile in §6-Größe nicht mehr ins Fenster, wird die SCHRIFT
+     * kleiner, nicht der Ring. Der Ring trägt das Tier; ein Wort, das ein
+     * paar Punkte kleiner steht, kostet nichts. Umgekehrt wäre es ein Fleck.
+     */
+    const platz = fensterB - rand - linkeKante - ringD;
+    const schriftPx = Math.min(schriftVoll, platz / (LUECKE_EM + wortEm));
+    if (schriftPx < schriftVoll * 0.3) continue;   // dann lieber ein späterer Frame
+    const gesamtB = ringD + (LUECKE_EM + wortEm) * schriftPx;
+
+    return {
       rueckIndex: i,
       frames: daten.hauptFrames + i + 1,
-      ringPx,
-      schriftPx: ringPx / RING_ZU_SCHRIFT,
-      zeileB,
+      ringD,
+      schriftPx,
+      gesamtB,
+      linkeKante,
       schwenk,
       grenze,
-      ringX: ringRuhe + schwenk,
+      ringX,
       ringY: r.cy * zeigH - overscanY,
+      mittenAbweichung: linkeKante + gesamtB / 2 - fensterB / 2,
+      ringZuVersal: ringD / (schriftPx * versalAnteil),
       deckung,
       zeigB,
       overscanX,
     };
-
-    /*
-     * Passt der Ring schon unter das gewünschte Maß, ist der Frame gefunden.
-     * Sonst weiter zu einem SPÄTEREN Frame — der Ring wird kleiner, die Zeile
-     * schmaler, und irgendwann passt sie.
-     *
-     * Der Auftrag sieht an dieser Stelle einen FRÜHEREN Frame vor. Das folgt
-     * aus seiner Bedingung, in der der Schwenk klemmt: ein größerer Ring
-     * verschiebt das Ziel zum Ring hin. Hier klemmt die Zeilenbreite, und die
-     * wächst mit dem Ring — die Richtung dreht sich um.
-     */
-    if (ringPx <= zielD) break;
   }
-  return gewaehlt;
+  return null;
 }

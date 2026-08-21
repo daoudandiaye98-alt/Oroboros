@@ -1,5 +1,5 @@
 /**
- * Erzeugt die Bildsequenzen der Landing — drei Formatsätze, je zwei Stufen —
+ * Erzeugt die Bildsequenzen der Landing — zwei Formatsätze, je zwei Stufen —
  * und vermisst den Ring in jedem Frame der Rückfahrt.
  *
  *   node scripts/sequenz-bauen.mjs
@@ -62,41 +62,46 @@ const HAUPT_FRAMES = 100;
  * Wie viele Frames der Rückfahrt je Satz kodiert werden — und warum es je
  * Satz eine andere Zahl ist.
  *
- * Der Bauauftrag sagt: „Die Bühne endet an diesem Frame. Alles danach im Film
- * wird nicht verwendet — die Frames werden gar nicht erst kodiert." Welcher
- * Frame das ist, hängt vom FENSTER ab, und das Bauskript kennt kein Fenster.
- * Kodiert wird deshalb bis zum tiefsten Maß, das ein Fenster DIESES Satzes
- * verlangen kann. Der Rest der zehn Sekunden entfällt tatsächlich.
+ * Der Bauauftrag sagt: „Die Bühne endet an dem Frame, an dem der Ring das
+ * Lockup-Maß erreicht — und keinen Frame später. Alle Frames nach dem
+ * gewählten werden nicht kodiert." Welcher Frame das ist, hängt vom FENSTER
+ * ab, und das Bauskript kennt kein Fenster. Kodiert wird deshalb bis zum
+ * tiefsten Maß, das ein Fenster DIESES Satzes verlangen kann.
+ *
+ * Das Zielmaß ist neu: der Ring soll 0,1456 der Fensterbreite messen — das
+ * ist der Mittelwert der beiden Zeilen aus §6 (57 px auf 390, 209 px auf
+ * 1440). Bis zum Kontinuitätsauftrag waren es 0,231; der Ring wird also
+ * kleiner und die Fahrt länger, nicht kürzer.
  *
  * Gerechnet wird mit
  *
- *     zielAnteil = 0,231 · (fensterB/fensterH) / (bildB/bildH)
+ *     zielAnteil = 0,1456 · fensterB / zeigB      zeigB = Bildbreite · Deckung
  *
- * solange die Höhe die Deckung bestimmt, und mit 0,231, sobald die Breite es
- * tut. Dazu der gemessene Anfangswert des Rings und die Schrumpfung von rund
- * 2,7 % je Frame:
+ * also 0,1456, sobald die Breite die Deckung bestimmt, und
+ * 0,1456 · (fensterB/fensterH) · (bildH/bildB), solange die Höhe es tut.
  *
- *   3:4   Fenster 0,75…1,00 breit zu hoch, immer breitengedeckt (0,7473 liegt
- *         unter 0,75) → zielAnteil konstant 0,231. Von 0,556 sind das 32
- *         Frames. Kodiert: 50.
- *   16:9  nur Querformat, W/H von 1,00 aufwärts → zielAnteil 0,129 bis 0,231.
- *         Diese Fahrt schrumpft langsamer als die beiden anderen (1,65 % statt
- *         2,7 % je Frame), von 0,266 sind es deshalb 43 Frames. Kodiert: 52,
- *         womit der Ring bis 0,115 reicht — das deckt jedes Querformat ab
- *         W/H 0,89 und damit mehr, als es gibt.
- *   9:16  Hochformat bis 0,75 → zielAnteil 0,145 (bei W/H 0,35, schmaler als
- *         jedes ausgelieferte Telefon) bis 0,231. Von 0,540 sind das bis zu 48
- *         Frames. Kodiert: 66.
+ *   3:4   Hochformat, immer höhengedeckt. Das schmalste ausgelieferte
+ *         Telefon liegt bei W/H 0,42 → zielAnteil 0,0816. Gemessen ist der
+ *         Ring bei Frame 75 auf 0,0817 der Bildbreite. Kodiert: 78.
+ *   16:9  Querformat. Unter W/H 1,793 höhengedeckt, darüber breitengedeckt.
+ *         Das ungünstigste ist W/H 1,20 → zielAnteil 0,0975; gemessen bei
+ *         Frame 48. Kodiert: 55.
  *
- * Es gibt auch eine harte Obergrenze von unten: unterhalb von rund 0,09 der
+ * Es gibt eine harte Obergrenze von unten: unterhalb von rund 0,09 der
  * Bildbreite ist der Ring bei der Messbreite 320 keine zehn Bildpunkte mehr
- * groß, und der Detektor springt (ab Frame 83 der 3:4-Fahrt um 15 bis 21 % je
- * Frame). Keine der drei Zahlen kommt dort auch nur in die Nähe.
+ * groß, und der Detektor springt (in der 3:4-Fahrt ab Frame 83 um 15 bis
+ * 21 % je Frame). Beide Zahlen liegen darunter, und die Monotonieprüfung
+ * unten fängt den Fall ohnehin ab.
  */
-const RUECK_FRAMES = { "film-3x4": 50, "film-16x9": 52, "film-9x16": 66 };
+const RUECK_FRAMES = { "film-3x4": 78, "film-16x9": 55 };
 
 /**
- * Die drei Sätze, mit dem Anker ihrer Ringvermessung.
+ * Die zwei Sätze, mit dem Anker ihrer Ringvermessung.
+ *
+ * Der 9:16-Satz ist fort. Der Prolog liegt nur in 3:4 und 16:9 vor, und ein
+ * Hochformat-Telefon, das den Prolog in 3:4 sieht und die Heldensequenz in
+ * 9:16, bekommt an der Fuge einen Schnitt von 16,7 von 255 — dieselbe Szene
+ * in zwei verschiedenen Aufnahmen. Mit dem 3:4-Satz sind es 3,1.
  *
  * `breite`/`hoehe` ist das Maß, in dem der Hauptabschnitt bereits kodiert IST.
  * Die neuen Rückfahrten liegen in genau diesen Maßen vor — an der Fuge zwischen
@@ -119,11 +124,6 @@ const SAETZE = [
     name: "film-16x9", haupt: "film-16x9", rueck: "rueckfahrt-16x9",
     breite: 1284, hoehe: 716, vorBreite: 480, vorGuete: 55,
     anker: { cx: 0.5156, cy: 0.5040, d: 0.2439, mittellinie: 0.2380 },
-  },
-  {
-    name: "film-9x16", haupt: "film-9x16", rueck: "rueckfahrt-9x16",
-    breite: 716, hoehe: 1284, vorBreite: 320, vorGuete: 52,
-    anker: { cx: 0.5059, cy: 0.4931, d: 0.5397, mittellinie: 0.5260 },
   },
 ];
 

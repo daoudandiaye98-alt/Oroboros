@@ -20,3 +20,7 @@ b041c009be89a1f5  11455021  assets/rueckfahrt-3x4.mp4
 dc816a6918134202  10452298  assets/rueckfahrt-16x9.mp4
 e6ceaf4c509697e0  18209719  assets/film-9x16.mp4
 a6d7346e7bd77d26  10228087  assets/rueckfahrt-9x16.mp4
+cbbc4d8c4f6eee88  4597978  assets/sturm-3x4.mp4
+fe09808ef49ba2a7  4658540  assets/sturm-16x9.mp4
+e622aff784d16cce  7266555  assets/schwenk-3x4.mp4
+aaf0f6b0aad880ee  8162959  assets/schwenk-16x9.mp4

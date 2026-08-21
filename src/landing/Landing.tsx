@@ -1,42 +1,39 @@
 /**
  * Die Landing — eine Route, eine Bühne, eine Bewegung.
  *
- * Die Hornviper zieht durch die Düne, verlangsamt, rollt sich ein, schließt
- * zum Ouroboros; dann fährt die Kamera zurück, bis der Ring so groß steht, wie
- * ihn das erste O des Wortes braucht — OROBOROS, dessen erster Buchstabe die
- * Schlange selbst ist.
+ * Ein Satz erodiert zu Sand, der Sand wird zum Sturm, der Sturm klart auf und
+ * legt die Hornviper frei, die Kamera geht hoch — und übergibt an den Film:
+ * die Viper zieht durch die Düne, verlangsamt, rollt sich ein, schließt zum
+ * Ouroboros; dann fährt die Kamera zurück, bis der Ring so groß steht, wie ihn
+ * das erste O des Wortes braucht. OROBOROS, dessen erster Buchstabe die
+ * Schlange selbst ist — und das ist die erste und einzige Nennung der Marke.
  *
  * DIE GRÖSSE KOMMT AUS DER WAHL DES FRAMES, NICHT AUS EINER TRANSFORMATION.
- * Das ist der Kern des Kontinuitäts-Auftrags. Ein geschrumpftes Bild ist
- * kleiner als sein Fenster und hat einen Rand; dieser Rand war die sichtbare
- * Kante. Bewegt wird jetzt nur noch innerhalb der Overscan-Reserve — also
- * innerhalb dessen, was `cover` ohnehin abschneidet. Die Rechnung dazu steht
- * in `kamera.ts`, die Vermessung des Materials in `scripts/ring-messen.mjs`.
+ * Ein geschrumpftes Bild ist kleiner als sein Fenster und hat einen Rand;
+ * dieser Rand war die sichtbare Kante. Bewegt wird nur noch innerhalb der
+ * Overscan-Reserve — also innerhalb dessen, was `cover` ohnehin abschneidet.
+ * Die Rechnung steht in `kamera.ts`, die Vermessung in `scripts/ring-messen.mjs`.
  *
- * WARUM KEIN `<video>`. Ein Video-Element ist für Wiedergabe gebaut, nicht
- * für Aufsuchen. `currentTime` zu setzen heißt: zum nächsten Keyframe
- * springen, dorthin dekodieren, ausgeben — je Bild, in beide Richtungen. Eine
- * Bildsequenz hat keinen Dekoderzustand: Frame 41 kostet so viel wie Frame 3.
- *
- * WARUM KEINE SCROLL-BIBLIOTHEK. `getBoundingClientRect` in der gemeinsamen
- * Bildschleife aus Phase 0 fragt jedes Bild neu und kann per Bauart nicht
- * veralten. Eine vorausberechnete Strecke müsste bei jedem Resize und jeder
- * Adressleiste des Telefons neu vermessen werden.
+ * WARUM DIE HELDENSEQUENZ KEIN `<video>` IST. Ein Video-Element ist für
+ * Wiedergabe gebaut, nicht für Aufsuchen. `currentTime` zu setzen heißt: zum
+ * nächsten Keyframe springen, dorthin dekodieren, ausgeben — je Bild, in beide
+ * Richtungen. Eine Bildsequenz hat keinen Dekoderzustand. Der PROLOG ist
+ * dagegen ein Film, weil er einmal vorwärts läuft; siehe `Prolog.tsx`.
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
-  canvasSpannen, farbenLesen, frameAdresse, frameStelle, ladeNachschub, ladeVorlauf,
-  naechstesBild, zeichneStelle, type Farbprobe, type Sequenz,
+  canvasSpannen, frameAdresse, frameStelle, ladeNachschub, ladeVorlauf,
+  naechstesBild, zeichneStelle, type Sequenz,
 } from "../motion/sequenz";
 import { bereich, buehneBeobachten } from "../motion/buehne";
 import { ruhig as istRuhig } from "../motion/tokens";
-import { choreografie, VORLAUF_SCHRITT, satzWaehlen } from "./choreografie";
+import { choreografie, VORLAUF_SCHRITT, satzWaehlen, prologFilm } from "./choreografie";
 import { aufbauRechnen, type Aufbau, type Ringdaten } from "./kamera";
 import { Wortmarke } from "./Wortmarke";
-import { Ladeschirm } from "./Ladeschirm";
+import { Prolog } from "./Prolog";
 import "../styles/landing.css";
 
-/** Bei welcher Schriftgröße die Wortbreite gemessen wird. */
+/** Bei welcher Schriftgröße Wortbreite und Versalhöhe gemessen werden. */
 const MESS_SCHRIFT = 100;
 
 export default function Landing() {
@@ -49,8 +46,6 @@ export default function Landing() {
   const [auf, setAuf] = useState(false);
   const [schriftAuf, setSchriftAuf] = useState(false);
   const [seq, setSeq] = useState<Sequenz | null>(null);
-  const [farben, setFarben] = useState<Farbprobe | null>(null);
-  const [erstes, setErstes] = useState<HTMLImageElement | null>(null);
   const [frei, setFrei] = useState(false);
   /** Nur für den Bericht und den Selbsttest: ist die volle Stufe komplett? */
   const [, setScharf] = useState(false);
@@ -58,9 +53,7 @@ export default function Landing() {
   const kasten = useRef<HTMLElement>(null);
   const bild = useRef<HTMLDivElement>(null);
   const leinwand = useRef<HTMLCanvasElement>(null);
-  const staub = useRef<HTMLCanvasElement>(null);
   const schleier = useRef<HTMLDivElement>(null);
-  const marke = useRef<HTMLDivElement>(null);
   const hinweis = useRef<HTMLParagraphElement>(null);
   const lockup = useRef<HTMLDivElement>(null);
   const wort = useRef<HTMLDivElement>(null);
@@ -75,13 +68,9 @@ export default function Landing() {
   /* ————————————————————————— Die Ringdaten ————————————————————————— */
 
   /*
-   * `ring.json` kommt VOR den Frames, und das ist keine Reihenfolge aus
-   * Bequemlichkeit: erst mit ihr steht fest, WIE VIELE Frames dieses Fenster
-   * überhaupt braucht. Auf 1440 × 900 sind es 141 von 152, auf 390 × 844 161
-   * von 166 — der Rest wird nie angefordert.
-   *
-   * Die Datei ist wenige Kilobyte groß und lädt, während sich der Ouroboros
-   * zeichnet. Sie kostet also keine wahrnehmbare Zeit.
+   * `ring.json` kommt VOR den Frames: erst mit ihr steht fest, WIE VIELE
+   * Frames dieses Fenster überhaupt braucht. Die Datei ist wenige Kilobyte
+   * groß und lädt, während der Satz noch steht.
    */
   useEffect(() => {
     if (ruhig) return;
@@ -96,13 +85,18 @@ export default function Landing() {
   /* ————————————————————————— Der Aufbau ————————————————————————— */
 
   /*
-   * Zwei Durchgänge, und beide sind nötig.
+   * ERST DIE SCHRIFT, DANN DIE KAMERA.
    *
-   * Zuerst wird die Wortbreite gemessen — bei einer festen Schriftgröße, aus
-   * der geladenen Schrift, in em umgerechnet. Sie zu raten hieße, bei jedem
-   * Schriftwechsel eine falsche Zeilenbreite zu haben und das erst in der
-   * Aufnahme zu sehen. Dann rechnet `kamera.ts` daraus den Frame, den Schwenk
-   * und die Maße, und erst dann bekommt die Zeile ihre echte Größe.
+   * Gemessen werden zwei Größen an der ECHTEN, GELADENEN Schrift: die Breite
+   * von „ROBOROS" und die Versalhöhe. Aus der Versalhöhe folgt über das
+   * Verhältnis 1,30 die Schriftgröße zum Ring, aus der Wortbreite die
+   * Gesamtbreite und damit die Zentrierung.
+   *
+   * Gegen die Ersatzschrift gemessen ist beides falsch — Georgia ist deutlich
+   * breiter als Jost 200 —, und das Lockup sitzt schief. Genau das benennt §6
+   * als wahrscheinliche Ursache des Versatzes. Deshalb hängt unten ein
+   * `document.fonts.ready` an der Messung, und deshalb wird nach dem Laden der
+   * Schrift NEU gerechnet, nicht nur neu gezeichnet.
    */
   const vermessen = useCallback(() => {
     const kastenEl = bild.current, zeile = lockup.current, w = wort.current;
@@ -111,13 +105,15 @@ export default function Landing() {
 
     zeile.style.setProperty("--lockup-schrift", `${MESS_SCHRIFT}px`);
     const wortEm = w.getBoundingClientRect().width / MESS_SCHRIFT;
+    const versalAnteil = versalMessen(getComputedStyle(w).fontFamily);
+    if (!wortEm || !versalAnteil) return;
 
     // Der sichere Rand: Gestaltungsmaß plus das, was das Gerät sich nimmt.
     const st = sicher.current ? getComputedStyle(sicher.current) : null;
     const einzug = st ? Math.max(parseFloat(st.paddingLeft) || 0, parseFloat(st.paddingRight) || 0) : 0;
     const rand = Math.max(16, Math.min(72, k.width * 0.05)) + einzug;
 
-    const a = aufbauRechnen(ringdaten, k.width, k.height, rand, wortEm);
+    const a = aufbauRechnen(ringdaten, k.width, k.height, rand, wortEm, versalAnteil);
     if (!a) {
       // Kein Frame trägt dieses Fenster. Nicht kaschieren: melden, und die
       // Zeile bleibt fort. Dann fehlt Bildmaterial, und das ist keine
@@ -128,67 +124,14 @@ export default function Landing() {
       return;
     }
 
-    zeile.style.setProperty("--ring-mass", `${a.ringPx}px`);
+    zeile.style.setProperty("--ring-mass", `${a.ringD}px`);
     zeile.style.setProperty("--lockup-schrift", `${a.schriftPx}px`);
-    zeile.style.left = `${a.ringX - a.ringPx / 2}px`;
+    zeile.style.left = `${a.linkeKante}px`;
     zeile.style.top = `${a.ringY}px`;
-
-    /*
-     * DAS SIEGEL WEICHT DEM RING AUS.
-     *
-     * Es hing an der Fensterunterkante, der Ring hängt an der Bildmitte — zwei
-     * Anker, die nichts voneinander wissen. Auf 844 × 390 lief „DESIGN"
-     * dadurch mitten durch den Ring. Kein Messwert hat das gemeldet; der
-     * Kontrast stimmte, die Ränder stimmten, die Zeile stand im Bild.
-     *
-     * Jetzt bekommt das Siegel seinen Platz unter dem Ring zugewiesen, sofern
-     * er dort hinpasst. Passt er nicht, bleibt der Anker aus dem Stylesheet —
-     * dann ist unten mehr Platz als neben dem Ring.
-     */
-    const u = unten.current;
-    if (u) {
-      for (const eig of ["top", "bottom", "left", "right", "maxWidth", "alignItems", "textAlign"]) {
-        u.style.removeProperty(eig.replace(/[A-Z]/g, (c) => "-" + c.toLowerCase()));
-      }
-      const kasten2 = u.getBoundingClientRect();
-      const drunter = a.ringY + a.ringPx / 2 + Math.max(18, k.width * 0.03);
-      // Der senkrechte Rand kommt aus der HÖHE, nicht aus der Breite. `rand`
-      // oben ist ein Seitenmaß — auf 844 × 390 sind das 42 px und damit fast
-      // ein Achtel der Fensterhöhe.
-      const untenRand = Math.max(12, k.height * 0.04);
-      const linksVomWort = a.ringX - a.ringPx / 2;
-
-      if (drunter + kasten2.height <= k.height - untenRand) {
-        // Der Normalfall: unter den Ring, mittig.
-        u.style.top = `${drunter}px`;
-        u.style.bottom = "auto";
-      } else if (linksVomWort - 2 * rand > 190) {
-        /*
-         * Flaches Fenster: unter den Ring passt es nicht.
-         *
-         * Auf 844 × 390 lief „DESIGN" mitten durch den Ring, weil das Siegel
-         * an der Fensterunterkante hing und der Ring an der Bildmitte — zwei
-         * Anker, die nichts voneinander wissen. Unter den Ring geschoben passt
-         * es dort auch nicht: der Satz bricht auf zwei Zeilen, und die
-         * Fensterhöhe ist 390.
-         *
-         * Links vom Lockup ist der Platz aber frei — das Wort steht rechts der
-         * Bildmitte. Dorthin, linksbündig, auf der Höhe des Rings.
-         */
-        u.style.left = `${rand}px`;
-        u.style.right = "auto";
-        u.style.top = `${a.ringY}px`;
-        u.style.bottom = "auto";
-        u.style.maxWidth = `${linksVomWort - 2 * rand}px`;
-        u.style.alignItems = "flex-start";
-        u.style.textAlign = "left";
-      }
-    }
 
     aufbauRef.current = a;
     setAufbau(a);
     if (geladen.current === 0) geladen.current = a.frames;
-
   }, [ringdaten]);
 
   useEffect(() => {
@@ -197,9 +140,7 @@ export default function Landing() {
     /*
      * `resize` UND `orientationchange`. Auf iOS meldet `resize` beim Drehen
      * gelegentlich noch die alten Maße; das zweite Ereignis kommt danach und
-     * rechnet mit den richtigen. Die Rollposition bleibt dabei stehen, weil
-     * hier nichts gescrollt wird — die Bühnenhöhe in `svh` ändert sich beim
-     * Ein- und Ausfahren der Adressleiste nicht.
+     * rechnet mit den richtigen.
      */
     window.addEventListener("resize", vermessen);
     window.addEventListener("orientationchange", vermessen);
@@ -213,15 +154,11 @@ export default function Landing() {
   /* ————————————————————————————— Laden ————————————————————————————— */
 
   /*
-   * ZWEI STUFEN.
+   * ZWEI STUFEN. Zuerst der Vorlauf: jeder vierte Frame, klein und grob.
+   * Sobald er da ist, darf der Prolog übergeben. Danach strömt die volle
+   * Auflösung nach und ersetzt die Frames einzeln, während gescrollt wird.
    *
-   * Zuerst der Vorlauf: jeder vierte Frame, klein und grob. Sobald er da ist,
-   * wird freigegeben — das Array ist dann vollständig, weil die Lücken mit der
-   * jeweils letzten Stütze gefüllt sind. Danach strömt die volle Auflösung
-   * nach und ersetzt die Frames einzeln, während gescrollt wird.
-   *
-   * Geladen wird nur bis zum Frame, an dem die Bühne endet. Alles danach im
-   * Film wird nicht verwendet und deshalb auch nicht angefordert.
+   * Geladen wird nur bis zum Frame, an dem die Bühne endet.
    */
   const gestartet = useRef(false);
   useEffect(() => {
@@ -229,14 +166,7 @@ export default function Landing() {
     if (!aufbau || gestartet.current) return;
     gestartet.current = true;
     const s = ladeVorlauf(`${satz}-vor`, aufbau.frames, VORLAUF_SCHRITT, {
-      beiFertig: () => {
-        setSeq(s);
-        setFrei(true);
-        // Die Farbprobe kommt aus dem ERSTEN Frame: der Staub der Ladeszene
-        // setzt sich zu genau diesem Bild.
-        const erstesBild = s.bilder[0];
-        if (erstesBild) { setFarben(farbenLesen(erstesBild)); setErstes(erstesBild); }
-      },
+      beiFertig: () => { setSeq(s); setFrei(true); },
     });
   }, [satz, ruhig, aufbau]);
 
@@ -247,10 +177,7 @@ export default function Landing() {
    * Abhängigkeiten enthielten `seq` — und genau dieses `seq` setzt `beiFertig`.
    * Also lief der Effekt neu, sein Aufräumen rief `stoppen()`, und der
    * Nachschub endete nach sechs von 141 Frames. Sichtbar war das nicht als
-   * Fehler, sondern als matschiges Schlussbild: der Vorlauf ist 480 px breit,
-   * das Fenster 1440 — dreifach hochgerechnet.
-   *
-   * Hier hängt er nur an `seq`, und `seq` wird genau einmal gesetzt.
+   * Fehler, sondern als matschiges Schlussbild.
    */
   useEffect(() => {
     if (ruhig || !seq) return;
@@ -259,7 +186,7 @@ export default function Landing() {
     });
   }, [seq, satz, ruhig]);
 
-  /** Der Auftritt der Wortmarke zündet erst, wenn die Ladeszene übergeben hat. */
+  /** Der Auftritt zündet erst, wenn der Prolog übergeben hat. */
   useEffect(() => {
     if (!uebergeben || auf) return;
     const id = requestAnimationFrame(() => setAuf(true));
@@ -267,7 +194,7 @@ export default function Landing() {
   }, [uebergeben, auf]);
 
   /*
-   * Solange die Ladeszene läuft, ist die Seite festgehalten.
+   * Solange der Prolog läuft, ist die Seite festgehalten.
    *
    * Nicht bloß optisch: ohne diese Sperre kann jemand während des Ladens
    * durchscrollen und landet auf einer Bühne, deren Canvas noch leer ist.
@@ -300,12 +227,6 @@ export default function Landing() {
         else hinweis.current.style.removeProperty("opacity");
       }
 
-      // Die Wortmarke zieht nach oben weg und ist früh fort.
-      if (marke.current) {
-        marke.current.style.opacity = String(1 - bereich(p, c.marke[0], c.marke[1]));
-        marke.current.style.transform = `translateY(${-p * c.markeWeg}px)`;
-      }
-
       /*
        * Der Schleier weicht zum Schluss.
        *
@@ -322,10 +243,7 @@ export default function Landing() {
       if (unten.current) {
         const s = bereich(p, c.siegel[0], c.siegel[1]);
         unten.current.style.opacity = String(s);
-        // `translateY(-50%)` nur, wenn die Zeile senkrecht am Ring hängt.
-        const mittig = unten.current.style.alignItems === "flex-start";
-        unten.current.style.transform =
-          `translateY(calc(${(1 - s) * c.siegelWeg}px${mittig ? " - 50%" : ""}))`;
+        unten.current.style.transform = `translateY(${(1 - s) * c.siegelWeg}px)`;
       }
 
       const cv = leinwand.current;
@@ -335,9 +253,8 @@ export default function Landing() {
       /*
        * Der Film — und der Schwenk.
        *
-       * Der Schwenk läuft über dasselbe Fenster wie das Lockup und ist die
-       * EINZIGE Bewegung, die das Bild erfährt. Er bleibt per Bauart innerhalb
-       * der Overscan-Reserve; siehe `kamera.ts`.
+       * Der Schwenk ist die EINZIGE Bewegung, die das Bild erfährt. Er bleibt
+       * per Bauart innerhalb der Overscan-Reserve; siehe `kamera.ts`.
        */
       const schwenk = auf2.schwenk * a;
       const anteil = bereich(p, c.film[0], c.film[1]);
@@ -353,11 +270,11 @@ export default function Landing() {
   }, [seq, ruhig]);
 
   /*
-   * Der erste Frame muss stehen, BEVOR die Ladeszene ihn aufdeckt.
+   * Der erste Frame muss stehen, BEVOR der Prolog übergibt.
    *
    * Die Bühnenschleife oben zeichnet erst, wenn gescrollt oder die Größe
-   * geändert wird — und während der Ladeszene passiert beides nicht. Ohne
-   * diesen einen Aufruf setzte sich der Staub vor eine leere Fläche.
+   * geändert wird — und während des Prologs passiert beides nicht. Ohne diesen
+   * einen Aufruf übergäbe der Film an eine leere Fläche.
    */
   useEffect(() => {
     const cv = leinwand.current;
@@ -373,10 +290,7 @@ export default function Landing() {
   return (
     <div className="landing-seite">
       {!uebergeben && (
-        <Ladeschirm
-          bereit={frei} farben={farben} erstes={erstes} staub={staub}
-          ruhig={ruhig} beiUebergabe={uebergabe}
-        />
+        <Prolog bereit={frei} film={prologFilm(satz)} ruhig={ruhig} beiUebergabe={uebergabe} />
       )}
 
       <section className="buehne" ref={kasten}>
@@ -407,30 +321,20 @@ export default function Landing() {
                */
               data-probe={frameAdresse(satz, 0)}
               data-aufbau={aufbau
-                ? `${aufbau.rueckIndex},${aufbau.frames},${aufbau.ringPx.toFixed(2)},${aufbau.schwenk.toFixed(2)},${aufbau.grenze.toFixed(2)},${aufbau.ringX.toFixed(2)},${aufbau.ringY.toFixed(2)}`
+                ? [aufbau.rueckIndex, aufbau.frames, aufbau.ringD.toFixed(2), aufbau.schwenk.toFixed(2),
+                   aufbau.grenze.toFixed(2), aufbau.ringX.toFixed(2), aufbau.ringY.toFixed(2),
+                   aufbau.gesamtB.toFixed(2), aufbau.linkeKante.toFixed(2),
+                   aufbau.mittenAbweichung.toFixed(2), aufbau.ringZuVersal.toFixed(3),
+                   aufbau.schriftPx.toFixed(2)].join(",")
                 : undefined}
               role="img"
               aria-label="Eine Hornviper zieht durch die Düne, rollt sich ein und schließt sich zum Ouroboros. Die Bewegung folgt dem Scrollen."
             />
           )}
 
-          {/*
-            Der Staub der Ladeszene — in der Bühne, UNTER dem Schleier. Er
-            gehört nicht der Ladeszene, sondern dem Bild; die Ladeszene malt
-            nur darauf. Läge er darüber, käme der Schleier bei der Übergabe
-            schlagartig dazu, und genau das war der gemessene Schnitt.
-          */}
-          {!ruhig && !uebergeben && (
-            <canvas ref={staub} className="ebene lade-staub" aria-hidden="true" />
-          )}
-
           <div ref={schleier} className="ebene ebene-schleier" />
 
           <div className="ebene ebene-text">
-            <div className="ebene" ref={marke}>
-              <Wortmarke text="OROBOROS" auf={auf} />
-            </div>
-
             <p ref={hinweis} className={`hinweis${auf ? " auf" : ""}`}>Scrollen</p>
 
             {/*
@@ -455,6 +359,13 @@ export default function Landing() {
               )}
             </div>
 
+            {/*
+              „DESIGN", der Strich und der Satz stehen mittig auf `achseX` —
+              also auf der Fenstermitte, nicht unter dem Ring und nicht unter
+              dem Wort. §6: sie haben ihre eigene Achse, und die ist die des
+              Fensters. Das steht im Stylesheet (`left: 0; right: 0`), damit
+              hier keine Zahl doppelt geführt wird.
+            */}
             <div ref={unten} className="siegel-unten" style={{ opacity: 0 }}>
               <p className="siegel-unter">Design</p>
               <span className="siegel-strich" aria-hidden="true" />
@@ -465,4 +376,22 @@ export default function Landing() {
       </section>
     </div>
   );
+}
+
+/**
+ * Die Versalhöhe der geladenen Schrift, in em.
+ *
+ * Gemessen an einem „R" über `actualBoundingBoxAscent` — nicht aus einer
+ * Tabelle. §6 rechnet mit Jost 200: Ring 57 px zu Schrift 61 px ergibt 0,719;
+ * gemessen sind 0,700. Der Unterschied ist die Definition von Versalhöhe im
+ * Schriftschnitt gegen die tatsächliche Oberkante des Buchstabens — drei
+ * Prozent, und gemessen ist gemessen.
+ */
+function versalMessen(familie: string): number {
+  const c = document.createElement("canvas").getContext("2d");
+  if (!c) return 0.7;
+  c.font = `200 ${MESS_SCHRIFT}px ${familie}`;
+  const m = c.measureText("R");
+  const h = m.actualBoundingBoxAscent;
+  return Number.isFinite(h) && h > 0 ? h / MESS_SCHRIFT : 0.7;
 }

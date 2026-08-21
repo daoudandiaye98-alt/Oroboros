@@ -226,9 +226,17 @@ html.landing body {
   position: absolute;
   display: flex;
   align-items: center;
-  /* Der Abstand zwischen Ring und Wort. In em, damit er mit der Schrift
-     mitwächst — ein fester Wert risse bei 40 px auf und klebte bei 200 px. */
-  gap: .12em;
+  /*
+   * Der Abstand zwischen Ring und Wort. In em, damit er mit der Schrift
+   * mitwächst — ein fester Wert risse bei 40 px auf und klebte bei 200 px.
+   *
+   * 0,10 em, und die Zahl steht ein zweites Mal in `kamera.ts` als
+   * `LUECKE_EM`. Sie MUSS dieselbe sein: die Kamera rechnet die Gesamtbreite
+   * daraus, und stünde hier 0,12, wäre die gezeichnete Zeile auf 1440 um
+   * 2,6 px breiter als die gerechnete — und damit die Zentrierung um 1,3 px
+   * daneben. Genau so ist es in der Abnahme aufgefallen.
+   */
+  gap: .1em;
   font-size: var(--lockup-schrift, 54px);
   line-height: 1;
   white-space: nowrap;
@@ -301,131 +309,98 @@ html.landing body {
   max-width: 26ch;
 }
 
-/* ——————————————————————————— Ladeszene ——————————————————————————— */
+/* ——————————————————————————— Prolog ——————————————————————————— */
 
 /*
- * KEIN LADEBALKEN, KEINE PROZENTZAHL.
+ * KEIN LADEBALKEN, KEINE PROZENTZAHL — UND KEINE MARKE.
  *
  * Bis Phase 2 stand hier ein Kreis, der sich im Takt der geladenen Frames
- * füllte, mit der Zahl in der Mitte. Das ist die Bauform, die jede zweite
- * Seite im Netz benutzt — und damit war das Erste, was jemand von dieser Marke
- * sah, austauschbar. Eine Wartezeit lässt sich nicht wegzaubern, aber man kann
- * entscheiden, was in ihr passiert.
+ * füllte. Danach zeichnete sich der Ouroboros als Linie. Beides ist fort: §4
+ * verbietet Ring und Wortmarke vor dem Schlussbild, und §2 ersetzt das
+ * Partikelsystem durch drei echte Aufnahmen.
  *
- * Jetzt zeichnet sich der Ouroboros. Der Zug dauert seine 1500 ms, unabhängig
- * davon, wie schnell die Frames kommen: eine Linie, deren Tempo am Netz hängt,
- * ist wieder ein Ladebalken, nur ohne Skala.
+ * Was bleibt, sind drei Ebenen übereinander:
+ *
+ *   `.prolog-film`      der Film, `object-fit: cover` — dieselbe Deckung wie
+ *                       die Heldensequenz, also derselbe Ausschnitt.
+ *   `.prolog-schleier`  die Leinwand darüber: der Sand, der ihn verdeckt.
+ *                       Sie trägt den Satz, die Erosionsfront und die Körner.
+ *   `.prolog-satz`      derselbe Satz als echter Text — für alle, die die
+ *                       Seite hören statt sehen, und für den ruhigen Pfad.
  */
-.ladeschirm {
+.prolog {
   position: fixed;
   inset: 0;
   z-index: 50;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(26px, 4svh, 44px);
   background: var(--tief);
+  /* Die Schriftgröße des Satzes steht hier, damit die Leinwand sie LESEN kann
+     statt sie ein zweites Mal zu führen. 15 px auf 390, 19 px auf 1440. */
+  --prolog-schrift: clamp(15px, 1.32vw, 19px);
 }
 
-/* 64 px auf 390, 96 px auf 1440 — dazwischen mitwachsend. */
-.lade-marke {
-  width: clamp(64px, 6.67vw, 96px);
-  height: clamp(64px, 6.67vw, 96px);
-  overflow: visible;
+.prolog-film,
+.prolog-schleier {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
-/*
- * `pathLength="100"` steht im Markup, damit hier 100 stehen kann.
- *
- * Ohne das müsste die tatsächliche Bogenlänge (103,8 bei r = 17 und 350°)
- * hier als Zahl stehen — und bei jeder Änderung am Pfad nachgerechnet werden.
- * So beschreibt das SVG seine eigene Länge und das Stylesheet zählt in
- * Prozent.
- */
-.lade-zug {
-  fill: none;
-  stroke: var(--creme);
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-dasharray: 100;
-  stroke-dashoffset: 100;
-  transition: stroke-dashoffset var(--zeichnen-marke) var(--kurve-marke);
-}
-.lade-kopf {
-  fill: var(--creme);
-  opacity: 0;
-  /* Der Kopf kommt erst, wenn der Körper fast herum ist — vorher gäbe es
-     einen Kopf ohne Schlange. */
-  transition: opacity var(--dauer-block) var(--kurve-marke);
-  transition-delay: calc(var(--zeichnen-marke) * .72);
-}
-.ladeschirm[data-zug="ja"] .lade-zug { stroke-dashoffset: 0; }
-.ladeschirm[data-zug="ja"] .lade-kopf { opacity: 1; }
-
-.lade-satz {
-  margin: 0;
-  font-family: var(--schrift-zeile);
-  font-style: italic;
-  font-size: clamp(15px, 1.32vw, 19px);
-  letter-spacing: .01em;
-  color: var(--creme);
-  opacity: 0;
-  transition: opacity var(--dauer-szene) var(--kurve-marke);
-  transition-delay: calc(var(--zeichnen-marke) * .45);
-}
-.ladeschirm[data-zug="ja"] .lade-satz { opacity: .82; }
+.prolog-film { object-fit: cover; }
 
 /*
- * Der Staub.
- *
- * Eigener Canvas über der Szene, nicht der Hero-Canvas: der zeichnet zur
- * selben Zeit schon seinen ersten Frame, und zwei Zeichner auf einer Fläche
- * hieße, dass einer den anderen jedes Bild überschreibt.
- */
-/*
- * Der Staub liegt in der Bühne, direkt über dem Film und UNTER dem Schleier.
- *
  * `width`/`height` ausdrücklich, nicht nur `inset: 0`: ein Canvas ist ein
  * ersetztes Element mit Eigengröße 300 × 150, und bei `width: auto` gewinnt
- * die. Die Fläche blieb 300 × 150 in der linken oberen Ecke, und der Staub
- * flog dort statt in der Mitte.
+ * die. Die Fläche bliebe 300 × 150 in der linken oberen Ecke.
  */
-.lade-staub { z-index: 1; pointer-events: none; }
+.prolog-schleier { pointer-events: none; }
 
 /*
- * Die Marke weicht, sobald sie zu Staub geworden ist.
+ * Der Satz als Text.
  *
- * Der Grund weicht NICHT mehr per CSS: seit dem Kontinuitäts-Auftrag malt der
- * Staub-Canvas ihn selbst und lässt ihn mit der Partikeldichte von `--tief`
- * zum Sandton von Frame 0 wandern. Ein Umschalten der
- * Hintergrundfarbe — und sei es weich — wäre wieder eine Blende zwischen zwei
- * Zuständen statt einer Verwandlung.
+ * Sichtbar gezeichnet wird er auf der Leinwand — anders ließe er sich nicht
+ * als Alphamaske lesen und in Körner zerlegen. Hier steht er trotzdem, damit
+ * ein Screenreader ihn findet: `nur-fuer-leser` nimmt ihn aus dem Bild, ohne
+ * ihn aus dem Baum zu nehmen.
  */
-.ladeschirm-inhalt {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: inherit;
-  transition: opacity var(--schlag-a) var(--kurve-standard);
+.prolog-satz {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  margin: 0;
+  text-align: center;
+  font-family: var(--schrift-zeile);
+  font-style: italic;
+  font-size: var(--prolog-schrift);
+  color: var(--creme);
+  transform: translateY(-50%);
 }
-/* `data-zerfallen`, NICHT `data-schlag="zerfall"`: der Schlag ist nach 600 ms
-   vorbei, das Zerfallensein nicht. An den Schlag gehängt kam die Marke beim
-   zweiten Schlag zurück und stand danach über der Düne. */
-.ladeschirm[data-zerfallen="ja"] .ladeschirm-inhalt { opacity: 0; }
-/*
- * Und der Grund der Ladeszene wird durchsichtig, sobald der Staub übernimmt.
- * Sichtbar ist das nicht: der Staub-Canvas malt in genau diesem Moment noch
- * `--tief`, dieselbe Farbe. Erst danach lässt er sie zum Sand wandern.
- */
-.ladeschirm[data-zerfallen="ja"] { background: transparent; }
+.prolog-satz.nur-fuer-leser {
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  white-space: nowrap;
+}
 
-/* Der ruhige Pfad: kein Staub, nur halten und blenden. */
-.ladeschirm[data-ruhig="ja"] {
-  transition: opacity var(--ruhe-blende) var(--kurve-standard);
-  transition-delay: var(--ruhe-halt);
+/* Ist der Schleier fort, ist auch sein Grund fort — darunter läuft der Film. */
+.prolog[data-zerfallen="ja"] { background: transparent; }
+
+/*
+ * Der ruhige Pfad: kein Film, keine Körner. Der Satz steht und blendet.
+ *
+ * §3 nennt danach „den letzten Frame des Sturms". Der käme als zweites
+ * Standbild dazu — auf einem Pfad, dessen Zweck es ist, Bewegung UND Last zu
+ * sparen, und dessen Seite darunter bereits ein Standbild zeigt. Der Satz
+ * blendet deshalb direkt auf dieses Standbild.
+ */
+.prolog[data-ruhig="ja"] {
+  transition: opacity var(--prolog-ruhig-blende) var(--kurve-standard);
+  transition-delay: var(--prolog-ruhig-stand);
 }
-.ladeschirm[data-ruhig="ja"][data-fertig="ja"] { opacity: 0; pointer-events: none; }
+.prolog[data-ruhig="ja"][data-fertig="ja"] { opacity: 0; pointer-events: none; }
 
 /* ————————————————————————————— Auftritt ————————————————————————————— */
 

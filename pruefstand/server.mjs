@@ -61,7 +61,31 @@ createServer((anfrage, antwort) => {
     createReadStream(datei).pipe(createGzip()).pipe(antwort);
     return;
   }
-  antwort.writeHead(200, { ...kopf, "content-length": statSync(datei).size });
+  /*
+   * Bereichsanfragen, und warum sie hier stehen müssen.
+   *
+   * Ein `<video>` fordert nicht die ganze Datei an, sondern Stücke — und
+   * verlangt dafür `accept-ranges`. Ohne das lädt Chromium die Datei zwar
+   * trotzdem, aber erst vollständig, bevor es das erste Bild zeigt. Der
+   * Prüfstand misst dann eine Wartezeit, die es im Netz nicht gibt: Vercel
+   * beantwortet Bereichsanfragen.
+   */
+  const groesse = statSync(datei).size;
+  const bereich = anfrage.headers.range;
+  const treffer = bereich && /^bytes=(\d*)-(\d*)$/.exec(bereich);
+  if (treffer) {
+    const von = treffer[1] ? Number(treffer[1]) : 0;
+    const bis = treffer[2] ? Math.min(Number(treffer[2]), groesse - 1) : groesse - 1;
+    antwort.writeHead(206, {
+      ...kopf,
+      "accept-ranges": "bytes",
+      "content-range": `bytes ${von}-${bis}/${groesse}`,
+      "content-length": bis - von + 1,
+    });
+    createReadStream(datei, { start: von, end: bis }).pipe(antwort);
+    return;
+  }
+  antwort.writeHead(200, { ...kopf, "accept-ranges": "bytes", "content-length": groesse });
   createReadStream(datei).pipe(antwort);
 }).listen(PORT, "127.0.0.1", () => {
   console.log(`dist/ mit gzip auf http://127.0.0.1:${PORT}`);

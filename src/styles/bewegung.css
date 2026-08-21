@@ -86,26 +86,35 @@
    * Der Ladevorgang ist die einzige Stelle der Seite, die eine Zeitachse hat
    * statt einer Rollposition. Deshalb stehen hier Millisekunden.
    *
-   * `--zeichnen-marke` ist der Zug, mit dem sich der Ouroboros schreibt.
-   * Die sechs Schläge danach sind der Übergang in den Film: die Linie zerfällt
-   * (A), der Staub treibt auseinander (B), er fällt (C), er setzt sich und die
-   * Maske öffnet das Bild (D), der Staub dünnt aus (E), der Rest weht als
-   * Flugsand darüber hinweg (F).
+   * HIER STAND EIN GEZEICHNETER OUROBOROS UND EIN PARTIKELSYSTEM IN SECHS
+   * SCHLÄGEN. Beides ist fort: der Ring darf vor dem Schlussbild nicht
+   * vorkommen (§4), und das Partikelfeld war in der Aufnahme als Raster zu
+   * erkennen (§1). An ihrer Stelle steht der Prolog.
    */
-  --zeichnen-marke: 1500ms;
-  --schlag-a:  600ms;
-  --schlag-b:  900ms;
-  --schlag-c:  700ms;
-  --schlag-d:  900ms;
-  --schlag-e: 1100ms;
-  /* Und danach hört es nicht auf: die letzten Körner wehen als Flugsand über
-     das Bild weiter. Ohne diesen Schlag gäbe es einen Moment, in dem etwas
-     endet — und ein Ende ist eine Naht. */
-  --schlag-f:  600ms;
+  /*
+   * Der Prolog.
+   *
+   * `--prolog-auftritt` ist die Zeit, in der der Satz erscheint. Danach steht
+   * er, bis der Film sein erstes Bild zeigen kann — diese Wartezeit hat keine
+   * Zahl, weil sie an der Leitung hängt und nicht an der Gestaltung.
+   *
+   * `--prolog-erosion` ist der ganze Beat 1 und 2 zusammen: die Front läuft
+   * von links über die Schrift, jeder freigegebene Bildpunkt wird ein
+   * Sandkorn, der Wind trägt es nach rechts, und hinter dem Sand steht der
+   * Sturm. Kürzer gerät die Erosion zur Wischblende, länger wartet man auf
+   * eine Seite, die schon fertig ist.
+   *
+   * 3600 ms, und die Zahl ist gemessen. `--tief` und das erste Bild des Films
+   * liegen 126 Helligkeitsstufen auseinander, und §7 lässt höchstens 12 je
+   * 120 ms zu. Bei 3000 ms waren es gemessene 12,5 — knapp darüber. Der Weg
+   * ist fest (die Farben sind es), also bleibt nur die Zeit.
+   */
+  --prolog-auftritt: 900ms;
+  --prolog-erosion: 3600ms;
 
-  /* Der ruhige Pfad kennt keine Partikel: halten, blenden, fertig. */
-  --ruhe-halt:   800ms;
-  --ruhe-blende: 500ms;
+  /* Der ruhige Pfad kennt keine Körner: der Satz steht, blendet, fertig. */
+  --prolog-ruhig-stand:  800ms;
+  --prolog-ruhig-blende: 500ms;
 
   /*
    * ————————————————— Die Choreografie des einen Akts —————————————————
@@ -131,11 +140,9 @@
   --hinweis-von:   0.01;
   --hinweis-bis:   0.09;
 
-  /* Die Wortmarke zieht nach oben weg und ist früh fort — sie gehört dem
-     Anfang, nicht dem Film. */
-  --marke-von:     0.05;
-  --marke-bis:     0.24;
-  --marke-weg:      60px;
+  /* HIER STAND DAS FENSTER DER WORTMARKE AM SEITENANFANG. §4: „OROBOROS wird
+     aus der Ladeszene und aus dem Anfang der Heldensequenz entfernt. Erste und
+     einzige Nennung der Marke ist das Schlussbild." */
 
   /*
    * Das letzte Fünftel: der Ring wird das erste O.

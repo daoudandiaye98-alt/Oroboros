@@ -550,3 +550,132 @@ waren und hart schalteten. Gesehen hat es die Aufnahme, nicht die Zahl.
 
 **Die Regel:** Mechanik grün heißt nicht fertig. Es heißt, dass man jetzt
 hinsehen darf.
+
+## Ein Video ist nicht falsch — es ist für die andere Richtung gebaut
+
+Seit Phase 0 stand hier: kein `<video>`. Der Grund war richtig und ist es
+weiterhin — ein Dekoder springt schlecht, und die Heldensequenz hängt am
+Rollbalken, also in beide Richtungen und im Takt einer Hand.
+
+Der Prolog läuft EINMAL VORWÄRTS. Genau dafür ist ein Dekoder gebaut. Elf
+Sekunden bei 24 Bildern wären als Bildfolge 264 Frames je Satz gewesen; bei
+zehn Bildern hätte eine Kamerafahrt billig ausgesehen. Als Film sind es 1,1 MB.
+
+**Die Regel:** eine Regel gilt für ihren Grund, nicht für ihren Wortlaut. Wenn
+der Grund fehlt, gilt sie nicht.
+
+## Ein Prüfstand ohne Dekoder ist kein Beleg
+
+Das Chromium, das Playwright mitbringt, ist der quelloffene Bau — ohne H.264.
+Der Prolog lief in jedem echten Browser und im Prüfstand gar nicht:
+`video.error.code === 4`. Ohne eine zweite Fassung in VP9 wäre der Prolog
+ungesehen ausgeliefert worden, und das eine Gesetz sagt, was das heißt.
+
+**Die Regel:** eine Fassung, die der Prüfstand abspielen kann, ist Teil der
+Auslieferung — nicht ein Zugeständnis an das Werkzeug.
+
+## Ein Zufall je Zelle ist Dithering, eine Kante ist eine Wischblende
+
+Der Schleier, durch den der Sturm erscheint, hatte drei Fassungen, und die
+ersten beiden sind an derselben Frage gescheitert: woran erkennt ein Auge, dass
+etwas Sand ist?
+
+1. Ein eigener Zufall je Maskenzelle — in der Aufnahme ein Sprenkelband über
+   dem halben Bild. Es sah nach Dateiformat aus.
+2. Ein zusammenhängendes Rauschfeld mit schmaler Kante — ein senkrechter
+   Vorhang, der nach rechts gezogen wird. Ein Grafikmittel.
+3. Dasselbe Rauschfeld über ein Band von einer halben Bildbreite — Schwaden.
+
+Sand in der Luft hat keine Kante, er dünnt aus. Die Breite des Übergangs ist
+deshalb keine Feinheit, sondern die Aussage.
+
+**Die Regel:** wo eine Grenze verlaufen soll, ist die Breite des Verlaufs die
+Gestaltungsentscheidung, nicht ein Parameter.
+
+## Kubische Interpolation hat Ecken, die man sieht
+
+Wert-Rauschen mit `3t² − 2t³` ist an den Gitterpunkten nur einmal stetig
+differenzierbar. Über dem hellen Himmel des Sturms standen die Zellen als
+weiche Rechtecke — derselbe Rasterbefund wie beim Partikelfeld, eine Ebene
+tiefer. `6t⁵ − 15t⁴ + 10t³` ist zweimal stetig, und das Muster verschwindet.
+
+**Die Regel:** ein Raster, das man sieht, hat eine Ursache in der Mathematik.
+Nicht die Amplitude ändern, sondern die Stelle finden, an der die Ableitung
+springt.
+
+## Zwei Rampen auf denselben 126 Stufen sind eine Rampe zu viel
+
+`--tief` und das erste Bild des Films liegen 126 Helligkeitsstufen auseinander.
+§7 lässt 12 je 120 ms zu — also mindestens 1260 ms. Der Grund wanderte über die
+Farbe, und gleichzeitig gingen die Löcher auf, durch die das Bild kam: gemessen
+17,6 auf einen Schlag.
+
+Getrennt kostet das Aufgehen NICHTS, denn der Grund ist dann bereits der
+Mittelwert genau dieses Bildes. Was durch die Löcher kommt, ist im Mittel so
+hell wie das, was verschwindet — es ändert sich nur die Textur.
+
+**Die Regel:** zwei Übergänge, die dieselbe Größe bewegen, addieren ihre Raten.
+Entweder nacheinander oder mit halber Geschwindigkeit.
+
+## Ein geteilter Nenner ist eine Zahl, die zweimal stimmen muss
+
+`gap: .12em` im Stylesheet, `LUECKE_EM = 0.10` in der Kamera. Die gerechnete
+Zeile war auf 1440 um 2,6 px schmaler als die gezeichnete, und damit stand die
+Zentrierung um 1,3 px daneben. Aufgefallen ist es nur, weil die Abnahme beide
+Zahlen vergleicht statt einer davon zu glauben.
+
+**Die Regel:** wo eine Zahl an zwei Stellen stehen MUSS, prüft eine Messung, ob
+sie noch dieselbe ist.
+
+## Der Prolog entscheidet, welches Material die Seite überhaupt tragen kann
+
+Der Prolog liegt in 3:4 und 16:9 vor. Ein schmales Telefon nahm bis dahin für
+die Heldensequenz den 9:16-Satz. An der Fuge zwischen Prolog und Held standen
+damit zwei verschiedene Aufnahmen derselben Szene — die Schlange einmal nach
+links, einmal nach rechts, gemessene 16,7 von 255. Mit dem 3:4-Satz sind es
+3,1.
+
+Der Preis ist Beschnitt: `cover` nimmt einem 3:4-Bild auf 390 × 844 38 % der
+Breite. Der Gewinn ist mehr als die Fuge — genau dieser Beschnitt IST die
+Overscan-Reserve, aus der der Schwenk kommt, und ohne ihn stünde das Lockup
+auch auf dem Telefon nicht zentriert.
+
+**Die Regel:** ein Formatsatz ist keine Eigenschaft eines Bildschirms, sondern
+eine Kette. Was am Anfang der Kette fehlt, entscheidet am Ende.
+
+## Zentriert und „der Ring ist das erste O" gehen nur zusammen, wenn die Reserve reicht
+
+§6 verlangt beides: die Gesamtbreite mittig, und der Ring als erster Buchstabe.
+Der Ring steht aber dort, wo das Tier liegt — über die ganze Rückfahrt bei
+cx 0,44 bis 0,53, also in der Bildmitte. Zentriert gehört er weit nach links.
+Wie weit er kann, sagt allein die Overscan-Reserve:
+
+| Fenster | Reserve | nötig | Rest |
+|---|---|---|---|
+| 390 × 844 | ±118 px | −117 px | **0** |
+| 430 × 932 | ±131 px | −129 px | **0** |
+| 1440 × 900 | ±85 px | −538 px | 453 px |
+| 1920 × 1080 | ±6 px | −765 px | 759 px |
+| 844 × 390 | ±0 px | −333 px | 333 px |
+
+Auf dem Telefon geht die Rechnung auf den Bildpunkt auf. Auf breiten Fenstern
+fehlt sie um ein Vielfaches der Reserve — nicht knapp, sondern grundsätzlich.
+
+**Die Regel:** wenn dieselbe Bedingung zum zweiten Mal unerfüllbar ist, ist
+nicht die Rechnung schuld. Es fehlt Material: eine Rückfahrt, die mit dem Ring
+LINKS im Bild endet, statt in der Mitte.
+
+## „Ring als Buchstabe" und „Schuppen erkennbar" schließen einander aus
+
+Bei 162 Quellbildpunkten sind die Schuppen einzeln zu zählen, bei 72 ist der
+Ring ein glatter Bogen. Die Grenze liegt zwischen den beiden, und sie ist nicht
+die Vergrößerung — 2,51-fach zeigt Schuppen, 2,29-fach nicht. Es ist, was
+darunter liegt.
+
+Ein Ring, der als Buchstabe lesen soll, misst 14 % der Fensterbreite. Auf
+390 × 844 sind das 72 Quellbildpunkte, weil die Rückfahrt in 828 px Breite
+vorliegt. Damit die Schuppen tragen, müsste der Ring dreimal so groß stehen —
+und dann ist er kein Buchstabe mehr.
+
+**Die Regel:** zwei Anforderungen an dieselbe Größe können sich ausschließen.
+Dann wird gerechnet, welche Auflösung beide trüge, und die Zahl gemeldet.

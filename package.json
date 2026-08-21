@@ -14,6 +14,11 @@
     "pruefstand": "tsx pruefstand/lauf.ts",
     "beleg": "node pruefstand/beleg.mjs pruefstand/artefakte/belege",
     "selbsttest": "node pruefstand/selbsttest.mjs pruefstand/artefakte/selbsttest",
+    "prolog": "node scripts/prolog-bauen.mjs",
+    "sequenz": "node scripts/sequenz-bauen.mjs",
+    "quellen": "bash scripts/pruefsummen.sh",
+    "abnahme": "node pruefstand/abnahme-prolog.mjs",
+    "aufnahmen": "node pruefstand/prolog-aufnahmen.mjs",
     "gesetz": "grep -rn 'cubic-bezier\\|duration:[[:space:]]*[0-9]' src/ --exclude-dir=styles || echo 'GESETZ GEHALTEN — 0 Treffer'"
   },
   "dependencies": {
