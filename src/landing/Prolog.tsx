@@ -964,7 +964,7 @@ export function Prolog({ bereit, film, ruhig, beiUebergabe }: PrologEigenschafte
         data-film={filmBereit ? "bereit" : "wartet"}
       />
       {/* Für alle, die die Seite hören statt sehen — und für den Ruhemodus. */}
-      <p className={`prolog-satz${ruhig ? "" : " nur-fuer-leser"}`}>{SATZ}</p>
+      <p lang="en" className={`prolog-satz${ruhig ? "" : " nur-fuer-leser"}`}>{SATZ}</p>
     </div>
   );
 }

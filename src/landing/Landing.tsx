@@ -55,6 +55,7 @@ export default function Landing() {
   const leinwand = useRef<HTMLCanvasElement>(null);
   const schleier = useRef<HTMLDivElement>(null);
   const hinweis = useRef<HTMLParagraphElement>(null);
+  const bruecke = useRef<HTMLParagraphElement>(null);
   const lockup = useRef<HTMLDivElement>(null);
   const wort = useRef<HTMLDivElement>(null);
   const sicher = useRef<HTMLDivElement>(null);
@@ -274,6 +275,22 @@ export default function Landing() {
       }
 
       /*
+       * Die Brücke: eine Zeile, die auftaucht und wieder geht.
+       *
+       * Kein Ein- und Ausblenden über zwei Fenster, sondern ein Sinus über
+       * EINES: bei 0 ist sie fort, in der Mitte steht sie ganz, am Ende ist
+       * sie wieder fort. Dazu ein kurzer Weg nach oben — dieselbe Richtung,
+       * in die der Sand im Prolog zieht, damit die Zeile aus derselben
+       * Bewegung kommt und nicht aus einer eigenen.
+       */
+      if (bruecke.current) {
+        const h = bereich(p, c.bruecke[0], c.bruecke[1]);
+        const da = h > 0 && h < 1 ? Math.sin(h * Math.PI) : 0;
+        bruecke.current.style.opacity = String(da);
+        bruecke.current.style.transform = `translateY(${((1 - da) * 14).toFixed(2)}px)`;
+      }
+
+      /*
        * Der Schleier weicht zum Schluss.
        *
        * Seine untere Kante ist zu 88 % schwarz. Bliebe er stehen, wäre das
@@ -391,7 +408,35 @@ export default function Landing() {
           <div ref={schleier} className="ebene ebene-schleier" />
 
           <div className="ebene ebene-text">
-            <p ref={hinweis} className={`hinweis${auf ? " auf" : ""}`}>Scrollen</p>
+            {/*
+              §5 — DER ROLLHINWEIS.
+
+              Erst stand hier ein kleiner Ring mit wanderndem Bogen — die
+              Figur der Seite, klein und in Bewegung. Die Abnahme hat ihn
+              zurückgewiesen, und zu Recht: §4 verlangt, dass VOR dem
+              Schlussbild kein Ring zu sehen ist. Ein Ring am unteren Rand
+              nimmt dem Schluss genau das vorweg, was ihn zum Schluss macht.
+
+              Also die andere Sprache dieser Seite, die des Prologs: der Wind,
+              der über Sand geht. Durch das Wort läuft ein Zug von links nach
+              rechts — dieselbe Richtung, in die die Schrift im Prolog
+              zerfällt. Keine neue Form, kein Pfeil, kein Springen: nur das
+              Wort und der Wind darin.
+            */}
+            <p ref={hinweis} className={`hinweis${auf ? " auf" : ""}`}>
+              <span className="hinweis-wort">Scrollen</span>
+            </p>
+
+            {/*
+              §6 — DIE EINE ZEILE.
+              Der Prolog endet mit „because you are ready for the next step".
+              Diese Zeile stellt die Frage, auf die dieser Satz die Antwort
+              ist. Sie steht allein, ohne Unterzeile, ohne Schaltfläche, und
+              sie ist fort, bevor der Ring sich schließt.
+            */}
+            <p ref={bruecke} className="bruecke" lang="en" style={{ opacity: 0 }}>
+              Afraid of what’s next?
+            </p>
 
             {/*
               Das Lockup steht dort, wo der Film seinen Ring hat — nicht

@@ -195,6 +195,10 @@ html.landing body {
   right: 0;
   bottom: calc(clamp(26px, 5svh, 54px) + env(safe-area-inset-bottom, 0px));
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(7px, 1.1svh, 11px);
   text-align: center;
   font-family: var(--schrift-titel);
   font-size: clamp(10px, 1.1vw, 12px);
@@ -206,6 +210,84 @@ html.landing body {
   transition-delay: calc(var(--auftritt-marke) * 2);
 }
 .hinweis.auf { opacity: 1; }
+
+/*
+ * DER WIND IM WORT.
+ *
+ * §5 verlangt einen zurückhaltenden Hinweis in der Sprache der Seite — kein
+ * hüpfender Pfeil. Ein Ring wäre die nächstliegende Figur und ist verboten:
+ * §4 lässt vor dem Schlussbild keinen zu.
+ *
+ * Was bleibt, ist die zweite Sprache dieser Seite: im Prolog nimmt der Wind
+ * die Schrift von links nach rechts. Genau dieser Zug läuft hier durch das
+ * Wort — ein Verlauf, der wandert, sonst nichts. Keine Form, keine Bewegung
+ * des Elements, keine zweite Farbe.
+ */
+.hinweis-wort {
+  display: block;
+  color: var(--creme);
+  /*
+   * Als MASKE, nicht als Farbverlauf mit `background-clip: text`.
+   *
+   * Bei `background-clip` steht daneben `color: transparent`. Fällt der
+   * Verlauf aus — alte Fassung, unbekannte Farbfunktion —, bleibt die
+   * durchsichtige Farbe stehen und das Wort ist WEG. Eine Maske, die nicht
+   * greift, lässt es einfach voll stehen. Der Ausfall darf nichts kosten.
+   */
+  -webkit-mask-image: linear-gradient(100deg, #000 0 38%, rgba(0,0,0,.42) 47%, #000 56% 100%);
+  mask-image: linear-gradient(100deg, #000 0 38%, rgba(0,0,0,.42) 47%, #000 56% 100%);
+  -webkit-mask-size: 320% 100%;
+  mask-size: 320% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  animation: hinweis-wehen 4.6s linear infinite;
+}
+/* Von links nach rechts — dieselbe Richtung, in die der Prolog die Schrift nimmt. */
+@keyframes hinweis-wehen {
+  from { -webkit-mask-position: -110% 0; mask-position: -110% 0; }
+  to   { -webkit-mask-position: 110% 0; mask-position: 110% 0; }
+}
+
+/*
+ * §6 — DIE BRÜCKE.
+ *
+ * Eine Zeile, mehr nicht. Sie steht in der Schrift der Zeile, nicht in der
+ * der Wortmarke: sie spricht, sie bezeichnet nicht. Ihre Deckkraft und ihr
+ * kurzer Weg kommen aus dem Rolllauf — hier steht nur, wie sie aussieht und
+ * wo sie liegt.
+ *
+ * OBEN, NICHT IN DER MITTE.
+ *
+ * Erst stand sie auf 63 %. In der Aufnahme lief sie beidemal mitten durch
+ * das Tier — bei 1440x900 endete das Fragezeichen auf dem Kopf, bei 390x844
+ * lag die ganze Zeile auf dem Körper. Das Tier ist das Bild; eine Zeile, die
+ * darauf liegt, nimmt ihm die Lesbarkeit und sich selbst die Ruhe.
+ *
+ * Oben ist in beiden Filmen offener Sand. Die Frage steht dort über der
+ * Szene, das Tier bleibt darunter frei — und zum Rollhinweis am unteren Rand
+ * ist der ganze Bildraum Abstand.
+ *
+ * Die Achse bleibt die des Fensters, wie bei „DESIGN" und beim Siegel.
+ */
+.bruecke {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 12.5%;
+  margin: 0 auto;
+  max-width: min(88%, 22em);
+  text-align: center;
+  font-family: var(--schrift-zeile);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(21px, 3.1vw, 46px);
+  line-height: 1.18;
+  letter-spacing: -.005em;
+  color: var(--creme);
+  text-wrap: balance;
+  will-change: opacity, transform;
+  pointer-events: none;
+}
 
 /* ——————————————————————— Lockup und Siegel ——————————————————————— */
 
@@ -481,6 +563,13 @@ html.landing body {
   .hinweis { display: none; }
   .siegel-unten { opacity: 1 !important; transform: none !important; }
   /*
+   * Im Ruhemodus läuft keine Choreografie, also setzt niemand die Deckkraft
+   * der Brücke. Sie steht deshalb hier fest — der Text bleibt vorhanden, nur
+   * ohne Auftritt, und tiefer, damit er der Wortmarke nicht ins Bild läuft.
+   */
+  .bruecke { opacity: 1 !important; transform: none !important; top: 12.5%; }
+  .hinweis-wort { animation: none; -webkit-mask-image: none; mask-image: none; }
+  /*
    * Im Ruhemodus fährt keine Kamera, also setzt auch niemand `left` und `top`.
    * Die Zeile bekommt deshalb hier ihre eigene Stelle: mittig über dem
    * Standbild, in einer Größe, die zum ruhenden Bild passt.
@@ -498,6 +587,8 @@ html.landing body {
 :root.ruhige-bewegung .zeichen-schacht { transform: none; transition: none; }
 :root.ruhige-bewegung .hinweis { display: none; }
 :root.ruhige-bewegung .siegel-unten { opacity: 1 !important; transform: none !important; }
+:root.ruhige-bewegung .bruecke { opacity: 1 !important; transform: none !important; top: 12.5%; }
+:root.ruhige-bewegung .hinweis-wort { animation: none; -webkit-mask-image: none; mask-image: none; }
 :root.ruhige-bewegung .lockup {
   left: 50%;
   top: 46%;

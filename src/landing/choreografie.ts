@@ -24,6 +24,8 @@ export interface Choreografie {
   film: Fenster;
   /** Wann blendet der Rollhinweis aus? */
   hinweis: Fenster;
+  /** Wann steht die eine Zeile, die vom Sturm zum Ring führt? */
+  bruecke: Fenster;
   /** Wann wandert der Ausschnitt, bis der Ring das erste O ist? */
   lockup: Fenster;
   /** Wann treten die sieben Buchstaben einzeln dazu? */
@@ -38,6 +40,7 @@ export function choreografie(): Choreografie {
   return {
     film: [zahl(s, "--film-von"), zahl(s, "--film-bis")],
     hinweis: [zahl(s, "--hinweis-von"), zahl(s, "--hinweis-bis")],
+    bruecke: [zahl(s, "--bruecke-von"), zahl(s, "--bruecke-bis")],
     lockup: [zahl(s, "--lockup-von"), zahl(s, "--lockup-bis")],
     schrift: [zahl(s, "--schrift-von"), zahl(s, "--schrift-bis")],
     siegel: [zahl(s, "--siegel-von"), zahl(s, "--siegel-bis")],
