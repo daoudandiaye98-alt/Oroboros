@@ -1,0 +1,496 @@
+/*
+ * Die Landing — Layout, Typografie, Ebenen.
+ *
+ * Was hier NICHT steht: Dauern, Kurven, Versätze, Fortschrittsfenster. Die
+ * stehen ausnahmslos in `bewegung.css`. Diese Datei beschreibt, WO etwas
+ * liegt und WIE GROSS es ist — nicht, wie es sich bewegt.
+ */
+
+/* ————————————————————————————— Schriften ————————————————————————————— */
+/*
+ * Selbst gehostet über @fontsource, kein Google-Fonts-Link.
+ *
+ * Ein Link auf fonts.googleapis.com heißt: eine zusätzliche DNS-Auflösung,
+ * ein Verbindungsaufbau und ein Stylesheet, das erst DANN die Schriftdateien
+ * anfordert — drei Runden, bevor der erste Buchstabe richtig steht. Bei einer
+ * Wortmarke über 13 vw ist der Sprung von der Ersatzschrift zur richtigen
+ * kein Detail, sondern das Erste, was man sieht.
+ */
+/*
+ * Jost nur in 200. Der Schnitt 300 stand hier und wurde von keinem einzigen
+ * Text benutzt — Hinweis und Unterzeile sind Space Mono, der Siegelsatz ist
+ * EB Garamond, Wortmarke und Siegelmarke sind 200. 13 kB, die auf dem
+ * kritischen Pfad einer Seite lagen, die auf ihr erstes Bild wartet.
+ */
+@import "@fontsource/jost/latin-200.css";
+@import "@fontsource/eb-garamond/latin-400-italic.css";
+@import "@fontsource/space-mono/latin-400.css";
+
+:root {
+  --schrift-marke: "Jost", system-ui, sans-serif;
+  --schrift-zeile: "EB Garamond", Georgia, serif;
+  --schrift-titel: "Space Mono", ui-monospace, monospace;
+}
+
+/* ————————————————————————————— Grundlage ————————————————————————————— */
+
+html.landing,
+html.landing body {
+  background: var(--tief);
+  color: var(--creme);
+}
+
+.landing-seite {
+  font-family: var(--schrift-marke);
+  font-weight: 200;
+  background: var(--tief);
+  color: var(--creme);
+  /* Waagerecht gibt es nichts zu rollen. `clip` statt `hidden`: `hidden`
+     erzeugt einen Rollkontext, in dem `position: sticky` anders rechnet. */
+  overflow-x: clip;
+}
+
+/*
+ * Die eine Bühne und ihr stehendes Kind.
+ *
+ * `svh` statt `vh`: auf dem Telefon wächst und schrumpft `vh` mit der
+ * Adressleiste, und ein Bild, dessen Höhe sich beim Scrollen ändert, springt.
+ * `svh` ist die kleine, stabile Fassung.
+ *
+ * 420 svh, und die Zahl ist gerechnet, nicht gewählt.
+ *
+ * Die Höhe ist der Weg, über den die Frames verteilt werden — sie entscheidet
+ * über die Glätte. 420 svh minus ein Bildschirm sind auf 844 px Fensterhöhe
+ * 2701 px Scrollweg. Davon gehören dem Film 0,78 (von 0,02 bis 0,80), also
+ * 2107 px, verteilt auf 149 Schritte: 14 px zwischen zwei Bildwechseln. Auf
+ * 1440 × 900 sind es 15 px.
+ *
+ * Zum Vergleich, beides gemessen: bei 110 px sieht man zwei Schlangen
+ * übereinander, weil die Überblendung zwei zu verschiedene Bilder mischt; bei
+ * 25 px verschmilzt es. 14 px ist der Bereich, in dem die Blende glättet,
+ * statt zu schlieren — die Rückfahrt hat dafür 50 Frames dazubekommen und die
+ * Bühne 120 svh mehr Weg.
+ */
+.buehne {
+  position: relative;
+  height: 420svh;
+  /*
+   * `svh`, nicht `vh` und nicht `dvh`. `vh` wächst und schrumpft mit der
+   * Adressleiste; `dvh` tut dasselbe, nur benannt. Beides verschiebt die ganze
+   * Choreografie mitten im Rollen, weil die Bühnenhöhe der Weg IST, über den
+   * die Frames verteilt sind. `svh` ist die kleine, stabile Fassung.
+   */
+  overscroll-behavior-y: none;
+}
+
+.bild {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  background: var(--tief);
+}
+
+/**
+ * Die Ordnung der Ebenen.
+ *
+ *   1 Bild       Canvas bzw. Standbild
+ *   2 Schleier   damit der Text darauf steht
+ *   3 Text       Wortmarke, Hinweis, Siegel
+ *
+ * ES GIBT KEINE GRUNDEBENE MEHR. Bis zum Kontinuitäts-Auftrag lag unter dem
+ * Bild eine Fläche im mittleren Sandton — sie kam zum Vorschein, sobald das
+ * Bild am Ende geschrumpft wurde, und war die sichtbare Kante. Das Bild wird
+ * nicht mehr geschrumpft, also gibt es nichts mehr zu füllen. Die Ebene ist
+ * ersatzlos fort, nicht durch eine bessere ersetzt.
+ *
+ * Der Text MUSS über dem Schleier liegen. Lag er darunter — ein Fehler aus
+ * der verworfenen Fassung, an den Aufnahmen als matter Text zu sehen —, zog
+ * der Schleier ihn mit ins Dunkle: er wurde nicht lesbarer, sondern nur
+ * gemeinsam mit dem Grund gedämpft.
+ */
+.ebene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.ebene-bild { object-fit: cover; z-index: 1; }
+
+/*
+ * Misst, was sich das Gerät an den Rändern nimmt — Notch, abgerundete Ecken,
+ * Gestenleiste. Unsichtbar und ohne Fläche; gelesen wird nur sein `padding`.
+ * Ohne diese Messung liefe die Zeile auf einem iPhone im Querformat unter die
+ * abgerundete Ecke.
+ */
+.sicherer-rand {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  visibility: hidden;
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+.ebene-schleier { background: var(--schleier); z-index: 2; pointer-events: none; }
+.ebene-text { z-index: 3; pointer-events: none; }
+
+/*
+ * HIER STAND DIE ABDUNKLUNG. Sie ist mit Phase 2 ersatzlos fort.
+ *
+ * `.dunkel` legte am Ende rgba(14,10,6,.62) über das ganze Bild, damit cremes
+ * und goldenes Siegel darauf 4,5:1 erreichten. Der Preis war das Schlussbild:
+ * die Sonne auf dem Sand, auf die zwei Auflösungspässe hingearbeitet hatten,
+ * lag am Ende unter zwei Dritteln Schwarz.
+ *
+ * Der Kontrast kommt jetzt aus der anderen Richtung — dunkler Text auf hellem
+ * Sand statt hellem Text auf abgedunkeltem Sand. Gemessen wird er dadurch
+ * nicht weniger; nachzulesen im Bericht, Steuerung 3.3.
+ *
+ * Auch der Schleier blendet zum Schluss weg: seine untere Kante ist zu 88 %
+ * schwarz, und das ist dieselbe Abdunklung, nur an einer anderen Stelle.
+ */
+
+/* ————————————————————————————— Wortmarke ————————————————————————————— */
+
+.wortmarke {
+  position: absolute;
+  left: 0;
+  right: 0;
+  /*
+   * Verankert an der Unterkante, nicht an `top`.
+   *
+   * Die Schriftgröße wächst mit der BREITE (13,4 vw), eine Prozentangabe von
+   * oben rechnet in der HÖHE. Zwei Achsen, die nichts voneinander wissen: mit
+   * `top` wanderte die Zeile bei breiten Fenstern aus dem Bild. Gemessen in
+   * der verworfenen Fassung: auf 1440 × 900 standen von OROBOROS nur noch
+   * Bögen im Bild.
+   */
+  bottom: calc(58% - .3em);
+  display: flex;
+  justify-content: center;
+  font-size: max(40px, 13.4vw);
+  font-weight: 200;
+  letter-spacing: .05em;
+  line-height: .95;
+  white-space: nowrap;
+}
+
+/** Jedes Zeichen ein eigener Kasten — anders lässt sich nichts staffeln. */
+.zeichen { display: inline-block; will-change: transform; }
+
+/*
+ * Der Schacht, aus dem ein Zeichen von unten hereinfährt.
+ *
+ * `overflow: hidden` am Elternteil, damit das Zeichen nicht sichtbar ist,
+ * bevor es an seinem Platz steht. Ohne den Schacht sähe man acht Buchstaben
+ * unterhalb der Zeile herumstehen und hochrutschen.
+ */
+.schacht { display: inline-block; overflow: hidden; vertical-align: bottom; }
+
+/* ————————————————————————————— Hinweis ————————————————————————————— */
+
+.hinweis {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(clamp(26px, 5svh, 54px) + env(safe-area-inset-bottom, 0px));
+  margin: 0;
+  text-align: center;
+  font-family: var(--schrift-titel);
+  font-size: clamp(10px, 1.1vw, 12px);
+  letter-spacing: .34em;
+  text-transform: uppercase;
+  color: var(--creme);
+  opacity: 0;
+  transition: opacity var(--dauer-szene) var(--kurve-marke);
+  transition-delay: calc(var(--auftritt-marke) * 2);
+}
+.hinweis.auf { opacity: 1; }
+
+/* ——————————————————————— Lockup und Siegel ——————————————————————— */
+
+/*
+ * Das Schlussbild: OROBOROS, dessen erstes O die Schlange ist.
+ *
+ * DIE ZEILE STEHT DORT, WO DER FILM SEINEN RING HAT. Bis zum Kontinuitäts-
+ * Auftrag war es umgekehrt: die Zeile stand mittig, und das Bild wurde
+ * geschrumpft und geschoben, bis der Ring in ihren freien Kasten passte. Das
+ * Schrumpfen hat den Rand freigelegt, das Schieben hat ihn vergrößert.
+ *
+ * Jetzt kommen `left`, `top`, `--ring-mass` und `--lockup-schrift` aus
+ * `kamera.ts`. Hier steht kein Maß und keine Position — nur, dass es eine
+ * Zeile ist, deren erstes Zeichen ein leerer Kasten bleibt. Gefüllt wird er
+ * vom Film.
+ */
+.lockup {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  /*
+   * Der Abstand zwischen Ring und Wort. In em, damit er mit der Schrift
+   * mitwächst — ein fester Wert risse bei 40 px auf und klebte bei 200 px.
+   *
+   * 0,10 em, und die Zahl steht ein zweites Mal in `kamera.ts` als
+   * `LUECKE_EM`. Sie MUSS dieselbe sein: die Kamera rechnet die Gesamtbreite
+   * daraus, und stünde hier 0,12, wäre die gezeichnete Zeile auf 1440 um
+   * 2,6 px breiter als die gerechnete — und damit die Zentrierung um 1,3 px
+   * daneben. Genau so ist es in der Abnahme aufgefallen.
+   */
+  gap: .1em;
+  font-size: var(--lockup-schrift, 54px);
+  line-height: 1;
+  white-space: nowrap;
+  /* Senkrecht an der Ringmitte ausgerichtet; `top` ist die Mitte, nicht die
+     Oberkante. */
+  transform: translateY(-50%);
+}
+
+/* RING LINKS. Er ist das erste O, also steht er vor dem Rest. `flex-shrink: 0`,
+   damit ihn ein enges Fenster nicht zusammendrückt: ein gestauchter Ring passte
+   nicht mehr zum Bild darunter. */
+.lockup-ring {
+  flex: 0 0 auto;
+  width: var(--ring-mass, 90px);
+  height: var(--ring-mass, 90px);
+}
+
+.lockup-wort {
+  font-family: var(--schrift-marke);
+  font-weight: 200;
+  letter-spacing: .05em;
+  color: var(--tief);
+}
+
+/* Jeder Buchstabe einzeln, damit er einzeln kommen kann. */
+.lockup-zeichen { display: inline-block; }
+
+/*
+ * Das Siegel steht unter der Zeile, mittig, mit sicherem Rand.
+ *
+ * Es folgt der Zeile NICHT: es hat seine eigene Stelle im Bild, und die soll
+ * sich nicht mit dem Fenster verschieben. Der Abstand nach unten enthält
+ * `env(safe-area-inset-bottom)` — auf einem iPhone liegt dort die Gestenleiste.
+ */
+.siegel-unten {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(clamp(24px, 9svh, 92px) + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /*
+   * Der Abstand wächst mit der HÖHE, nicht mit der Breite.
+   *
+   * Auf 844 × 390 muss der Block unter den Ring passen, und dort fehlten mit
+   * festen 14 px genau 0,7 px. Eine Zahl, die an der Fensterhöhe hängt, löst
+   * das ohne Sonderfall: 7 px auf 390, 14 px ab 824.
+   */
+  gap: clamp(7px, 1.7svh, 14px);
+  text-align: center;
+  will-change: transform, opacity;
+}
+.siegel-unten p { margin: 0; }
+.siegel-unter {
+  font-family: var(--schrift-titel);
+  font-size: clamp(10px, 1.2vw, 13px);
+  letter-spacing: .42em;
+  text-transform: uppercase;
+  /*
+   * Dunkel statt Gold. Gold auf hellem Sand kommt auf 1,6:1 — es war nur auf
+   * der Abdunklung lesbar, und die ist seit Phase 2 fort. `--tief` auf dem
+   * Sand liegt bei über 8:1.
+   */
+  color: var(--tief);
+}
+.siegel-strich {
+  width: clamp(48px, 8vw, 92px);
+  height: 1px;
+  background: rgba(14, 10, 6, .42);
+}
+.siegel-satz {
+  font-family: var(--schrift-zeile);
+  font-style: italic;
+  font-size: clamp(16px, 2vw, 22px);
+  color: rgba(14, 10, 6, .86);
+  max-width: 26ch;
+}
+
+/* ——————————————————————————— Prolog ——————————————————————————— */
+
+/*
+ * KEIN LADEBALKEN, KEINE PROZENTZAHL — UND KEINE MARKE.
+ *
+ * Bis Phase 2 stand hier ein Kreis, der sich im Takt der geladenen Frames
+ * füllte. Danach zeichnete sich der Ouroboros als Linie. Beides ist fort: §4
+ * verbietet Ring und Wortmarke vor dem Schlussbild, und §2 ersetzt das
+ * Partikelsystem durch drei echte Aufnahmen.
+ *
+ * Was bleibt, sind drei Ebenen übereinander:
+ *
+ *   `.prolog-film`      der Film, `object-fit: cover` — dieselbe Deckung wie
+ *                       die Heldensequenz, also derselbe Ausschnitt.
+ *   `.prolog-schleier`  die Leinwand darüber: der Sand, der ihn verdeckt.
+ *                       Sie trägt den Satz, die Erosionsfront und die Körner.
+ *   `.prolog-satz`      derselbe Satz als echter Text — für alle, die die
+ *                       Seite hören statt sehen, und für den ruhigen Pfad.
+ */
+.prolog {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: var(--tief);
+  /* Die Schriftgröße des Satzes steht hier, damit die Leinwand sie LESEN kann
+     statt sie ein zweites Mal zu führen. 15 px auf 390, 19 px auf 1440. */
+  --prolog-schrift: clamp(15px, 1.32vw, 19px);
+}
+
+.prolog-film,
+.prolog-schleier {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.prolog-film { object-fit: cover; }
+
+/*
+ * `width`/`height` ausdrücklich, nicht nur `inset: 0`: ein Canvas ist ein
+ * ersetztes Element mit Eigengröße 300 × 150, und bei `width: auto` gewinnt
+ * die. Die Fläche bliebe 300 × 150 in der linken oberen Ecke.
+ */
+.prolog-schleier { pointer-events: none; }
+
+/*
+ * Der Satz als Text.
+ *
+ * Sichtbar gezeichnet wird er auf der Leinwand — anders ließe er sich nicht
+ * als Alphamaske lesen und in Körner zerlegen. Hier steht er trotzdem, damit
+ * ein Screenreader ihn findet: `nur-fuer-leser` nimmt ihn aus dem Bild, ohne
+ * ihn aus dem Baum zu nehmen.
+ */
+.prolog-satz {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  margin: 0;
+  text-align: center;
+  font-family: var(--schrift-zeile);
+  font-style: italic;
+  font-size: var(--prolog-schrift);
+  color: var(--creme);
+  transform: translateY(-50%);
+}
+.prolog-satz.nur-fuer-leser {
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Ist der Schleier fort, ist auch sein Grund fort — darunter läuft der Film. */
+.prolog[data-zerfallen="ja"] { background: transparent; }
+
+/*
+ * Der ruhige Pfad: kein Film, keine Körner. Der Satz steht und blendet.
+ *
+ * §3 nennt danach „den letzten Frame des Sturms". Der käme als zweites
+ * Standbild dazu — auf einem Pfad, dessen Zweck es ist, Bewegung UND Last zu
+ * sparen, und dessen Seite darunter bereits ein Standbild zeigt. Der Satz
+ * blendet deshalb direkt auf dieses Standbild.
+ */
+.prolog[data-ruhig="ja"] {
+  transition: opacity var(--prolog-ruhig-blende) var(--kurve-standard);
+  transition-delay: var(--prolog-ruhig-stand);
+}
+.prolog[data-ruhig="ja"][data-fertig="ja"] { opacity: 0; pointer-events: none; }
+
+/* ————————————————————————————— Auftritt ————————————————————————————— */
+
+/*
+ * Der Verzug je Zeichen wird HIER gerechnet, nicht in der Komponente.
+ *
+ * Die Komponente reicht nur ihren Index `--i` durch. Damit steht keine
+ * Millisekunde im .tsx, und die Staffelung lässt sich umtakten, ohne eine
+ * Komponente anzufassen — die Regel aus Phase 0, wörtlich genommen.
+ */
+.zeichen-schacht {
+  transform: translateY(108%);
+  transition: transform var(--dauer-block) var(--kurve-marke);
+  transition-delay: calc(var(--auftritt-marke) + var(--i, 0) * var(--versatz-zeichen));
+}
+.auf .zeichen-schacht { transform: none; }
+
+/* ————————————————————————— Der Ruhemodus ————————————————————————— */
+
+/*
+ * Bei „Bewegung reduzieren" ist die Seite EIN Bildschirm, nicht 420 svh.
+ *
+ * Die Bühnenhöhe ist Weg für eine Bewegung. Fällt die Bewegung weg, bleibt
+ * nur der Weg — vier Bildschirme, auf denen sich nichts tut. Das ist keine
+ * Rücksichtnahme, das ist eine Zumutung.
+ *
+ * Das `!important` beim Siegel ist richtig und nicht faul: sein
+ * Anfangszustand steht als Inline-Stil im Markup, damit bei langsamer
+ * Verbindung nichts aufblitzt, und Inline schlägt jede Klasse.
+ *
+ * Das Lockup steht hier als GANZES WORT. Sein erstes O ist sonst ein Loch,
+ * das der Film füllt — und im Ruhemodus fährt der Ausschnitt nicht dorthin.
+ * Ein Wort mit einer Lücke wäre schlechter als eines ohne Bild.
+ *
+ * DER SCHLEIER GEHT AUS, UND ZWAR HIER AUCH.
+ *
+ * Im Lauf blendet ihn die Bühnenschleife über das letzte Fünftel weg. Im
+ * Ruhemodus läuft keine Schleife — er stünde also auf voller Stärke, und seine
+ * untere Kante ist zu 88 % schwarz. Genau dort steht seit Phase 2 dunkler
+ * Text. Gemessen war „DESIGN" damit fast unsichtbar: dunkel auf dunkel, weil
+ * zwei richtige Entscheidungen an verschiedenen Stellen getroffen wurden.
+ *
+ * Ohne Schleier ist der Grund überall heller Sand, und alles darauf ist
+ * dunkel — auch die Wortmarke oben, die im Lauf creme ist. Ein Bild, eine
+ * Regel.
+ */
+/*
+ * Wortmarke UND Siegel sind sofort da — beide, nicht eines.
+ *
+ * Sie kollidieren nur, solange sie beide in der Mitte stehen: im Lauf tut das
+ * nichts, weil die Wortmarke längst fort ist, wenn das Siegel kommt. Steht
+ * alles gleichzeitig, muss der Platz aufgeteilt werden. Die Wortmarke rückt
+ * nach oben, das Siegel in die untere Hälfte. Der Rollhinweis entfällt: es
+ * gibt nichts mehr, wohin er zeigen könnte.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .buehne { height: 100svh; }
+  .zeichen-schacht { transform: none; transition: none; }
+  .hinweis { display: none; }
+  .siegel-unten { opacity: 1 !important; transform: none !important; }
+  /*
+   * Im Ruhemodus fährt keine Kamera, also setzt auch niemand `left` und `top`.
+   * Die Zeile bekommt deshalb hier ihre eigene Stelle: mittig über dem
+   * Standbild, in einer Größe, die zum ruhenden Bild passt.
+   */
+  .lockup {
+    left: 50%;
+    top: 46%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(30px, 7.4vw, 74px);
+  }
+  .wortmarke { bottom: auto; top: clamp(20px, 7svh, 64px); color: var(--tief); }
+  .ebene-schleier { opacity: 0; }
+}
+:root.ruhige-bewegung .buehne { height: 100svh; }
+:root.ruhige-bewegung .zeichen-schacht { transform: none; transition: none; }
+:root.ruhige-bewegung .hinweis { display: none; }
+:root.ruhige-bewegung .siegel-unten { opacity: 1 !important; transform: none !important; }
+:root.ruhige-bewegung .lockup {
+  left: 50%;
+  top: 46%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(30px, 7.4vw, 74px);
+}
+:root.ruhige-bewegung .wortmarke { bottom: auto; top: clamp(20px, 7svh, 64px); color: var(--tief); }
+:root.ruhige-bewegung .ebene-schleier { opacity: 0; }

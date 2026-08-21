@@ -77,14 +77,14 @@ export interface SeitenZiel {
 }
 
 /**
- * In Phase 0 gibt es genau eine Seite mit Inhalt: den Selbsttest.
+ * Zwei Seiten: die Landing und der Selbsttest des Werks.
  *
- * Die Wurzel steht bewusst NICHT in dieser Liste. Sie ist in Phase 0 leer, und
- * eine leere Seite zu vermessen liefert lauter grüne Zahlen, die nichts über
- * das Werk aussagen. Sie kommt in Phase 1 dazu, zusammen mit dem, was auf ihr
- * steht.
+ * Die Landing steht jetzt drin, weil auf ihr etwas steht. In Phase 0 war sie
+ * leer, und eine leere Seite zu vermessen liefert lauter grüne Zahlen, die
+ * nichts aussagen.
  */
 export const SEITEN: SeitenZiel[] = [
+  { name: "landing", pfad: "/" },
   { name: "werkstatt", pfad: "/werkstatt" },
 ];
 
@@ -109,7 +109,15 @@ export const SCHWELLEN = {
   /** Waagerechter Überlauf in px, ab dem gemeldet wird (1 px sind Rundungen). */
   ueberlauf_px: 1,
 
-  /** 4.7 — Gewicht je Seite in Byte. */
+  /**
+   * 4.7 — Gewicht je Seite in Byte.
+   *
+   * Zurück auf drei Millionen. Die Schwelle stand zwischenzeitlich auf zehn,
+   * weil die verworfene Fassung der Landing 183 Frames in drei Sequenzen lud.
+   * Der eine Akt lädt 40 Frames, rund 610 kB die ganze Seite — der Grund für
+   * die Ausnahme ist fort, also ist auch die Ausnahme fort. Eine angehobene
+   * Schwelle, deren Anlass niemand mehr kennt, ist kein Gate.
+   */
   gewicht_seite: 3_000_000,
 
   /** Wie viele der kleinsten/größten Werte im Bericht landen. */
@@ -121,12 +129,18 @@ export const SCHWELLEN = {
  *
  * Sie muss über der längsten Eröffnung liegen, die eine Seite abspielt — sonst
  * misst man eine Fläche, die noch in Bewegung ist, und nennt das Ergebnis einen
- * Befund. Längster Fall heute: der Auftritt in `/werkstatt`. Er läuft die
- * Rollen NACHEINANDER an, also summieren sich die Dauern: eine Schlagzeile
- * (`--dauer-block` 700 ms plus 11 × `--staffel-wort` 100 ms) und vier Karten
- * (700 ms plus 3 × 50 ms) ergeben rund 2,7 s. Mit Reserve: 3200 ms.
+ * Befund.
+ *
+ * Längster Fall ist seit Phase 2 die Landing: 38 Frames Vorlauf, dann zeichnet
+ * sich der Ouroboros über 1500 ms, dann zerfällt er in fünf Schlägen von
+ * zusammen 4200 ms zu Staub, und erst danach läuft die Wortmarke zeichenweise
+ * auf (450 ms Verzug plus siebenmal 55 ms plus 820 ms). Das sind rund 7,4 s
+ * ohne das Laden selbst. Mit Reserve: 10 000 ms.
+ *
+ * Das kostet je Messpunkt fünf Sekunden mehr. Der Alternative — früher messen
+ * und die Zahlen erklären — traut man beim zweiten Mal nicht mehr.
  */
-export const RUHE_MS = 3200;
+export const RUHE_MS = 10_000;
 
 /** Chromium-Pfad, falls die Umgebung einen mitbringt (Container, CI). */
 export const CHROMIUM_PFAD = process.env.PRUEFSTAND_CHROMIUM ?? undefined;

@@ -2,21 +2,32 @@
 <html lang="de">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Oroboros Werk</title>
-    <meta name="description" content="Das Werk — Fundament und Bewegungssprache. Phase 0: noch ohne Inhalt." />
     <!--
-      Das Werk ist ein Template, kein Auftritt. Solange nichts darauf steht,
-      hat es in keinem Index etwas verloren. Die Zeile wird in Phase 1 bewusst
-      entfernt — für /werkstatt bleibt sie dauerhaft (siehe src/main.tsx).
+      `viewport-fit=cover`: das Bild läuft bis unter Notch und Gestenleiste,
+      statt in einem weißen Rahmen zu stehen. Erst damit liefern
+      `env(safe-area-inset-*)` überhaupt Werte ungleich null — der Text hält
+      seinen Abstand dann selbst, siehe `.sicherer-rand` in `landing.css`.
     -->
-    <!-- Kein Zeichen in Phase 0, aber auch kein 404 im Protokoll: eine leere
-         Daten-Adresse beendet die Suche des Browsers, ohne etwas zu laden. -->
-    <link rel="icon" href="data:," />
-    <meta name="robots" content="noindex, nofollow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Oroboros Design</title>
+    <meta name="description" content="Eine Wüstenotter zieht durch die Düne, rollt sich ein und wird zum Ouroboros. Eine Seite, eine Bewegung." />
+    <meta name="theme-color" content="#0E0A06" />
+    <!--
+      Kein globales `noindex`: die Landing SOLL gefunden werden. Nur
+      /werkstatt schließt sich selbst aus — gesetzt in src/main.tsx, weil
+      diese Hülle beide Adressen ausliefert.
+    -->
+    <link rel="icon" href="/zeichen.svg" type="image/svg+xml" />
   </head>
   <body>
     <div id="wurzel"></div>
+    <noscript>
+      <p style="font:16px/1.5 system-ui,sans-serif;padding:2rem;color:#F4EDE2;background:#0E0A06">
+        Diese Seite ist eine einzige scroll-gebundene Bewegung und braucht dafür
+        JavaScript. Ohne bleibt nur diese Zeile — das ist ehrlicher als ein
+        halbes Bild.
+      </p>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -1,9 +1,15 @@
 /**
- * Die Token-Brücke: von `src/styles/bewegung.css` nach GSAP.
+ * Die Token-Brücke: von `src/styles/bewegung.css` nach TypeScript.
  *
- * Diese Datei ist die einzige Stelle in TypeScript, die eine Zeitangabe oder
- * eine Kurve überhaupt zu Gesicht bekommt — und sie erfindet keine, sie liest
- * sie. Jede Zahl kommt aus `getComputedStyle(document.documentElement)`. Wer
+ * KEIN GSAP HIER. Die Kurven stehen in `kurven.ts`, weil nur sie GSAP
+ * brauchen — und weil sonst jede Seite, die bloß eine Dauer lesen will,
+ * die ganze Bibliothek mitlädt. Gemessen an der Landing: sie animiert
+ * nichts mit GSAP und trug es trotzdem mit, rund 70 kB gzip auf dem
+ * kritischen Pfad einer Seite, die auf ihr erstes Bild wartet.
+ *
+ * Zusammen mit `kurven.ts` ist dies die einzige Stelle in TypeScript, die
+ * eine Zeitangabe oder eine Kurve überhaupt zu Gesicht bekommt — und beide
+ * erfinden keine, sie lesen sie. Jede Zahl kommt aus `getComputedStyle(document.documentElement)`. Wer
  * eine Bewegung ändern will, ändert die CSS-Variable; hier ändert sich nichts.
  *
  * ZWEI GRÜNDE, WARUM ZUR LAUFZEIT GELESEN WIRD UND NICHT BEIM BAUEN:
@@ -18,18 +24,6 @@
  * hält nichts in einem Modul-Zwischenspeicher fest. Gelesen wird beim Start
  * einer Bewegung, nie in einer Bildschleife.
  */
-import { gsap } from "gsap";
-import { CustomEase } from "gsap/CustomEase";
-
-gsap.registerPlugin(CustomEase);
-
-/** Die drei Kurven, wie GSAP sie versteht (Name einer registrierten CustomEase). */
-export interface Kurven {
-  standard: string;
-  fein: string;
-  dramatisch: string;
-}
-
 /** Alle Dauern in SEKUNDEN — die Einheit, in der GSAP rechnet. */
 export interface Dauern {
   mikro: number;
@@ -45,19 +39,32 @@ export interface Staffeln {
   karte: number;
 }
 
+/** Die Versätze der Landing, in SEKUNDEN. */
+export interface Versaetze {
+  zeichen: number;
+  karte: number;
+}
+
+/** Die beiden Nachzieh-Faktoren (Anteil je Bild bei 60 Hz). */
+export interface Nachzug {
+  /** Das weiche Rollen der Seite — Lenis. */
+  seite: number;
+  /** Der Fortschritt der gepinnten Bühnen. */
+  scrub: number;
+}
+
 export interface Token {
-  kurve: Kurven;
   dauer: Dauern;
   staffel: Staffeln;
-  /** Der Nachzieh-Faktor pro Bild bei 60 Hz (dimensionslos). */
-  lerp: number;
+  versatz: Versaetze;
+  nachzug: Nachzug;
   /** Der Abstand des Weg-Pfeils in px, in Ruhe und unter dem Zeiger. */
   weg: { ruhe: number; hover: number };
 }
 
 /* ————————————————————————————— Auslesen ————————————————————————————— */
 
-function rohwert(stil: CSSStyleDeclaration, name: string): string {
+export function rohwert(stil: CSSStyleDeclaration, name: string): string {
   return stil.getPropertyValue(name).trim();
 }
 
@@ -84,53 +91,6 @@ function px(roh: string): number {
 }
 
 /**
- * Aus der CSS-Zeitfunktion die vier Kontrollwerte lösen.
- *
- * Bewusst OHNE den Funktionsnamen im Code: der Name dieser Zeitfunktion darf
- * laut Abnahme in `src/` außerhalb von `styles/` nirgends stehen, auch nicht
- * hier. Also wird generisch geschnitten — alles vor der Klammer weg, die
- * Klammern weg, der Rest sind die Werte. Kommt etwas anderes an, gibt es
- * null, und der Aufrufer nimmt seine eigene Notlösung.
- */
-function bezierWerte(roh: string): string | null {
-  const auf = roh.indexOf("(");
-  const zu = roh.lastIndexOf(")");
-  if (auf < 0 || zu <= auf) return null;
-  const werte = roh
-    .slice(auf + 1, zu)
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
-  if (werte.length !== 4 || werte.some((w) => !Number.isFinite(parseFloat(w)))) return null;
-  return werte.join(",");
-}
-
-/**
- * Ein registrierter CustomEase-Name je Wertesatz.
- *
- * `CustomEase.create` nimmt vier Werte in genau derselben Bedeutung wie die
- * CSS-Zeitfunktion (`CustomEase.js`, Zeile 156: bei vier Werten werden 0,0 und
- * 1,1 als Endpunkte ergänzt). Damit kommt die Kurve in GSAP aus DENSELBEN
- * Zahlen wie im Stylesheet und nicht aus einer zweiten, ähnlich aussehenden
- * Zahlenreihe — das ist der ganze Sinn dieser Datei.
- *
- * Gemerkt wird pro Wertesatz, nicht pro Aufruf: das Registrieren ist der teure
- * Teil, das Lesen nicht.
- */
-const gemerkt = new Map<string, string>();
-
-function kurveAus(roh: string, ersatz: string): string {
-  const werte = bezierWerte(roh);
-  if (!werte) return ersatz;
-  const vorhanden = gemerkt.get(werte);
-  if (vorhanden) return vorhanden;
-  const name = `oro-${werte.replace(/[^0-9]+/g, "_")}`;
-  CustomEase.create(name, werte);
-  gemerkt.set(werte, name);
-  return name;
-}
-
-/**
  * Der aktuelle Stand der Token.
  *
  * Frisch gelesen bei jedem Aufruf — siehe Kopf der Datei. Ohne `document`
@@ -141,11 +101,6 @@ function kurveAus(roh: string, ersatz: string): string {
 export function tokens(): Token {
   const stil = getComputedStyle(document.documentElement);
   return {
-    kurve: {
-      standard: kurveAus(rohwert(stil, "--kurve-standard"), "power2.inOut"),
-      fein: kurveAus(rohwert(stil, "--kurve-fein"), "power2.out"),
-      dramatisch: kurveAus(rohwert(stil, "--kurve-dramatisch"), "power4.inOut"),
-    },
     dauer: {
       mikro: sekunden(rohwert(stil, "--dauer-mikro")),
       hover: sekunden(rohwert(stil, "--dauer-hover")),
@@ -157,7 +112,14 @@ export function tokens(): Token {
       zeichen: sekunden(rohwert(stil, "--staffel-zeichen")),
       karte: sekunden(rohwert(stil, "--staffel-karte")),
     },
-    lerp: parseFloat(rohwert(stil, "--lerp")) || 0,
+    versatz: {
+      zeichen: sekunden(rohwert(stil, "--versatz-zeichen")),
+      karte: sekunden(rohwert(stil, "--versatz-karte")),
+    },
+    nachzug: {
+      seite: parseFloat(rohwert(stil, "--nachzug-seite")) || 0,
+      scrub: parseFloat(rohwert(stil, "--nachzug-scrub")) || 0,
+    },
     weg: {
       ruhe: px(rohwert(stil, "--weg-gap-ruhe")),
       hover: px(rohwert(stil, "--weg-gap-hover")),
@@ -190,3 +152,17 @@ export const BILD_SKALA = 1.06;
 
 /** Anteil des Containers, der sichtbar sein muss, damit der Auftritt läuft. */
 export const AUFTRITT_ANTEIL = 0.2;
+
+/**
+ * Eine einzelne Dauer aus dem Stylesheet, in Millisekunden.
+ *
+ * Für die Ladeszene: sie ist die einzige Stelle der Seite mit einer echten
+ * Zeitachse, und ihre fünf Schläge stehen — wie jede andere Dauer auch — in
+ * `bewegung.css`. Ohne diesen Zugang stünden dort Zahlen im TypeScript, und
+ * das Gesetz aus Phase 0 hätte seine erste Ausnahme.
+ *
+ * Frisch gelesen bei jedem Aufruf, aus demselben Grund wie `tokens()`.
+ */
+export function dauer(name: string): number {
+  return sekunden(rohwert(getComputedStyle(document.documentElement), name)) * 1000;
+}
