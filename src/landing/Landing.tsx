@@ -22,7 +22,7 @@
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
-  canvasSpannen, frameAdresse, frameStelle, ladeNachschub, ladeVorlauf,
+  canvasSpannen, entpackenVoraus, frameAdresse, frameStelle, ladeNachschub, ladeVorlauf,
   naechstesBild, zeichneStelle, type Sequenz,
 } from "../motion/sequenz";
 import { bereich, buehneBeobachten } from "../motion/buehne";
@@ -309,6 +309,16 @@ export default function Landing() {
       const jetzt = stelle.i + Math.round(stelle.t * 10) / 10;
       const neu = canvasSpannen(cv, naechstesBild(seq, stelle.i));
       if (jetzt === letzterFrame && schwenk === letzterSchwenk && !neu) return;
+      /*
+       * Das Auspacken läuft der Kamera voraus.
+       *
+       * Nur bei einem Frame-WECHSEL, nicht je Bild: sonst würden zwölf
+       * `decode()` je Bild gerufen, und das ist selbst wieder Arbeit. Warum
+       * überhaupt — siehe `entpackenVoraus` in `motion/sequenz.ts`.
+       */
+      if (Math.floor(jetzt) !== Math.floor(letzterFrame)) {
+        entpackenVoraus(seq, stelle.i, jetzt >= letzterFrame ? 1 : -1, anzahl);
+      }
       letzterFrame = jetzt;
       letzterSchwenk = schwenk;
       zeichneStelle(cv, seq, anteil, true, schwenk, anzahl);

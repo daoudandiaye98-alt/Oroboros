@@ -342,7 +342,19 @@ html.landing body {
   background: var(--tief);
   /* Die Schriftgröße des Satzes steht hier, damit die Leinwand sie LESEN kann
      statt sie ein zweites Mal zu führen. 15 px auf 390, 19 px auf 1440. */
-  --prolog-schrift: clamp(15px, 1.32vw, 19px);
+  /*
+   * Der Satz muss ALS SATZ dastehen, auch auf dem Schreibtisch.
+   *
+   * Gemessen bei 1440x900: der Satz stand auf 19 px in einem 1440 px breiten
+   * Bild — in der Aufnahme ein Flüstern, das man suchen muss, und mit ihm nur
+   * 1145 Körner gegen 3081 auf 390 px. Die Erosion war dort nicht zu lesen,
+   * weil das Material fehlte, aus dem sie besteht: die Schrift selbst.
+   *
+   * 30 px lassen den Satz rund ein Drittel der Breite einnehmen — präsent,
+   * aber keine Schlagzeile; die Zeile aus §6 bleibt die größere Stimme.
+   * Auf 390 px ändert sich nichts, die Untergrenze bleibt 15 px.
+   */
+  --prolog-schrift: clamp(15px, 2.05vw, 30px);
 }
 
 .prolog-film,

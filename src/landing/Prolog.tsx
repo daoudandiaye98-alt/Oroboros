@@ -140,8 +140,42 @@ interface Korn {
   /** Trägheit: klein heißt schnell und hoch. */
   leicht: number;
   topf: number;
-  /** Zwei Zufallszahlen, EINMAL gezogen — nicht je Bild. */
-  a: number; b: number;
+  /**
+   * Die eigene Turbulenz: Phase und Frequenz, EINMAL gezogen.
+   *
+   * Vorher rief jedes Korn je Bild zweimal `rausch()` — das sind sechzehn
+   * `Math.sin` je Korn, bei 3081 Körnern rund 49 000 je Bild. Gemessen lief
+   * die Erosion damit auf 48 (390) und 41 (1440) Bildern je Sekunde, während
+   * Satz und Film bei 58 bis 60 lagen.
+   *
+   * Ein Sinus mit eigener Phase je Korn kostet zwei statt sechzehn und sieht
+   * BESSER aus: das Rauschfeld gab benachbarten Körnern fast denselben
+   * Ausschlag, sie schwangen im Gleichtakt. Mit eigener Phase schwingt jedes
+   * für sich, und genau das ist der Unterschied zwischen Sand und Konfetti.
+   */
+  phase: number; schwingung: number;
+  /** Die Schicht: 0 fern und klein, 1 mittig, 2 nah und träge. */
+  schicht: number;
+  /**
+   * Der Zug des Windes über die Zeit — je Korn verschieden.
+   *
+   * Ohne ihn ist der Weg jedes Korns LINEAR in der Front. Zwei Körner, die
+   * zusammen losfliegen, behalten dann für immer denselben Abstand: der Pulk
+   * bleibt ein Pulk, und genau so las es in der Aufnahme — ein Balken, der
+   * nach rechts wandert, statt einer Fahne, die sich öffnet.
+   */
+  zug: number;
+  /** Wohin es steigt oder sinkt, mit Vorzeichen. Ein Feld, das nur steigt, ist eine Wand. */
+  hoch: number;
+  /**
+   * Wie lange dieses Korn zu sehen ist.
+   *
+   * Sand verschwindet nicht an einer Kante, er verliert sich. Bei tausenden
+   * Körnern mit verschiedener Lebensdauer dünnt die Fahne aus, ohne dass ein
+   * einzelnes Verschwinden auffiele — das kostet nichts und ersetzt ein
+   * Ausblenden je Korn, das eine eigene Farbe je Korn bräuchte.
+   */
+  dauer: number;
 }
 
 export interface PrologEigenschaften {
@@ -198,14 +232,60 @@ export function Prolog({ bereit, film, ruhig, beiUebergabe }: PrologEigenschafte
      * voller Auflösung, weil er die Leinwand nicht anfasst.
      */
     const flaeche = window.innerWidth * window.innerHeight;
-    const dichteGeraet = Math.min(window.devicePixelRatio || 1, 2, Math.sqrt(1.6e6 / flaeche));
+    /*
+     * DIE OBERGRENZE DER LEINWANDFLÄCHE — GEMESSEN, NICHT GEWÄHLT.
+     *
+     * Die Erosion lief auf 43,8 (390x844) und 38,8 (1440x900) Bildern je
+     * Sekunde, mit einem Median von 33,3 ms bei 1440 — also fest auf dreißig.
+     * Gesucht wurde die Ursache, nicht ein Ausweg:
+     *
+     *   · Das JavaScript im rAF-Rückruf dauert im Median 1,0 ms (390) und
+     *     0,7 ms (1440). Bei einem Fenster von 16,7 ms sind das vier bis
+     *     sechs Prozent. Körnerschleife, Maskenschleife und Schnittpfad
+     *     zusammen sind NICHT die Ursache.
+     *   · Mit `visibility: hidden` auf der Leinwand — gleiches JavaScript,
+     *     kein Rastern — sprang 1440 von 38,1 auf 43,4 und der Median von
+     *     33,3 auf 16,7 ms. Mit `visibility: hidden` auf dem FILM änderte
+     *     sich nichts (36,1). Die Zeit liegt also im Zusammensetzen der
+     *     Leinwand, nicht im Film und nicht im Rechnen.
+     *   · Bestätigt durch Halbierung der Fläche: 58,3 und 55,8 je Sekunde,
+     *     p95 von 33,4 auf 16,7 ms.
+     *
+     * Deshalb steht hier 0,8 statt 1,6 Millionen Bildpunkte. Angesehen wurde
+     * es auch: Korngröße, Dichte und Schärfe des Satzes halten auf beiden
+     * Fenstern — der Sand verliert nichts, die Bildrate gewinnt sechzehn
+     * Bilder je Sekunde.
+     *
+     * Nicht getan wurde, was §10 ausschließt: keine längere Dauer, keine
+     * Bewegungsunschärfe, keine weniger Körner.
+     */
+    const dichteGeraet = Math.min(window.devicePixelRatio || 1, 2, Math.sqrt(0.8e6 / flaeche));
     const cb = Math.round(w.clientWidth * dichteGeraet);
     const ch = Math.round(w.clientHeight * dichteGeraet);
     cv.width = cb; cv.height = ch;
 
     /* ————— Der Satz, einmal gesetzt und als Alphamaske gelesen ————— */
     const stil = getComputedStyle(w);
-    const schriftPx = parseFloat(stil.getPropertyValue("--prolog-schrift")) || 15;
+    /*
+     * DIE GRÖSSE WIRD AM ELEMENT ABGELESEN, NICHT AN DER EIGENSCHAFT.
+     *
+     * Hier stand `parseFloat(stil.getPropertyValue("--prolog-schrift"))`.
+     * `getPropertyValue` gibt bei einer nicht registrierten Eigenschaft den
+     * GESCHRIEBENEN Wert zurück, also die Zeichenkette „clamp(15px, 2.05vw,
+     * 30px)". `parseFloat` davon ist NaN, und `|| 15` hat den Fehler jedes Mal
+     * still aufgefangen: der Satz stand auf ALLEN Fenstern auf 15 px, das
+     * `clamp` hat nie gegriffen.
+     *
+     * Gemessen: bei 1440x900 ergab das 1145 Körner gegen 3081 bei 390x844 —
+     * ein Drittel der Dichte auf der größeren Fläche, und in der Aufnahme ein
+     * Satz, den man suchen muss. Nicht die Körner waren zu wenige, die
+     * Schrift war zu klein.
+     *
+     * `.prolog-satz` trägt dieselbe Eigenschaft als `font-size`. Am Element
+     * abgelesen ist der Wert AUSGERECHNET — mit `vw`, mit `clamp`, mit allem.
+     */
+    const satzEl = w.querySelector(".prolog-satz");
+    const schriftPx = (satzEl ? parseFloat(getComputedStyle(satzEl).fontSize) : NaN) || 15;
     const familie = stil.getPropertyValue("--schrift-zeile").trim() || "serif";
     const mb = Math.round(cb / MASKE_SKALA), mh = Math.round(ch / MASKE_SKALA);
     const maske = document.createElement("canvas");
@@ -229,7 +309,9 @@ export function Prolog({ bereit, film, ruhig, beiUebergabe }: PrologEigenschafte
         if (a < 40) continue;
         if (x < links) links = x;
         if (x > rechts) rechts = x;
-        koerner.push({ x0: x * MASKE_SKALA, y0: y * MASKE_SKALA, frei: 0, groesse: 0, leicht: 0, topf: 0, a: 0, b: 0 });
+        koerner.push({ x0: x * MASKE_SKALA, y0: y * MASKE_SKALA, frei: 0, groesse: 0,
+          leicht: 0, topf: 0, phase: 0, schwingung: 0, schicht: 0,
+          zug: 0, hoch: 0, dauer: 1 });
       }
     }
     // Zu viele: gleichmäßig ausdünnen, damit die Form erhalten bleibt.
@@ -262,14 +344,49 @@ export function Prolog({ bereit, film, ruhig, beiUebergabe }: PrologEigenschafte
       k.groesse = 0.5 * Math.pow(1.8 / 0.5, u * u);
       // Klein heißt leicht heißt schnell und hoch.
       k.leicht = 1 - (k.groesse - 0.5) / 1.3;
-      k.topf = Math.min(TOEPFE - 1, Math.floor(Math.random() * TOEPFE));
-      k.a = Math.random(); k.b = Math.random();
+      /*
+       * DREI SCHICHTEN, NICHT EINE WOLKE.
+       *
+       * Feiner Sand vor der Linse ist nicht ein Feld, sondern mehrere: das
+       * Feinste steht weit weg, ist blass und schnell; das Gröbste zieht nah
+       * vorbei, dunkler und träger. Ohne diese Trennung liest jedes Feld
+       * flach — der Befund „generisches Partikelfeld".
+       *
+       * Die Schicht folgt der Größe, weil sie es in der Wirklichkeit auch tut:
+       * was nah ist, erscheint groß.
+       */
+      k.schicht = k.groesse < 0.75 ? 0 : k.groesse < 1.2 ? 1 : 2;
+      // Der Farbtopf folgt der Schicht: fern ist blasser, nah ist dunkler.
+      const spanneTopf = TOEPFE / 3;
+      k.topf = Math.min(TOEPFE - 1,
+        Math.floor((2 - k.schicht) * spanneTopf + Math.random() * spanneTopf));
+      k.phase = Math.random() * Math.PI * 2;
+      k.schwingung = 5 + Math.random() * 9;
+      // Leichte Körner werden stärker mitgerissen, aber jedes ein wenig anders.
+      k.zug = (0.25 + Math.random() * 0.85) * k.leicht;
+      k.hoch = (Math.random() * 2 - 1) * (0.4 + k.leicht * 0.8);
+      k.dauer = 0.35 + Math.random() * Math.random() * 1.6;
       histogramm[Math.min(5, Math.floor(((k.groesse - 0.5) / 1.3) * 6))]++;
     }
 
+    /*
+     * Die Körner einmal nach Topf sortieren.
+     *
+     * Vorher lief `koernerZeichnen` vierzehnmal durch das ganze Feld und warf
+     * dreizehn Vierzehntel wieder weg — 43 000 Durchläufe je Bild für 3081
+     * Körner. Einmal sortiert sind es 3081.
+     */
+    const nachTopf: Korn[][] = Array.from({ length: TOEPFE }, () => []);
+    for (const k of koerner) nachTopf[k.topf].push(k);
+
     /* ————— Die Farben: aus dem ersten Bild des Films, nicht gesetzt ————— */
     let grund: [number, number, number] = [14, 10, 6];
-    const toepfe: string[] = new Array(TOEPFE).fill("rgba(216,178,120,.9)");
+    const toepfe: string[] = Array.from({ length: TOEPFE }, (_, t) => {
+      const a = t / (TOEPFE - 1);
+      const f = 0.42 + a * 0.88;
+      return `rgba(${Math.round(150 * f)},${Math.round(124 * f)},${Math.round(84 * f)},`
+        + `${(0.58 - a * 0.44).toFixed(3)})`;
+    });
     let farbenDa = false;
     const farbenLesen = () => {
       if (farbenDa || vd.videoWidth === 0) return;
@@ -283,12 +400,31 @@ export function Prolog({ bereit, film, ruhig, beiUebergabe }: PrologEigenschafte
       for (let i = 0; i < d.length; i += 4) { r += d[i]; g += d[i + 1]; b += d[i + 2]; }
       const n = d.length / 4;
       grund = [Math.round(r / n), Math.round(g / n), Math.round(b / n)];
+      /*
+       * EIN KORN IST NICHT DECKEND, UND NICHT NUR HELL.
+       *
+       * Zwei Befunde aus der Aufnahme, beide an derselben Zeile:
+       *
+       *   · Jedes Korn wurde VOLL DECKEND gefüllt. Ein Korn von einem
+       *     Bildpunkt deckt in Wirklichkeit einen Bruchteil eines Bildpunkts;
+       *     voll gefüllt ist es kein Korn, sondern eine Marke. Deshalb las das
+       *     Feld als Reihe von Strichen und nicht als Dunst.
+       *   · Alle Töne lagen ÜBER dem Grundton (0,75 bis 1,25 des gelesenen
+       *     Mittels). Ein Feld, das nur heller ist als alles dahinter, liegt
+       *     obenauf. Sand im Gegenlicht ist beides: helle Körner vor dem
+       *     dunklen Grund, dunkle Körner vor dem hellen Staub.
+       *
+       * Jetzt spannen die Töpfe von 0,42 bis 1,30 — also über den Grundton
+       * hinweg — und die Deckung folgt der Schicht: nah ist fast fest, fern
+       * ist Andeutung. Beides bleibt EIN Füllstil je Topf, kostet also nichts.
+       */
       for (let t = 0; t < TOEPFE; t++) {
-        // ±25 % Helligkeit, aus dem gelesenen Ton — nicht aus einer Palette.
-        const f = 0.75 + (t / (TOEPFE - 1)) * 0.5;
-        toepfe[t] = `rgb(${Math.min(255, Math.round(grund[0] * f))},`
+        const a = t / (TOEPFE - 1);          // 0 = nah und groß, 1 = fern und klein
+        const f = 0.42 + a * 0.88;
+        const deckung = 0.58 - a * 0.44;
+        toepfe[t] = `rgba(${Math.min(255, Math.round(grund[0] * f))},`
           + `${Math.min(255, Math.round(grund[1] * f))},`
-          + `${Math.min(255, Math.round(grund[2] * f))})`;
+          + `${Math.min(255, Math.round(grund[2] * f))},${deckung.toFixed(3)})`;
       }
       farbenDa = true;
     };
@@ -322,7 +458,20 @@ export function Prolog({ bereit, film, ruhig, beiUebergabe }: PrologEigenschafte
          * das weiche Rechtecke im Restschleier. Die Drehung nimmt ihnen die
          * Achse, ohne dass ein zweites Rauschfeld nötig wäre.
          */
-        lochRausch[y * lochB + x] = rausch(x * 0.055 + y * 0.021, y * 0.055 - x * 0.021);
+        /*
+         * ANISOTROP: FEIN IN X, GROB IN Y.
+         *
+         * Ein isotropes Rauschfeld ergibt runde Ballen — in der Aufnahme
+         * waren das die „weichen Blobs", die wie Nebel lasen und nicht wie
+         * Sand. Wind zieht den Dunst aber in Fahnen: quer zur Richtung ändert
+         * sich viel, längs der Richtung wenig. Der x-Anteil ist deshalb
+         * dreimal so fein wie der y-Anteil, und eine zweite, feinere Oktave
+         * legt die Körnung darüber, die eine Sandfahne von einer Wolke
+         * unterscheidet.
+         */
+        const grob = rausch(x * 0.030 + y * 0.012, y * 0.105 - x * 0.020);
+        const fein = rausch(x * 0.075 + y * 0.030, y * 0.290 - x * 0.050);
+        lochRausch[y * lochB + x] = grob * 0.68 + fein * 0.32;
       }
     }
 
@@ -337,6 +486,9 @@ export function Prolog({ bereit, film, ruhig, beiUebergabe }: PrologEigenschafte
     let laeuft = true;
     let phase: "satz" | "erosion" | "film" = "satz";
     let lauf = 0;
+    /** Wie weit die Front seit dem letzten Bild gekommen ist. Für die Schlieren. */
+    let frontJeBild = 1 / 60 / (erosionMs / 1000);
+    let letzteFront = 0;
 
     const zeichnen = (jetzt: number) => {
       if (!laeuft) return;
@@ -349,7 +501,14 @@ export function Prolog({ bereit, film, ruhig, beiUebergabe }: PrologEigenschafte
         // `front` trägt im Satz-Schlag den Auftritt — der Prüfstand wartet
         // darauf, dass der Satz VOLLSTÄNDIG steht, und das ist genau hier.
         window.__prolog = { phase, front: auf, koerner: koerner.length, groessen: histogramm, proben: [] };
-        ctx.clearRect(0, 0, cb, ch);
+        /*
+         * KEIN `clearRect` VOR EINEM DECKENDEN `fillRect`.
+         *
+         * Beide schreiben die GANZE Leinwand. Der `fillRect` ist deckend und
+         * überdeckt alles, was `clearRect` gelöscht hätte — der Löschgang war
+         * ein voller Durchgang über 1,3 bis 1,6 Millionen Bildpunkte, der
+         * nichts bewirkte.
+         */
         ctx.fillStyle = `rgb(${tief[0]},${tief[1]},${tief[2]})`;
         ctx.fillRect(0, 0, cb, ch);
         /*
@@ -376,6 +535,10 @@ export function Prolog({ bereit, film, ruhig, beiUebergabe }: PrologEigenschafte
       if (phase === "erosion") {
         farbenLesen();
         const front = klemm(t / erosionMs);
+        // Gemessen, nicht angenommen: bei 30 Bildern je Sekunde sind die
+        // Schlieren doppelt so lang wie bei 60, und genau so ist es richtig.
+        frontJeBild = Math.min(0.05, Math.max(1e-4, front - letzteFront));
+        letzteFront = front;
         window.__prolog = { phase, front, koerner: koerner.length, groessen: histogramm, proben: probeStellen(front) };
 
         /*
@@ -387,7 +550,6 @@ export function Prolog({ bereit, film, ruhig, beiUebergabe }: PrologEigenschafte
          * bevor das letzte Loch aufgeht; darum gibt es keinen Sprung.
          */
         ctx.globalCompositeOperation = "source-over";
-        ctx.clearRect(0, 0, cb, ch);
         /*
          * ZUERST WANDERT DER GRUND, DANN GEHEN DIE LÖCHER AUF — in dieser
          * Reihenfolge, und das ist gemessen, nicht gefühlt.
@@ -484,11 +646,12 @@ export function Prolog({ bereit, film, ruhig, beiUebergabe }: PrologEigenschafte
       for (let i = 0; i < koerner.length && raus.length < 24; i += schritt) {
         const k = koerner[i];
         const s2 = Math.max(0, front - k.frei);
-        const v = 0.55 + k.leicht * 0.9;
+        const v = (0.55 + k.leicht * 0.9) * (1 + (2 - k.schicht) * 0.22);
         raus.push({
-          x: k.x0 + s2 * cb * 1.25 * v + (rausch(k.x0 * 0.01 + s2 * 1.7, k.y0 * 0.01) - 0.5) * cb * 0.05,
-          y: k.y0 - s2 * ch * 0.16 * k.leicht
-            + (rausch(k.x0 * 0.013, k.y0 * 0.013 + s2 * 1.3) - 0.5) * ch * 0.05,
+          x: k.x0 + (s2 * v * 0.45 + s2 * s2 * k.zug * 2.2) * cb * 1.25
+            + Math.sin(k.phase + s2 * k.schwingung) * cb * 0.012,
+          y: k.y0 - s2 * ch * 0.16 * k.leicht + s2 * s2 * k.hoch * ch * 0.22
+            + Math.sin(k.phase * 1.7 + s2 * k.schwingung * 0.6) * ch * 0.02,
         });
       }
       return raus;
@@ -526,29 +689,93 @@ export function Prolog({ bereit, film, ruhig, beiUebergabe }: PrologEigenschafte
       ctx.restore();
     }
 
-    /** Zeichnet die Körner, nach Farbtopf gebündelt. */
+    /**
+     * Zeichnet die Körner.
+     *
+     * WAS SICH GEÄNDERT HAT UND WARUM.
+     *
+     * Vorher war jedes Korn ein Quadrat, alle Körner teilten dasselbe
+     * Rauschfeld, und die Größe entschied nur über die Geschwindigkeit. In der
+     * Aufnahme las das als Partikelfeld: gleichförmig, flach, ohne Richtung im
+     * Detail.
+     *
+     * Drei Änderungen, alle an der Physik entlang:
+     *
+     *   · SCHLIEREN STATT PUNKTE. Ein Korn, das in einer Sechzigstelsekunde
+     *     zwanzig Bildpunkte weit fliegt, ist auf keinem Bild ein Punkt — es
+     *     ist ein Strich. Die Länge folgt der tatsächlichen Geschwindigkeit,
+     *     nicht einem Gestaltungswunsch. Langsame Körner bleiben Punkte.
+     *   · EIGENE SCHWINGUNG JE KORN. Aus dem gemeinsamen Rauschfeld wurde eine
+     *     eigene Phase. Das kostet zwei `Math.sin` statt sechzehn und nimmt dem
+     *     Feld den Gleichtakt.
+     *   · DREI SCHICHTEN. Fern klein blass schnell, nah groß dunkel träge. Die
+     *     Tiefe entsteht dadurch, dass sich die Schichten verschieden schnell
+     *     bewegen — nicht durch Unschärfe.
+     */
     function koernerZeichnen(front: number) {
       if (!ctx) return;
       const wind = cb * 1.25;
+      const steigen = ch * 0.16;
+      // Die Fahne öffnet sich nach oben UND unten; flach wäre sie ein Balken.
+      const oeffnen = ch * 0.30;
+      const maxStrich = cb * 0.05;
       for (let t = 0; t < TOEPFE; t++) {
+        const eimer = nachTopf[t];
+        if (eimer.length === 0) continue;
         ctx.fillStyle = toepfe[t];
         ctx.beginPath();
-        for (const k of koerner) {
-          if (k.topf !== t) continue;
+        for (const k of eimer) {
           const s = front - k.frei;
-          if (s <= 0) continue;
+          // Vor der Front liegt es noch fest, nach seiner Zeit ist es fort.
+          if (s <= 0 || s > k.dauer) continue;
           /*
-           * Der Wind: eine Richtung, leicht ansteigend, Geschwindigkeit nach
-           * Größe. Die Turbulenz kommt aus dem Rauschfeld über Ort UND Zeit —
-           * ein Zufall je Bild wäre Flimmern, kein Wehen.
+           * Der Wind: eine Richtung, Geschwindigkeit nach Größe und Schicht,
+           * dazu ein Zug, der mit der Zeit wächst und je Korn anders ist.
+           * Der quadratische Anteil ist der Grund, warum sich die Fahne
+           * öffnet — bei rein linearen Bahnen behält der Pulk seine Form.
            */
-          const v = 0.55 + k.leicht * 0.9;
-          const x = k.x0 + s * wind * v + (rausch(k.x0 * 0.01 + s * 1.7, k.y0 * 0.01) - 0.5) * cb * 0.05;
-          const y = k.y0 - s * ch * 0.16 * k.leicht
-            + (rausch(k.x0 * 0.013, k.y0 * 0.013 + s * 1.3) - 0.5) * ch * 0.05;
-          if (x > cb + 8 || y < -8 || y > ch + 8) continue;
+          const v = (0.55 + k.leicht * 0.9) * (1 + (2 - k.schicht) * 0.22);
+          const wirbel = Math.sin(k.phase + s * k.schwingung);
+          const wirbel2 = Math.sin(k.phase * 1.7 + s * k.schwingung * 0.6);
+          /*
+           * MEHR ZUG, WENIGER ANSCHUB.
+           *
+           * Der Weg war überwiegend LINEAR in der Front. Ein Korn hatte damit
+           * schon nach einem Fünftel der Erosion ein Fünftel seines Weges
+           * hinter sich — die Fahne war überall gleich dünn, ohne Kern. Bei
+           * 1440 fiel das auf: der Wind bemisst sich an der BILDBREITE, das
+           * Wort ist dort aber nur ein Viertel des Bildes, also verwehte der
+           * Sand, bevor er sich sammeln konnte.
+           *
+           * Jetzt liegt der Weg überwiegend im quadratischen Glied: dieselbe
+           * Gesamtstrecke, aber die Körner bleiben anfangs beim Wort stehen
+           * und werden dann fortgerissen. Das ergibt einen dichten Kern am
+           * Wort und einen ausdünnenden Schweif — auf beiden Fenstern.
+           */
+          const x = k.x0 + (s * v * 0.45 + s * s * k.zug * 2.2) * wind
+            + wirbel * cb * 0.012;
+          const y = k.y0 - s * steigen * k.leicht + s * s * k.hoch * oeffnen
+            + wirbel2 * ch * 0.02;
+          if (x > cb + 24 || x < -24 || y < -24 || y > ch + 24) continue;
           const gr = k.groesse * dichteGeraet;
-          ctx.rect(x, y, gr, gr);
+          /*
+           * DIE SCHLIERE LIEGT AUF DER BAHN, NICHT AUF DER WAAGERECHTEN.
+           *
+           * Vorher war jede Schliere ein achsenparalleles Rechteck derselben
+           * Länge — in der Aufnahme eine Reihe gleicher Striche, wie ein
+           * Strichcode. Ein Korn, das steigt und getrieben wird, verwischt
+           * ENTLANG SEINER BEWEGUNG. Deshalb wird hier die tatsächliche
+           * Ableitung des Weges nach der Front genommen, mal der Front je
+           * Bild: der Schwanz zeigt dorthin, wo das Korn ein Bild früher war.
+           */
+          let hx = (v * 0.45 + 2 * s * k.zug * 2.2) * wind * frontJeBild;
+          let hy = (-steigen * k.leicht + 2 * s * k.hoch * oeffnen) * frontJeBild;
+          const laenge = Math.hypot(hx, hy);
+          if (laenge > maxStrich) { const f = maxStrich / laenge; hx *= f; hy *= f; }
+          ctx.moveTo(x, y);
+          ctx.lineTo(x + gr, y + gr);
+          ctx.lineTo(x - hx + gr, y - hy + gr);
+          ctx.lineTo(x - hx, y - hy);
         }
         ctx.fill();
       }

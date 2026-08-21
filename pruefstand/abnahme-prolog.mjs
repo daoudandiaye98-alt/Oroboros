@@ -77,7 +77,7 @@ for (const f of FENSTER) {
     const c = document.createElement("canvas");
     c.width = 48; c.height = 48;
     const x = c.getContext("2d", { willReadFrequently: true });
-    window.__mess = { proben: [], bahn: [] };
+    window.__mess = { proben: [], bahn: [], letzteFront: -1 };
     const t0 = performance.now();
     const schritt = () => {
       const v = document.querySelector("video");
@@ -97,7 +97,22 @@ for (const f of FENSTER) {
       for (let i = 0; i < d.length; i += 4) sum += (d[i] * 299 + d[i + 1] * 587 + d[i + 2] * 114) / 1000;
       window.__mess.proben.push({ t: performance.now() - t0, h: sum / (d.length / 4) });
       const p = window.__prolog;
-      if (p?.phase === "erosion" && p.proben.length) window.__mess.bahn.push(p.proben);
+      /*
+       * NUR NEUE BILDER, UND DAS ENTLANG DER GANZEN EROSION.
+       *
+       * Der Sammler tickt auf eigenem rAF. Zeichnet der Prolog gerade
+       * genauso schnell, greift der Sammler dasselbe `__prolog` zweimal ab
+       * und schiebt DIESELBE Referenz zweimal in die Bahn — die Differenz
+       * ist dann exakt null und das Bildpaar fällt aus der Windmessung.
+       * Gemessen: bei 390x844 blieben so 0 von 20 Paaren übrig, bei 1440x900
+       * 4. Nicht der Wind stand still, der Prüfstand hat doppelt gezählt.
+       *
+       * `front` ändert sich mit jedem Prologbild — daran wird unterschieden.
+       */
+      if (p?.phase === "erosion" && p.proben.length && p.front !== window.__mess.letzteFront) {
+        window.__mess.letzteFront = p.front;
+        window.__mess.bahn.push(p.proben);
+      }
       if (performance.now() - t0 < 20000) requestAnimationFrame(schritt);
     };
     requestAnimationFrame(schritt);
@@ -130,8 +145,9 @@ for (const f of FENSTER) {
   /* ————— P0.2  Der Wind hat eine Richtung ————— */
   if (bahn.length >= 21) {
     const winkel = [];
-    for (let i = 1; i < Math.min(bahn.length, 21); i++) {
-      const a = bahn[i - 1], b = bahn[i];
+    const schrittB = Math.max(1, Math.floor(bahn.length / 40));
+    for (let i = schrittB; i < bahn.length; i += schrittB) {
+      const a = bahn[i - schrittB], b = bahn[i];
       const n = Math.min(a.length, b.length);
       let sx = 0, sy = 0;
       for (let k = 0; k < n; k++) { sx += b[k].x - a[k].x; sy += b[k].y - a[k].y; }

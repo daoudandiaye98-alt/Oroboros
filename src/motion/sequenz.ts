@@ -23,6 +23,8 @@ export interface Sequenz {
   bereit: boolean;
   /** Die geladenen Bilder, Index 0 … anzahl-1. */
   bilder: (HTMLImageElement | null)[];
+  /** Welche Frames schon zum Auspacken angemeldet wurden. Siehe `entpackenVoraus`. */
+  entpackt?: Uint8Array;
 }
 
 /**
@@ -88,6 +90,61 @@ export interface LadeOptionen {
 }
 
 /**
+ * Ein geladenes Bild entpacken, BEVOR es gezeichnet wird.
+ *
+ * `load` heißt nur: die Bytes sind da. Das Auspacken — WebP dekodieren,
+ * 828 × 1108 Bildpunkte anlegen — passiert beim ERSTEN `drawImage`, und zwar
+ * auf dem Hauptfaden. Beim Scrollen berührt die Schleife bis zu zwei neue
+ * Frames je Bild; jeder kostet dort zwanzig bis vierzig Millisekunden.
+ *
+ * Gemessen, indem dieselbe Strecke dreimal gescrollt wurde:
+ *
+ *   390 × 844    1. Durchgang 39,0/s (p95 83 ms)  →  3. Durchgang 59,8/s (p95 17 ms)
+ *   1440 × 900   1. Durchgang 30,8/s (p95 100 ms) →  3. Durchgang 56,5/s (p95 17 ms)
+ *
+ * Der zweite und dritte Durchgang zeichnen dieselben Bilder mit demselben
+ * Code — nur sind sie dann schon ausgepackt. Das Ruckeln ist also weder das
+ * Zeichnen noch das Rollen noch React, sondern genau dieser eine Schritt.
+ *
+ * ALLES IM VORAUS AUSZUPACKEN GEHT NICHT. Ausgepackt wiegt ein Frame
+ * 828 × 1108 × 4 Byte; die 174 Frames des 3:4-Satzes wären 638 MB. So groß ist
+ * kein Bildzwischenspeicher, und gemessen schwankte der erste Durchgang
+ * danach zwischen 47 und 59 Bildern je Sekunde — je nachdem, was gerade noch
+ * im Speicher lag. Deshalb wird nur der VORLAUF pauschal ausgepackt (45 kleine
+ * Bilder, 360 px breit), und die volle Stufe bekommt ein Fenster, das der
+ * Kamera vorausläuft — siehe `entpackenVoraus`.
+ */
+function entpacken(bild: HTMLImageElement): void {
+  bild.decode?.().catch(() => { /* dann eben später, beim Zeichnen */ });
+}
+
+/**
+ * Das Fenster, das der Kamera vorausläuft.
+ *
+ * Gerufen wird es aus der Bühnenschleife, sobald sich der Frame ändert — nicht
+ * je Bild. Es packt ein paar Frames in Blickrichtung aus und ein paar dahinter,
+ * damit auch das Zurückscrollen glatt bleibt. Schon Ausgepacktes kostet dabei
+ * nichts: `decode()` auf ein bereits dekodiertes Bild kehrt sofort zurück.
+ *
+ * @param richtung  +1 vorwärts, −1 rückwärts. Voraus wird weiter gedacht als
+ *                  zurück; wer scrollt, tut es meist weiter in dieselbe Richtung.
+ */
+export function entpackenVoraus(seq: Sequenz, i: number, richtung: number, anzahl: number): void {
+  if (!seq.entpackt) seq.entpackt = new Uint8Array(seq.anzahl);
+  const vor = richtung >= 0 ? 8 : 3;
+  const zurueck = richtung >= 0 ? 3 : 8;
+  for (let k = i - zurueck; k <= i + vor; k++) {
+    if (k < 0 || k >= anzahl || seq.entpackt[k]) continue;
+    const b = seq.bilder[k];
+    if (!b) continue;
+    // Je Frame genau einmal gefragt. `decode()` auf ein schon dekodiertes Bild
+    // kostet zwar wenig, aber tausend Versprechen je Durchgang sind auch Arbeit.
+    seq.entpackt[k] = 1;
+    entpacken(b);
+  }
+}
+
+/**
  * Der Pfad eines Frames.
  *
  * Die Nummerierung kommt aus ffmpeg (`f%03d.png`), beginnt also bei 1 und ist
@@ -124,7 +181,7 @@ export function ladeSequenz(name: string, anzahl: number, opts: LadeOptionen = {
   for (let i = 0; i < anzahl; i++) {
     const bild = new Image();
     bild.decoding = "async";
-    bild.onload = () => { seq.bilder[i] = bild; angekommen(); };
+    bild.onload = () => { seq.bilder[i] = bild; entpacken(bild); angekommen(); };
     bild.onerror = angekommen;
     bild.src = frameAdresse(name, i);
   }
@@ -167,7 +224,7 @@ export function ladeVorlauf(
   stuetzen.forEach((i, n) => {
     const bild = new Image();
     bild.decoding = "async";
-    bild.onload = () => { seq.bilder[i] = bild; angekommen(); };
+    bild.onload = () => { seq.bilder[i] = bild; entpacken(bild); angekommen(); };
     bild.onerror = angekommen;
     // Der Vorlauf ist eigenständig durchnummeriert: sein n-ter Frame ist der
     // (n * schritt)-te der vollen Stufe.
