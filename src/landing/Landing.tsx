@@ -112,7 +112,16 @@ export default function Landing() {
     // Der sichere Rand: Gestaltungsmaß plus das, was das Gerät sich nimmt.
     const st = sicher.current ? getComputedStyle(sicher.current) : null;
     const einzug = st ? Math.max(parseFloat(st.paddingLeft) || 0, parseFloat(st.paddingRight) || 0) : 0;
-    const rand = Math.max(16, Math.min(72, k.width * 0.05)) + einzug;
+    /*
+     * Das Gestaltungsmaß war 5 % der Fensterbreite, gedeckelt bei 72 px.
+     *
+     * Auf 1440 px waren das 72 px je Seite — für eine Wortmarke, die das
+     * Schlussbild tragen soll, viel. Auf 390 px nahm es der Zeile die letzten
+     * Bildpunkte, die sie zum Wachsen gebraucht hätte: sie stand dort schon
+     * auf 89 % der Breite. 3,5 % lassen der Marke Luft und geben ihr
+     * gleichzeitig Platz; der Geräteeinzug kommt unverändert obendrauf.
+     */
+    const rand = Math.max(12, Math.min(56, k.width * 0.035)) + einzug;
 
     const a = aufbauRechnen(ringdaten, k.width, k.height, rand, wortEm, versalAnteil);
     if (!a) {

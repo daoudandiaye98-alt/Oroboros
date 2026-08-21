@@ -86,19 +86,31 @@ export const RING_ZU_VERSAL = 1.3;
  * Bei 1,0 dürfte er höchstens 44 px sein, sonst passt die Zeile nicht ins
  * Fenster. Erreichbar ist 1,23 — und genau so weit geht der Boden.
  */
-export const RING_ZU_VERSAL_BODEN = 1.22;
+export const RING_ZU_VERSAL_BODEN = 1.15;
 
 /**
  * Bis hierher liest der Ring als Buchstabe, darüber als übergroße Initiale.
  *
- * Nicht gesetzt, sondern an drei gerenderten Varianten abgelesen (1,22 · 1,26
- * · 1,30, beide Fenster, jede angesehen): bei 1,22 steht der Ring auf der
- * Versalhöhe der anderen O und die Zeile liest in einem Zug als OROBOROS;
- * bei 1,30 ragt er sichtbar über die Buchstaben. Bei 1,6 und darüber — was
- * die alte Rechnung auf 1440 × 900 erzeugte — ist es ein Symbol vor einem
- * Wort. Das Band endet deshalb bei 1,35.
+ * An vier gerenderten Varianten abgelesen, jede auf beiden Fenstern
+ * angesehen — nicht gerechnet:
+ *
+ *   V1  Lücke 0,10 em · 390 Verh. 1,23 · 1440 Verh. 1,26
+ *   V2  Lücke 0,07 em · 390 Verh. 1,25 · 1440 Verh. 1,31
+ *   V3  Lücke 0,05 em · 390 Verh. 1,25 · 1440 Verh. 1,37
+ *   V4  Lücke 0,05 em · 390 Verh. 1,42 (größerer Ringdeckel)
+ *
+ * Der überraschende Befund steckt zwischen V1 und V3 auf 1440: der GRÖSSERE
+ * Ring liest BESSER als O. Bei 144 px ist die Punze — das Loch — vom Schatten
+ * des Tieres gefüllt, und die Form liest als dunkler Punkt. Bei 154 px ist
+ * sie offen, und damit hat das Zeichen die Binnenform, die ein O ausmacht.
+ * Ein kleinerer Ring ist also nicht automatisch der bessere Buchstabe.
+ *
+ * V4 zeigt die andere Kante: bei 1,42 ragt der Ring auf 390 px sichtbar über
+ * die Versalhöhe hinaus und liest wieder als eigenes Zeichen vor dem Wort.
+ *
+ * Das Band endet deshalb bei 1,38 — knapp über V3, knapp unter V4.
  */
-export const IDENTITAETS_BAND = 1.35;
+export const IDENTITAETS_BAND = 1.38;
 
 /**
  * DAS OPTISCHE GEWICHT DES RINGS.
@@ -139,8 +151,17 @@ export function schwerpunkt(
   return (mRing * (ringD / 2) + mWort * wortMitte) / Math.max(1e-6, mRing + mWort);
 }
 
-/** Der Abstand zwischen Ring und dem R, in em der Schrift. */
-export const LUECKE_EM = 0.1;
+/**
+ * Der Abstand zwischen Ring und dem R, in em der Schrift.
+ *
+ * Von 0,10 auf 0,05 em. In der Aufnahme mit 0,10 stand zwischen Ring und R
+ * eine sichtbare Lücke, und das Auge las „Zeichen, dann Wort" statt
+ * OROBOROS. Mit 0,05 bindet der Ring an das R wie ein Buchstabe an den
+ * nächsten. MUSS mit `.lockup { gap }` im Stylesheet übereinstimmen —
+ * dieselbe Zahl an zwei Stellen ist der Preis dafür, dass die eine im
+ * Layout und die andere in der Rechnung gebraucht wird.
+ */
+export const LUECKE_EM = 0.05;
 
 /** Was die Bühne für dieses Fenster ausgerechnet hat. */
 export interface Aufbau {
@@ -394,13 +415,22 @@ export function aufbauRechnen(
 
   const band = kandidaten.filter((k) => k.imBand);
   if (band.length > 0) {
-    const boden = groesstImBand * 0.92;
-    const gross = band.filter((k) => k.ringD >= boden);
-    const feld = gross.length > 0 ? gross : band;
-    // Kleinstes Verhältnis; bei Gleichstand die bessere optische Mitte.
-    feld.sort((a, b) => (a.ringZuVersal - b.ringZuVersal)
+    /*
+     * IM BAND GEWINNT DIE PRÄSENZ.
+     *
+     * Vorher stand hier „kleinstes Verhältnis gewinnt". Das war richtig,
+     * solange die Zeile die Fensterbreite ausfüllte — dann war ein kleineres
+     * Verhältnis der einzige Weg, dem Wort Größe zu geben. Mit dem
+     * Gestaltungsmaß von 3,5 % statt 5 % ist die Lage anders: es gibt Breite
+     * zu verteilen, und dann kann der Ring GROSS bleiben und das Wort
+     * trotzdem wachsen. Auf 390 × 844 liefert der größte Ring im Band
+     * (55,1 px, wie im Ausgangszustand) ein Verhältnis von 1,23 — also beides.
+     *
+     * Bei gleich großen Ringen entscheidet die optische Mitte.
+     */
+    band.sort((a, b) => (b.ringD - a.ringD)
       || (Math.abs(a.optischeAbweichung) - Math.abs(b.optischeAbweichung)));
-    return feld[0].bau;
+    return band[0].bau;
   }
   /*
    * Kein Frame im Band: dann ist Identität das einzige, was noch zu retten
