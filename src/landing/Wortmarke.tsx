@@ -5,10 +5,11 @@
  * Schacht (`overflow: hidden`) ist der Grund, warum man die Buchstaben nicht
  * vorher unterhalb der Zeile stehen sieht.
  *
- * ZWEI AUFTRITTE, EINE KOMPONENTE. Am Anfang der Seite steht OROBOROS; am Ende
- * steht ROBOROS neben dem Ring, der das erste O IST. Beide treten gleich auf,
- * mit demselben Versatz je Zeichen — deshalb ist es dieselbe Komponente mit
- * einer anderen Klasse und nicht zweimal derselbe Code.
+ * EIN AUFTRITT, ZWEI FASSUNGEN. Im Schlussbild steht ROBOROS neben dem Ring,
+ * der das erste O IST; im Ruhemodus, wo keine Kamera rechnet und kein Ring an
+ * seiner Stelle steht, das ganze OROBOROS. Am ANFANG der Seite steht die Marke
+ * nicht mehr — §4 des Prolog-Auftrags: „Erste und einzige Nennung der Marke
+ * ist das Schlussbild."
  *
  * BARRIEREFREIHEIT: Der Container trägt `aria-label` mit dem ganzen Wort, die
  * Zeichen sind `aria-hidden`. Ein Screenreader, der acht Einzelbuchstaben

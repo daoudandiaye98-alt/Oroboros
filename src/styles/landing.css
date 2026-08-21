@@ -279,7 +279,14 @@ html.landing body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
+  /*
+   * Der Abstand wächst mit der HÖHE, nicht mit der Breite.
+   *
+   * Auf 844 × 390 muss der Block unter den Ring passen, und dort fehlten mit
+   * festen 14 px genau 0,7 px. Eine Zahl, die an der Fensterhöhe hängt, löst
+   * das ohne Sonderfall: 7 px auf 390, 14 px ab 824.
+   */
+  gap: clamp(7px, 1.7svh, 14px);
   text-align: center;
   will-change: transform, opacity;
 }

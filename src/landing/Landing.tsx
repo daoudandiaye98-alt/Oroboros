@@ -129,6 +129,52 @@ export default function Landing() {
     zeile.style.left = `${a.linkeKante}px`;
     zeile.style.top = `${a.ringY}px`;
 
+    /*
+     * DAS SIEGEL WEICHT DEM RING AUS — SENKRECHT, NICHT SEITLICH.
+     *
+     * §6 gibt „DESIGN", Strich und Satz die Fenstermitte als Achse. Das ist
+     * die WAAGERECHTE Achse, und sie bleibt. Nur ist auf 844 × 390 unter dem
+     * Ring, der dort 122 px misst, nicht genug Höhe für einen dreizeiligen
+     * Block an der Fensterunterkante: „DESIGN" lief mitten durch den Ring.
+     * Kein Messwert hat das gemeldet — Kontrast, Ränder und Achse waren alle
+     * in Ordnung. Gesehen hat es die Aufnahme.
+     *
+     * Der Block bekommt deshalb seinen Platz UNTER dem Ring zugewiesen, wenn
+     * er dort hinpasst, und darf dafür einzeilig werden. Passt er auch dann
+     * nicht, bleibt der Anker aus dem Stylesheet — dann ist unten mehr Platz
+     * als neben dem Ring, und die Aufnahme zeigt es.
+     */
+    const u = unten.current;
+    const satzEl = u?.querySelector<HTMLElement>(".siegel-satz") ?? null;
+    if (u) {
+      u.style.removeProperty("top");
+      u.style.removeProperty("bottom");
+      if (satzEl) satzEl.style.removeProperty("max-width");
+      /*
+       * Der SICHTBARE Ring ist größer als der gemessene.
+       *
+       * Gemessen wird der Körper der Schlange. Um ihn liegt der Krater, den
+       * sie in den Sand gedrückt hat, mit seinen Schattenringen — in den
+       * gewählten Frames rund das 1,6-fache. Auf 844 × 390 stand „DESIGN"
+       * rechnerisch einen Bildpunkt unter dem Ring und in der Aufnahme mitten
+       * auf dem Kraterrand. Der Abstand rechnet deshalb mit dem Krater.
+       */
+      const ringUnten = a.ringY + a.ringD * 0.8;
+      const luft = Math.max(10, k.height * 0.03);
+      const untenRand = Math.max(12, k.height * 0.04);
+      if (u.getBoundingClientRect().top < ringUnten + 8) {
+        // Einzeilig ist der Block rund ein Drittel flacher. Erst danach messen.
+        if (satzEl) satzEl.style.maxWidth = "none";
+        const hoch = u.getBoundingClientRect().height;
+        if (ringUnten + luft + hoch <= k.height - untenRand) {
+          u.style.top = `${ringUnten + luft}px`;
+          u.style.bottom = "auto";
+        } else if (satzEl) {
+          satzEl.style.removeProperty("max-width");
+        }
+      }
+    }
+
     aufbauRef.current = a;
     setAufbau(a);
     if (geladen.current === 0) geladen.current = a.frames;
