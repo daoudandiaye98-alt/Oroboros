@@ -23,7 +23,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   canvasSpannen, entpackenVoraus, frameAdresse, frameStelle, ladeNachschub, ladeVorlauf,
-  naechstesBild, zeichneStelle, type Sequenz,
+  naechstesBild, vorratAuspacken, zeichneStelle, type Sequenz,
 } from "../motion/sequenz";
 import { bereich, buehneBeobachten } from "../motion/buehne";
 import { ruhig as istRuhig } from "../motion/tokens";
@@ -228,9 +228,22 @@ export default function Landing() {
    */
   useEffect(() => {
     if (ruhig || !seq) return;
-    return ladeNachschub(satz, seq, {
-      beiErsatz: (fertig, von) => { if (fertig >= von) setScharf(true); },
+    let vorratStoppen: (() => void) | null = null;
+    const stoppen = ladeNachschub(satz, seq, {
+      beiErsatz: (fertig, von) => {
+        if (fertig < von) return;
+        setScharf(true);
+        /*
+         * Die scharfen Frames sind da — und der Prolog läuft noch. Diese
+         * Sekunden gehören dem Auspacken: der Anfang der Sequenz wird in den
+         * Pausen des Hauptfadens dekodiert, damit das erste Rollen nicht
+         * dasselbe unter Zeitdruck tun muss. Gemessen war genau das der
+         * Unterschied zwischen 39 und 60 Bildern je Sekunde.
+         */
+        vorratStoppen = vorratAuspacken(seq, seq.anzahl);
+      },
     });
+    return () => { stoppen(); vorratStoppen?.(); };
   }, [seq, satz, ruhig]);
 
   /** Der Auftritt zündet erst, wenn der Prolog übergeben hat. */

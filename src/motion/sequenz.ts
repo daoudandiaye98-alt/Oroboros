@@ -69,7 +69,21 @@ export function ladeNachschub(
       eines();
     };
     bild.onload = () => {
-      if (!abgebrochen) seq.bilder[i] = bild;
+      if (!abgebrochen) {
+        seq.bilder[i] = bild;
+        /*
+         * DIE MARKE MUSS MIT.
+         *
+         * `seq.entpackt[i]` heißt „dieses Bild ist ausgepackt". Hier wird das
+         * Bild ERSETZT — der Vorlauf-Frame weicht dem scharfen. Blieb die
+         * Marke stehen, hielt `entpackenVoraus` den neuen Frame für
+         * ausgepackt und ließ ihn aus; ausgepackt wurde er dann doch, nur
+         * eben synchron beim ersten `drawImage`, mitten im Rollen. Genau die
+         * Frames, die während des Nachschubs durchs Fenster gelaufen sind,
+         * haben so ihren Vorsprung verloren.
+         */
+        if (seq.entpackt) seq.entpackt[i] = 0;
+      }
       weiter();
     };
     // Ein einzelnes fehlgeschlagenes Bild ist kein Grund aufzuhören: der
@@ -142,6 +156,68 @@ export function entpackenVoraus(seq: Sequenz, i: number, richtung: number, anzah
     seq.entpackt[k] = 1;
     entpacken(b);
   }
+}
+
+/**
+ * Der Vorrat: die ersten Frames auspacken, WÄHREND der Prolog läuft.
+ *
+ * `entpackenVoraus` läuft der Kamera acht Frames voraus. Beim ersten Rollen
+ * reicht das nicht, weil dort NICHTS ausgepackt ist und die Kamera schneller
+ * durch die Sequenz geht, als acht Frames Vorsprung tragen. Gemessen über
+ * dieselbe Strecke, dreimal gescrollt:
+ *
+ *   1. Durchgang  390 39,2/s (p95 100 ms) · 1440 41,0/s (p95 67 ms)
+ *   2. Durchgang  390 59,3/s (p95  17 ms) · 1440 59,1/s (p95 17 ms)
+ *   3. Durchgang  390 60,3/s (p95  17 ms) · 1440 60,2/s (p95 17 ms)
+ *
+ * Derselbe Code, dieselben Bilder — der Unterschied ist allein, ob sie schon
+ * ausgepackt sind. Und die Zeit dafür ist da: der Prolog läuft rund sechzehn
+ * Sekunden, in denen die Bühne noch niemand sieht.
+ *
+ * Der Vorrat ist BEGRENZT, und zwar aus dem Grund, aus dem pauschales
+ * Auspacken nicht funktioniert: ausgepackt wiegt ein Frame rund 3,7 MB, die
+ * ganze Sequenz also über 600 MB. Was über den Zwischenspeicher hinausgeht,
+ * verdrängt genau das, was schon drin war. Deshalb nur der ANFANG der
+ * Sequenz — dort rollt man zuerst, und dort wird nichts verdrängt.
+ *
+ * Gearbeitet wird in `requestIdleCallback`: nie gegen den Prolog, immer nur
+ * in dessen Pausen. Fehlt die Funktion (Safari), tut es ein Zeitgeber mit
+ * genug Luft dazwischen.
+ */
+export function vorratAuspacken(seq: Sequenz, anzahl: number, wieviele = 44): () => void {
+  if (!seq.entpackt) seq.entpackt = new Uint8Array(seq.anzahl);
+  const bis = Math.min(anzahl, wieviele);
+  let i = 0;
+  let laeuft = true;
+  const fenster = (window as unknown as {
+    requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number;
+    cancelIdleCallback?: (id: number) => void;
+  });
+  let id = 0;
+  const schritt = () => {
+    if (!laeuft) return;
+    // Vier je Runde: genug, um in den sechzehn Sekunden fertig zu werden,
+    // wenig genug, um keine Pause des Prologs zu sprengen.
+    for (let n = 0; n < 4 && i < bis; n++, i++) {
+      if (seq.entpackt![i]) continue;
+      const b = seq.bilder[i];
+      if (!b) continue;
+      seq.entpackt![i] = 1;
+      entpacken(b);
+    }
+    if (i >= bis) { laeuft = false; return; }
+    planen();
+  };
+  const planen = () => {
+    if (fenster.requestIdleCallback) id = fenster.requestIdleCallback(schritt, { timeout: 400 });
+    else id = window.setTimeout(schritt, 90);
+  };
+  planen();
+  return () => {
+    laeuft = false;
+    if (fenster.requestIdleCallback && fenster.cancelIdleCallback) fenster.cancelIdleCallback(id);
+    else clearTimeout(id);
+  };
 }
 
 /**
