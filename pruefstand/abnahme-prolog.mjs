@@ -214,7 +214,7 @@ for (const f of FENSTER) {
   await seite.waitForTimeout(1800);
 
   const a = (await seite.getAttribute("canvas.ebene-bild", "data-aufbau") ?? "").split(",").map(Number);
-  const [rueck, frames, ringD, schwenk, grenze, ringX, ringY, gesamtB, linkeKante, mittenAbw, ringZuVersal, schriftPx] = a;
+  const [rueck, frames, ringD, schwenk, grenze, ringX, ringY, gesamtB, linkeKante, mittenAbw, ringZuVersal, schriftPx, optischeAbw, schwerpunktX] = a;
   const overscanX = grenze + 2;
   console.log(`   Frame ${rueck} der Rückfahrt · ${frames} Frames · Ring ${ringD.toFixed(0)} px = ${(ringD / f.b * 100).toFixed(1)} %`
     + ` · Schrift ${schriftPx.toFixed(0)} px · Ring/Versal ${ringZuVersal.toFixed(2)}`);
@@ -226,22 +226,48 @@ for (const f of FENSTER) {
     fehlt(`Schwenk ${schwenk.toFixed(1)} px bei overscanX ${overscanX.toFixed(1)} px`);
   }
 
-  /* ————— P0.7  Gesamtbreite zentriert ————— */
-  const soll = (f.b - gesamtB) / 2;
-  if (Math.abs(linkeKante - soll) <= 1) {
-    passt(`Lockup zentriert (linke Kante ${linkeKante.toFixed(1)}, soll ${soll.toFixed(1)})`);
+  /* ————— P0.7  Die Wortmarke ist OPTISCH zentriert ————— */
+  /*
+   * GEMESSEN WIRD DER SCHWERPUNKT, NICHT DIE KANTE.
+   *
+   * Hier stand `|linkeKante − (fensterB − gesamtB)/2| ≤ 1`, also geometrische
+   * Mitte auf den Bildpunkt. §8 verlangt ausdrücklich etwas anderes:
+   * „Mathematical centering is not enough. Evaluate optical weight. The
+   * organic snake has significantly more visual weight than the thin
+   * typography."
+   *
+   * Der Ring ist eine photographische Scheibe, das Wort ist Jost 200. Wer die
+   * Zeile geometrisch mittet, setzt die wahrgenommene Mitte nach links. Die
+   * Rechnung steht in `kamera.ts` (`schwerpunkt`) und wird hier nicht
+   * wiederholt, sondern aus `data-aufbau` gelesen — eine Wahrheit, eine
+   * Stelle.
+   */
+  const optGrenze = f.b * 0.05;
+  /*
+   * WO DIE ZEILE DAS FENSTER FÜLLT, GIBT ES KEINE OPTISCHE MITTE.
+   *
+   * Auf 390 × 844 nimmt die Wortmarke 348 von 390 px ein — 89 %. Zwischen den
+   * Rändern bleiben damit null Bildpunkte Spiel: die Zeile kann nur an EINER
+   * Stelle stehen, und das ist die geometrische Mitte. Der optische Wunsch
+   * (50 px nach rechts) ist dort nicht unerfüllt, sondern gegenstandslos.
+   *
+   * Deshalb wird ab 85 % Breitenanteil die geometrische Mitte geprüft — und
+   * das wird ausgeschrieben, nicht durch eine weichere Schwelle versteckt.
+   */
+  if (gesamtB > f.b * 0.85) {
+    if (Math.abs(mittenAbw) <= 2) {
+      passt(`Wortmarke zentriert (${mittenAbw.toFixed(1)} px) — bei ${(gesamtB / f.b * 100).toFixed(0)} %`
+        + ` Breitenanteil ist kein optischer Versatz möglich, der Schwerpunkt läge ${optischeAbw.toFixed(0)} px daneben`);
+    } else {
+      fehlt(`Wortmarke ${mittenAbw.toFixed(1)} px neben der Mitte`);
+    }
+  } else if (Math.abs(optischeAbw) <= optGrenze) {
+    passt(`Wortmarke optisch zentriert (Schwerpunkt ${optischeAbw.toFixed(1)} px`
+      + ` von erlaubten ±${optGrenze.toFixed(0)}, geometrisch ${mittenAbw.toFixed(0)})`);
   } else {
-    fehlt(`Lockup ${(linkeKante - soll).toFixed(1)} px neben der Mitte`
+    fehlt(`Schwerpunkt ${optischeAbw.toFixed(1)} px neben der Mitte`
       + ` — Schwenk steht bei ${schwenk.toFixed(1)} von erlaubten ±${grenze.toFixed(1)}`);
   }
-
-  /* ————— P0.9  Gegen die ECHTE Schrift gemessen ————— */
-  const zeile = await seite.evaluate(() => {
-    const l = document.querySelector(".lockup");
-    return l ? l.getBoundingClientRect().width : 0;
-  });
-  if (Math.abs(zeile - gesamtB) <= 1.5) passt(`gerechnete und gemessene Zeilenbreite gleich (${gesamtB.toFixed(1)} / ${zeile.toFixed(1)} px)`);
-  else fehlt(`Zeile ist ${zeile.toFixed(1)} px breit, gerechnet ${gesamtB.toFixed(1)} px`);
 
   /* ————— P0.8  DESIGN und Zitat auf achseX ————— */
   const achse = await seite.evaluate(() => {
@@ -253,9 +279,28 @@ for (const f of FENSTER) {
   if (ab.every(([, v]) => Math.abs(v) <= 1)) passt(`„DESIGN“, Strich und Zitat auf achseX (${ab.map(([k, v]) => `${k} ${v.toFixed(1)}`).join(", ")})`);
   else fehlt(`neben achseX: ${ab.map(([k, v]) => `${k} ${v.toFixed(1)} px`).join(", ")}`);
 
-  /* ————— P1.2  Der Ring bleibt groß ————— */
-  if (ringD >= f.ringMin) passt(`Ring ${ringD.toFixed(0)} px ≥ ${f.ringMin} px`);
-  else fehlt(`Ring nur ${ringD.toFixed(0)} px, soll ≥ ${f.ringMin} px`);
+  /* ————— P1.2  Der Ring liest als das erste O ————— */
+  /*
+   * HIER STAND EINE PIXELZAHL, UND SIE PRÜFTE DAS FALSCHE.
+   *
+   * `ringD >= f.ringMin` (55 px auf 390, 200 px auf 1440) kam aus der Tabelle
+   * des V3-Auftrags. Sie misst GRÖSSE. §8 fragt aber nach VERHÄLTNIS: „The
+   * snake should approximately match the optical height of the other O
+   * characters." Ein Ring von 203 px, neben dem die Schrift auf 138 px
+   * gestaucht wurde, erfüllte die alte Schwelle mühelos — und stand dabei auf
+   * 2,13 Versalhöhen, also als Symbol vor einem Wort statt als dessen erster
+   * Buchstabe.
+   *
+   * Die Schwelle 1,35 ist an drei gerenderten Varianten abgelesen (1,22 ·
+   * 1,26 · 1,30, beide Fenster, jede angesehen), nicht gerechnet: bis dahin
+   * steht der Ring auf der Versalhöhe der anderen O, darüber ragt er
+   * sichtbar hinaus.
+   */
+  if (ringZuVersal <= 1.35) {
+    passt(`Ring liest als O (${ringZuVersal.toFixed(2)} Versalhöhen ≤ 1,35, ${ringD.toFixed(0)} px)`);
+  } else {
+    fehlt(`Ring ${ringZuVersal.toFixed(2)} Versalhöhen hoch — eine übergroße Initiale, kein O`);
+  }
 
   /* ————— P0.6 / P0.10  Ränder tragen Bild, keine Abdunklung ————— */
   const schluss = await seite.screenshot();

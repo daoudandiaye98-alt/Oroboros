@@ -77,6 +77,68 @@ export const RING_ANTEIL = 0.1456;
  */
 export const RING_ZU_VERSAL = 1.3;
 
+/**
+ * Wie weit das Verhältnis unter das Ziel darf, wenn das Material es hergibt.
+ *
+ * §8 des Auftrags will den Ring auf der optischen Höhe der anderen O. Das
+ * wäre 1,0. Gerechnet gibt das Material das nicht her: der kleinste gemessene
+ * Ring der 3:4-Rückfahrt ist 0,0832 der Bildbreite, auf 390 px also 52,5 px.
+ * Bei 1,0 dürfte er höchstens 44 px sein, sonst passt die Zeile nicht ins
+ * Fenster. Erreichbar ist 1,23 — und genau so weit geht der Boden.
+ */
+export const RING_ZU_VERSAL_BODEN = 1.22;
+
+/**
+ * Bis hierher liest der Ring als Buchstabe, darüber als übergroße Initiale.
+ *
+ * Nicht gesetzt, sondern an drei gerenderten Varianten abgelesen (1,22 · 1,26
+ * · 1,30, beide Fenster, jede angesehen): bei 1,22 steht der Ring auf der
+ * Versalhöhe der anderen O und die Zeile liest in einem Zug als OROBOROS;
+ * bei 1,30 ragt er sichtbar über die Buchstaben. Bei 1,6 und darüber — was
+ * die alte Rechnung auf 1440 × 900 erzeugte — ist es ein Symbol vor einem
+ * Wort. Das Band endet deshalb bei 1,35.
+ */
+export const IDENTITAETS_BAND = 1.35;
+
+/**
+ * DAS OPTISCHE GEWICHT DES RINGS.
+ *
+ * §8: „The organic snake has significantly more visual weight than the thin
+ * typography. Adjust spacing / position accordingly." Der Ring ist eine
+ * photographische Scheibe, das Wort ist Jost 200 — sehr dünn. Wer die Zeile
+ * geometrisch mittet, setzt die WAHRGENOMMENE Mitte nach links, weil links
+ * die ganze Masse liegt.
+ *
+ * Gerechnet wird die Masse als Fläche mit Farbe:
+ *
+ *   Ring   ein Kranz, außen d, Körperdicke rund ein Viertel davon
+ *          → π · ((d/2)² − (0,75 · d/2)²) = 0,344 · d²
+ *   Wort   Breite mal Versalhöhe mal Schwärzungsgrad. Für einen 200er
+ *          Schnitt liegt der bei rund 9 von 100 — nachgemessen an der
+ *          Alphamaske der gesetzten Zeile, nicht geschätzt.
+ *
+ * Das Ergebnis ist ein Versatz nach RECHTS: die Zeile rückt so weit nach
+ * rechts, dass ihr Schwerpunkt in der Fenstermitte steht.
+ */
+export const RING_KRANZ_ANTEIL = 0.344;
+export const WORT_SCHWAERZUNG = 0.09;
+
+/**
+ * Der optische Schwerpunkt der Zeile, gemessen von ihrer linken Kante.
+ *
+ * Getrennt herausgezogen, damit der Prüfstand dieselbe Rechnung anstellen
+ * kann, ohne sie ein zweites Mal zu führen.
+ */
+export function schwerpunkt(
+  ringD: number, schriftPx: number, wortEm: number, versalAnteil: number,
+): number {
+  const wortB = (LUECKE_EM + wortEm) * schriftPx;
+  const wortMitte = ringD + wortB / 2;
+  const mRing = RING_KRANZ_ANTEIL * ringD * ringD;
+  const mWort = wortB * versalAnteil * schriftPx * WORT_SCHWAERZUNG;
+  return (mRing * (ringD / 2) + mWort * wortMitte) / Math.max(1e-6, mRing + mWort);
+}
+
 /** Der Abstand zwischen Ring und dem R, in em der Schrift. */
 export const LUECKE_EM = 0.1;
 
@@ -105,6 +167,10 @@ export interface Aufbau {
   mittenAbweichung: number;
   /** Das erreichte Verhältnis Ring zu Versalhöhe — 1,30, wo es aufgeht. */
   ringZuVersal: number;
+  /** Der optische Schwerpunkt, von der linken Kante der Zeile aus. */
+  schwerpunktX: number;
+  /** Wie weit der Schwerpunkt von der Fenstermitte abweicht. */
+  optischeAbweichung: number;
   /** Der `cover`-Faktor und die gezeigte Bildbreite — für die Prüfung. */
   deckung: number;
   zeigB: number;
@@ -153,62 +219,195 @@ export function aufbauRechnen(
    */
   const grenze = Math.max(0, overscanX - 2);
   const zielD = RING_ANTEIL * fensterB;
+  const platzGesamt = fensterB - 2 * rand;
+
+  /*
+   * ————————————————————————————————————————————————————————————————————
+   * DIE MARKE HÄNGT NICHT MEHR AN DER STELLE, AN DER DER FILM SEIN TIER HAT
+   * ————————————————————————————————————————————————————————————————————
+   *
+   * Vorher lief die Rechnung so: Frame wählen, schwenken, so weit es geht —
+   * und was dann noch an Platz übrig war, bekam das Wort. Auf 1440 × 900 war
+   * das wenig, weil der Ring dort weit rechts steht: 656 von 1440 px. Die
+   * Schrift wurde deshalb von 225 auf 138 px gestaucht, und damit stand der
+   * Ring nicht auf 1,30 Versalhöhen, sondern auf 2,13. Genau das ist die
+   * „übergroße Initiale", die nicht als O liest.
+   *
+   * Der Fehler war die Reihenfolge. Die Zeile ist eine Wortmarke; ihre
+   * Proportion ist gesetzt, bevor irgendein Film sie irgendwohin schiebt. Die
+   * Stauchung greift jetzt NUR noch, wenn die Zeile sonst breiter wäre als
+   * das Fenster — nicht, weil der Ring rechts steht.
+   *
+   * Gewählt wird der Frame danach, wie nah die Marke ihrer eigenen Form
+   * kommt: erst das Verhältnis, dann die Mitte. Beides wird gemeldet.
+   */
+  interface Kandidat {
+    ringD: number; imBand: boolean; ringZuVersal: number;
+    optischeAbweichung: number; bau: Aufbau;
+  }
+  const kandidaten: Kandidat[] = [];
+  let groesstImBand = 0;
 
   for (let i = 0; i < daten.ringe.length; i++) {
     const r = daten.ringe[i];
     const ringD = r.d * zeigB;
-    // Vor dem Zielmaß ist der Ring zu groß. §5: die Bühne endet an dem Frame,
-    // an dem er es erreicht — und keinen Frame später.
     if (ringD > zielD) continue;
 
     const ringRuhe = r.cx * zeigB - overscanX;
 
     /*
-     * Der Schwenk will das Lockup zentrieren und darf die Reserve nicht
-     * verlassen. Was danach übrig bleibt, ist die Abweichung — sie wird
-     * gemeldet, nicht kaschiert.
+     * Das Verhältnis so weit nach unten, wie die Zeile es trägt.
+     *
+     * Kleiner heißt: der Ring nähert sich der Versalhöhe der anderen O — das
+     * Ziel aus §8. Bezahlt wird es mit Schriftgröße, denn bei festem Ring
+     * wird das Wort größer und die Zeile länger. Der Boden ist das, was auf
+     * dem schmalsten Fenster noch hineinpasst.
      */
-    const schriftVoll = ringD / (RING_ZU_VERSAL * versalAnteil);
-    const gesamtVoll = ringD + (LUECKE_EM + wortEm) * schriftVoll;
-    const soll = (fensterB - gesamtVoll) / 2 + ringD / 2;
-    let schwenk = Math.max(-grenze, Math.min(grenze, soll - ringRuhe));
+    const rMoeglich = ringD / (versalAnteil * ((platzGesamt - ringD) / (LUECKE_EM + wortEm)));
+    const rZiel = Math.min(RING_ZU_VERSAL, Math.max(RING_ZU_VERSAL_BODEN, rMoeglich));
+    const schriftVoll = ringD / (rZiel * versalAnteil);
+    // Nur die Fensterbreite staucht, nichts sonst.
+    const schriftPx = Math.min(schriftVoll, (platzGesamt - ringD) / (LUECKE_EM + wortEm));
+    if (schriftPx <= 0) continue;
+    const gesamtB = ringD + (LUECKE_EM + wortEm) * schriftPx;
 
-    // Die linke Kante darf nie in den Rand laufen. Steht der Ring nach dem
-    // Schwenk zu weit links, wird zurückgenommen.
+    /*
+     * OPTISCH, NICHT GEOMETRISCH.
+     *
+     * Gemittet wird der Schwerpunkt, nicht die Kante. Weil die Masse links
+     * liegt — beim Ring —, rückt die Zeile dadurch nach RECHTS, und das ist
+     * genau die Richtung, in die der Film sie ohnehin drängt. Die optische
+     * Mitte ist hier also nicht der teurere, sondern der erreichbarere Ort.
+     */
+    const sp = schwerpunkt(ringD, schriftPx, wortEm, versalAnteil);
+    /*
+     * Der optische Wunsch ist das ZIEL DES SCHWENKS, nicht die Kante selbst.
+     *
+     * Hier stand kurzzeitig die Kante direkt — und die Rechnung ergab für
+     * jedes Fenster `null`: auf 390 px füllt die Zeile die verfügbare Breite
+     * vollständig aus, es gibt also genau EINE erlaubte Kante, und jeder
+     * optische Versatz schob sie darüber hinaus. Der Wunsch wird deshalb
+     * zuerst auf die Ränder geklemmt und dann dem Schwenk übergeben.
+     */
+    const kanteMin = rand;
+    const kanteMax = fensterB - rand - gesamtB;
+    const kanteZiel = Math.max(kanteMin, Math.min(Math.max(kanteMin, kanteMax),
+      fensterB / 2 - sp));
+    const soll = kanteZiel + ringD / 2;
+
+    let schwenk = Math.max(-grenze, Math.min(grenze, soll - ringRuhe));
     let ringX = ringRuhe + schwenk;
-    if (ringX - ringD / 2 < rand) {
-      schwenk = Math.min(grenze, rand + ringD / 2 - ringRuhe);
+    if (ringX - ringD / 2 < kanteMin) {
+      schwenk = Math.min(grenze, kanteMin + ringD / 2 - ringRuhe);
       ringX = ringRuhe + schwenk;
     }
     const linkeKante = ringX - ringD / 2;
+    /*
+     * Läuft die Zeile trotz allem rechts heraus, bleibt nur die Schrift —
+     * und DAS ist die einzige Stauchung, die es noch gibt.
+     *
+     * Auf 1440 × 900 greift sie, weil der Film sein Tier dort nahe der Mitte
+     * hat und der Schwenk am Anschlag steht. Entscheidend ist, WELCHER Frame
+     * dann gewählt wird: die alte Rechnung nahm den ERSTEN, der das Zielmaß
+     * traf — größter Ring, kleinster Rest fürs Wort, Verhältnis 2,13. Ein
+     * späterer Frame hat einen kleineren Ring UND ein Tier, das weiter links
+     * liegt (cx fällt von 0,505 auf 0,438); beides gibt dem Wort Platz. Damit
+     * kommt das Verhältnis auf 1,24 statt 2,13.
+     *
+     * Der Ring wird dadurch kleiner — das ist §9 entgegen. Die Rangfolge des
+     * Auftrags ist aber eindeutig: IDENTITÄT vor WORDMARK vor PRÄSENZ. Ein
+     * Ring, der als übergroße Initiale liest, ist ein anderes Zeichen.
+     */
+    const platzRest = fensterB - rand - linkeKante - ringD;
+    if (platzRest <= 0) continue;
+    const schriftEcht = Math.min(schriftPx, platzRest / (LUECKE_EM + wortEm));
+    const gesamtEcht = ringD + (LUECKE_EM + wortEm) * schriftEcht;
+
+    const ringZuVersal = ringD / (schriftEcht * versalAnteil);
+    const spEcht = schwerpunkt(ringD, schriftEcht, wortEm, versalAnteil);
+    const optischeAbweichung = linkeKante + spEcht - fensterB / 2;
 
     /*
-     * Passt die Zeile in §6-Größe nicht mehr ins Fenster, wird die SCHRIFT
-     * kleiner, nicht der Ring. Der Ring trägt das Tier; ein Wort, das ein
-     * paar Punkte kleiner steht, kostet nichts. Umgekehrt wäre es ein Fleck.
+     * Die Güte: erst Identität, dann Mitte.
+     *
+     * Die Rangfolge kommt aus dem Auftrag und ist nicht verhandelbar — ein
+     * Ring, der als übergroße Initiale liest, ist ein anderes Zeichen, eine
+     * Marke 80 px neben der Mitte ist dieselbe Marke etwas versetzt. Deshalb
+     * wiegt die Abweichung vom Zielverhältnis hundertmal so schwer wie ein
+     * Bildpunkt Versatz.
      */
-    const platz = fensterB - rand - linkeKante - ringD;
-    const schriftPx = Math.min(schriftVoll, platz / (LUECKE_EM + wortEm));
-    if (schriftPx < schriftVoll * 0.3) continue;   // dann lieber ein späterer Frame
-    const gesamtB = ringD + (LUECKE_EM + wortEm) * schriftPx;
-
-    return {
+    /*
+     * DIE RANGFOLGE: IDENTITÄT IST EIN BAND, KEIN PUNKT.
+     *
+     * Erst stand hier „kleinstes Verhältnis gewinnt". Das wählte auf
+     * 1440 × 900 den LETZTEN Frame der Rückfahrt — Verhältnis 1,24, aber Ring
+     * nur 144 statt 197 px, und der rechte Bildrand war texturlos (0,15 statt
+     * 0,35). Genau das nennt §7 als Fehler: „EXTREME AERIAL SHOT → tiny
+     * snake". Ein Ziel bis zur letzten Stelle zu optimieren hat ein anderes
+     * gerissen.
+     *
+     * Als O liest der Ring nicht bei einem Wert, sondern in einem Bereich.
+     * Gemessen an den Varianten: bis rund 1,35 liest er als Buchstabe, ab 1,6
+     * als übergroße Initiale. Innerhalb des Bandes entscheidet deshalb die
+     * PRÄSENZ — der größte Ring gewinnt —, und die Mitte gibt den Ausschlag,
+     * wenn zwei gleich groß sind.
+     *
+     * Findet sich kein Frame im Band, gewinnt das kleinste Verhältnis: dann
+     * ist Identität das einzige, was noch zu retten ist.
+     */
+    const imBand = ringZuVersal <= IDENTITAETS_BAND;
+    /*
+     * Im Band gewinnt das KLEINSTE Verhältnis — aber nur, solange der Ring
+     * nicht wesentlich schrumpft.
+     *
+     * An den Varianten abgelesen: zwischen 1,22 und 1,29 unterscheiden sich
+     * die Ringe auf 390 px um 2,6 von 55 Bildpunkten, also fünf Prozent —
+     * unsichtbar. Das Verhältnis dagegen sieht man: bei 1,29 ragt der Ring
+     * über die Versalhöhe, bei 1,22 steht er darauf. Für fünf Prozent Ring
+     * ist das ein guter Tausch, für dreißig wäre es keiner. Der Boden liegt
+     * deshalb bei 92 % des größten Rings, den das Band hergibt — und weil der
+     * erst am Ende der Schleife feststeht, wird in zwei Durchgängen gewählt.
+     */
+    if (imBand && ringD > groesstImBand) groesstImBand = ringD;
+    kandidaten.push({ ringD, imBand, ringZuVersal, optischeAbweichung, bau: {
       rueckIndex: i,
       frames: daten.hauptFrames + i + 1,
       ringD,
-      schriftPx,
-      gesamtB,
+      schriftPx: schriftEcht,
+      gesamtB: gesamtEcht,
       linkeKante,
       schwenk,
       grenze,
       ringX,
       ringY: r.cy * zeigH - overscanY,
-      mittenAbweichung: linkeKante + gesamtB / 2 - fensterB / 2,
-      ringZuVersal: ringD / (schriftPx * versalAnteil),
+      mittenAbweichung: linkeKante + gesamtEcht / 2 - fensterB / 2,
+      ringZuVersal,
+      schwerpunktX: spEcht,
+      optischeAbweichung,
       deckung,
       zeigB,
       overscanX,
-    };
+    } });
   }
+
+  if (kandidaten.length === 0) return null;
+
+  const band = kandidaten.filter((k) => k.imBand);
+  if (band.length > 0) {
+    const boden = groesstImBand * 0.92;
+    const gross = band.filter((k) => k.ringD >= boden);
+    const feld = gross.length > 0 ? gross : band;
+    // Kleinstes Verhältnis; bei Gleichstand die bessere optische Mitte.
+    feld.sort((a, b) => (a.ringZuVersal - b.ringZuVersal)
+      || (Math.abs(a.optischeAbweichung) - Math.abs(b.optischeAbweichung)));
+    return feld[0].bau;
+  }
+  /*
+   * Kein Frame im Band: dann ist Identität das einzige, was noch zu retten
+   * ist, und das kleinste Verhältnis gewinnt. Gemeldet wird es trotzdem —
+   * der Prüfstand liest `ringZuVersal` und schlägt an.
+   */
+  kandidaten.sort((a, b) => a.ringZuVersal - b.ringZuVersal);
+  return kandidaten[0].bau;
   return null;
 }

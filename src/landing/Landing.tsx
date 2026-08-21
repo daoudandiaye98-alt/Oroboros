@@ -411,7 +411,8 @@ export default function Landing() {
                    aufbau.grenze.toFixed(2), aufbau.ringX.toFixed(2), aufbau.ringY.toFixed(2),
                    aufbau.gesamtB.toFixed(2), aufbau.linkeKante.toFixed(2),
                    aufbau.mittenAbweichung.toFixed(2), aufbau.ringZuVersal.toFixed(3),
-                   aufbau.schriftPx.toFixed(2)].join(",")
+                   aufbau.schriftPx.toFixed(2), aufbau.optischeAbweichung.toFixed(2),
+                   aufbau.schwerpunktX.toFixed(2)].join(",")
                 : undefined}
               role="img"
               aria-label="Eine Hornviper zieht durch die Düne, rollt sich ein und schließt sich zum Ouroboros. Die Bewegung folgt dem Scrollen."
