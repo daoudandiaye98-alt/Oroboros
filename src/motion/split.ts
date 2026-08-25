@@ -11,6 +11,13 @@
  *    `inline-block`, könnte der Browser dort nicht mehr umbrechen: eine lange
  *    Zeile liefe aus der Fläche, statt umzubrechen. Der Umbruch muss natürlich
  *    bleiben.
+ * 1a. ZEICHENWEISE HEISST TROTZDEM WORTWEISE UMBRECHEN. Zwischen zwei
+ *    `inline-block` darf der Browser umbrechen — auch mitten im Wort. Bei
+ *    einer einzelnen kurzen Zeile fiel das nie auf; im ersten mehrzeiligen
+ *    Absatz stand es sofort da: „den Kopf des Königs und seine F / üße",
+ *    „Aus dem Bild wird ein Gedanke, den man a / ufschreiben kann". Deshalb
+ *    liegt jedes Wort in einer eigenen Hülle, die als Ganzes unteilbar ist;
+ *    die Zeichen darin sind weiterhin einzeln bewegbar.
  * 2. ZERHACKTER TEXT WIRD NIE VORGELESEN. Ein Screenreader liest 30 Spans als
  *    30 Fragmente. Deshalb bekommt das Elternelement `aria-label` mit dem
  *    ORIGINALTEXT, und jedes Stück `aria-hidden="true"`. Wer das weglässt,
@@ -31,7 +38,9 @@ export type Modus = "wort" | "zeichen";
  * zerlegtes Element würde seine Stücke mit hochreichen und zweimal bewegt.
  */
 function vorhandeneTeile(el: HTMLElement): HTMLElement[] {
-  return Array.from(el.querySelectorAll<HTMLElement>(":scope > .teil"));
+  // Im Zeichenmodus liegen die Stücke eine Ebene tiefer, in ihrer Worthülle.
+  // `querySelectorAll` liefert in Dokumentreihenfolge — also in Lesereihenfolge.
+  return Array.from(el.querySelectorAll<HTMLElement>(":scope > .teil, :scope > .wort > .teil"));
 }
 
 /**
@@ -60,13 +69,22 @@ export function zerlege(el: HTMLElement, modus: Modus): HTMLElement[] {
 
   // `\s+` trennt an jeder Art von Zwischenraum; die Trenner bleiben in der
   // Liste (Klammer im Muster), damit sie als nackte Textknoten zurückkommen.
-  const stuecke = modus === "wort"
-    ? original.split(/(\s+)/)
-    : Array.from(original);
+  // In BEIDEN Modi wird zuerst an Wörtern getrennt — im Zeichenmodus wird
+  // danach jedes Wort noch einmal zerlegt, innerhalb seiner Hülle (Regel 1a).
+  const stuecke = original.split(/(\s+)/);
 
   const doku = el.ownerDocument;
   const sammler = doku.createDocumentFragment();
   const teile: HTMLElement[] = [];
+
+  const stueckchen = (text: string): HTMLElement => {
+    const teil = doku.createElement("span");
+    teil.className = "teil";
+    teil.setAttribute("aria-hidden", "true");
+    teil.textContent = text;
+    teile.push(teil);
+    return teil;
+  };
 
   for (const stueck of stuecke) {
     if (stueck === "") continue;
@@ -75,12 +93,16 @@ export function zerlege(el: HTMLElement, modus: Modus): HTMLElement[] {
       sammler.appendChild(doku.createTextNode(stueck));
       continue;
     }
-    const teil = doku.createElement("span");
-    teil.className = "teil";
-    teil.setAttribute("aria-hidden", "true");
-    teil.textContent = stueck;
-    sammler.appendChild(teil);
-    teile.push(teil);
+    if (modus === "wort") {
+      sammler.appendChild(stueckchen(stueck));
+      continue;
+    }
+    // Regel 1a: das Wort als unteilbare Hülle, die Zeichen einzeln darin.
+    const wort = doku.createElement("span");
+    wort.className = "wort";
+    wort.setAttribute("aria-hidden", "true");
+    for (const zeichen of Array.from(stueck)) wort.appendChild(stueckchen(zeichen));
+    sammler.appendChild(wort);
   }
 
   el.replaceChildren(sammler);

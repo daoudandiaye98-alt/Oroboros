@@ -20,7 +20,7 @@
  * Richtungen. Eine Bildsequenz hat keinen Dekoderzustand. Der PROLOG ist
  * dagegen ein Film, weil er einmal vorwärts läuft; siehe `Prolog.tsx`.
  */
-import { useCallback, useEffect, useRef, useState } from "react";
+import { Suspense, lazy, useCallback, useEffect, useRef, useState } from "react";
 import {
   canvasSpannen, entpackenVoraus, frameAdresse, frameStelle, ladeNachschub, ladeVorlauf,
   naechstesBild, vorratAuspacken, zeichneStelle, type Sequenz,
@@ -31,7 +31,19 @@ import { choreografie, VORLAUF_SCHRITT, satzWaehlen, prologFilm } from "./choreo
 import { aufbauRechnen, type Aufbau, type Ringdaten } from "./kamera";
 import { Wortmarke } from "./Wortmarke";
 import { Prolog } from "./Prolog";
+import Kopfzeile from "../sections/Kopfzeile";
 import "../styles/landing.css";
+import "../styles/sektionen.css";
+
+/*
+ * PHASE 1 WIRD NACHGELADEN — siehe `sections/Phase1.tsx`.
+ *
+ * `Kopfzeile` steht daneben und wird NICHT nachgeladen: sie bringt kein GSAP
+ * mit, nur einen IntersectionObserver, und sie muss im DOM stehen, bevor die
+ * Bühne endet. Käme sie mit dem Bündel, hinge die Naht daran, ob das Netz
+ * schnell genug war — und genau an der Naht darf nichts hängen.
+ */
+const Phase1 = lazy(() => import("../sections/Phase1"));
 
 /** Bei welcher Schriftgröße Wortbreite und Versalhöhe gemessen werden. */
 const MESS_SCHRIFT = 100;
@@ -47,6 +59,8 @@ export default function Landing() {
   const [schriftAuf, setSchriftAuf] = useState(false);
   const [seq, setSeq] = useState<Sequenz | null>(null);
   const [frei, setFrei] = useState(false);
+  /** Steht Phase 1 schon im DOM? Siehe das Nachladen weiter unten. */
+  const [phase1, setPhase1] = useState(false);
   /** Nur für den Bericht und den Selbsttest: ist die volle Stufe komplett? */
   const [, setScharf] = useState(false);
 
@@ -276,6 +290,30 @@ export default function Landing() {
     return () => { document.body.style.overflow = vorher; };
   }, [uebergeben]);
 
+  /*
+   * Wann Phase 1 geholt wird: nach dem ersten Bild, nicht mit ihm.
+   *
+   * `requestIdleCallback` ist genau die richtige Zusage — „wenn gerade nichts
+   * Wichtigeres läuft". Wo es fehlt (Safari bis heute), tut es ein Bild
+   * Verzug: das reicht, um aus dem ersten Rendern heraus zu sein, und es ist
+   * keine Zeitangabe, die jemand pflegen müsste.
+   *
+   * Kein Auslöser am Rollstand. Ein Abschnitt, der erst beim Herunterrollen
+   * angefordert wird, ist beim Ankommen noch nicht da — und die Seite wächst
+   * unter dem Finger.
+   */
+  useEffect(() => {
+    const holen = () => setPhase1(true);
+    const leerlauf = (window as { requestIdleCallback?: (f: () => void) => number })
+      .requestIdleCallback;
+    if (leerlauf) {
+      leerlauf(holen);
+      return;
+    }
+    const id = requestAnimationFrame(holen);
+    return () => cancelAnimationFrame(id);
+  }, []);
+
   /* ————————————————————————————— Die Bewegung ————————————————————————————— */
 
   useEffect(() => {
@@ -388,6 +426,14 @@ export default function Landing() {
         <Prolog bereit={frei} film={prologFilm(satz)} ruhig={ruhig} beiUebergabe={uebergabe} />
       )}
 
+      {/*
+        DIE NAHT. Die Kopfzeile steht VOR der Bühne im DOM, weil `sticky` nur
+        innerhalb des Elternelements klebt und nur das trägt, was danach
+        kommt. Sichtbar wird sie erst, wenn die Bühne durch ist — sie
+        beobachtet dafür genau diese Bühne.
+      */}
+      <Kopfzeile buehne={kasten} />
+
       <section className="buehne" ref={kasten}>
         <div className="bild" ref={bild}>
           {/* Misst, was das Gerät sich an den Rändern nimmt. Unsichtbar. */}
@@ -498,6 +544,17 @@ export default function Landing() {
           </div>
         </div>
       </section>
+
+      {/*
+        Ohne Ersatzdarstellung: was hier fehlt, ist unter 420 svh Bühne
+        ohnehin nicht zu sehen. Ein Platzhalter wäre ein Kasten, den niemand
+        anschaut — und eine Höhe, die sich beim Eintreffen wieder ändert.
+      */}
+      {phase1 && (
+        <Suspense fallback={null}>
+          <Phase1 />
+        </Suspense>
+      )}
     </div>
   );
 }

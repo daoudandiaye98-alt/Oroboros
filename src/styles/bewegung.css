@@ -267,3 +267,12 @@
  * nicht im ersten Bild der Staffelung.
  */
 .teil { display: inline-block; will-change: transform; }
+
+/*
+ * Die Worthülle im Zeichenmodus (siehe src/motion/split.ts, Regel 1a).
+ *
+ * `inline-block` macht sie unteilbar: der Browser bricht zwischen zwei
+ * `inline-block` um, und ohne diese Hülle bricht er mitten im Wort. Sie wird
+ * NICHT bewegt — sie hält nur zusammen, was zusammengehört.
+ */
+.wort { display: inline-block; }

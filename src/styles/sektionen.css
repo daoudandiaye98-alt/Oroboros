@@ -1,0 +1,462 @@
+/*
+ * Phase 1 — Layout, Typografie, Ebenen der Abschnitte 04 und 06 und der Naht.
+ *
+ * Dieselbe Trennung wie in `landing.css`: hier steht, WO etwas liegt und WIE
+ * GROSS es ist. Jede Zeitangabe und jede Kurve, die unten vorkommt, ist ein
+ * `var()` auf `bewegung.css` — keine einzige Zahl wird hier zum zweiten Mal
+ * geführt. Das ist das Gesetz aus Phase 0, und dieser Abschnitt ist der
+ * erste, der es unbeaufsichtigt einhalten muss.
+ *
+ * Belegt mit `npm run gesetz`.
+ */
+
+/* ——————————————————————————— Der Sandfuß ——————————————————————————— */
+
+/*
+ * DER TON, AUF DEM DIE LANDING ENDET — abgelesen, nicht gewählt.
+ *
+ * Die erste Fassung ließ Phase 1 auf `--tief` beginnen, in der Annahme, das
+ * Siegel stehe auf `--tief`. Es steht auf hellem Sand; das Siegel ist dunkel
+ * AUF dem Sand (`color: var(--tief)` in `landing.css`). An der Bühnenkante
+ * stand damit eine harte waagerechte Kante, die niemand entschieden hat.
+ * Gemessen: 168 von 255 quer, 177 hoch — das Auffälligste, was ein Bild
+ * haben kann.
+ *
+ * Diese beiden Werte sind der Mittelwert des 8 px hohen Bandes unmittelbar
+ * über der Kante, aus den Aufnahmen des Prüfstands gelesen:
+ *
+ *   quer (1440 × 900)   182, 142,  97   Streuung im Band ±5,0 / 4,4 / 3,5
+ *   hoch  (390 × 844)   191, 153, 107   Streuung im Band ±4,6 / 4,7 / 4,5
+ *
+ * Die Streuung ist der Grund, warum eine FLÄCHE hier überhaupt zulässig ist:
+ * der Sand ist an dieser Stelle so gleichmäßig, dass ein einzelner Ton ihn
+ * bis auf rund fünf Stufen trifft. Wäre er strukturiert, müsste die Fuge das
+ * Material fortsetzen und nicht seinen Mittelwert.
+ *
+ * KEINE FÜNFTE FARBE. `--sandfuss` gehört nicht zur Palette — die hat vier
+ * und behält vier. Er ist der abgelesene Istwert des Materials an genau einer
+ * Naht, so wie `kamera.ts` den Ring nicht wählt, sondern misst. Ändert sich
+ * die Schlusssequenz, ändert sich dieser Wert mit ihr, und der Prüfstand
+ * merkt es: `pruefstand/phase1.mjs`, Abschnitt 1.
+ *
+ * Die Bedingung ist dieselbe, mit der `satzWaehlen()` das Format bestimmt
+ * (`(orientation: portrait)`), damit nicht zwei Regeln über dasselbe
+ * entscheiden.
+ */
+:root { --sandfuss: #B68E61; }
+
+@media (orientation: portrait) {
+  :root { --sandfuss: #BF996B; }
+}
+
+/*
+ * Wie weit der Sand in den Abschnitt hineinreicht.
+ *
+ * Kein Zeitwert — eine Strecke. Der Kopf des Abschnitts beginnt genau dort,
+ * wo der Verlauf `--tief` erreicht hat: der Kicker steht auf Gold, und Gold
+ * auf Sand liest sich nicht.
+ */
+:root { --sandfuss-tiefe: 34svh; }
+
+/* ——————————————————————————— Gemeinsames ——————————————————————————— */
+
+/*
+ * Der Kicker.
+ *
+ * Space Mono, Versalien, weit gesperrt — dieselbe Stimme wie „DESIGN" im
+ * Siegel der Landing. Er wird hier definiert und nicht aus `landing.css`
+ * geholt: jene Datei wird nur auf der Landing geladen, und ein Abschnitt,
+ * dessen Typografie davon abhängt, welche andere Seite mitgeladen wurde,
+ * ist keine Typografie, sondern ein Zufall.
+ */
+.kicker {
+  margin: 0;
+  font-family: var(--schrift-titel);
+  font-size: clamp(10px, 1.1vw, 12px);
+  letter-spacing: .34em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* ————————————————————————— Die Naht — Kopfzeile ————————————————————————— */
+
+/*
+ * DIE WORTMARKE BLEIBT — und sie bleibt als EINE sichtbare Wortmarke.
+ *
+ * Die Kopfzeile hängt über der ganzen Seite und ist von Anfang an im DOM,
+ * aber unsichtbar und unanfassbar. Sie erscheint erst, wenn die Bühne der
+ * Landing durch ist (siehe `Kopfzeile.tsx`, IntersectionObserver am Ende der
+ * Bühne). Früher erschienen nähme sie dem Schlussbild genau das, was §4 des
+ * Landing-Auftrags ihm zuspricht: die erste und einzige Nennung der Marke.
+ *
+ * `pointer-events: none` im unsichtbaren Zustand ist kein Detail: eine
+ * Deckkraft von 0 fängt Klicks weiterhin ab, und dieser Kasten liegt über
+ * der gesamten oberen Bildkante der Landing.
+ */
+.kopfzeile {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  /*
+   * HÖHE 0 — und das ist keine Spielerei, sondern die Bedingung, unter der
+   * die Kopfzeile überhaupt vor der Bühne stehen darf.
+   *
+   * `position: sticky` nimmt seinen Platz im Fluss mit. Eine 60 px hohe
+   * Kopfzeile über der Bühne schöbe sie um 60 px nach unten; das erste Bild
+   * begänne mit einem Streifen `--tief` über sich, und die Bühne wäre nicht
+   * mehr, was `kamera.ts` gerechnet hat. Gemessen ist das nicht — es ist
+   * ausgerechnet, und deshalb steht es hier, bevor es jemand fotografiert.
+   *
+   * Eine Höhe von 0 nimmt keinen Platz, klebt aber weiterhin: der Inhalt
+   * hängt absolut darin und ragt sichtbar heraus. `position: fixed` täte
+   * dasselbe, aber der Auftrag sagt `sticky`, und sticky bleibt an das
+   * Elternelement gebunden — genau das will man an einer Naht.
+   */
+  height: 0;
+  overflow: visible;
+  color: var(--creme);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dauer-block) var(--kurve-fein);
+}
+
+.kopfzeile[data-sichtbar="1"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/*
+ * DER SCHLEIER UNTER DER KOPFZEILE.
+ *
+ * Gefunden nicht an einer Zahl, sondern an der Aufnahme: auf 390 × 844 stand
+ * die Wortmarke mitten in der Überschrift „Die Gnosis" — beide in `--creme`,
+ * beide unlesbar. Eine Kopfzeile ohne Grund über einem Text derselben Farbe
+ * ist keine Kopfzeile, sondern ein zweiter Text an derselben Stelle.
+ *
+ * Kein Balken. Ein Balken zöge genau die harte waagerechte Kante ein, die
+ * oben an der Fuge gerade beseitigt wurde. Stattdessen dieselbe Sprache wie
+ * `--schleier` auf der Bühne: oben deckend, nach unten auslaufend. Was
+ * darunter durchzieht, verliert sich, statt zu kollidieren.
+ *
+ * Er hängt an der Kopfzeile und erbt damit deren Deckkraft — auf der Landing
+ * ist er also nicht da, so wenig wie die Wortmarke selbst.
+ */
+.kopfzeile::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: clamp(72px, 12svh, 128px);
+  background: linear-gradient(180deg,
+    rgba(14, 10, 6, .92) 0%,
+    rgba(14, 10, 6, .72) 46%,
+    rgba(14, 10, 6, 0) 100%);
+  pointer-events: none;
+}
+
+.kopfzeile-marke {
+  /* Absolut in der 0 hohen Hülle: die Ränder sind hier der Platz, den die
+     Kopfzeile im Bild einnimmt — nicht der, den sie im Fluss verlangt. */
+  position: absolute;
+  top: clamp(14px, 2.2svh, 22px);
+  inset-inline-start: clamp(1.25rem, 5vw, 4rem);
+  /* Über dem Schleier, nicht darunter. */
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  /*
+   * Kein Abstand zwischen Ring und Wort.
+   *
+   * Der Ring IST das erste O von OROBOROS — genau wie im Lockup der Landing.
+   * Eine Lücke dazwischen machte aus einem Wort ein Zeichen neben einem Wort,
+   * und das ist ein anderes Logo.
+   */
+  gap: .08em;
+  color: inherit;
+  text-decoration: none;
+  font-family: var(--schrift-marke);
+  font-weight: 200;
+  font-size: 15px;
+  letter-spacing: .16em;
+  line-height: 1;
+}
+
+/*
+ * Der Ring als Zeichen: 24 px, dieselbe Form, kein zweites Motiv.
+ *
+ * Gezeichnet, nicht als Bild geladen. Ein 24-px-Bild des Ouroboros wäre bei
+ * dieser Größe ein grauer Fleck; der Ring dagegen ist bei jeder Auflösung
+ * genau ein Kreis, und mehr ist von der Form auf 24 px ohnehin nicht übrig.
+ */
+.kopfzeile-ring {
+  width: 24px;
+  height: 24px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  /* Optischer Ausgleich: der Kreis wirkt neben Versalien zu hoch. */
+  margin-block-start: -.04em;
+}
+
+.kopfzeile-wort {
+  /* Das Wort beginnt beim R — das O steht links daneben als Ring. */
+  display: inline-block;
+}
+
+/* ——————————————————————— Abschnitt 04 — Die Epochen ——————————————————————— */
+
+.epochen {
+  position: relative;
+  /*
+   * DIE FUGE. Derselbe Grund wie das letzte Bild der Landing.
+   *
+   * Die Naht zwischen Landing und Phase 1 wird nicht kaschiert, sie wird
+   * unsichtbar gemacht, indem es nichts zu kaschieren gibt: das Siegel steht
+   * auf `--tief`, dieser Abschnitt beginnt auf `--tief`, und beim Übergang
+   * wechselt kein Ton. Gemessen wird das als Bilddifferenz, nicht behauptet.
+   */
+  /*
+   * Der Sand fällt in den Grund, auf dem die Geschichte erzählt wird — statt
+   * abgeschnitten zu werden. Oben steht der abgelesene Istwert des letzten
+   * Bildes, unten `--tief`; an der Kante gibt es deshalb nichts mehr zu sehen.
+   */
+  background: linear-gradient(180deg, var(--sandfuss) 0, var(--tief) var(--sandfuss-tiefe));
+  background-color: var(--tief);
+  color: var(--creme);
+  /* Oben so viel Luft, wie der Verlauf braucht: der Kopf beginnt im Dunkeln. */
+  padding: var(--sandfuss-tiefe) clamp(1.25rem, 5vw, 4rem) clamp(7rem, 22svh, 14rem);
+  /* Der Rücken darf über die Ränder laufen, der Text nicht. */
+  overflow: clip;
+}
+
+.epochen-kopf {
+  position: relative;
+  z-index: 1;
+  max-width: 40rem;
+  margin: 0 auto clamp(4rem, 12svh, 9rem);
+  text-align: center;
+}
+
+.epochen-titel {
+  margin: .8em 0 0;
+  font-family: var(--schrift-marke);
+  font-weight: 200;
+  font-size: clamp(28px, 5.2vw, 62px);
+  line-height: 1.08;
+  letter-spacing: -.01em;
+}
+
+/* ————————————————————————————— Das Scharnier ————————————————————————————— */
+
+/*
+ * Die Linie liegt HINTER den Stationen und über die ganze Höhe.
+ *
+ * `preserveAspectRatio="none"` streckt den `viewBox` auf den Abschnitt, wie
+ * hoch er auf dem jeweiligen Gerät auch wird — deshalb rechnet der Pfad in
+ * Prozent-Einheiten (0–100 quer, 0–1000 hoch) und nicht in Pixeln. Die
+ * Streckung würde die Strichstärke mitverzerren; `vector-effect` hält sie
+ * fest. Ohne das wäre die Linie auf einem Telefon quer dick und längs dünn.
+ */
+.scharnier {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  fill: none;
+  pointer-events: none;
+}
+
+.scharnier-bahn,
+.scharnier-naht {
+  vector-effect: non-scaling-stroke;
+  stroke-width: 1;
+  stroke-linecap: round;
+}
+
+/* Trennen: die Bahn ist Gold — das Zeichen, noch offen. */
+.scharnier-bahn { stroke: var(--gold); opacity: .32; }
+/*
+ * Binden: die Naht ist Rubedo.
+ *
+ * Nicht als Farbwahl, sondern als Aussage: das Binden IST die rote Arbeit,
+ * und `coagula` ist der Name derselben Stufe. Zwei Farben für zwei Hälften
+ * eines Satzes, die die Daten in `epochen.ts` als `phase` ohnehin führen.
+ */
+.scharnier-naht { stroke: var(--rubedo); opacity: .5; }
+
+/* ————————————————————————————— Die Stationen ————————————————————————————— */
+
+.epochen-liste {
+  position: relative;
+  z-index: 1;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: clamp(5rem, 16svh, 11rem);
+}
+
+.epoche {
+  max-width: 34rem;
+  /* Grundstellung: auf dem Stamm, mittig. Die Zweige weichen davon ab. */
+  margin-inline: auto;
+}
+
+/*
+ * Die Stellung folgt dem Scharnier, nicht dem Geschmack.
+ *
+ * `data-zweig` kommt aus `Epochen.tsx` und wird dort aus `phase` und der
+ * Stellung innerhalb der Phase abgeleitet — dieselbe Struktur, die den Pfad
+ * zeichnet. Stünde die Verteilung stattdessen hier als `:nth-child`, hinge
+ * die Gestaltung an einer Reihenfolge und nicht an der Aussage: käme eine
+ * sechste Epoche dazu, wanderte die Trennung an eine falsche Stelle, ohne
+ * dass jemand es bemerkt.
+ */
+.epoche[data-zweig="links"]  { margin-inline: 0 auto; }
+.epoche[data-zweig="rechts"] { margin-inline: auto 0; text-align: right; }
+
+.epoche-marke {
+  margin: 0;
+  font-family: var(--schrift-titel);
+  font-size: clamp(10px, 1vw, 12px);
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.epoche-ort {
+  margin: .55em 0 0;
+  font-family: var(--schrift-marke);
+  font-weight: 200;
+  font-size: clamp(24px, 4vw, 44px);
+  line-height: 1.1;
+  letter-spacing: -.005em;
+}
+
+.epoche-satz {
+  margin: .9em 0 0;
+  font-family: var(--schrift-zeile);
+  /* Nur der kursive Schnitt ist geladen. Ohne diese Zeile setzt der Browser
+     einen aufrechten daraus — synthetisch, schief, und nicht dieselbe
+     Schrift. Siehe den Import in `landing.css`. */
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(16px, 1.9vw, 21px);
+  line-height: 1.5;
+  color: rgba(244, 237, 226, .82);
+  max-width: 46ch;
+}
+
+.epoche[data-zweig="rechts"] .epoche-satz { margin-inline-start: auto; }
+
+/* ————————————————————————— Solve et Coagula ————————————————————————— */
+
+/*
+ * Der Satz steht am Fuß, dort wo die Naht sich schließt.
+ *
+ * Er sitzt bewusst NICHT auf der Mittelachse der Stationen, sondern auf der
+ * des Abschnitts: die Naht endet bei x=50 des `viewBox`, also in der Mitte
+ * des Abschnitts, nicht in der Mitte der Textspalte.
+ */
+.scharnier-satz {
+  position: relative;
+  z-index: 1;
+  margin: clamp(5rem, 16svh, 11rem) auto 0;
+  text-align: center;
+  font-family: var(--schrift-titel);
+  font-size: clamp(11px, 1.5vw, 16px);
+  letter-spacing: .42em;
+  /* Die Sperrung schiebt das letzte Zeichen nach rechts aus der Mitte. */
+  text-indent: .42em;
+  text-transform: uppercase;
+  color: var(--creme);
+}
+
+/* Das ET ist die Brücke und tritt zurück — es trennt und bindet nicht selbst. */
+.scharnier-et { color: var(--rubedo); }
+
+/* ——————————————————————— Abschnitt 06 — Die Handlung ——————————————————————— */
+
+/*
+ * Der offene Abschnitt.
+ *
+ * Er sieht nicht aus wie eine Baustelle und auch nicht wie ein fertiger
+ * Aufruf. Er sieht aus wie eine Seite, auf der ein Satz fehlt — genau das
+ * ist der Zustand, und ihn zu verkleiden hieße, ihn zu behaupten.
+ */
+.aktion {
+  position: relative;
+  background: var(--tief);
+  color: var(--creme);
+  padding: clamp(6rem, 20svh, 12rem) clamp(1.25rem, 5vw, 4rem) clamp(7rem, 22svh, 13rem);
+  text-align: center;
+}
+
+.aktion-titel {
+  margin: .8em auto 0;
+  max-width: 22ch;
+  font-family: var(--schrift-marke);
+  font-weight: 200;
+  font-size: clamp(26px, 4.6vw, 54px);
+  line-height: 1.1;
+}
+
+.aktion-satz {
+  margin: 1.2em auto 0;
+  max-width: 44ch;
+  font-family: var(--schrift-zeile);
+  font-style: italic;
+  font-size: clamp(16px, 1.9vw, 21px);
+  line-height: 1.5;
+  color: rgba(244, 237, 226, .78);
+}
+
+/*
+ * Die Lücke wird benannt, nicht versteckt.
+ *
+ * Ein gestrichelter Rahmen wäre der Platzhalter, den die Native Pipeline
+ * verbietet: er sähe aus wie ein Knopf, der noch kommt. Eine Zeile, die
+ * sagt, was fehlt, sieht aus wie das, was sie ist.
+ */
+.aktion-marke {
+  margin: 2.4em 0 0;
+  font-family: var(--schrift-titel);
+  font-size: clamp(10px, 1.1vw, 12px);
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: rgba(224, 180, 114, .7);
+}
+
+.aktion-marke code {
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+/* ————————————————————————————— Das Telefon ————————————————————————————— */
+
+/*
+ * Unter 48rem gibt es keine zwei Spalten, in die sich etwas teilen könnte.
+ *
+ * Die Zweige bleiben trotzdem im Pfad — die Linie teilt sich weiterhin, nur
+ * die Stationen stehen alle links. Die Alternative wäre, den Text auf 20 %
+ * und 80 % der Fensterbreite zu schieben; auf 390 px sind das Spalten von
+ * gut zehn Zeichen.
+ */
+@media (max-width: 48rem) {
+  .epoche,
+  .epoche[data-zweig="links"],
+  .epoche[data-zweig="rechts"] {
+    margin-inline: 0;
+    text-align: start;
+  }
+
+  .epoche[data-zweig="rechts"] .epoche-satz { margin-inline-start: 0; }
+
+  /* Hinter zehn Zeichen breiten Zeilen liegt die Linie näher am Text und
+     würde ihn stören. Sie bleibt sichtbar, aber sie drängt sich nicht. */
+  .scharnier-bahn { opacity: .18; }
+  .scharnier-naht { opacity: .3; }
+
+  .epochen-kopf { text-align: start; }
+  .scharnier-satz { letter-spacing: .3em; text-indent: .3em; }
+}
