@@ -22,8 +22,8 @@
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
-  canvasSpannen, frameAdresse, frameStelle, ladeNachschub, ladeVorlauf,
-  naechstesBild, zeichneStelle, type Sequenz,
+  canvasSpannen, entpackenVoraus, frameAdresse, frameStelle, ladeNachschub, ladeVorlauf,
+  naechstesBild, vorratAuspacken, zeichneStelle, type Sequenz,
 } from "../motion/sequenz";
 import { bereich, buehneBeobachten } from "../motion/buehne";
 import { ruhig as istRuhig } from "../motion/tokens";
@@ -55,6 +55,7 @@ export default function Landing() {
   const leinwand = useRef<HTMLCanvasElement>(null);
   const schleier = useRef<HTMLDivElement>(null);
   const hinweis = useRef<HTMLParagraphElement>(null);
+  const bruecke = useRef<HTMLParagraphElement>(null);
   const lockup = useRef<HTMLDivElement>(null);
   const wort = useRef<HTMLDivElement>(null);
   const sicher = useRef<HTMLDivElement>(null);
@@ -111,7 +112,16 @@ export default function Landing() {
     // Der sichere Rand: Gestaltungsmaß plus das, was das Gerät sich nimmt.
     const st = sicher.current ? getComputedStyle(sicher.current) : null;
     const einzug = st ? Math.max(parseFloat(st.paddingLeft) || 0, parseFloat(st.paddingRight) || 0) : 0;
-    const rand = Math.max(16, Math.min(72, k.width * 0.05)) + einzug;
+    /*
+     * Das Gestaltungsmaß war 5 % der Fensterbreite, gedeckelt bei 72 px.
+     *
+     * Auf 1440 px waren das 72 px je Seite — für eine Wortmarke, die das
+     * Schlussbild tragen soll, viel. Auf 390 px nahm es der Zeile die letzten
+     * Bildpunkte, die sie zum Wachsen gebraucht hätte: sie stand dort schon
+     * auf 89 % der Breite. 3,5 % lassen der Marke Luft und geben ihr
+     * gleichzeitig Platz; der Geräteeinzug kommt unverändert obendrauf.
+     */
+    const rand = Math.max(12, Math.min(56, k.width * 0.035)) + einzug;
 
     const a = aufbauRechnen(ringdaten, k.width, k.height, rand, wortEm, versalAnteil);
     if (!a) {
@@ -227,9 +237,22 @@ export default function Landing() {
    */
   useEffect(() => {
     if (ruhig || !seq) return;
-    return ladeNachschub(satz, seq, {
-      beiErsatz: (fertig, von) => { if (fertig >= von) setScharf(true); },
+    let vorratStoppen: (() => void) | null = null;
+    const stoppen = ladeNachschub(satz, seq, {
+      beiErsatz: (fertig, von) => {
+        if (fertig < von) return;
+        setScharf(true);
+        /*
+         * Die scharfen Frames sind da — und der Prolog läuft noch. Diese
+         * Sekunden gehören dem Auspacken: der Anfang der Sequenz wird in den
+         * Pausen des Hauptfadens dekodiert, damit das erste Rollen nicht
+         * dasselbe unter Zeitdruck tun muss. Gemessen war genau das der
+         * Unterschied zwischen 39 und 60 Bildern je Sekunde.
+         */
+        vorratStoppen = vorratAuspacken(seq, seq.anzahl);
+      },
     });
+    return () => { stoppen(); vorratStoppen?.(); };
   }, [seq, satz, ruhig]);
 
   /** Der Auftritt zündet erst, wenn der Prolog übergeben hat. */
@@ -274,6 +297,22 @@ export default function Landing() {
       }
 
       /*
+       * Die Brücke: eine Zeile, die auftaucht und wieder geht.
+       *
+       * Kein Ein- und Ausblenden über zwei Fenster, sondern ein Sinus über
+       * EINES: bei 0 ist sie fort, in der Mitte steht sie ganz, am Ende ist
+       * sie wieder fort. Dazu ein kurzer Weg nach oben — dieselbe Richtung,
+       * in die der Sand im Prolog zieht, damit die Zeile aus derselben
+       * Bewegung kommt und nicht aus einer eigenen.
+       */
+      if (bruecke.current) {
+        const h = bereich(p, c.bruecke[0], c.bruecke[1]);
+        const da = h > 0 && h < 1 ? Math.sin(h * Math.PI) : 0;
+        bruecke.current.style.opacity = String(da);
+        bruecke.current.style.transform = `translateY(${((1 - da) * 14).toFixed(2)}px)`;
+      }
+
+      /*
        * Der Schleier weicht zum Schluss.
        *
        * Seine untere Kante ist zu 88 % schwarz. Bliebe er stehen, wäre das
@@ -309,6 +348,16 @@ export default function Landing() {
       const jetzt = stelle.i + Math.round(stelle.t * 10) / 10;
       const neu = canvasSpannen(cv, naechstesBild(seq, stelle.i));
       if (jetzt === letzterFrame && schwenk === letzterSchwenk && !neu) return;
+      /*
+       * Das Auspacken läuft der Kamera voraus.
+       *
+       * Nur bei einem Frame-WECHSEL, nicht je Bild: sonst würden zwölf
+       * `decode()` je Bild gerufen, und das ist selbst wieder Arbeit. Warum
+       * überhaupt — siehe `entpackenVoraus` in `motion/sequenz.ts`.
+       */
+      if (Math.floor(jetzt) !== Math.floor(letzterFrame)) {
+        entpackenVoraus(seq, stelle.i, jetzt >= letzterFrame ? 1 : -1, anzahl);
+      }
       letzterFrame = jetzt;
       letzterSchwenk = schwenk;
       zeichneStelle(cv, seq, anteil, true, schwenk, anzahl);
@@ -371,7 +420,8 @@ export default function Landing() {
                    aufbau.grenze.toFixed(2), aufbau.ringX.toFixed(2), aufbau.ringY.toFixed(2),
                    aufbau.gesamtB.toFixed(2), aufbau.linkeKante.toFixed(2),
                    aufbau.mittenAbweichung.toFixed(2), aufbau.ringZuVersal.toFixed(3),
-                   aufbau.schriftPx.toFixed(2)].join(",")
+                   aufbau.schriftPx.toFixed(2), aufbau.optischeAbweichung.toFixed(2),
+                   aufbau.schwerpunktX.toFixed(2)].join(",")
                 : undefined}
               role="img"
               aria-label="Eine Hornviper zieht durch die Düne, rollt sich ein und schließt sich zum Ouroboros. Die Bewegung folgt dem Scrollen."
@@ -381,7 +431,35 @@ export default function Landing() {
           <div ref={schleier} className="ebene ebene-schleier" />
 
           <div className="ebene ebene-text">
-            <p ref={hinweis} className={`hinweis${auf ? " auf" : ""}`}>Scrollen</p>
+            {/*
+              §5 — DER ROLLHINWEIS.
+
+              Erst stand hier ein kleiner Ring mit wanderndem Bogen — die
+              Figur der Seite, klein und in Bewegung. Die Abnahme hat ihn
+              zurückgewiesen, und zu Recht: §4 verlangt, dass VOR dem
+              Schlussbild kein Ring zu sehen ist. Ein Ring am unteren Rand
+              nimmt dem Schluss genau das vorweg, was ihn zum Schluss macht.
+
+              Also die andere Sprache dieser Seite, die des Prologs: der Wind,
+              der über Sand geht. Durch das Wort läuft ein Zug von links nach
+              rechts — dieselbe Richtung, in die die Schrift im Prolog
+              zerfällt. Keine neue Form, kein Pfeil, kein Springen: nur das
+              Wort und der Wind darin.
+            */}
+            <p ref={hinweis} className={`hinweis${auf ? " auf" : ""}`}>
+              <span className="hinweis-wort">Scrollen</span>
+            </p>
+
+            {/*
+              §6 — DIE EINE ZEILE.
+              Der Prolog endet mit „because you are ready for the next step".
+              Diese Zeile stellt die Frage, auf die dieser Satz die Antwort
+              ist. Sie steht allein, ohne Unterzeile, ohne Schaltfläche, und
+              sie ist fort, bevor der Ring sich schließt.
+            */}
+            <p ref={bruecke} className="bruecke" lang="en" style={{ opacity: 0 }}>
+              Afraid of what’s next?
+            </p>
 
             {/*
               Das Lockup steht dort, wo der Film seinen Ring hat — nicht
