@@ -13,6 +13,7 @@ import { chromium } from "playwright";
 import { mkdirSync } from "node:fs";
 import { writeFile as schreiben } from "node:fs/promises";
 import sharp from "sharp";
+import { buehnenweg, rolleAufBuehne, warteAufBuehne } from "./buehne.mjs";
 
 const BASIS = process.env.SELBSTTEST_ADRESSE ?? "http://127.0.0.1:4173/";
 const ORDNER = process.argv[2] ?? "pruefstand/artefakte/kontinuitaet";
@@ -195,8 +196,14 @@ for (const f of FENSTER) {
     : fehlt(`Helligkeitssprung ${groessterSprung.toFixed(1)} von 255 im Übergang`);
   rate >= 45 ? passt(`Bildrate ${rate.toFixed(0)}/s`) : fehlt(`Bildrate nur ${rate.toFixed(0)}/s`);
 
-  await page.waitForFunction(() => document.querySelector(".ladeschirm") === null, null, { timeout: 90_000 })
-    .catch(() => fehlt("die Ladeszene übergab nicht"));
+  /*
+   * Auf den PROLOG warten, nicht auf `.ladeschirm`.
+   *
+   * `.ladeschirm` kommt in `src/` nicht mehr vor: die Bedingung war beim
+   * ersten Aufruf erfüllt, die Wartezeit betrug null, und fotografiert wurde
+   * der Prolog. Siehe `pruefstand/buehne.mjs`.
+   */
+  await warteAufBuehne(page).catch(() => fehlt("die Ladeszene übergab nicht"));
   // Warten, bis die volle Stufe steht — sonst misst die Kantenprüfung den Vorlauf.
   await page.waitForTimeout(4000);
   console.log(`   Freigabe nach ${((Date.now() - auf) / 1000).toFixed(1)} s`);
@@ -212,11 +219,12 @@ for (const f of FENSTER) {
     : fehlt(`Schwenk ${schwenk.toFixed(1)} über der Reserve ${grenze.toFixed(1)}`);
 
   /* ————— Die sieben Rollstellen ————— */
-  const weg = await page.evaluate(() => document.body.scrollHeight - window.innerHeight);
+  // Gegen die BÜHNE, nicht gegen die Seite — siehe `pruefstand/buehne.mjs`.
+  const masse = await buehnenweg(page);
   let schlechtesterRand = { wert: 99, wo: "" };
   let dunkelste = 255;
   for (const p of STELLEN) {
-    await page.evaluate((y) => window.scrollTo(0, y), Math.round(weg * p));
+    await rolleAufBuehne(page, masse, p);
     await page.waitForTimeout(2600);
     const b = await page.screenshot();
     await schreiben(

@@ -24,6 +24,30 @@ export interface ScrubOptionen {
    * Nachlaufen; 0.5 ist der einzige Wert, für den es hier einen Anlass gibt.
    */
   scrub?: number | true;
+  /**
+   * Wo die Strecke anfängt und aufhört, in ScrollTriggers Sprache
+   * (`"top bottom"`, `"bottom 65%"`). Ohne Angabe: über das ganze
+   * Vorbeiziehen des Elements, `"top bottom"` bis `"bottom top"`.
+   *
+   * DAS IST KEINE ZEITANGABE UND KEINE KURVE — das Gesetz aus Phase 0 bleibt
+   * unberührt. Es ist Geometrie: WO am Fenster die Strecke gemessen wird.
+   * Die Kurve entsteht weiterhin allein aus der Hand des Nutzers.
+   *
+   * WARUM ES DIESE ANGABE BRAUCHT. `"bottom top"` heißt: fertig, sobald das
+   * Element oben aus dem Bild ist. Für eine Bewegung IM Element ist das
+   * richtig. Für eine Linie, die sich zeichnet, ist es der schlimmste
+   * denkbare Punkt — sie wird genau in dem Moment fertig, in dem man sie
+   * nicht mehr sehen kann. Gemessen am Scharnier der Epochen: die Naht
+   * erreichte `strokeDashoffset` 0 bei einer Schließstelle von −24 px, also
+   * einen Wimpernschlag über der oberen Fensterkante. Der Kreis schloss sich
+   * bei jedem Besuch, und niemand hat es je gesehen.
+   *
+   * Nur ohne `pin`. Eine gepinnte Bühne hat ihre Strecke bereits aus dem
+   * Pinnen (siehe unten), und zwei Quellen für dieselbe Strecke wären eine zu
+   * viel.
+   */
+  start?: string;
+  end?: string;
 }
 
 /** Alle von hier erzeugten Auslöser, damit ein Routenwechsel sie killen kann. */
@@ -125,8 +149,8 @@ export function scrubbe(
           }
         : {
             trigger: el,
-            start: "top bottom",
-            end: "bottom top",
+            start: opts.start ?? "top bottom",
+            end: opts.end ?? "bottom top",
             scrub: opts.scrub ?? true,
           },
     });

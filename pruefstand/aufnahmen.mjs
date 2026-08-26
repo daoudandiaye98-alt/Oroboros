@@ -13,6 +13,7 @@
  */
 import { chromium } from "playwright";
 import { mkdirSync } from "node:fs";
+import { buehnenweg, rolleAufBuehne, warteAufBuehne } from "./buehne.mjs";
 
 const BASIS = process.env.SELBSTTEST_ADRESSE ?? "http://127.0.0.1:4173/";
 const ORDNER = process.argv[2] ?? "pruefstand/artefakte/phase2";
@@ -58,12 +59,12 @@ for (const a of ANSICHTEN) {
   {
     const seite = await browser.newPage({ viewport: { width: a.breite, height: a.hoehe } });
     await seite.goto(BASIS, { waitUntil: "networkidle" });
-    await seite.waitForFunction(() => document.querySelector(".ladeschirm") === null,
-      null, { timeout: 90_000 });
+    await warteAufBuehne(seite);
     await seite.waitForTimeout(2500);
-    const weg = await seite.evaluate(() => document.body.scrollHeight - window.innerHeight);
+    // Gegen die BÜHNE, nicht gegen die Seite — siehe `pruefstand/buehne.mjs`.
+    const masse = await buehnenweg(seite);
     for (const s of STELLEN) {
-      await seite.evaluate((y) => window.scrollTo(0, y), Math.round(weg * s.p));
+      await rolleAufBuehne(seite, masse, s.p);
       /* 2,6 s, nicht 0,9: der Auftritt der sieben Buchstaben dauert 820 ms plus
          sechsmal 55 ms Versatz, und der geglättete Fortschritt läuft nach. Wer
          früher auslöst, fotografiert eine halb eingefahrene Zeile. */

@@ -13,6 +13,7 @@
  */
 import { chromium } from "playwright";
 import { mkdirSync } from "node:fs";
+import { buehnenweg, rolleAufBuehne, warteAufBuehne } from "./buehne.mjs";
 
 const BASIS = process.env.SELBSTTEST_ADRESSE ?? "http://127.0.0.1:4173/";
 const ORDNER = process.argv[2] ?? "pruefstand/artefakte/selbsttest";
@@ -138,10 +139,13 @@ for (const f of FORMATE) {
    * Übergangs — 4,2 s, in denen die Seite noch gesperrt ist. Wer auf das
    * Fertigsignal misst, misst mitten in den Staub hinein.
    */
-  await page.waitForFunction(
-    () => document.querySelector(".ladeschirm") === null,
-    null, { timeout: 90_000 },
-  ).catch(() => zeile("   (die Ladeszene übergab nicht)"));
+  /*
+   * Auf den PROLOG warten, nicht auf `.ladeschirm` — siehe
+   * `pruefstand/buehne.mjs`. Die alte Bedingung prüfte ein Element, das es in
+   * `src/` nicht mehr gibt: sie war sofort erfüllt, und gemessen wurde der
+   * laufende Prolog.
+   */
+  await warteAufBuehne(page).catch(() => zeile("   (die Ladeszene übergab nicht)"));
   await page.waitForTimeout(2500);
 
   // Der Aufbau: genau eine Bühne, und nichts von dem, was der verworfene
@@ -187,10 +191,11 @@ for (const f of FORMATE) {
     ? passt("Wortmarke vollständig im Bild")
     : fehlt(`Wortmarke ragt aus dem Bild (${marke.oben}…${marke.unten} von ${marke.hoehe})`);
 
-  const hoehe = await page.evaluate(() => document.body.scrollHeight - window.innerHeight);
+  // Gegen die BÜHNE, nicht gegen die Seite — siehe `pruefstand/buehne.mjs`.
+  const masse = await buehnenweg(page);
   const abdruecke = [];
   for (const [i, t] of TIEFEN.entries()) {
-    await page.evaluate((y) => window.scrollTo(0, y), Math.round(hoehe * t));
+    await rolleAufBuehne(page, masse, t);
     await page.waitForTimeout(1500);
     const a = await abdruck(page);
     abdruecke.push(a);
@@ -367,18 +372,28 @@ zeile("\n═════ RUHEMODUS (prefers-reduced-motion) ═════");
       markeSichtbar: getComputedStyle(document.querySelector(".wortmarke")).display !== "none",
       siegel: +getComputedStyle(document.querySelector(".siegel-unten")).opacity,
       hoehe: document.body.scrollHeight,
+      /*
+       * Die Behauptung „im Ruhemodus wird die Bühne auf einen Bildschirm
+       * gelegt" gilt der BÜHNE. Seit Phase 1 unter ihr liegt, ist die
+       * Seitenhöhe größer, ohne dass an der Bühne etwas falsch wäre — die
+       * Seitenhöhe bleibt als Auskunft stehen, geprüft wird die Bühne.
+       */
+      buehne: document.querySelector(".buehne")?.offsetHeight ?? null,
       fenster: window.innerHeight,
     };
   });
   zeile(`   Canvas ${z.canvas} (soll 0) · Ladeschirm ${z.ladeschirm} (soll 0)`);
   zeile(`   Standbild <${z.standbild}> ${z.quelle} · geladen: ${z.geladen}`);
   zeile(`   Wortmarke sichtbar ${z.markeSichtbar}, Deckkraft ${z.marke} · Siegel ${z.siegel}`);
-  zeile(`   Seitenhöhe ${z.hoehe} px bei ${z.fenster} px = ${(z.hoehe / z.fenster).toFixed(1)} Bildschirme`);
+  zeile(`   Bühnenhöhe ${z.buehne} px bei ${z.fenster} px = ${(z.buehne / z.fenster).toFixed(2)} Bildschirme`
+    + ` · Seite gesamt ${z.hoehe} px (${(z.hoehe / z.fenster).toFixed(1)} Bildschirme, mit Phase 1)`);
   z.canvas === 0 ? passt("keine Sequenz") : fehlt(`${z.canvas} Canvas trotz Ruhemodus`);
   z.geladen ? passt(`letzter Frame als Standbild (${z.quelle})`) : fehlt("Standbild nicht geladen");
   (z.markeSichtbar && z.marke > 0.98) ? passt("Wortmarke sofort sichtbar") : fehlt("Wortmarke nicht sichtbar");
   z.siegel > 0.98 ? passt("Siegel sofort sichtbar") : fehlt("Siegel nicht sichtbar");
-  (z.hoehe / z.fenster) < 1.2 ? passt("Seite normal hoch") : fehlt(`${(z.hoehe / z.fenster).toFixed(1)} Bildschirme im Ruhemodus`);
+  (z.buehne !== null && z.buehne / z.fenster < 1.2)
+    ? passt("Bühne im Ruhemodus auf einen Bildschirm gelegt")
+    : fehlt(`Bühne ${z.buehne === null ? "nicht gefunden" : (z.buehne / z.fenster).toFixed(1) + " Bildschirme"} im Ruhemodus`);
   /*
    * Kontrast auch HIER, und das ist der Punkt.
    *
