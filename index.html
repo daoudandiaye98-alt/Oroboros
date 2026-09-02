@@ -276,12 +276,24 @@ a:focus-visible {
   .stage-foot { font-size: 9px; }
   body { cursor: auto; } * { cursor: auto !important; }
   .cursor-inner, .cursor-outer { display: none; }
+  .slide { bottom: max(12%, 92px); }     /* über dem Fuß: 24 px Rand + 44 px Zeile + Luft */
+  #slide-1, #slide-2 { left: 24px; width: calc(100% - 48px); }   /* sonst klebt der Titel an der Kante */
 }
 @media (max-width: 480px) {
+  .slide { bottom: 150px; }              /* Fuß steht hier dreizeilig: 44 + 44 + 19 + 24 Rand */
   .slide-title { font-size: 44px; }
   #slide-1 .col-1, #slide-2 .slide-title, #slide-2 .slide-desc, #slide-3, #slide-4 { width: 86vw; max-width: 86vw; }
   .stage-foot { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .stage-foot .l { flex-direction: column; gap: 0; }             /* 22 px Spaltenlücke würde zur Zeilenlücke */
   .stage-foot .r { padding: 0 0 8px; }
+}
+/* Telefon im Querformat: 390 px Höhe tragen weder 56-px-Titel noch dreizeiligen Fuß */
+@media (max-width: 1024px) and (max-height: 520px) {
+  .slide { bottom: 76px; }
+  .slide-title { font-size: 40px; margin-bottom: 10px; }
+  .slide-desc { font-size: 13px; line-height: 1.5; }
+  .stage-foot .r { display: none; }
+  #slide-1 .col-1, #slide-2 .slide-title, #slide-2 .slide-desc, #slide-3, #slide-4 { width: 60vw; max-width: 60vw; }
 }
 /* Touch ohne Hover: eigener Cursor aus, nativer an — auch im Querformat über 1024px */
 @media (hover: none), (pointer: coarse) {
@@ -879,9 +891,27 @@ function setupNavigation() {
   });
 }
 
-/* ── Die Schleife ─────────────────────────────────────────────────── */
+/* ── Kameraziel ───────────────────────────────────────────────────── */
 const targetLookAt = new THREE.Vector3();
 const targetPos = new THREE.Vector3();
+
+// Umlaufbahn und Blickpunkt für einen Scrollwert, aus dem Seitenverhältnis abgeleitet.
+// Querformat: Ring rechts der Textspalte, Radius 5.0. Hochformat: der Ring hätte bei
+// 390 × 844 die volle Breite gefüllt und wäre durch den Versatz −0.9 rechts aus dem
+// Bild gelaufen — deshalb weiter weg, mittig, und über den Text gehoben.
+function cameraTarget(s) {
+  const aspect = camera.aspect;
+  const portrait = Math.max(0, 1 - aspect);
+  const phi = s * Math.PI * 2.0;
+  const y = 0.35 + Math.sin(s * Math.PI) * 1.05;
+  const radius = (5.0 - Math.sin(s * Math.PI) * 0.35) * (1 + portrait * 0.9);
+  targetPos.set(radius * Math.sin(phi), y, radius * Math.cos(phi));
+
+  const transitionProgress = Math.min(1.0, s / 0.28);
+  const easeFactor = (Math.cos(transitionProgress * Math.PI) + 1.0) * 0.5;
+  const wide = Math.max(0, Math.min(1, aspect - 0.6));          // 0 im Hochformat, 1 ab 1.6
+  targetLookAt.set(-0.9 * easeFactor * wide, -0.15 - portrait * 1.5, 0);
+}
 
 let frameCount = 0;
 function animate() {
@@ -938,17 +968,7 @@ function animate() {
   }
 
   // 3. Kamera umkreist das Objekt 360°, getrieben vom Scroll
-  const phi = currentScroll * Math.PI * 2.0;
-  const y = 0.35 + Math.sin(currentScroll * Math.PI) * 1.05;
-  const radius = 5.0 - Math.sin(currentScroll * Math.PI) * 0.35;
-  const x = radius * Math.sin(phi);
-  const z = radius * Math.cos(phi);
-
-  let transitionProgress = Math.min(1.0, currentScroll / 0.28);
-  let easeFactor = (Math.cos(transitionProgress * Math.PI) + 1.0) * 0.5;
-  const lookAtXOffset = -0.9 * easeFactor;
-  targetLookAt.set(lookAtXOffset, -0.15, 0);
-  targetPos.set(x, y, z);
+  cameraTarget(currentScroll);
   camera.position.lerp(targetPos, 0.025);
   camera.lookAt(targetLookAt);
 
@@ -1033,8 +1053,8 @@ function init() {
     project: (x, y, z) => { const v = new THREE.Vector3(x, y, z).project(camera); return [(v.x + 1) / 2 * sizes.width, (1 - v.y) / 2 * sizes.height]; },
     jump: (s) => {                       // stellt den eingeschwungenen Zustand für Scroll s sofort her
       currentScroll = s;
-      const phi = s * Math.PI * 2.0, r = 5.0 - Math.sin(s * Math.PI) * 0.35;
-      camera.position.set(r * Math.sin(phi), 0.35 + Math.sin(s * Math.PI) * 1.05, r * Math.cos(phi));
+      cameraTarget(s);
+      camera.position.copy(targetPos);
     }
   };
 }
