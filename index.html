@@ -58,6 +58,18 @@ body {
 * { cursor: none !important; }
 ::-webkit-scrollbar { display: none; width: 0; }
 
+/* Lesbarkeitsschicht zwischen Bild und Schrift. Kein Effekt, sondern die Bedingung
+   dafür, dass 16-px-Text über einem bewegten, hell beleuchteten Objekt lesbar bleibt:
+   ohne sie fällt die Beschreibung von Folie 4 bei 1280 × 800 auf 1,55 : 1.
+   Unten am stärksten, nach links etwas zusätzlich — dort steht die Schrift. */
+.stage-scrim {
+  position: fixed; inset: 0;
+  z-index: 9; pointer-events: none;
+  background:
+    linear-gradient(to top,   rgba(0,0,0,.80) 0%, rgba(0,0,0,.56) 22%, rgba(0,0,0,0) 50%),
+    linear-gradient(to right, rgba(0,0,0,.50) 0%, rgba(0,0,0,0) 68%);
+}
+
 #webgl {
   position: fixed;
   top: 0; left: 0;
@@ -72,7 +84,7 @@ body {
   white-space: nowrap;
 }
 
-a:focus-visible {
+a:focus-visible, summary:focus-visible, button:focus-visible {
   outline: 2px solid #d9a15c;
   outline-offset: 4px;
   border-radius: 2px;
@@ -478,7 +490,7 @@ a:focus-visible {
 .foot-cols { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; max-width: 1400px; }
 .foot .brand { margin-bottom: 16px; }
 .foot-cols p { font-size: 14px; line-height: 1.7; font-weight: 300; color: #d1d5db; max-width: 26em; }
-.foot h4 { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #d9a15c; font-weight: 600; margin-bottom: 8px; }
+.foot h3 { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #d9a15c; font-weight: 600; margin-bottom: 8px; }
 .foot a { display: inline-flex; align-items: center; min-height: 44px; color: #d1d5db; text-decoration: none; font-size: 14px; font-weight: 300; transition: color .3s; }
 .foot a:hover { color: #d9a15c; }
 .foot ul { list-style: none; }
@@ -566,6 +578,7 @@ a:focus-visible {
 
 <!-- ══ AKT I · DIE BÜHNE ══════════════════════════════════════════════ -->
 <div class="stage" id="stage">
+  <div class="stage-scrim" aria-hidden="true"></div>
   <div class="cinematic-container">
     <h1 class="visually-hidden">Oroboros Design — Bronze und Zeit</h1>
 
@@ -743,7 +756,7 @@ a:focus-visible {
         <p>Digitalstudio aus Köln. Webdesign, Software und KI im Workflow.</p>
       </div>
       <div>
-        <h4>Seite</h4>
+        <h3>Seite</h3>
         <ul>
           <li><a href="#leistungen">Leistungen</a></li>
           <li><a href="#ablauf">Ablauf</a></li>
@@ -753,7 +766,7 @@ a:focus-visible {
         </ul>
       </div>
       <div>
-        <h4>Direkt</h4>
+        <h3>Direkt</h3>
         <ul>
           <li><a href="mailto:oroborosdesign@gmail.com">oroborosdesign@gmail.com</a></li>
           <li><a href="https://wa.me/4917679219526" target="_blank" rel="noopener">WhatsApp +49 176 79219526</a></li>
@@ -822,6 +835,7 @@ const dom = {
   container: document.querySelector('.cinematic-container'),
   gridLines: document.querySelector('.grid-lines'),
   gridLine: document.querySelector('.grid-horizontal-line'),
+  scrim: document.querySelector('.stage-scrim'),
   stepsFill: document.getElementById('steps-fill'),
   steps: Array.from(document.querySelectorAll('.steps li')),
   slides: [1, 2, 3, 4].map(i => document.getElementById(`slide-${i}`)),
@@ -1258,14 +1272,19 @@ function updateSlides(scroll) {
 
   function isActive(val, start, end) { return val >= start && val <= end; }
 
-  if (slide1) slide1.classList.toggle('active', isActive(scroll, -0.10, 0.12));
-  if (slide2) {
-    const active2 = isActive(scroll, 0.28, 0.40);
-    slide2.classList.toggle('active', active2);
-    if (dom.slide2Img) dom.slide2Img.classList.toggle('active', active2);
+  // Eine Folie, die nicht steht, ist unsichtbar — dann darf sie auch die Tastatur
+  // nicht erreichen und im Vorlesebaum nicht auftauchen.
+  function setze(el, an) {
+    if (!el) return;
+    el.classList.toggle('active', an);
+    if (el.inert !== !an) el.inert = !an;
   }
-  if (slide3) slide3.classList.toggle('active', isActive(scroll, 0.56, 0.68));
-  if (slide4) slide4.classList.toggle('active', isActive(scroll, 0.84, 1.05));
+  setze(slide1, isActive(scroll, -0.10, 0.12));
+  const active2 = isActive(scroll, 0.28, 0.40);
+  setze(slide2, active2);
+  if (dom.slide2Img) dom.slide2Img.classList.toggle('active', active2);
+  setze(slide3, isActive(scroll, 0.56, 0.68));
+  setze(slide4, isActive(scroll, 0.84, 1.05));
 }
 
 /* ── Navigation ───────────────────────────────────────────────────── */
@@ -1358,10 +1377,17 @@ function onScroll() {
   dom.container.style.opacity = stageOpacity;
   dom.gridLines.style.opacity = stageOpacity;
   dom.gridLine.style.opacity = stageOpacity;
+  dom.scrim.style.opacity = stageOpacity;
   dom.header.classList.toggle('solid', stageOpacity < 0.5);
+  // Die verblasste Bühne liegt hinter dem Dokument: ihre Verweise sind dann kein Ziel mehr.
+  const stumm = stageOpacity <= 0.01;
+  if (dom.container.inert !== stumm) dom.container.inert = stumm;
 
   if (dom.stepsFill) {
-    const c = Math.min(Math.max((window.scrollY + window.innerHeight * 0.72 - stepsTop) / stepsH, 0), 1);
+    // Der Fortschritt bemisst sich an der Fahrt des Abschnitts durch das Bild,
+    // nicht an einer festen Linie darin: bei halber Fahrt steht er auf 50 %.
+    const strecke = stepsH + window.innerHeight;
+    const c = Math.min(Math.max((window.scrollY + window.innerHeight - stepsTop) / strecke, 0), 1);
     dom.stepsFill.style.height = `${c * 100}%`;
     for (let i = 0; i < dom.steps.length; i++) dom.steps[i].classList.toggle('on', c >= stepsDots[i]);
   }
@@ -1371,8 +1397,14 @@ function onScroll() {
 function setupDocument() {
   // Auftritte: einmal, wenn ein Viertel des Elements im Bild steht
   const io = new IntersectionObserver((entries) => {
-    for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-  }, { threshold: 0.25 });
+    for (const e of entries) {
+      // Ein Viertel des Elements — oder, wenn es höher ist als das Bild, ein Drittel des Bildes.
+      // Sonst bliebe ein langes Element auf einem kleinen Schirm für immer unsichtbar.
+      if (!e.isIntersecting) continue;
+      if (e.intersectionRatio < 0.25 && e.intersectionRect.height < window.innerHeight * 0.33) continue;
+      e.target.classList.add('in'); io.unobserve(e.target);
+    }
+  }, { threshold: [0, 0.25] });
   document.querySelectorAll('.doc .doc-title, .doc .rise').forEach(el => io.observe(el));
 
   // Ziehharmonika: immer nur eine Antwort offen
