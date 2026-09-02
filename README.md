@@ -72,6 +72,11 @@ Jede ist gemessen, nicht geschätzt:
 - **Fußtext 0.62 statt 0.45 Alpha** — 0.45 auf Schwarz ergibt 4,2:1.
 - **Titelgröße `min(116px, 8vw)`.** „Geben Sie ab" ist `nowrap`; bei 116 px endet es bei
   1440 px Breite 15 px vor der Kante, bei 1280 oder 1366 px wäre es beschnitten.
+- **Kamera im Hochformat aus dem freien Band.** Versatz −0.9 und Radius 5.0 gelten für das
+  Querformat mit 25vw-Textspalte. Im Hochformat lief der Ring rechts aus dem Bild, füllte bei
+  390 × 844 die volle Breite und reichte bei 360 × 640 in den Titel. `cameraTarget()` leitet
+  Radius und Blickpunkt aus Seitenverhältnis und Pixelhöhe ab: der Ring füllt 80 % der Breite
+  oder 95 % des Bands zwischen Kopfzeile und Textblock, je nachdem, was strenger ist.
 - **Reduced Motion zeigt nur die aktive Folie.** Die Vorgabe setzte alle Zeichen auf
   `opacity: 1`, dann stünden vier Titel übereinander. Funken und Shader-Atmung stehen still.
 - **Touch ohne Hover** (`hover: none`, `pointer: coarse`) schaltet den eigenen Cursor

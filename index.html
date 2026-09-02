@@ -899,18 +899,33 @@ const targetPos = new THREE.Vector3();
 // Querformat: Ring rechts der Textspalte, Radius 5.0. Hochformat: der Ring hätte bei
 // 390 × 844 die volle Breite gefüllt und wäre durch den Versatz −0.9 rechts aus dem
 // Bild gelaufen — deshalb weiter weg, mittig, und über den Text gehoben.
+const RING_BOUND = 1.075 / Math.tan(25 * Math.PI / 180);   // Hüllkugel (2.15 / 2) bei 50° Bildwinkel: Höhe = RING_BOUND / Abstand
 function cameraTarget(s) {
   const aspect = camera.aspect;
-  const portrait = Math.max(0, 1 - aspect);
   const phi = s * Math.PI * 2.0;
   const y = 0.35 + Math.sin(s * Math.PI) * 1.05;
-  const radius = (5.0 - Math.sin(s * Math.PI) * 0.35) * (1 + portrait * 0.9);
+  let radius = 5.0 - Math.sin(s * Math.PI) * 0.35;
+  let lookY = -0.15;
+
+  if (aspect < 1) {
+    // Freies Band zwischen Kopfzeile (70 px) und Textblock samt Fuß (≈ 370 px CSS):
+    // der Ring füllt 80 % der Breite oder 95 % des Bandes, je nachdem, was strenger ist,
+    // und sitzt in der Bandmitte. Bei 360 × 640 belegt der Text 58 % der Höhe — der Ring
+    // muss dann klein und hoch, bei 834 × 1194 darf er groß und mittig.
+    const h = sizes.height, top = 74 / h, ui = Math.min(0.7, 370 / h);
+    const band = Math.max(0.2, 1 - ui - top);
+    const rW = RING_BOUND / (0.80 * aspect);
+    const rH = RING_BOUND / (0.95 * band);
+    radius = Math.max(radius, rW, rH);
+    const centre = (top + 1 - ui) / 2;
+    lookY = -0.4 - (0.5 - centre) * 2 * Math.tan(25 * Math.PI / 180) * radius;
+  }
   targetPos.set(radius * Math.sin(phi), y, radius * Math.cos(phi));
 
   const transitionProgress = Math.min(1.0, s / 0.28);
   const easeFactor = (Math.cos(transitionProgress * Math.PI) + 1.0) * 0.5;
   const wide = Math.max(0, Math.min(1, aspect - 0.6));          // 0 im Hochformat, 1 ab 1.6
-  targetLookAt.set(-0.9 * easeFactor * wide, -0.15 - portrait * 1.5, 0);
+  targetLookAt.set(-0.9 * easeFactor * wide, lookY, 0);
 }
 
 let frameCount = 0;
