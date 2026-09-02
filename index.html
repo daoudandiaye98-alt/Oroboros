@@ -1,33 +1,1612 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
-  <head>
-    <meta charset="UTF-8" />
-    <!--
-      `viewport-fit=cover`: das Bild läuft bis unter Notch und Gestenleiste,
-      statt in einem weißen Rahmen zu stehen. Erst damit liefern
-      `env(safe-area-inset-*)` überhaupt Werte ungleich null — der Text hält
-      seinen Abstand dann selbst, siehe `.sicherer-rand` in `landing.css`.
-    -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>Oroboros Design</title>
-    <meta name="description" content="Eine Wüstenotter zieht durch die Düne, rollt sich ein und wird zum Ouroboros. Eine Seite, eine Bewegung." />
-    <meta name="theme-color" content="#0E0A06" />
-    <!--
-      Kein globales `noindex`: die Landing SOLL gefunden werden. Nur
-      /werkstatt schließt sich selbst aus — gesetzt in src/main.tsx, weil
-      diese Hülle beide Adressen ausliefert.
-    -->
-    <link rel="icon" href="/zeichen.svg" type="image/svg+xml" />
-  </head>
-  <body>
-    <div id="wurzel"></div>
-    <noscript>
-      <p style="font:16px/1.5 system-ui,sans-serif;padding:2rem;color:#F4EDE2;background:#0E0A06">
-        Diese Seite ist eine einzige scroll-gebundene Bewegung und braucht dafür
-        JavaScript. Ohne bleibt nur diese Zeile — das ist ehrlicher als ein
-        halbes Bild.
-      </p>
-    </noscript>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oroboros Design — Bronze und Zeit</title>
+<meta name="description" content="Oroboros Design, Digitalstudio aus Köln: Webdesign, Backend- und Softwareentwicklung, KI in Workflows, Beratung. Ein Studio, ein Ansprechpartner, ein Festpreis. The next form is never final.">
+<link rel="canonical" href="https://oroboros-werk.vercel.app/">
+<meta name="theme-color" content="#000000">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="de_DE">
+<meta property="og:site_name" content="Oroboros Design">
+<meta property="og:title" content="Oroboros Design — Bronze und Zeit">
+<meta property="og:description" content="Webdesign, Softwareentwicklung und KI in Ihren Abläufen. Digitalstudio aus Köln. The next form is never final.">
+<meta property="og:url" content="https://oroboros-werk.vercel.app/">
+<meta property="og:image" content="https://oroboros-werk.vercel.app/vendor/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Glühender Oroboros aus Bronze auf schwarzer Bühne, Titel: Bauen Sie das Morgen">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Oroboros Design — Bronze und Zeit">
+<meta name="twitter:description" content="Webdesign, Softwareentwicklung und KI in Ihren Abläufen. Digitalstudio aus Köln.">
+<meta name="twitter:image" content="https://oroboros-werk.vercel.app/vendor/img/og.jpg">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill='%23d9a15c' fill-rule='evenodd' d='M24 5.2A19 19 0 1 1 23.99 5.2ZM24 12.4A12.6 12.6 0 1 0 23.99 12.4Z'/%3E%3Cpath fill='%23d9a15c' d='M25.4 3.2 18.2 7.4l7.2 4.2z'/%3E%3C/svg%3E">
+<link rel="preload" href="vendor/fonts/Italiana-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="vendor/fonts/Outfit-300.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="modulepreload" href="vendor/three.module.js">
+
+<style>
+/* ── Schriften, lokal ─────────────────────────────────────────────── */
+@font-face{font-family:'Italiana';src:url(vendor/fonts/Italiana-400.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Outfit';src:url(vendor/fonts/Outfit-300.woff2) format('woff2');font-weight:300;font-display:swap}
+@font-face{font-family:'Outfit';src:url(vendor/fonts/Outfit-400.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Outfit';src:url(vendor/fonts/Outfit-600.woff2) format('woff2');font-weight:600;font-display:swap}
+
+/* ── Reset + Basis ────────────────────────────────────────────────── */
+* { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
+
+html, body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #000000;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  min-height: 0;                         /* die 900vh liegen auf .stage, nicht auf dem Körper */
+  font-family: 'Outfit', sans-serif;
+  color: #ffffff;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+* { cursor: none !important; }
+::-webkit-scrollbar { display: none; width: 0; }
+
+/* Lesbarkeitsschicht zwischen Bild und Schrift. Kein Effekt, sondern die Bedingung
+   dafür, dass 16-px-Text über einem bewegten, hell beleuchteten Objekt lesbar bleibt:
+   ohne sie fällt die Beschreibung von Folie 4 bei 1280 × 800 auf 1,55 : 1.
+   Unten am stärksten, nach links etwas zusätzlich — dort steht die Schrift. */
+.stage-scrim {
+  position: fixed; inset: 0;
+  z-index: 9; pointer-events: none;
+  background:
+    linear-gradient(to top,   rgba(0,0,0,.80) 0%, rgba(0,0,0,.56) 22%, rgba(0,0,0,0) 50%),
+    linear-gradient(to right, rgba(0,0,0,.50) 0%, rgba(0,0,0,0) 68%);
+}
+
+#webgl {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 1;
+  outline: none;
+}
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px;
+  overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+a:focus-visible, summary:focus-visible, button:focus-visible {
+  outline: 2px solid #d9a15c;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* ── Eigener Cursor ───────────────────────────────────────────────── */
+.cursor-inner {
+  position: fixed; top: 0; left: 0;
+  width: 6px; height: 6px;
+  border: 2px solid rgba(255, 255, 255, 1);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 9999;
+}
+.cursor-outer.hot { width: 64px; height: 64px; background: rgba(255, 255, 255, .08); border-color: #d9a15c; }
+.cursor-outer {
+  position: fixed; top: 0; left: 0;
+  width: 40px; height: 40px;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 9998;
+  transition: width 0.3s, height 0.3s, background 0.3s;
+}
+
+/* ── Überlagerungsebene ───────────────────────────────────────────── */
+.cinematic-container {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 10;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;             /* der Kopf ist ausgezogen, der Fuß bleibt unten */
+  padding: 0 60px 40px 60px;
+  box-sizing: border-box;
+}
+
+/* ── Kopf ─────────────────────────────────────────────────────────── */
+.main-header {
+  display: flex; justify-content: space-between; align-items: center;
+  width: 100%;
+  pointer-events: auto;
+}
+.brand { display: flex; align-items: center; font-size: 14px; font-weight: 600; letter-spacing: 5px; text-transform: uppercase; }
+.brand svg { width: 1.05em; height: 1.05em; margin-right: .34em; color: #d9a15c; }
+.header-nav { display: flex; align-items: center; gap: 24px; }
+.nav-link {
+  display: inline-flex; align-items: center; min-height: 44px;
+  color: #ffffff; text-decoration: none;
+  font-size: 10px; text-transform: uppercase; letter-spacing: 2px;
+  font-weight: 500; transition: color 0.3s;
+}
+.nav-link:hover { color: #d9a15c; }
+.nav-dot { width: 3px; height: 3px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; }
+.contact-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 44px;
+  padding: 0 24px;
+  background: #ffffff; color: #000000;
+  text-decoration: none;
+  font-size: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;
+  border-radius: 22px;
+  transition: transform 0.3s, background 0.3s;
+}
+.btn-circle {
+  display: inline-block; width: 6px; height: 6px;
+  border: 1px solid #000000; border-radius: 50%; background: transparent;
+}
+.contact-btn:hover { transform: scale(1.05); background: #f0f0f0; }
+
+/* ── Folien ───────────────────────────────────────────────────────── */
+.slide { position: absolute; bottom: 12%; pointer-events: none; }
+
+#slide-1 { left: 0; width: 100%; }
+#slide-1 .slide-title { margin-left: 60px; }
+#slide-1 .desc-row { position: relative; display: flex; width: 100%; }
+#slide-1 .col-1 { margin-left: 60px; width: calc(25vw - 60px); max-width: calc(25vw - 60px); }
+#slide-1 .col-2 { position: absolute; left: calc(25vw + 40px); width: calc(25vw - 60px); max-width: calc(25vw - 60px); }
+
+#slide-2 { left: 0; width: 100%; }
+#slide-2-img {
+  position: fixed;
+  top: 90px; left: 60px;
+  width: calc(25vw - 60px);
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  z-index: 2;
+  pointer-events: none;
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 1.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
+  opacity: 0;
+}
+#slide-2-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transform: scale(1.15);
+  transition: transform 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+#slide-2-img.active { clip-path: inset(0 0 0 0); opacity: 1; }
+#slide-2-img.active img { transform: scale(1); }
+
+#slide-2 .slide-title { margin-left: calc(25vw + 40px); }
+#slide-2 .slide-desc { margin-left: calc(50vw + 20px); width: calc(25vw - 60px); max-width: calc(25vw - 60px); }
+
+#slide-3 { left: calc(50vw + 20px); width: calc(25vw - 60px); max-width: calc(25vw - 60px); }
+#slide-3 .slide-title { white-space: nowrap; }
+
+#slide-4 { left: calc(25% + 40px); max-width: 600px; }
+
+.slide-title {
+  font-family: 'Italiana', serif;
+  font-size: min(116px, 8vw);            /* 116 px ab 1450 px; darunter hielte „Geben Sie ab" (nowrap) die Kante nicht */
+  line-height: 1.0;
+  font-weight: 400;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  color: #fff6ed;
+}
+.slide-desc {
+  font-size: 16px; line-height: 1.7; font-weight: 300;
+  color: #d1d5db; letter-spacing: 0.5px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1),
+              transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  transition-delay: 0.4s;
+}
+.slide.active .slide-desc { opacity: 1; transform: translateY(0); }
+
+.slide-title .char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(50px);
+  filter: blur(12px);
+  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1),
+              transform 0.8s cubic-bezier(0.25, 1, 0.5, 1),
+              filter 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.slide.active .slide-title .char { opacity: 1; transform: translateY(0); filter: blur(0); }
+
+/* Handlung auf der letzten Folie — erscheint erst, wenn die Folie steht */
+.slide-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 44px; padding: 0 26px; margin-top: 26px;
+  background: #ffffff; color: #000000; border-radius: 22px; text-decoration: none;
+  font-size: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;
+  opacity: 0; transform: translateY(30px);
+  transition: opacity .8s cubic-bezier(.25,1,.5,1), transform .8s cubic-bezier(.25,1,.5,1), background .3s;
+  transition-delay: .6s;
+  pointer-events: none;
+}
+.slide.active .slide-cta { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.slide-cta:hover { background: #f0f0f0; }
+.slide.active { pointer-events: auto; }
+
+/* ── Bühnenfuß ────────────────────────────────────────────────────── */
+.stage-foot {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  width: 100%; pointer-events: auto;
+  font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.62);      /* 0.45 lag unter 4,5:1 auf Schwarz */
+}
+.stage-foot a { color: rgba(255,255,255,.75); text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; }
+.stage-foot a:hover { color: #d9a15c; }
+.stage-foot .l { display: flex; gap: 22px; flex-wrap: wrap; }
+.stage-foot .r { padding: 16px 0; }
+
+/* ── Raster ───────────────────────────────────────────────────────── */
+.story-dashes {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex; flex-direction: column; gap: 12px;
+}
+.story-dash { width: 2px; height: 40px; background: rgba(255, 255, 255, 0.15); border-radius: 2px; }
+.story-dash-fill { width: 100%; height: 0%; background: #ffffff; border-radius: 2px; }
+
+.grid-horizontal-line {
+  position: fixed; top: 70px; left: 0; right: 0;
+  width: 100%; height: 1px;
+  background: rgba(255, 255, 255, 0.12);
+  z-index: 5; pointer-events: none;
+}
+.grid-lines {
+  position: fixed; top: 0; left: 40px; right: 40px;
+  width: calc(100% - 80px); height: 100vh;
+  display: flex; justify-content: space-between;
+  z-index: 5; pointer-events: none;
+}
+.grid-line { position: relative; width: 1px; height: 100%; background: rgba(255, 255, 255, 0.12); }
+.grid-line:nth-child(3) { margin-top: 70px; height: calc(100vh - 70px); }
+.grid-dot {
+  position: absolute; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.15);
+}
+
+/* ── Mobil ────────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .cinematic-container { padding: 0 24px 24px 24px; }
+  .slide-title { font-size: 56px; }
+  #slide-1 .slide-title { margin-left: 0; }
+  #slide-1 .col-1 { margin-left: 0; width: 70vw; max-width: 70vw; }
+  #slide-1 .col-2 { display: none; }
+  #slide-2 .slide-title, #slide-2 .slide-desc { margin-left: 0; width: 72vw; max-width: 72vw; }
+  #slide-2-img { display: none; }
+  #slide-3 { left: 24px; width: 72vw; max-width: 72vw; }
+  #slide-3 .slide-title { white-space: normal; }
+  #slide-4 { left: 24px; max-width: 72vw; }
+  .header-nav { display: none; }
+  .grid-lines { left: 16px; right: 16px; width: calc(100% - 32px); }
+  .stage-foot { font-size: 9px; }
+  body { cursor: auto; } * { cursor: auto !important; }
+  .cursor-inner, .cursor-outer { display: none; }
+  .slide { bottom: max(12%, 92px); }     /* über dem Fuß: 24 px Rand + 44 px Zeile + Luft */
+  #slide-1, #slide-2 { left: 24px; width: calc(100% - 48px); }   /* sonst klebt der Titel an der Kante */
+}
+@media (max-width: 480px) {
+  .slide { bottom: 150px; }              /* Fuß steht hier dreizeilig: 44 + 44 + 19 + 24 Rand */
+  .slide-title { font-size: 44px; }
+  #slide-1 .col-1, #slide-2 .slide-title, #slide-2 .slide-desc, #slide-3, #slide-4 { width: 86vw; max-width: 86vw; }
+  .stage-foot { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .stage-foot .l { flex-direction: column; gap: 0; }             /* 22 px Spaltenlücke würde zur Zeilenlücke */
+  .stage-foot .r { padding: 0 0 8px; }
+}
+/* Telefon im Querformat: 390 px Höhe tragen weder 56-px-Titel noch dreizeiligen Fuß */
+@media (max-width: 1024px) and (max-height: 520px) {
+  .slide { bottom: 76px; }
+  .slide-title { font-size: 40px; margin-bottom: 10px; }
+  .slide-desc { font-size: 13px; line-height: 1.5; }
+  .stage-foot .r { display: none; }
+  #slide-1 .col-1, #slide-2 .slide-title, #slide-2 .slide-desc, #slide-3, #slide-4 { width: 60vw; max-width: 60vw; }
+}
+/* Touch ohne Hover: eigener Cursor aus, nativer an — auch im Querformat über 1024px */
+@media (hover: none), (pointer: coarse) {
+  body { cursor: auto; } * { cursor: auto !important; }
+  .cursor-inner, .cursor-outer { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .slide-title .char { transform: none; filter: none; transition: none; }
+  .slide-cta { opacity: 1; transform: none; transition: none; }
+  .slide-desc { transform: none; transition: none; }
+  #slide-2-img, #slide-2-img img { transition: none; }
+  #slide-2-img img { transform: none; }
+  .contact-btn, .nav-link, .cursor-outer { transition: none; }
+}
+
+
+/* ══ AKT II · DAS DOKUMENT ═════════════════════════════════════════════ */
+
+.stage { height: 900vh; position: relative; }
+
+/* Der Kopf gehört keinem Akt — er steht über beiden, den ganzen Weg. */
+.main-header {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 60;
+  padding: 13px 60px;                    /* 13 + 44 + 13 = 70 px, Kante auf der Rasterlinie */
+  transition: background .35s ease, border-color .35s ease;
+  border-bottom: 1px solid transparent;
+}
+.main-header.solid {
+  background: rgba(0, 0, 0, .85);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom-color: rgba(255, 255, 255, .1);
+}
+
+.doc {
+  position: relative; z-index: 20;
+  background: #000000;
+  border-radius: 32px 32px 0 0;
+  box-shadow: 0 -60px 120px -40px rgba(0, 0, 0, .9);
+  overflow: hidden;                      /* hält das Wasserzeichen im Kasten */
+}
+/* Ein Dokument, aus dem man nichts kopieren kann, ist kaputt. */
+.doc, .doc *, .legal, .legal * { user-select: text; }
+
+/* Ein Innenrand für die ganze Seite: 60 px, derselbe wie auf der Bühne.
+   Nicht der Abschnitt wird begrenzt, sondern die Zeilenlänge darin. */
+.sec { padding: clamp(80px, 12vh, 160px) 60px; }
+.sec + .sec { border-top: 1px solid rgba(255, 255, 255, .12); }
+.tag {
+  display: block; margin-bottom: 22px;
+  font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+  font-weight: 600; color: #d9a15c;
+}
+.doc-title {
+  font-family: 'Italiana', serif; font-weight: 400;
+  font-size: clamp(38px, 5.4vw, 92px); line-height: 1.02; letter-spacing: 1px;
+  color: #fff6ed; margin-bottom: 26px;
+}
+.lead {
+  font-size: clamp(16px, 1.5vw, 19px); line-height: 1.7; font-weight: 300;
+  color: #d1d5db; max-width: 34em; margin-bottom: clamp(40px, 6vh, 72px);
+}
+.doc-title .char, .rise {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity .8s cubic-bezier(.25,1,.5,1), transform .8s cubic-bezier(.25,1,.5,1);
+}
+.doc-title .char { transform: translateY(50px); filter: blur(12px); transition: opacity .8s cubic-bezier(.25,1,.5,1), transform .8s cubic-bezier(.25,1,.5,1), filter .8s cubic-bezier(.25,1,.5,1); }
+.doc-title.in .char { opacity: 1; transform: none; filter: blur(0); }
+.rise.in { opacity: 1; transform: none; }
+
+/* Weiterweg am Ende jedes Abschnitts */
+.next {
+  display: inline-flex; align-items: center; gap: 10px; min-height: 44px;
+  margin-top: clamp(32px, 5vh, 56px);
+  color: #d9a15c; text-decoration: none;
+  font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600;
+  border-bottom: 1px solid rgba(217, 161, 92, .35);
+  transition: border-color .3s, gap .3s;
+}
+.next:hover { border-bottom-color: #d9a15c; gap: 16px; }
+
+/* ── 01 Leistungen ─────────────────────────────────────────────────── */
+.row {
+  display: grid; grid-template-columns: 62px 1fr 44px; align-items: center; gap: 18px;
+  padding: 26px 24px; min-height: 44px;
+  border-top: 1px solid rgba(255, 255, 255, .12);
+  text-decoration: none; color: inherit;
+  transition: background .35s ease, padding-left .35s ease;
+}
+.row:last-of-type { border-bottom: 1px solid rgba(255, 255, 255, .12); }
+.row:hover, .row:focus-visible { background: rgba(255, 255, 255, .04); padding-left: 32px; }
+.row .no { font-size: 12px; letter-spacing: 2px; color: #d9a15c; font-weight: 600; }
+.row h3 { font-family: 'Italiana', serif; font-weight: 400; font-size: clamp(24px, 2.6vw, 38px); line-height: 1.1; color: #fff6ed; margin-bottom: 8px; }
+.row p { font-size: 15px; line-height: 1.65; font-weight: 300; color: #d1d5db; max-width: 46em; }
+.row .arrow {
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, .25);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff6ed; font-size: 15px;
+  transition: transform .35s ease, border-color .35s ease;
+}
+.row:hover .arrow, .row:focus-visible .arrow { transform: translateX(5px); border-color: #d9a15c; }
+
+/* ── 02 Ablauf ─────────────────────────────────────────────────────── */
+.steps { position: relative; padding-left: 62px; max-width: 980px; }
+.steps ol { list-style: none; }
+.steps .track, .steps .fill { position: absolute; left: 16px; top: 8px; width: 1px; }
+.steps .track { bottom: 8px; background: rgba(255, 255, 255, .18); }
+.steps .fill { height: 0; background: #d9a15c; transition: height .12s linear; }
+.steps li { position: relative; padding-bottom: clamp(34px, 5vh, 58px); }
+.steps li:last-child { padding-bottom: 0; }
+.steps .dot {
+  position: absolute; left: -62px; top: 0;
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, .2); background: #000;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 600; color: rgba(255, 255, 255, .55);
+  transition: background .4s ease, color .4s ease, border-color .4s ease;
+}
+.steps li.on .dot { background: #fff6ed; color: #000000; border-color: #fff6ed; }
+.steps h3 { font-family: 'Italiana', serif; font-weight: 400; font-size: clamp(24px, 2.6vw, 38px); line-height: 1.1; color: #fff6ed; margin-bottom: 8px; }
+.steps p { font-size: 15px; line-height: 1.7; font-weight: 300; color: #d1d5db; max-width: 38em; }
+
+/* ── 03 Standard ───────────────────────────────────────────────────── */
+.cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; max-width: 1180px; }
+.card { border: 1px solid rgba(255, 255, 255, .12); border-radius: 14px; padding: 28px; }
+.card h3 { font-family: 'Italiana', serif; font-weight: 400; font-size: clamp(21px, 2vw, 28px); color: #fff6ed; margin-bottom: 12px; }
+.card p { font-size: 15px; line-height: 1.7; font-weight: 300; color: #d1d5db; }
+
+/* ── 04 Einwände ───────────────────────────────────────────────────── */
+.qa { border-bottom: 1px solid rgba(255, 255, 255, .12); }
+.qa:first-of-type { border-top: 1px solid rgba(255, 255, 255, .12); }
+.qa summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  padding: 24px 4px; min-height: 44px; list-style: none;
+  font-family: 'Italiana', serif; font-size: clamp(20px, 2.2vw, 28px); line-height: 1.2;
+  color: #fff6ed; transition: color .3s;
+}
+.qa summary::-webkit-details-marker { display: none; }
+.qa summary:hover { color: #d9a15c; }
+.qa .plus { flex: 0 0 auto; width: 22px; height: 22px; position: relative; transition: transform .35s cubic-bezier(.25,1,.5,1); }
+.qa .plus::before, .qa .plus::after { content: ''; position: absolute; inset: 50% 0 auto 0; height: 1px; background: #d9a15c; }
+.qa .plus::after { transform: rotate(90deg); }
+.qa[open] .plus { transform: rotate(45deg); }
+.qa .answer { padding: 0 4px 26px; font-size: 15px; line-height: 1.75; font-weight: 300; color: #d1d5db; max-width: 44em; }
+
+/* ── 05 Kontakt ────────────────────────────────────────────────────── */
+.contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 72px); align-items: start; max-width: 1180px; }
+.cta-big {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  min-height: 64px; padding: 18px 28px; margin-bottom: 14px;
+  background: #fff6ed; color: #000000; border-radius: 14px; text-decoration: none;
+  font-size: 15px; font-weight: 600; letter-spacing: .5px;
+  transition: transform .3s ease, background .3s ease;
+}
+.cta-big:hover { transform: translateY(-2px); background: #ffffff; }
+.cta-big.ghost { background: transparent; color: #fff6ed; border: 1px solid rgba(255, 255, 255, .25); }
+.cta-big.ghost:hover { background: rgba(255, 255, 255, .06); border-color: #d9a15c; }
+.cta-big .go { font-size: 18px; }
+.cta-note { margin-top: 18px; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255, 255, 255, .62); }
+.contact-side p { font-size: 15px; line-height: 1.75; font-weight: 300; color: #d1d5db; margin-bottom: 16px; }
+.contact-side .k { color: #fff6ed; font-weight: 400; }
+
+/* ── 06 Fuß ────────────────────────────────────────────────────────── */
+.foot { border-top: 1px solid rgba(255, 255, 255, .12); padding: clamp(56px, 8vh, 96px) 60px 0; }
+.foot-cols { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; max-width: 1400px; }
+.foot .brand { margin-bottom: 16px; }
+.foot-cols p { font-size: 14px; line-height: 1.7; font-weight: 300; color: #d1d5db; max-width: 26em; }
+.foot h3 { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #d9a15c; font-weight: 600; margin-bottom: 8px; }
+.foot a { display: inline-flex; align-items: center; min-height: 44px; color: #d1d5db; text-decoration: none; font-size: 14px; font-weight: 300; transition: color .3s; }
+.foot a:hover { color: #d9a15c; }
+.foot ul { list-style: none; }
+.foot-bottom {
+  display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap;
+  margin-top: clamp(40px, 6vh, 72px); padding-top: 22px;
+  border-top: 1px solid rgba(255, 255, 255, .12);
+  font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255, 255, 255, .62);
+}
+.foot-bottom nav { display: flex; gap: 24px; }
+.foot-bottom a { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255, 255, 255, .62); }
+.watermark {
+  font-family: 'Italiana', serif; font-size: clamp(64px, 15vw, 208px); line-height: .9;
+  color: rgba(255, 255, 255, .045); text-align: center;
+  user-select: none; pointer-events: none;
+  margin-top: 20px; padding: 0 20px;
+}
+
+/* ── Rechtsseiten ──────────────────────────────────────────────────── */
+.legal { max-width: 780px; margin: 0 auto; padding: 130px 60px clamp(80px, 12vh, 140px); }
+.legal h1 { font-family: 'Italiana', serif; font-weight: 400; font-size: clamp(38px, 5vw, 72px); color: #fff6ed; margin-bottom: 32px; line-height: 1.05; }
+.legal h2 { font-family: 'Italiana', serif; font-weight: 400; font-size: clamp(22px, 2.4vw, 30px); color: #fff6ed; margin: 44px 0 12px; }
+.legal p, .legal li { font-size: 15px; line-height: 1.8; font-weight: 300; color: #d1d5db; margin-bottom: 12px; }
+.legal ul { padding-left: 20px; }
+.legal a { color: #d9a15c; }
+.legal .offen {
+  border: 1px solid #d9a15c; border-radius: 12px; padding: 20px 22px; margin-bottom: 40px;
+  font-size: 14px; line-height: 1.7; color: #fff6ed;
+}
+.legal .offen strong { color: #d9a15c; letter-spacing: 1px; text-transform: uppercase; font-size: 11px; display: block; margin-bottom: 8px; }
+
+/* ── Dokument · schmale Geräte ─────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .main-header { padding: 13px 24px; }
+  .sec, .foot { padding-left: 24px; padding-right: 24px; }
+  .legal { padding: 110px 24px 80px; }
+  .cards, .contact { grid-template-columns: minmax(0, 1fr); }
+  .foot-cols { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .row { grid-template-columns: 44px 1fr 34px; gap: 12px; padding: 22px 12px; }
+  .row:hover, .row:focus-visible { padding-left: 18px; }
+  .row .arrow { width: 34px; height: 34px; }
+  .steps { padding-left: 48px; }
+  .steps .dot { left: -48px; width: 28px; height: 28px; }
+  .steps .track, .steps .fill { left: 14px; }
+  .foot-bottom { flex-direction: column; align-items: flex-start; gap: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .doc-title .char, .rise { opacity: 1; transform: none; filter: none; transition: none; }
+  .row, .qa .plus, .cta-big, .next, .main-header, .steps .fill, .steps .dot { transition: none; }
+  html { scroll-behavior: auto; }
+}
+
+</style>
+
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.js" } }
+</script>
+</head>
+<body>
+
+<div class="cursor-inner"></div>
+<div class="cursor-outer"></div>
+
+<!-- Der Kopf steht über beiden Akten: der Kontakt ist auf jeder Scrollposition erreichbar. -->
+<header class="main-header" id="kopf">
+  <div class="brand">
+    <svg viewBox="0 0 48 48" aria-hidden="true">
+      <path fill="currentColor" fill-rule="evenodd" d="M24 5.2A19 19 0 1 1 23.99 5.2ZM24 12.4A12.6 12.6 0 1 0 23.99 12.4Z"/>
+      <path fill="currentColor" d="M25.4 3.2 18.2 7.4l7.2 4.2z"/>
+    </svg>roboros
+  </div>
+  <nav class="header-nav" aria-label="Kapitel">
+    <a href="#slide-1" class="nav-link">Zukunft</a>
+    <span class="nav-dot"></span>
+    <a href="#slide-2" class="nav-link">Wirkung</a>
+    <span class="nav-dot"></span>
+    <a href="#slide-3" class="nav-link">Automatik</a>
+    <span class="nav-dot"></span>
+    <a href="#slide-4" class="nav-link">Vorsprung</a>
+  </nav>
+  <div class="header-actions">
+    <a href="#kontakt" class="contact-btn">Kontakt <span class="btn-circle"></span></a>
+  </div>
+</header>
+
+<!-- ══ AKT I · DIE BÜHNE ══════════════════════════════════════════════ -->
+<div class="stage" id="stage">
+  <div class="stage-scrim" aria-hidden="true"></div>
+  <div class="cinematic-container">
+    <h1 class="visually-hidden">Oroboros Design — Bronze und Zeit</h1>
+
+    <div class="slide" id="slide-1">
+      <h2 class="slide-title">Bauen Sie <br>das Morgen</h2>
+      <div class="desc-row">
+        <p class="slide-desc col-1">Oberfläche, System und Automatisierung aus einer Hand. Wir bauen, was Ihr Unternehmen morgen trägt — nicht, was heute gerade modern aussieht.</p>
+        <p class="slide-desc col-2">Webdesign, Softwareentwicklung und künstliche Intelligenz in Ihren Abläufen. Ein Studio, ein Ansprechpartner, ein Festpreis.</p>
+      </div>
+    </div>
+
+    <div class="slide" id="slide-2">
+      <h2 class="slide-title">Zeigen Sie <br>Größe</h2>
+      <p class="slide-desc">Ihre Kundschaft entscheidet in Sekunden, ob sie Ihnen etwas zutraut. Geben Sie ihr in diesen Sekunden alles, was sie braucht.</p>
+    </div>
+
+    <div class="slide" id="slide-3">
+      <h2 class="slide-title">Geben Sie ab</h2>
+      <p class="slide-desc">Anfragen, Angebote, Termine, Nachfassen. Lassen Sie ein System übernehmen, was heute Ihre Zeit frisst — mit KI dort, wo sie wirklich trägt.</p>
+    </div>
+
+    <div class="slide" id="slide-4">
+      <h2 class="slide-title">Bleiben Sie <br>vorn</h2>
+      <p class="slide-desc">Ihr Wettbewerb rüstet gerade auf. Wer in zwei Jahren automatisiert arbeitet und Sie nicht, gewinnt die Anfrage vor Ihnen. Fangen Sie heute an.</p>
+      <a href="#kontakt" class="slide-cta">Projekt starten <span class="btn-circle"></span></a>
+    </div>
+
+    <div class="stage-foot">
+      <div class="l">
+        <a href="mailto:oroborosdesign@gmail.com">oroborosdesign@gmail.com</a>
+        <a href="https://wa.me/4917679219526" target="_blank" rel="noopener">WhatsApp +49 176 79219526</a>
+      </div>
+      <div class="r">Köln · The next form is never final.</div>
+    </div>
+  </div>
+
+  <div class="slide-image-mask" id="slide-2-img">
+    <img src="vendor/img/oroboros-still.webp" width="1200" height="1200" alt="Oroboros — die Schlange, die sich in den Schwanz beißt">
+  </div>
+
+  <div class="grid-horizontal-line"></div>
+  <div class="grid-lines">
+    <div class="grid-line"><div class="grid-dot top"></div><div class="grid-dot bottom"></div></div>
+    <div class="grid-line"><div class="grid-dot top"></div><div class="grid-dot bottom"></div></div>
+    <div class="grid-line"><div class="grid-dot top"></div><div class="grid-dot bottom"></div></div>
+    <div class="grid-line"><div class="grid-dot top"></div><div class="grid-dot bottom"></div></div>
+    <div class="grid-line story-progress-container">
+      <div class="grid-dot top"></div>
+      <div class="grid-dot bottom"></div>
+      <div class="story-dashes">
+        <div class="story-dash"><div class="story-dash-fill" id="dash-fill-1"></div></div>
+        <div class="story-dash"><div class="story-dash-fill" id="dash-fill-2"></div></div>
+        <div class="story-dash"><div class="story-dash-fill" id="dash-fill-3"></div></div>
+        <div class="story-dash"><div class="story-dash-fill" id="dash-fill-4"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ AKT II · DAS DOKUMENT ══════════════════════════════════════════ -->
+<main class="doc" id="doc">
+
+  <section class="sec" id="leistungen">
+    <span class="tag rise">01 — Leistungen</span>
+    <h2 class="doc-title">Nehmen Sie alles drei. <br>Aus einer Hand.</h2>
+    <p class="lead rise">Oberfläche, System, Automatisierung. Sie brauchen keine drei Dienstleister, die sich gegenseitig die Schuld geben.</p>
+
+    <a class="row rise" href="mailto:oroborosdesign@gmail.com?subject=Anfrage%20%E2%80%94%20Webdesign">
+      <span class="no">01</span>
+      <span><h3>Webdesign</h3><p>Die Oberfläche, die Ihre Kundschaft sieht — gebaut auf Abschluss, nicht auf Geschmack.</p></span>
+      <span class="arrow" aria-hidden="true">→</span>
+    </a>
+    <a class="row rise" href="mailto:oroborosdesign@gmail.com?subject=Anfrage%20%E2%80%94%20Backend%20und%20Software">
+      <span class="no">02</span>
+      <span><h3>Backend &amp; Software</h3><p>Was hinter der Oberfläche laufen muss: Daten, Formulare, Anbindungen, eigene Werkzeuge.</p></span>
+      <span class="arrow" aria-hidden="true">→</span>
+    </a>
+    <a class="row rise" href="mailto:oroborosdesign@gmail.com?subject=Anfrage%20%E2%80%94%20KI%20in%20Workflows">
+      <span class="no">03</span>
+      <span><h3>KI in Ihren Workflows</h3><p>Angebote, Anfragen, Texte, Auswertungen — dort automatisiert, wo es Zeit spart und nicht Ärger macht.</p></span>
+      <span class="arrow" aria-hidden="true">→</span>
+    </a>
+    <a class="row rise" href="mailto:oroborosdesign@gmail.com?subject=Anfrage%20%E2%80%94%20Beratung">
+      <span class="no">04</span>
+      <span><h3>Beratung &amp; Umsetzung</h3><p>Wir sagen Ihnen, was zuerst kommt — und bauen es dann auch. Kein Konzeptpapier ohne Ergebnis.</p></span>
+      <span class="arrow" aria-hidden="true">→</span>
+    </a>
+
+    <a class="next rise" href="#kontakt">Passt das zu Ihnen? <span aria-hidden="true">→</span></a>
+  </section>
+
+  <section class="sec" id="ablauf">
+    <span class="tag rise">02 — Ablauf</span>
+    <h2 class="doc-title">Rechnen Sie mit <br>vier Schritten.</h2>
+    <div class="steps" id="steps">
+      <span class="track" aria-hidden="true"></span><span class="fill" id="steps-fill" aria-hidden="true"></span>
+      <ol>
+      <li class="rise"><span class="dot">1</span><h3>Gespräch</h3><p>30 Minuten. Wir haben Ihre Seite vorher vermessen und bringen den Befund mit.</p></li>
+      <li class="rise"><span class="dot">2</span><h3>Festpreis</h3><p>Umfang, Preis und Termin schriftlich. Keine Stunden, keine Nachforderung.</p></li>
+      <li class="rise"><span class="dot">3</span><h3>Bau</h3><p>Ein Entwurf, eine Korrekturrunde, dann Umsetzung. Sie sehen jeden Stand im Browser.</p></li>
+      <li class="rise"><span class="dot">4</span><h3>Übergabe</h3><p>Quelltext, Zugänge und das ausgefüllte Prüfblatt. Danach gehört alles Ihnen.</p></li>
+      </ol>
+    </div>
+    <a class="next rise" href="#kontakt">Schritt 1 starten <span aria-hidden="true">→</span></a>
+  </section>
+
+  <section class="sec" id="standard">
+    <span class="tag rise">03 — Standard</span>
+    <h2 class="doc-title">Verlangen Sie <br>einen Nachweis.</h2>
+    <p class="lead rise">Jede Seite, die wir übergeben, läuft vorher durch eine feste Prüfliste. Sie bekommen sie ausgefüllt — nicht als Beruhigung, als Dokument.</p>
+    <div class="cards">
+      <div class="card rise"><h3>Strategie und Beleg</h3><p>Zielgruppe erkennbar, Angebot eindeutig, eine Handlung, jede Behauptung belegt.</p></div>
+      <div class="card rise"><h3>Oberfläche und Zugänglichkeit</h3><p>Kontrast, Fokus, Trefferflächen, kein Überlauf — auf jedem Gerät geprüft, nicht geschätzt.</p></div>
+      <div class="card rise"><h3>Technik</h3><p>Formulare durchgetestet, Links geprüft, Ladegewicht im Blick, keine Geheimnisse im Quelltext.</p></div>
+      <div class="card rise"><h3>Launch und Übergabe</h3><p>Auffindbarkeit, Domain, Rückweg, Zugänge — und eine benannte Freigabe, bevor es live geht.</p></div>
+    </div>
+    <a class="next rise" href="#kontakt">Prüfblatt anfordern <span aria-hidden="true">→</span></a>
+  </section>
+
+  <section class="sec" id="einwaende">
+    <span class="tag rise">04 — Einwände</span>
+    <h2 class="doc-title">Fragen Sie <br>ruhig alles.</h2>
+
+    <details class="qa rise"><summary>Was kostet das?<span class="plus" aria-hidden="true"></span></summary>
+      <div class="answer">Nach Umfang, als Festpreis. Eine einzelne Landing liegt im unteren vierstelligen Bereich, eine mehrseitige Marke darüber, ein reines Audit deutlich darunter. Den genauen Preis nennen wir nach dem Gespräch schriftlich — vorher wäre er geraten.</div></details>
+    <details class="qa rise"><summary>Wie lange dauert es?<span class="plus" aria-hidden="true"></span></summary>
+      <div class="answer">Zwei Wochen von der Zusage bis zur Übergabe, bei einer Seite mit vorhandenen Texten und Bildern. Fehlen Inhalte, verlängert das den Termin — wir sagen Ihnen im Gespräch, was wir brauchen.</div></details>
+    <details class="qa rise"><summary>Wem gehört der Quelltext?<span class="plus" aria-hidden="true"></span></summary>
+      <div class="answer">Ihnen. Vollständig, ohne Lizenz und ohne Abo. Sie bekommen das Repository und alle Zugänge. Wenn Sie danach mit jemand anderem weiterarbeiten, können Sie das.</div></details>
+    <details class="qa rise"><summary>Was, wenn mir der Entwurf nicht gefällt?<span class="plus" aria-hidden="true"></span></summary>
+      <div class="answer">Im Festpreis ist eine vollständige Korrekturrunde enthalten. Vor dem Bau zeigen wir einen Entwurf im Browser, nicht als Bild — Sie sehen also, wie es sich tatsächlich anfühlt, bevor die Umsetzung beginnt.</div></details>
+    <details class="qa rise"><summary>Ihr seid neu — warum sollte ich Ihnen vertrauen?<span class="plus" aria-hidden="true"></span></summary>
+      <div class="answer">Weil Sie nichts glauben müssen. Der Befund zu Ihrer Seite ist gemessen und nachprüfbar, das Prüfblatt zur Übergabe ist ein Dokument, und den Entwurf sehen Sie im Browser, bevor Sie zahlen. Wir bitten nicht um Vertrauensvorschuss, wir liefern Belege.</div></details>
+    <details class="qa rise"><summary>Können Sie auf meiner bestehenden Seite arbeiten?<span class="plus" aria-hidden="true"></span></summary>
+      <div class="answer">Bei WordPress, Webflow oder Shopify ja — dort verbessern wir gezielt. Bei Baukästen wie Wix ist der Spielraum technisch eng; dort ist ein Neubau meist günstiger als der Kampf gegen das System. Was in Ihrem Fall gilt, sagen wir nach der Messung.</div></details>
+    <details class="qa rise"><summary>Was heißt „KI im Workflow" konkret?<span class="plus" aria-hidden="true"></span></summary>
+      <div class="answer">Zum Beispiel: eingehende Anfragen werden automatisch sortiert und beantwortet, Angebote aus Ihren Vorlagen erzeugt, Termine ohne Rückfrage vergeben, Auswertungen einmal pro Woche fertig auf dem Tisch. Wir setzen KI nur dort ein, wo sie Zeit spart und nachprüfbar bleibt — nicht dort, wo sie Fehler in Ihre Prozesse schreibt.</div></details>
+    <details class="qa rise"><summary>Was passiert nach der Übergabe?<span class="plus" aria-hidden="true"></span></summary>
+      <div class="answer">Nichts, was Sie nicht wollen. Kein Wartungsabo als Bedingung. Auf Wunsch gibt es Pflege und Weiterbau als getrennte Vereinbarung, ebenfalls zum Festpreis je Aufgabe.</div></details>
+
+    <a class="next rise" href="#kontakt">Frage nicht dabei? Schreiben Sie sie uns <span aria-hidden="true">→</span></a>
+  </section>
+
+  <section class="sec" id="kontakt">
+    <span class="tag rise">05 — Kontakt</span>
+    <h2 class="doc-title">Schreiben Sie uns. <br>Heute noch.</h2>
+    <p class="lead rise">Schicken Sie uns Ihre Adresse. Wir messen die Seite, bevor wir antworten — Sie bekommen also im ersten Kontakt schon etwas, das Sie behalten können.</p>
+
+    <div class="contact">
+      <div class="rise">
+        <a class="cta-big" href="https://wa.me/4917679219526" target="_blank" rel="noopener">
+          <span>WhatsApp · +49 176 79219526</span><span class="go" aria-hidden="true">→</span>
+        </a>
+        <a class="cta-big ghost" href="mailto:oroborosdesign@gmail.com?subject=Projektanfrage">
+          <span>oroborosdesign@gmail.com</span><span class="go" aria-hidden="true">→</span>
+        </a>
+        <p class="cta-note">Antwort innerhalb von 24 Stunden · Köln</p>
+      </div>
+      <div class="contact-side rise">
+        <p>Drei Zeilen genügen: <span class="k">Ihre Adresse im Netz</span>, <span class="k">was Sie vorhaben</span> und <span class="k">bis wann</span>. Alles andere klären wir im Gespräch.</p>
+        <p>Kein Formular an dieser Stelle: solange keine geprüfte Zustellung dahinterliegt, wäre ein Absendeknopf ein Versprechen ohne Deckung. E-Mail und WhatsApp gehen sofort und nachweislich raus.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="foot-cols">
+      <div>
+        <div class="brand">
+          <svg viewBox="0 0 48 48" aria-hidden="true">
+            <path fill="currentColor" fill-rule="evenodd" d="M24 5.2A19 19 0 1 1 23.99 5.2ZM24 12.4A12.6 12.6 0 1 0 23.99 12.4Z"/>
+            <path fill="currentColor" d="M25.4 3.2 18.2 7.4l7.2 4.2z"/>
+          </svg>roboros
+        </div>
+        <p>Digitalstudio aus Köln. Webdesign, Software und KI im Workflow.</p>
+      </div>
+      <div>
+        <h3>Seite</h3>
+        <ul>
+          <li><a href="#leistungen">Leistungen</a></li>
+          <li><a href="#ablauf">Ablauf</a></li>
+          <li><a href="#standard">Standard</a></li>
+          <li><a href="#einwaende">Einwände</a></li>
+          <li><a href="#kontakt">Kontakt</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Direkt</h3>
+        <ul>
+          <li><a href="mailto:oroborosdesign@gmail.com">oroborosdesign@gmail.com</a></li>
+          <li><a href="https://wa.me/4917679219526" target="_blank" rel="noopener">WhatsApp +49 176 79219526</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© 2026 Oroboros Design · Daouda Ndiaye · Köln</div>
+      <nav aria-label="Rechtliches">
+        <a href="/impressum">Impressum</a>
+        <a href="/datenschutz">Datenschutz</a>
+      </nav>
+      <div>The next form is never final.</div>
+    </div>
+    <div class="watermark" aria-hidden="true">OROBOROS</div>
+  </footer>
+</main>
+
+<canvas id="webgl"></canvas>
+
+<noscript><style>
+  .slide:not(#slide-1) { display: none; }
+  .slide-desc { opacity: 1; transform: none; }
+  body { cursor: auto; } * { cursor: auto !important; }
+  .cursor-inner, .cursor-outer { display: none; }</style></noscript>
+
+<script type="module">
+import * as THREE from 'three';
+
+/* ── Globale Variablen ────────────────────────────────────────────── */
+const canvas = document.querySelector('#webgl');
+let scene, camera, renderer;
+let gltfModel;       // der Oroboros
+let modelPivot;      // Pivot-Gruppe für exakte Mittelpunktdrehung
+let mixer;
+const clock = new THREE.Clock();
+let currentScroll = 0;      // geglätteter Scroll für das Lerpen
+let mouseX = 0, mouseY = 0, targetMouseX = 0, targetMouseY = 0;
+
+let cursorX = window.innerWidth / 2,      cursorY = window.innerHeight / 2;
+let outerCursorX = window.innerWidth / 2, outerCursorY = window.innerHeight / 2;
+
+let bgMaterial;
+const shaderUniforms = {
+  uTime: { value: 0 },
+  uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+  uMouse: { value: new THREE.Vector2(0, 0) },
+  uScroll: { value: 0 }
+};
+
+let sparkParticles;
+const sparkCount = 450;
+const sparkData = [];
+
+const sizes = { width: window.innerWidth, height: window.innerHeight };
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+let stageOpacity = 1;               // 1 = Bühne sichtbar, 0 = Dokument hat übernommen
+
+/* DOM-Referenzen einmal, nicht je Frame */
+const dom = {
+  cursorInner: document.querySelector('.cursor-inner'),
+  cursorOuter: document.querySelector('.cursor-outer'),
+  stage: document.getElementById('stage'),
+  header: document.querySelector('.main-header'),
+  container: document.querySelector('.cinematic-container'),
+  gridLines: document.querySelector('.grid-lines'),
+  gridLine: document.querySelector('.grid-horizontal-line'),
+  scrim: document.querySelector('.stage-scrim'),
+  stepsFill: document.getElementById('steps-fill'),
+  steps: Array.from(document.querySelectorAll('.steps li')),
+  slides: [1, 2, 3, 4].map(i => document.getElementById(`slide-${i}`)),
+  fills:  [1, 2, 3, 4].map(i => document.getElementById(`dash-fill-${i}`)),
+  slide2Img: document.getElementById('slide-2-img'),
+  dots: Array.from(document.querySelectorAll('.grid-dot'))
+};
+
+/* ── Funken ───────────────────────────────────────────────────────── */
+function createSparkTexture() {
+  const canvas = document.createElement('canvas');
+  canvas.width = 16; canvas.height = 16;
+  const ctx = canvas.getContext('2d');
+  const gradient = ctx.createRadialGradient(8, 8, 0, 8, 8, 8);
+  gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+  gradient.addColorStop(0.25, 'rgba(255, 255, 255, 0.85)');
+  gradient.addColorStop(0.6, 'rgba(255, 255, 255, 0.3)');
+  gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, 16, 16);
+  return new THREE.CanvasTexture(canvas);
+}
+
+function createSparks() {
+  const geometry = new THREE.BufferGeometry();
+  const positions = new Float32Array(sparkCount * 3);
+  const colors = new Float32Array(sparkCount * 3);
+
+  for (let i = 0; i < sparkCount; i++) {
+    const x = (Math.random() - 0.5) * 6.5;
+    const y = (Math.random() - 0.5) * 5.0 - 0.5;
+    const z = (Math.random() - 0.5) * 6.5;
+    positions[i * 3] = x;
+    positions[i * 3 + 1] = y;
+    positions[i * 3 + 2] = z;
+
+    if (Math.random() < 0.6) {
+      // gesättigtes Feuerorange
+      colors[i * 3] = 1.0;
+      colors[i * 3 + 1] = 0.4 + Math.random() * 0.15;
+      colors[i * 3 + 2] = 0.05 + Math.random() * 0.1;
+    } else {
+      // kosmisches Eisblau (passend zum Kantenlicht)
+      colors[i * 3] = 0.55 + Math.random() * 0.15;
+      colors[i * 3 + 1] = 0.82 + Math.random() * 0.12;
+      colors[i * 3 + 2] = 1.0;
+    }
+
+    sparkData.push({
+      speedX: (Math.random() - 0.5) * 0.4,
+      speedY: 0.15 + Math.random() * 0.3,
+      speedZ: (Math.random() - 0.5) * 0.4,
+      swaySpeed: 0.5 + Math.random() * 1.5,
+      swayRadius: 0.05 + Math.random() * 0.15,
+      phase: Math.random() * Math.PI * 2
+    });
+  }
+
+  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+  const material = new THREE.PointsMaterial({
+    size: 0.025,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.85,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+    map: createSparkTexture()
+  });
+
+  sparkParticles = new THREE.Points(geometry, material);
+  scene.add(sparkParticles);
+}
+
+/* ── Der Oroboros, prozedural ─────────────────────────────────────── */
+const RING = { N: 320, M: 28, R: 1.4, span: Math.PI * 2 * 0.965, snout: 0.075 };
+
+// Kreisbahn mit Tiefe: t = 0 Kopf, t = 1 Schwanz. t < 0 ist die Schnauze,
+// die auf derselben Bahn weiterläuft und den Schwanz überdeckt (der Biss).
+function ringPoint(t) {
+  const a = t * RING.span - Math.PI * 0.5;
+  return new THREE.Vector3(
+    Math.cos(a) * RING.R,
+    Math.sin(a) * RING.R,
+    Math.sin(t * Math.PI * 2) * 0.42 + Math.sin(t * Math.PI * 2 * 3) * 0.06
+  );
+}
+
+function ringRadius(t) {
+  const tt = Math.max(0, t);
+  const taper     = 0.30 - 0.215 * Math.pow(tt, 0.72);            // dick am Kopf, dünn am Schwanz
+  const headBulge = Math.exp(-Math.pow(tt / 0.055, 2)) * 0.085;   // Kopfverdickung
+  const neck      = -Math.exp(-Math.pow((tt - 0.11) / 0.05, 2)) * 0.035;
+  let r = taper + headBulge + neck;
+  if (t < 0) {                                                     // Schnauze: aus dem Kopf verjüngt
+    const s = Math.min(1, -t / RING.snout);
+    r *= 0.14 + 0.86 * Math.pow(1 - s, 0.55);
+  }
+  return Math.max(0.03, r);
+}
+
+// Frenet-Rahmen an der Bahn: Tangente, Normale (in der Ringebene), Binormale (Ringachse)
+function ringFrame(t) {
+  const c   = ringPoint(t);
+  const tan = ringPoint(t + 0.002).sub(ringPoint(t - 0.002)).normalize();
+  const up  = new THREE.Vector3(0, 0, 1);
+  const nrm = new THREE.Vector3().crossVectors(tan, up).normalize();
+  const bin = new THREE.Vector3().crossVectors(tan, nrm).normalize();
+  return { c, tan, nrm, bin };
+}
+
+const ringCentreline = [];      // Mittellinie in Modellkoordinaten, für die Ringmessung
+function createOuroborosGeometry() {
+  const { N, M } = RING;
+  const pos = [], nor = [], uvs = [], idx = [];
+  const t0 = -RING.snout;
+  ringCentreline.length = 0;
+
+  for (let i = 0; i <= N; i++) {
+    const t = t0 + (i / N) * (1 - t0);
+    const { c, nrm, bin } = ringFrame(t);
+    const r = ringRadius(t);
+    const flat = t < 0.06 ? 0.82 : 1;                              // Kopf leicht abgeflacht
+    if (i % 2 === 0) ringCentreline.push(c.clone());
+
+    for (let j = 0; j <= M; j++) {
+      const v = j / M, ang = v * Math.PI * 2;
+      // Schuppenrelief
+      const scale = 1 + 0.026 * Math.sin(ang * 9) * Math.sin(t * N * 0.42)
+                      + 0.014 * Math.sin(t * N * 0.9);
+      const rr = r * scale;
+      const off = new THREE.Vector3()
+        .addScaledVector(nrm, Math.cos(ang) * rr)
+        .addScaledVector(bin, Math.sin(ang) * rr * flat);
+      pos.push(c.x + off.x, c.y + off.y, c.z + off.z);
+      const n = off.clone().normalize();
+      nor.push(n.x, n.y, n.z);
+      uvs.push(t, v);
+    }
+  }
+
+  for (let i = 0; i < N; i++) {
+    for (let j = 0; j < M; j++) {
+      const a = i * (M + 1) + j, b = a + M + 1;
+      idx.push(a, b, a + 1, b, b + 1, a + 1);
+    }
+  }
+
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute('normal',   new THREE.Float32BufferAttribute(nor, 3));
+  g.setAttribute('uv',       new THREE.Float32BufferAttribute(uvs, 2));
+  g.setIndex(idx);
+  g.computeVertexNormals();
+  return g;
+}
+
+function buildOuroboros() {
+  modelPivot = new THREE.Group();
+  scene.add(modelPivot);
+  gltfModel = new THREE.Group();
+  modelPivot.add(gltfModel);
+
+  const mat = new THREE.MeshStandardMaterial({
+    color: '#8a6a44', roughness: 0.42, metalness: 0.92, flatShading: false,
+    envMapIntensity: 0.7
+  });
+
+  const body = new THREE.Mesh(createOuroborosGeometry(), mat);
+  body.castShadow = true; body.receiveShadow = true;
+  gltfModel.add(body);
+
+  // Augen: seitlich am Kopf, aus dem Rahmen der Bahn abgeleitet — nicht als feste Zahl
+  const eyeMat = new THREE.MeshStandardMaterial({ color: '#1a1210', roughness: 0.15, metalness: 1.0 });
+  const eyeT = -0.012;
+  const { c, nrm, bin } = ringFrame(eyeT);
+  const rHead = ringRadius(eyeT);
+  [-1, 1].forEach(s => {
+    const e = new THREE.Mesh(new THREE.SphereGeometry(0.05, 14, 14), eyeMat);
+    e.position.copy(c)
+      .addScaledVector(bin, s * rHead * 0.82 * 0.88)
+      .addScaledVector(nrm, rHead * 0.30);
+    gltfModel.add(e);
+  });
+
+  // Normierung wie im Original: größte Kante skalieren, zentrieren, Pivot senken
+  const boxInitial  = new THREE.Box3().setFromObject(gltfModel);
+  const sizeInitial = boxInitial.getSize(new THREE.Vector3());
+  const maxDim      = Math.max(sizeInitial.x, sizeInitial.y, sizeInitial.z);
+  gltfModel.scale.setScalar(2.15 / (maxDim > 0.0001 ? maxDim : 1));
+  gltfModel.updateMatrixWorld(true);
+  const boxScaled = new THREE.Box3().setFromObject(gltfModel);
+  gltfModel.position.sub(boxScaled.getCenter(new THREE.Vector3()));
+
+  gltfModel.rotation.set(-0.40, 0.55, 0.10);   // Neigung: nie exakt kantig zur Kamera
+  modelPivot.position.y = -0.4;
+}
+
+/* ── Umgebung für das Metall ──────────────────────────────────────── */
+// Ein Metall ohne Umgebung reflektiert nur seine drei Lichter und liest als Schwarz.
+// Die Umgebung ist prozedural: warmer Schmiedeschein oben, kühles Blau hinten links,
+// Dunkel unten — aus dem Kern von Three.js (PMREMGenerator), keine Fremddatei.
+function createEnvironment() {
+  const env = new THREE.Scene();
+  const mat = new THREE.ShaderMaterial({
+    side: THREE.BackSide,
+    vertexShader: `
+      varying vec3 vDir;
+      void main() { vDir = normalize(position); gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }
+    `,
+    fragmentShader: `
+      varying vec3 vDir;
+      void main() {
+        vec3 d = normalize(vDir);
+        vec3 warm = vec3(0.95, 0.56, 0.24);
+        vec3 cool = vec3(0.40, 0.60, 0.95);
+        vec3 col = vec3(0.012, 0.007, 0.004);
+        col = mix(col, warm * 0.55, smoothstep(0.05, 0.9, d.y));            // Schein von oben
+        col += warm * 1.6 * pow(max(0.0, dot(d, normalize(vec3(0.6, 0.75, 0.35)))), 24.0);  // Führungslicht als Glanzfleck
+        col += cool * 0.45 * pow(max(0.0, dot(d, normalize(vec3(-0.7, 0.4, -0.6)))), 6.0);  // Kantenlicht hinten links
+        col += warm * 0.12 * smoothstep(0.0, -0.8, d.y);                     // Rest vom Funkenboden
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `
+  });
+  env.add(new THREE.Mesh(new THREE.SphereGeometry(40, 48, 24), mat));
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromScene(env, 0.04).texture;
+  pmrem.dispose();
+  mat.dispose();
+}
+
+/* ── Hintergrund-Wellenshader ─────────────────────────────────────── */
+function createBackgroundShader() {
+  const vertexShader = `
+    varying vec2 vUv;
+    void main() {
+      vUv = uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
+  `;
+
+  const fragmentShader = `
+    varying vec2 vUv;
+    uniform float uTime;
+    uniform vec2 uResolution;
+    uniform vec2 uMouse;
+    uniform float uScroll;
+
+    float hash(float n) { return fract(sin(n) * 43758.5453123); }
+    float noise(in vec3 x) {
+      vec3 p = floor(x);
+      vec3 f = fract(x);
+      f = f*f*(3.0-2.0*f);
+      float n = p.x + p.y*57.0 + 113.0*p.z;
+      return mix(mix(mix(hash(n+  0.0), hash(n+  1.0), f.x),
+                     mix(hash(n+ 57.0), hash(n+ 58.0), f.x), f.y),
+                 mix(mix(hash(n+113.0), hash(n+114.0), f.x),
+                     mix(hash(n+170.0), hash(n+171.0), f.x), f.y), f.z);
+    }
+
+    void main() {
+      vec2 uv = (gl_FragCoord.xy - 0.5 * uResolution.xy) / uResolution.y;
+      float aspect = uResolution.x / uResolution.y;
+
+      float time = uTime * 0.08;     // sehr langsames, ruhiges Atmen
+      float scroll = uScroll;
+
+      // 1. Konstante Wellenparameter (Scroll-Stabilität)
+      float angle1 = 0.6;
+      float angle2 = -0.7;
+      float angle3 = 1.2;
+
+      float freq1 = 2.4;
+      float freq2 = 3.2;
+      float freq3 = 4.0;
+
+      // 2. Koordinatenverzerrung
+      vec2 warpedUv = uv;
+      float scrollDeform = scroll * 5.0;
+
+      warpedUv.x += sin(uv.y * 2.5 + time * 0.2 + scrollDeform) * 0.35;
+      warpedUv.y += cos(uv.x * 2.5 - time * 0.15 - scrollDeform * 0.8) * 0.35;
+
+      warpedUv.x += sin(uv.y * 1.2 - time * 0.1 - scrollDeform * 1.5) * 0.25;
+      warpedUv.y += cos(uv.x * 1.2 + time * 0.18 + scrollDeform * 1.2) * 0.25;
+
+      vec2 scrollDrift = vec2(scroll * 0.04, -scroll * 0.02);
+      vec2 mouseShift  = vec2(uMouse.x * aspect * 0.05, uMouse.y * 0.05);
+      warpedUv += scrollDrift + mouseShift;
+
+      // 3. Geschichtete Wellen
+      vec2 dir1 = vec2(cos(angle1), sin(angle1));
+      vec2 dir2 = vec2(cos(angle2), sin(angle2));
+      vec2 dir3 = vec2(cos(angle3), sin(angle3));
+
+      float w1 = sin(dot(warpedUv, dir1) * freq1 + time * 1.0);
+      float w2 = cos(dot(warpedUv, dir2) * freq2 - time * 1.4 + w1 * 0.4);
+      float w3 = sin(dot(warpedUv, dir3) * freq3 + time * 1.8 + w2 * 0.5);
+
+      float waveField = w1 * 0.50 + w2 * 0.35 + w3 * 0.15;
+
+      // 4. Metallischer Glanz
+      float wideSheen     = pow(max(0.0, 1.0 - abs(waveField - 0.1)), 2.5);
+      float crispSpecular = pow(max(0.0, 1.0 - abs(waveField - 0.15)), 8.0);
+      float crest = wideSheen * 0.5 + crispSpecular * 0.9;
+
+      // 5. Scroll-getriebene Paletten: Bronze → Saphir
+      vec3 c0_shadow = vec3(0.0010, 0.0006, 0.0004);
+      vec3 c0_wave1  = vec3(0.085, 0.040, 0.015);
+      vec3 c0_wave2  = vec3(0.050, 0.022, 0.008);
+      vec3 c0_crest  = vec3(0.45, 0.30, 0.18);
+
+      vec3 c1_shadow = vec3(0.0004, 0.0006, 0.0012);
+      vec3 c1_wave1  = vec3(0.015, 0.035, 0.065);
+      vec3 c1_wave2  = vec3(0.008, 0.020, 0.045);
+      vec3 c1_crest  = vec3(0.18, 0.35, 0.55);
+
+      float t = smoothstep(0.0, 1.0, scroll);
+      vec3 colShadow = mix(c0_shadow, c1_shadow, t);
+      vec3 colWave1  = mix(c0_wave1,  c1_wave1,  t);
+      vec3 colWave2  = mix(c0_wave2,  c1_wave2,  t);
+      vec3 colCrest  = mix(c0_crest,  c1_crest,  t);
+
+      // 6. Komposition
+      vec3 color = colShadow;
+      color = mix(color, colWave2, smoothstep(-0.6, 0.2, waveField));
+      color = mix(color, colWave1, smoothstep(0.0, 0.8, waveField));
+      color += colCrest * crest * 0.7;   // 1.4 im Entwurf — halbiert, damit 10-px-Text auf dem Band ≥ 4,5:1 hält
+
+      float vignette = 1.0 - dot(uv, uv) * 0.12;
+      color *= vignette;
+
+      gl_FragColor = vec4(color, 1.0);
+    }
+  `;
+
+  bgMaterial = new THREE.ShaderMaterial({
+    vertexShader: vertexShader,
+    fragmentShader: fragmentShader,
+    uniforms: shaderUniforms,
+    depthWrite: false,
+    depthTest: false
+  });
+
+  const bgGeometry = new THREE.PlaneGeometry(30, 30);
+  const bgMesh = new THREE.Mesh(bgGeometry, bgMaterial);
+  bgMesh.position.set(0.0, 0.0, -8.0);
+  bgMesh.renderOrder = -10;
+  camera.add(bgMesh);
+}
+
+/* ── Resize ───────────────────────────────────────────────────────── */
+function onWindowResize() {
+  measurePage();
+  onScroll();
+  sizes.width = window.innerWidth;
+  sizes.height = window.innerHeight;
+  camera.aspect = sizes.width / sizes.height;
+  camera.updateProjectionMatrix();
+  renderer.setSize(sizes.width, sizes.height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  // gl_FragCoord zählt Gerätepixel — die Auflösung im Shader muss dieselbe Einheit tragen,
+  // sonst sitzt Vignette und Wellenmitte bei DPR 2 im linken unteren Viertel
+  const pr = renderer.getPixelRatio();
+  if (shaderUniforms) shaderUniforms.uResolution.value.set(sizes.width * pr, sizes.height * pr);
+}
+
+/* ── Zeiger ───────────────────────────────────────────────────────── */
+window.addEventListener('mousemove', (event) => {
+  cursorX = event.clientX;
+  cursorY = event.clientY;
+  if (dom.cursorInner) { dom.cursorInner.style.left = `${cursorX}px`; dom.cursorInner.style.top = `${cursorY}px`; }
+  targetMouseX = (event.clientX / window.innerWidth) * 2 - 1;
+  targetMouseY = (event.clientY / window.innerHeight) * 2 - 1;
+});
+window.addEventListener('resize', onWindowResize);
+
+/* ── Titel in Zeichen zerlegen ────────────────────────────────────── */
+function splitTitlesIntoChars() {
+  const titles = document.querySelectorAll('.slide-title, .doc-title');
+  titles.forEach(title => {
+    const text = title.innerHTML;
+    // Buchstaben in eigenen Elementen liest ein Screenreader sonst einzeln vor
+    title.setAttribute('aria-label', text.replace(/<br\s*\/?>/gi, ' ').replace(/\s+/g, ' ').trim());
+    let newHTML = '';
+    let delayCounter = 0;
+    const parts = text.split(/(<br\s*\/?>)/i);
+    parts.forEach(part => {
+      if (part.toLowerCase().startsWith('<br')) {
+        newHTML += part;
+      } else {
+        for (let i = 0; i < part.length; i++) {
+          if (part[i] === ' ') {
+            newHTML += ' ';
+          } else {
+            newHTML += `<span class="char" style="transition-delay: ${delayCounter * 0.035}s">${part[i]}</span>`;
+            delayCounter++;
+          }
+        }
+      }
+    });
+    title.innerHTML = `<span aria-hidden="true">${newHTML}</span>`;
+  });
+}
+
+/* ── Rasterpunkte ─────────────────────────────────────────────────── */
+function updateGridDots(scroll) {
+  dom.dots.forEach((dot, i) => {
+    const startY = (i * 17) % 80 + 10;
+    let speed = 90 + (i * 55) % 180;
+    if (i % 2 === 0) speed = -speed;
+    let y = startY + scroll * speed;
+    y = ((y % 100) + 100) % 100;
+    dot.style.top = `${y}%`;
+  });
+}
+
+/* ── Folien + Stories-Fortschritt ─────────────────────────────────── */
+function updateSlides(scroll) {
+  const [slide1, slide2, slide3, slide4] = dom.slides;
+
+  for (let i = 1; i <= 4; i++) {
+    const fill = dom.fills[i - 1];
+    if (fill) {
+      const start = (i - 1) * 0.25;
+      const end = i * 0.25;
+      let progress = (scroll - start) / (end - start);
+      progress = Math.max(0, Math.min(1, progress));
+      fill.style.height = `${progress * 100}%`;
+    }
+  }
+
+  function isActive(val, start, end) { return val >= start && val <= end; }
+
+  // Eine Folie, die nicht steht, ist unsichtbar — dann darf sie auch die Tastatur
+  // nicht erreichen und im Vorlesebaum nicht auftauchen.
+  function setze(el, an) {
+    if (!el) return;
+    el.classList.toggle('active', an);
+    if (el.inert !== !an) el.inert = !an;
+  }
+  setze(slide1, isActive(scroll, -0.10, 0.12));
+  const active2 = isActive(scroll, 0.28, 0.40);
+  setze(slide2, active2);
+  if (dom.slide2Img) dom.slide2Img.classList.toggle('active', active2);
+  setze(slide3, isActive(scroll, 0.56, 0.68));
+  setze(slide4, isActive(scroll, 0.84, 1.05));
+}
+
+/* ── Navigation ───────────────────────────────────────────────────── */
+function setupNavigation() {
+  const navLinks = document.querySelectorAll('.nav-link');
+  const targetScrolls = [0.0, 0.34, 0.62, 0.94];
+  navLinks.forEach((link, index) => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetY = stageH * targetScrolls[index];
+      window.scrollTo({ top: targetY, behavior: reducedMotion ? 'auto' : 'smooth' });
+    });
+  });
+}
+
+/* ── Kameraziel ───────────────────────────────────────────────────── */
+const targetLookAt = new THREE.Vector3();
+const targetPos = new THREE.Vector3();
+
+// Nachführung des Objekts gegen die Kamerabahn. Herleitung siehe README.
+// k = 0 heißt: das Objekt steht still, die Kamera umrundet es — und trifft dabei
+// zwangsläufig zweimal die Kante des Rings.
+// Gemessen, nicht geschätzt: siehe README, Abschnitt „Warum das Objekt mitdreht".
+// k nahe 1 — das Objekt dreht mit der Kamera, sonst steht es zweimal auf der Kante.
+// a — die Wippe, die es an zwei Stellen bewusst wegdreht, damit die Umrundung sichtbar bleibt.
+const FOLLOW = { k: 0.98, a: 0.96, p: 6.152, c: -0.42 };
+function pivotSpin(s) {
+  return FOLLOW.c + FOLLOW.k * s * Math.PI * 2 + FOLLOW.a * Math.sin(s * Math.PI * 2 + FOLLOW.p);
+}
+
+// Umlaufbahn und Blickpunkt für einen Scrollwert, aus dem Seitenverhältnis abgeleitet.
+// Querformat: Ring rechts der Textspalte, Radius 5.0. Hochformat: der Ring hätte bei
+// 390 × 844 die volle Breite gefüllt und wäre durch den Versatz −0.9 rechts aus dem
+// Bild gelaufen — deshalb weiter weg, mittig, und über den Text gehoben.
+const RING_BOUND = 1.075 / Math.tan(25 * Math.PI / 180);   // Hüllkugel (2.15 / 2) bei 50° Bildwinkel: Höhe = RING_BOUND / Abstand
+function cameraTarget(s) {
+  const aspect = camera.aspect;
+  const phi = s * Math.PI * 2.0;
+  const y = 0.35 + Math.sin(s * Math.PI) * 1.05;
+  let radius = 5.0 - Math.sin(s * Math.PI) * 0.35;
+  let lookY = -0.15;
+
+  if (aspect < 1) {
+    // Freies Band zwischen Kopfzeile (70 px) und Textblock samt Fuß (≈ 370 px CSS):
+    // der Ring füllt 80 % der Breite oder 95 % des Bandes, je nachdem, was strenger ist,
+    // und sitzt in der Bandmitte. Bei 360 × 640 belegt der Text 58 % der Höhe — der Ring
+    // muss dann klein und hoch, bei 834 × 1194 darf er groß und mittig.
+    const h = sizes.height, top = 74 / h, ui = Math.min(0.7, 370 / h);
+    const band = Math.max(0.2, 1 - ui - top);
+    const rW = RING_BOUND / (0.80 * aspect);
+    const rH = RING_BOUND / (0.95 * band);
+    radius = Math.max(radius, rW, rH);
+    const centre = (top + 1 - ui) / 2;
+    lookY = -0.4 - (0.5 - centre) * 2 * Math.tan(25 * Math.PI / 180) * radius;
+  }
+  targetPos.set(radius * Math.sin(phi), y, radius * Math.cos(phi));
+
+  const transitionProgress = Math.min(1.0, s / 0.28);
+  const easeFactor = (Math.cos(transitionProgress * Math.PI) + 1.0) * 0.5;
+  const wide = Math.max(0, Math.min(1, aspect - 0.6));          // 0 im Hochformat, 1 ab 1.6
+  targetLookAt.set(-0.9 * easeFactor * wide, lookY, 0);
+}
+
+/* ── Die Naht zwischen den Akten ───────────────────────────────────── */
+// Der Scrollwert der Bühne ist NICHT der Scrollwert der Seite. Bliebe er es,
+// dehnte sich der Kameraumlauf über das Dokument mit und alle vier
+// Folienmarken lägen irgendwo.
+let stageH = 1, docEdge = 1;
+let stepsTop = 0, stepsH = 1, stepsDots = [];
+
+function measurePage() {
+  stageH = Math.max(1, dom.stage.offsetHeight - window.innerHeight);
+  // Scrollwert, bei dem die Oberkante des Dokuments den unteren Bildrand erreicht
+  docEdge = document.getElementById('doc').offsetTop - window.innerHeight;
+  const box = document.getElementById('steps');
+  if (box) {
+    stepsTop = box.getBoundingClientRect().top + window.scrollY;
+    stepsH = Math.max(1, box.offsetHeight);
+    stepsDots = dom.steps.map(li => (li.offsetTop + 16) / stepsH);
+  }
+}
+
+function onScroll() {
+  // Die Bühne verblasst nicht bei einer Zahl, sondern weil das Dokument sie
+  // zudeckt: die Blende hängt an der Oberkante des Dokuments. Solange nur die
+  // gerundete Kante im Bild steht, glüht der Shader noch dahinter.
+  const covered = (window.scrollY - docEdge) / (window.innerHeight * 0.55);
+  stageOpacity = 1 - Math.min(Math.max(covered, 0), 1);
+  canvas.style.opacity = stageOpacity;
+  dom.container.style.opacity = stageOpacity;
+  dom.gridLines.style.opacity = stageOpacity;
+  dom.gridLine.style.opacity = stageOpacity;
+  dom.scrim.style.opacity = stageOpacity;
+  dom.header.classList.toggle('solid', stageOpacity < 0.5);
+  // Die verblasste Bühne liegt hinter dem Dokument: ihre Verweise sind dann kein Ziel mehr.
+  const stumm = stageOpacity <= 0.01;
+  if (dom.container.inert !== stumm) dom.container.inert = stumm;
+
+  if (dom.stepsFill) {
+    // Der Fortschritt bemisst sich an der Fahrt des Abschnitts durch das Bild,
+    // nicht an einer festen Linie darin: bei halber Fahrt steht er auf 50 %.
+    const strecke = stepsH + window.innerHeight;
+    const c = Math.min(Math.max((window.scrollY + window.innerHeight - stepsTop) / strecke, 0), 1);
+    dom.stepsFill.style.height = `${c * 100}%`;
+    for (let i = 0; i < dom.steps.length; i++) dom.steps[i].classList.toggle('on', c >= stepsDots[i]);
+  }
+}
+
+/* ── Das Dokument ─────────────────────────────────────────────────── */
+function setupDocument() {
+  // Auftritte: einmal, wenn ein Viertel des Elements im Bild steht
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      // Ein Viertel des Elements — oder, wenn es höher ist als das Bild, ein Drittel des Bildes.
+      // Sonst bliebe ein langes Element auf einem kleinen Schirm für immer unsichtbar.
+      if (!e.isIntersecting) continue;
+      if (e.intersectionRatio < 0.25 && e.intersectionRect.height < window.innerHeight * 0.33) continue;
+      e.target.classList.add('in'); io.unobserve(e.target);
+    }
+  }, { threshold: [0, 0.25] });
+  document.querySelectorAll('.doc .doc-title, .doc .rise').forEach(el => io.observe(el));
+
+  // Ziehharmonika: immer nur eine Antwort offen
+  const qa = Array.from(document.querySelectorAll('.qa'));
+  qa.forEach(d => d.addEventListener('toggle', () => {
+    if (d.open) qa.forEach(o => { if (o !== d) o.open = false; });
+  }));
+
+  // Der äußere Ring wächst über allem, was man anfassen kann
+  const hot = (on) => (e) => { if (e.target.closest && e.target.closest('a, summary, button')) dom.cursorOuter.classList.toggle('hot', on); };
+  document.addEventListener('mouseover', hot(true), { passive: true });
+  document.addEventListener('mouseout', hot(false), { passive: true });
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  document.fonts.ready.then(() => { measurePage(); onScroll(); });
+}
+
+/* ── Die Schleife ─────────────────────────────────────────────────── */
+let frameCount = 0, workFrames = 0;
+function animate() {
+  requestAnimationFrame(animate);
+  frameCount++;
+  const deltaTime = Math.min(clock.getDelta(), 0.05);   // nach einer Pause kein Sprung
+
+  // Der eigene Cursor gehört beiden Akten und läuft weiter, auch wenn die Bühne ruht.
+  outerCursorX += (cursorX - outerCursorX) * 0.2;
+  outerCursorY += (cursorY - outerCursorY) * 0.2;
+  if (dom.cursorOuter) { dom.cursorOuter.style.left = `${outerCursorX}px`; dom.cursorOuter.style.top = `${outerCursorY}px`; }
+
+  // Unsichtbare Bühne wird nicht gerechnet und nicht gezeichnet.
+  if (stageOpacity <= 0.01) return;
+  workFrames++;
+  if (mixer) mixer.update(deltaTime);
+
+  // 1. Zielscroll [0..1] — bezogen auf die Bühne, nicht auf die ganze Seite
+  const scrollTop = window.scrollY !== undefined ? window.scrollY : document.documentElement.scrollTop;
+  const targetScroll = Math.min(Math.max(scrollTop / stageH, 0), 1);
+
+  currentScroll += (targetScroll - currentScroll) * 0.025;
+
+  mouseX += (targetMouseX - mouseX) * 0.05;
+  mouseY += (targetMouseY - mouseY) * 0.05;
+
+  if (modelPivot) {
+    modelPivot.rotation.y = mouseX * 0.25 + pivotSpin(currentScroll);
+    modelPivot.rotation.x = mouseY * 0.15;
+  }
+
+  // 2. Funkenphysik — unter „Bewegung reduzieren" stehen die Funken still
+  if (sparkParticles && !reducedMotion) {
+    const positions = sparkParticles.geometry.attributes.position.array;
+    const time = clock.getElapsedTime();
+    const scrollVelocity = Math.abs(targetScroll - currentScroll);
+    const speedMultiplier = 1.0 + scrollVelocity * 9.0;
+    const turbulence = scrollVelocity * 0.8;
+
+    for (let i = 0; i < sparkCount; i++) {
+      const idx = i * 3;
+      const data = sparkData[i];
+      positions[idx]     += data.speedX * deltaTime * speedMultiplier;
+      positions[idx + 1] += data.speedY * deltaTime * speedMultiplier;
+      positions[idx + 2] += data.speedZ * deltaTime * speedMultiplier;
+
+      const currentSway = data.swayRadius * (1.0 + turbulence * 4.0);
+      positions[idx]     += Math.sin(time * data.swaySpeed + data.phase) * currentSway * deltaTime;
+      positions[idx + 2] += Math.cos(time * data.swaySpeed + data.phase) * currentSway * deltaTime;
+
+      if (positions[idx + 1] > 3.0 || Math.abs(positions[idx]) > 3.5 || Math.abs(positions[idx + 2]) > 3.5) {
+        positions[idx + 1] = -2.5;
+        positions[idx]     = (Math.random() - 0.5) * 3.0;
+        positions[idx + 2] = (Math.random() - 0.5) * 3.0;
+      }
+    }
+    sparkParticles.geometry.attributes.position.needsUpdate = true;
+  }
+
+  // 3. Kamera umkreist das Objekt 360°, getrieben vom Scroll.
+  // Kein zweiter Lerp auf der Position: die Weichheit kommt aus dem Scrollwert.
+  // Ein Positions-Lerp zieht die Kamera bei zügigem Scrollen von der Bahn — sie
+  // schneidet die Sehne, kommt dem Körper nahe, und vor allem läuft sie dem
+  // Drehwinkel hinterher, auf den die Nachführung des Objekts abgestimmt ist.
+  cameraTarget(currentScroll);
+  camera.position.copy(targetPos);
+  camera.lookAt(targetLookAt);
+
+  if (shaderUniforms) {
+    // unter „Bewegung reduzieren" atmet der Shader nicht von allein — nur der Scroll bewegt ihn
+    if (!reducedMotion) shaderUniforms.uTime.value = clock.getElapsedTime();
+    shaderUniforms.uMouse.value.set(mouseX, -mouseY);
+    shaderUniforms.uScroll.value = currentScroll;
+  }
+
+  updateSlides(currentScroll);
+  updateGridDots(currentScroll);
+  renderer.render(scene, camera);
+}
+
+/* ── Start ────────────────────────────────────────────────────────── */
+function init() {
+  splitTitlesIntoChars();
+
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color('#000000');
+  scene.fog = new THREE.FogExp2('#000000', 0.01);
+
+  camera = new THREE.PerspectiveCamera(50, sizes.width / sizes.height, 0.1, 100);
+  camera.position.set(0, 0.2, 3.0);
+  scene.add(camera);
+
+  createBackgroundShader();     // hängt die Wellen-Ebene als Kind an die Kamera
+
+  renderer = new THREE.WebGLRenderer({
+    canvas: canvas,
+    antialias: true,
+    alpha: false,
+    powerPreference: "high-performance"
+  });
+  renderer.setSize(sizes.width, sizes.height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 2.2;
+
+  // Dramatische Beleuchtung (Chiaroscuro)
+  const ambientLight = new THREE.AmbientLight('#ffffff', 0.1);
+  scene.add(ambientLight);
+
+  // Führungslicht: sehr helles Weiß von oben rechts, wirft Schatten
+  const keyLight = new THREE.SpotLight('#ffffff', 18.0);
+  keyLight.position.set(4, 6, 3);
+  keyLight.angle = Math.PI / 4;
+  keyLight.penumbra = 0.9;
+  keyLight.castShadow = true;
+  keyLight.shadow.mapSize.width = 2048;
+  keyLight.shadow.mapSize.height = 2048;
+  keyLight.shadow.camera.near = 1.0;
+  keyLight.shadow.camera.far = 15;
+  keyLight.shadow.bias = -0.001;
+  scene.add(keyLight);
+
+  // Kantenlicht: kühles Blau von hinten links, zeichnet die Silhouette
+  const rimLight = new THREE.DirectionalLight('#e3f2ff', 10.0);
+  rimLight.position.set(-5, 3, -4);
+  scene.add(rimLight);
+
+  // Aufhelllicht: sehr schwaches warmes Creme von unten vorn
+  const fillLight = new THREE.DirectionalLight('#fff3e6', 0.8);
+  fillLight.position.set(-2, -4, 2);
+  scene.add(fillLight);
+
+  createEnvironment();
+  createSparks();
+  buildOuroboros();
+
+  onWindowResize();
+  measurePage();
+  onScroll();
+  animate();
+  setupNavigation();
+  setupDocument();
+
+  // Messschnittstelle für die Abnahme: nur lesen, nichts steuern
+  window.__bronze = {
+    scroll: () => currentScroll, frames: () => frameCount, work: () => workFrames,
+    stageH: () => stageH, opacity: () => stageOpacity, camera: () => camera.position.toArray(),
+    project: (x, y, z) => { const v = new THREE.Vector3(x, y, z).project(camera); return [(v.x + 1) / 2 * sizes.width, (1 - v.y) / 2 * sizes.height]; },
+    jump: (s) => {                       // stellt den eingeschwungenen Zustand für Scroll s sofort her
+      currentScroll = s;
+      cameraTarget(s);
+      camera.position.copy(targetPos);
+      camera.lookAt(targetLookAt);
+      camera.updateMatrixWorld(true);
+      modelPivot.rotation.y = mouseX * 0.25 + pivotSpin(s);
+      modelPivot.updateMatrixWorld(true);
+    },
+    // Wie ringförmig steht der Ring gerade im Bild? Mittellinie projizieren,
+    // Flächeninhalt gegen den Kreis desselben Durchmessers halten:
+    // 1.0 = frontal, 0.0 = Kante oder gefaltete Acht. Zusätzlich der kleinste
+    // Abstand der Kamera zur Mittellinie, gegen die Hüllkugel gerechnet.
+    ring: () => {
+      gltfModel.updateMatrixWorld(true);
+      const p = ringCentreline.map(v => gltfModel.localToWorld(v.clone()));
+      let near = Infinity;
+      for (const w of p) near = Math.min(near, camera.position.distanceTo(w));
+      const q = p.map(w => { const v = w.clone().project(camera); return [v.x * sizes.width / 2, v.y * sizes.height / 2]; });
+      let a = 0, d = 0;
+      for (let i = 0; i < q.length; i++) {
+        const j = (i + 1) % q.length;
+        a += q[i][0] * q[j][1] - q[j][0] * q[i][1];
+        if (i % 4) continue;                       // Durchmesser aus jedem vierten Punkt — die Kurve ist glatt
+        for (let k = i + 4; k < q.length; k += 4) d = Math.max(d, Math.hypot(q[i][0] - q[k][0], q[i][1] - q[k][1]));
+      }
+      const area = Math.abs(a) / 2;
+      return { ringness: d > 0 ? 4 * area / (Math.PI * d * d) : 0, span: d, near };
+    }
+  };
+}
+
+if (document.readyState === 'loading') window.addEventListener('DOMContentLoaded', init);
+else init();
+</script>
+</body>
 </html>
