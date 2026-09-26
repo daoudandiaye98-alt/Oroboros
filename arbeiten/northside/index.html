@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Northside Dental Studio — The dentist you won't put off · Concept by Oroboros Design</title>
+<meta name="description" content="Concept website for a fictional family and cosmetic dental practice. Designed and built by Oroboros Design.">
+<meta name="robots" content="noindex">
+<script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('ob-bewegt')</script>
+<link rel="stylesheet" href="/arbeiten/_gemeinsam/bewegung.css">
+<style>
+@font-face{font-family:Jakarta;src:url(/arbeiten/_gemeinsam/fonts/plus-jakarta-sans-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:Jakarta;src:url(/arbeiten/_gemeinsam/fonts/plus-jakarta-sans-latin-500-normal.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:Jakarta;src:url(/arbeiten/_gemeinsam/fonts/plus-jakarta-sans-latin-600-normal.woff2) format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:Jakarta;src:url(/arbeiten/_gemeinsam/fonts/plus-jakarta-sans-latin-700-normal.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:Jakarta;src:url(/arbeiten/_gemeinsam/fonts/plus-jakarta-sans-latin-800-normal.woff2) format("woff2");font-weight:800;font-display:swap}
+@font-face{font-family:Jakarta;src:url(/arbeiten/_gemeinsam/fonts/plus-jakarta-sans-latin-400-italic.woff2) format("woff2");font-weight:400;font-style:italic;font-display:swap}
+:root{
+  --weiss:#fbfdfd; --nebel:#eef5f4; --minze:#d7ece8; --teal:#16807c; --tief:#0d3b3d; --tinte:#0b1f22; --grau:#5b6d70; --linie:rgba(11,31,34,.1); --koralle:#ff7a59;
+  --klein:cubic-bezier(.22,.61,.36,1); --drama:cubic-bezier(.77,0,.175,1);
+  --rand:clamp(20px,5vw,88px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--weiss);color:var(--tinte)}
+body{font:400 17px/1.65 Jakarta,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+h1,h2,h3{font-weight:700;letter-spacing:-.035em;line-height:1.02}
+.kicker{display:inline-flex;align-items:center;gap:10px;font:700 12px/1 Jakarta,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
+.kicker::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px var(--minze)}
+.knopf{display:inline-flex;align-items:center;gap:12px;white-space:nowrap;padding:18px 26px;border-radius:14px;background:var(--teal);color:#fff;text-decoration:none;font:700 15px/1 Jakarta,sans-serif;border:0;cursor:pointer;transition:transform .5s var(--klein),background .5s var(--klein),box-shadow .5s var(--klein);box-shadow:0 10px 30px -10px rgba(22,128,124,.55)}
+.knopf:hover{transform:translateY(-2px);background:var(--tief)}
+.knopf.hell{background:#fff;color:var(--tinte);box-shadow:inset 0 0 0 1.5px var(--linie)}
+.knopf.hell:hover{box-shadow:inset 0 0 0 1.5px var(--tinte);background:#fff}
+.knopf span{transition:transform .5s var(--klein)}.knopf:hover span{transform:translateX(4px)}
+.sektion{padding:clamp(90px,13vh,160px) var(--rand)}
+.titel{font-size:clamp(36px,4.6vw,72px);max-width:16ch}
+
+/* Kopf */
+.kopf{position:fixed;inset:0 0 auto;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:16px var(--rand);transition:background .5s var(--klein),box-shadow .5s var(--klein)}
+.kopf.fest{background:rgba(251,253,253,.88);backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--linie)}
+.marke{display:flex;align-items:center;gap:10px;font:800 21px/1 Jakarta,sans-serif;letter-spacing:-.04em;text-decoration:none}
+.marke i{width:26px;height:26px;border-radius:9px 9px 13px 13px;background:var(--teal);position:relative}
+.marke i::after{content:"";position:absolute;left:50%;bottom:-1px;width:3px;height:9px;background:var(--weiss);transform:translateX(-50%);border-radius:2px}
+.marke small{font:600 12px/1 Jakarta,sans-serif;letter-spacing:0;color:var(--grau)}
+.kopf nav{display:flex;gap:28px;align-items:center}
+.kopf nav a:not(.knopf){font:600 14px/1 Jakarta,sans-serif;text-decoration:none;color:var(--grau)}
+.kopf nav a:not(.knopf):hover{color:var(--tinte)}
+.kopf .knopf{padding:13px 18px;border-radius:11px;font-size:14px}
+@media(max-width:900px){.kopf nav a:not(.knopf){display:none}}@media(max-width:600px){.marke small{display:none}}
+
+/* Hero */
+.hero{min-height:100vh;display:grid;grid-template-columns:1.05fr .95fr;gap:5vw;align-items:center;padding:120px var(--rand) 70px;background:radial-gradient(90% 70% at 85% 30%,var(--nebel),transparent 70%)}
+.hero h1{font-size:clamp(46px,6.4vw,104px);letter-spacing:-.05em;margin:26px 0 24px;max-width:11ch}
+.hero h1 em{font-style:italic;font-weight:400;color:var(--teal)}
+.hero .lead{max-width:34rem;color:var(--grau);font-size:clamp(17px,1.3vw,20px)}
+.hero .lead b{color:var(--tinte)}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.vertrauen{display:flex;flex-wrap:wrap;gap:28px;margin-top:44px;padding-top:26px;border-top:1px solid var(--linie);font-size:14px;color:var(--grau)}
+.vertrauen b{display:block;color:var(--tinte);font-size:20px;letter-spacing:-.02em}
+.sterne{color:#f5a623;letter-spacing:2px}
+.hero .buehne{position:relative}
+.hero .foto{border-radius:28px;overflow:hidden;aspect-ratio:4/5;box-shadow:0 40px 80px -30px rgba(13,59,61,.35)}
+.hero .foto img{width:100%;height:100%;object-fit:cover}
+.schwebe{position:absolute;background:#fff;border-radius:16px;padding:14px 18px;box-shadow:0 20px 50px -18px rgba(11,31,34,.3);font-size:13px;line-height:1.35;display:flex;gap:12px;align-items:center}
+.schwebe b{display:block;font-size:15px}
+.schwebe .punkt{width:38px;height:38px;border-radius:11px;background:var(--minze);display:grid;place-items:center;color:var(--teal);font-weight:800;flex:none}
+.schwebe.a{left:-34px;top:14%}
+.schwebe.b{right:-22px;bottom:12%}
+.live{width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block;margin-right:6px;box-shadow:0 0 0 0 rgba(34,197,94,.6);animation:puls 2s infinite}
+@keyframes puls{70%{box-shadow:0 0 0 8px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+@media(max-width:900px){.hero{grid-template-columns:1fr;padding-top:104px}.schwebe.a{left:10px;top:18px}.schwebe.b{right:10px;bottom:18px}.hero .foto{aspect-ratio:4/4.4}}
+
+/* Laufband */
+.band{background:var(--tief);color:#dff1ee;overflow:hidden;padding:20px 0;white-space:nowrap}
+.band .spur{display:inline-flex;gap:56px;animation:lauf 38s linear infinite;font:600 15px/1 Jakarta,sans-serif}
+.band .spur span::before{content:"✦";color:var(--koralle);margin-right:14px}
+@keyframes lauf{to{transform:translateX(-50%)}}
+
+/* Lächeln — Szene */
+.laecheln{position:relative;height:260vh}
+.laecheln .fix{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;place-items:center;background:var(--tief)}
+.laecheln .rahmen{position:absolute;inset:0;clip-path:inset(30% 34% 30% 34% round 28px);will-change:clip-path}
+.laecheln .rahmen img{width:100%;height:100%;object-fit:cover;transform:scale(1.25)}
+.laecheln .rahmen::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,31,34,0) 40%,rgba(11,31,34,.6))}
+.laecheln .satz{position:relative;z-index:2;text-align:center;color:#fff;padding:0 var(--rand);text-shadow:0 2px 40px rgba(11,31,34,.35)}
+.laecheln .satz h2{font-size:clamp(40px,7.4vw,128px);letter-spacing:-.05em}
+.laecheln .unten{position:absolute;z-index:2;left:var(--rand);right:var(--rand);bottom:6vh;display:flex;justify-content:space-between;align-items:end;gap:24px;color:#fff;opacity:0}
+.laecheln .unten p{max-width:30rem;font-size:18px}
+@media(max-width:900px){.laecheln .unten{bottom:112px}.laecheln .unten .knopf{display:none}}
+
+/* Behandlungen */
+.kopfzeile{display:flex;justify-content:space-between;align-items:end;gap:30px;flex-wrap:wrap;margin-bottom:54px}
+.kopfzeile p{max-width:28rem;color:var(--grau)}
+.raster{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.karte{position:relative;background:var(--nebel);border-radius:22px;padding:30px;display:flex;flex-direction:column;gap:12px;min-height:300px;overflow:hidden;transition:transform .6s var(--klein),background .6s var(--klein)}
+.karte:hover{transform:translateY(-6px);background:var(--minze)}
+.karte .nr{font:700 13px/1 Jakarta,sans-serif;color:var(--teal)}
+.karte h3{font-size:28px}
+.karte p{color:var(--grau);font-size:15px}
+.karte .preis{margin-top:auto;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.karte .preis b{font-size:30px;letter-spacing:-.04em}
+.karte .preis small{font-size:13px;color:var(--grau)}
+.karte.hervor{background:var(--tief);color:#fff}
+.karte.hervor p,.karte.hervor .preis small{color:#b9d7d3}
+.karte.hervor .nr{color:var(--koralle)}
+.karte.hervor:hover{background:var(--tinte)}
+.karte .etikett{position:absolute;top:26px;right:26px;background:var(--koralle);color:#fff;font:700 11px/1 Jakarta,sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:7px 10px;border-radius:99px}
+@media(max-width:1000px){.raster{grid-template-columns:1fr 1fr}}@media(max-width:600px){.raster{grid-template-columns:1fr}.karte{min-height:0}}
+
+/* Erster Besuch */
+.besuch{background:var(--nebel);border-radius:36px;margin:0 clamp(10px,2vw,28px)}
+.schritte{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:70px}
+.schritte .linie{position:absolute;left:0;right:0;top:27px;height:2px;background:var(--linie)}
+.schritte .linie i{position:absolute;inset:0;background:var(--teal);transform-origin:left;transform:scaleX(0)}
+.schritt{position:relative}
+.schritt .kreis{width:56px;height:56px;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 2px var(--linie);display:grid;place-items:center;font:800 18px/1 Jakarta,sans-serif;margin-bottom:26px;transition:background .5s,color .5s,box-shadow .5s}
+.schritt.an .kreis{background:var(--teal);color:#fff;box-shadow:none}
+.schritt h3{font-size:24px;margin-bottom:10px}
+.schritt p{color:var(--grau);font-size:15px;max-width:22rem}
+.schritt .zeit{display:inline-block;margin-top:14px;font:700 12px/1 Jakarta,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--teal)}
+@media(max-width:800px){.schritte{grid-template-columns:1fr;gap:34px}.schritte .linie{display:none}}
+
+/* Praxis */
+.praxis{display:grid;grid-template-columns:1.1fr .9fr;gap:6vw;align-items:center}
+.praxis .bild{border-radius:28px;overflow:hidden;aspect-ratio:4/3.3}
+.praxis .bild img{width:100%;height:118%;object-fit:cover}
+.liste{list-style:none;margin-top:30px;display:grid;gap:16px}
+.liste li{display:flex;gap:14px;align-items:flex-start;font-size:16px}
+.liste li::before{content:"";flex:none;width:22px;height:22px;margin-top:2px;border-radius:7px;background:var(--minze) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2316807c' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E") center/14px no-repeat}
+@media(max-width:900px){.praxis{grid-template-columns:1fr}}
+
+/* Zahlen */
+.zahlen{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;border-top:1px solid var(--linie);border-bottom:1px solid var(--linie);padding:50px 0}
+.zahlen div b{display:block;font:800 clamp(40px,5vw,76px)/1 Jakarta,sans-serif;letter-spacing:-.05em;color:var(--tief)}
+.zahlen div span{color:var(--grau);font-size:14px}
+@media(max-width:800px){.zahlen{grid-template-columns:1fr 1fr;row-gap:40px}}
+
+/* Team */
+.team{display:grid;grid-template-columns:.9fr 1.1fr;gap:6vw;align-items:center}
+.team .bild{border-radius:28px;overflow:hidden}
+.team blockquote{font:600 clamp(22px,2.2vw,32px)/1.3 Jakarta,sans-serif;letter-spacing:-.025em;margin:26px 0 22px}
+.team cite{font-style:normal;color:var(--grau);font-size:15px}
+@media(max-width:900px){.team{grid-template-columns:1fr}.team .bild{order:-1}}
+
+/* Stimmen */
+.stimmen .raster3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.stimme{background:#fff;border-radius:22px;padding:30px;box-shadow:inset 0 0 0 1px var(--linie);display:flex;flex-direction:column;gap:18px}
+.stimme p{font-size:17px;line-height:1.55}
+.stimme small{color:var(--grau);margin-top:auto}
+.hinweis{margin-top:22px;font-size:13px;color:var(--grau)}
+@media(max-width:900px){.stimmen .raster3{grid-template-columns:1fr}}
+
+/* Kosten */
+.kosten{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.kosten .feld{border-radius:26px;padding:clamp(28px,3vw,46px);background:var(--nebel)}
+.kosten .feld.plan{background:var(--tief);color:#fff}
+.kosten .feld h3{font-size:clamp(26px,2.4vw,36px);margin:18px 0 14px}
+.kosten .feld p{color:var(--grau)}
+.kosten .feld.plan p{color:#b9d7d3}
+.kosten .gross{font:800 clamp(56px,6vw,92px)/1 Jakarta,sans-serif;letter-spacing:-.05em;margin:24px 0 6px}
+.kosten .gross small{font-size:18px;font-weight:600;letter-spacing:0;color:#b9d7d3}
+.kosten ul{list-style:none;margin:22px 0 30px;display:grid;gap:10px;font-size:15px}
+.kosten ul li::before{content:"✓";color:var(--koralle);font-weight:800;margin-right:10px}
+.kosten .feld:not(.plan) ul li::before{color:var(--teal)}
+@media(max-width:900px){.kosten{grid-template-columns:1fr}}
+
+/* FAQ */
+.faq{display:grid;grid-template-columns:.8fr 1.2fr;gap:6vw}
+.faq details{border-bottom:1px solid var(--linie);padding:24px 0}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:20px;font:700 19px/1.35 Jakarta,sans-serif;letter-spacing:-.015em}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-weight:500;font-size:26px;line-height:.8;color:var(--teal);transition:transform .4s var(--klein)}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{margin-top:12px;color:var(--grau);max-width:40rem}
+@media(max-width:900px){.faq{grid-template-columns:1fr}}
+
+/* Termin */
+.termin{background:var(--tinte);color:#fff;border-radius:36px;margin:0 clamp(10px,2vw,28px) clamp(10px,2vw,28px);display:grid;grid-template-columns:1fr 1fr;gap:6vw;align-items:center}
+.termin h2{font-size:clamp(40px,5vw,84px);letter-spacing:-.05em}
+.termin p{color:#a9c3c0;margin-top:20px;max-width:28rem}
+.planer{background:#fff;color:var(--tinte);border-radius:24px;padding:28px}
+.planer h3{font-size:18px;letter-spacing:-.01em;margin-bottom:16px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.chip{border:0;cursor:pointer;font:600 14px/1 Jakarta,sans-serif;padding:12px 14px;border-radius:11px;background:var(--nebel);color:var(--tinte);transition:background .3s,color .3s,transform .3s var(--klein)}
+.chip:hover{transform:translateY(-2px)}
+.chip[aria-pressed="true"]{background:var(--teal);color:#fff}
+.chip small{display:block;font-weight:500;font-size:11px;opacity:.7;margin-top:4px}
+.auswahl{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;border-top:1px solid var(--linie);padding-top:20px}
+.auswahl span{font-size:14px;color:var(--grau)}
+.auswahl b{display:block;color:var(--tinte);font-size:17px}
+@media(max-width:900px){.termin{grid-template-columns:1fr}}
+
+.fuss{padding:40px var(--rand) 110px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--grau)}
+
+/* Leiste mobil */
+.leiste{display:none}
+@media(max-width:900px){.leiste{display:flex;position:fixed;left:12px;right:12px;bottom:12px;z-index:60;gap:8px;background:rgba(251,253,253,.92);backdrop-filter:blur(12px);padding:8px;border-radius:18px;box-shadow:0 12px 40px -12px rgba(11,31,34,.35)}.leiste .knopf{flex:1;justify-content:center;padding:15px 12px}.ob-schild{bottom:92px}}
+</style>
+</head>
+<body>
+
+<header class="kopf" id="kopf">
+  <a class="marke" href="#top"><i></i>Northside <small>Dental Studio</small></a>
+  <nav>
+    <a href="#behandlungen">Treatments</a>
+    <a href="#besuch">New patients</a>
+    <a href="#kosten">Pricing</a>
+    <a href="#faq">FAQ</a>
+    <a class="knopf" href="#termin">Book online <span>→</span></a>
+  </nav>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div>
+      <span class="kicker" data-auftritt="0.1">Family &amp; cosmetic dentistry · Open Saturdays</span>
+      <h1 data-woerter="0.07">The dentist you <em>won't</em> put off.</h1>
+      <p class="lead" data-auftritt="0.35">Gentle care, prices you see before you sit down, and appointments this week. <b>New patients: exam, x-rays and a professional clean for $99.</b></p>
+      <div class="ctas" data-auftritt="0.5">
+        <a class="knopf" href="#termin">Book your $99 first visit <span>→</span></a>
+        <a class="knopf hell" href="#kosten">See all prices</a>
+      </div>
+      <div class="vertrauen" data-auftritt="0.65">
+        <div><b><span class="sterne">★★★★★</span> 4.9</b>1,200+ patient reviews</div>
+        <div><b>This week</b>Same-week appointments</div>
+        <div><b>Direct billing</b>With most insurers</div>
+      </div>
+    </div>
+    <div class="buehne">
+      <div class="foto" id="heldfoto"><img src="/arbeiten/northside/img/hero.webp" alt="Patient relaxing in a bright, calm dental waiting room" width="1200" height="1500"></div>
+      <div class="schwebe a" data-auftritt="0.9"><span class="punkt">9:40</span><div><b><span class="live"></span>Next free slot</b>Tomorrow, 9:40 am</div></div>
+      <div class="schwebe b" data-auftritt="1.1"><span class="punkt">$0</span><div><b>Surprises on the bill</b>Written quote before every treatment</div></div>
+    </div>
+  </section>
+
+  <div class="band" aria-hidden="true"><div class="spur">
+    <span>Evening &amp; Saturday hours</span><span>Emergency slots every day</span><span>Sedation for nervous patients</span><span>Interest-free payment plans</span><span>Free parking on site</span><span>Kids see the dentist free with a parent plan</span>
+    <span>Evening &amp; Saturday hours</span><span>Emergency slots every day</span><span>Sedation for nervous patients</span><span>Interest-free payment plans</span><span>Free parking on site</span><span>Kids see the dentist free with a parent plan</span>
+  </div></div>
+
+  <section class="laecheln" id="laecheln">
+    <div class="fix">
+      <div class="rahmen" id="rahmen"><img src="/arbeiten/northside/img/laecheln.webp" alt="Close-up of a natural, healthy smile" width="1400" height="930"></div>
+      <div class="satz" id="satz"><h2 data-woerter="0.06">Confidence starts with a check-up.</h2></div>
+      <div class="unten" id="unten">
+        <p>Most smiles we fix started as something small that was put off. We make the first step the easiest one.</p>
+        <a class="knopf" href="#termin">Book a check-up <span>→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sektion" id="behandlungen">
+    <div class="kopfzeile">
+      <div><span class="kicker">Treatments &amp; prices</span><h2 class="titel" data-woerter="0.05" style="margin-top:22px">Clear prices. Posted, not whispered.</h2></div>
+      <p data-auftritt>Every price below is what you pay without insurance. With insurance it's usually less, and we check your coverage before you book.</p>
+    </div>
+    <div class="raster">
+      <article class="karte hervor" data-auftritt="0"><span class="etikett">New patients</span><span class="nr">01</span><h3>First visit</h3><p>Full exam, digital x-rays, professional clean and a written plan. About 60 minutes.</p><div class="preis"><b>$99</b><small>instead of $260</small></div></article>
+      <article class="karte" data-auftritt="0.08"><span class="nr">02</span><h3>Whitening</h3><p>In-chair or take-home trays. Up to eight shades lighter, checked for sensitivity first.</p><div class="preis"><b>from $390</b><small>or $33/mo</small></div></article>
+      <article class="karte" data-auftritt="0.16"><span class="nr">03</span><h3>Clear aligners</h3><p>Straighter teeth without metal. 3D scan and a preview of your result at the first consult.</p><div class="preis"><b>from $3,200</b><small>or $89/mo</small></div></article>
+      <article class="karte" data-auftritt="0"><span class="nr">04</span><h3>Implants</h3><p>A permanent tooth that looks and feels like yours. Planned with 3D imaging, done in-house.</p><div class="preis"><b>from $1,900</b><small>or $79/mo</small></div></article>
+      <article class="karte" data-auftritt="0.08"><span class="nr">05</span><h3>Veneers</h3><p>Thin porcelain shells for chipped, stained or uneven teeth. You approve a mock-up first.</p><div class="preis"><b>from $850</b><small>per tooth</small></div></article>
+      <article class="karte" data-auftritt="0.16"><span class="nr">06</span><h3>Emergency visit</h3><p>Toothache, a broken tooth or swelling. Seen the same day, pain handled first.</p><div class="preis"><b>$79</b><small>same day</small></div></article>
+    </div>
+  </section>
+
+  <section class="sektion besuch" id="besuch">
+    <span class="kicker">Your first visit</span>
+    <h2 class="titel" data-woerter="0.05" style="margin-top:22px">Three steps. No lecture.</h2>
+    <div class="schritte" id="schritte">
+      <div class="linie"><i id="schrittlinie"></i></div>
+      <div class="schritt"><div class="kreis">1</div><h3>Book in 60 seconds</h3><p>Pick a time online. We text you a reminder and a short form, so there's no clipboard in the waiting room.</p><span class="zeit">1 minute</span></div>
+      <div class="schritt"><div class="kreis">2</div><h3>Check-up and clean</h3><p>Exam, x-rays and a gentle clean. You see every image on the screen and we explain what we see.</p><span class="zeit">About 60 minutes</span></div>
+      <div class="schritt"><div class="kreis">3</div><h3>Your plan in writing</h3><p>What's urgent, what can wait and what it costs. Nothing starts until you say yes.</p><span class="zeit">Take it home</span></div>
+    </div>
+  </section>
+
+  <section class="sektion praxis">
+    <div class="bild" id="praxisbild"><img src="/arbeiten/northside/img/raum.webp" alt="Bright treatment room with a city view" width="1600" height="1062" loading="lazy"></div>
+    <div>
+      <span class="kicker">For nervous patients</span>
+      <h2 class="titel" data-woerter="0.05" style="margin-top:22px">Built so you actually relax.</h2>
+      <ul class="liste" data-auftritt>
+        <li>We explain before we touch. You can raise a hand and we stop.</li>
+        <li>Noise-cancelling headphones and a screen on the ceiling.</li>
+        <li>Numbing gel before every injection, sedation if you want it.</li>
+        <li>Longer first appointments, so nobody rushes you.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sektion" style="padding-top:0">
+    <div class="zahlen" id="zahlen">
+      <div><b data-zahl="12">0</b><span>years in the neighbourhood</span></div>
+      <div><b data-zahl="9400" data-trenner="1">0</b><span>patients looked after</span></div>
+      <div><b data-zahl="4.9" data-komma="1">0</b><span>average rating</span></div>
+      <div><b data-zahl="24" data-nach="h">0</b><span>to see you in an emergency</span></div>
+    </div>
+  </section>
+
+  <section class="sektion team" style="padding-top:0">
+    <div>
+      <span class="kicker">The team</span>
+      <blockquote data-woerter="0.02">"People don't avoid the dentist because they don't care. They avoid it because nobody explained anything. So we explain everything."</blockquote>
+      <cite>Dr. Maya Ellis, lead dentist · fictional</cite>
+      <div style="margin-top:34px" data-auftritt><a class="knopf hell" href="#termin">Meet us at your first visit <span>→</span></a></div>
+    </div>
+    <div class="bild" data-auftritt><img src="/arbeiten/northside/img/team.webp" alt="Three members of the dental team in the practice" width="1600" height="1062" loading="lazy"></div>
+  </section>
+
+  <section class="sektion stimmen" style="padding-top:0">
+    <div class="kopfzeile"><div><span class="kicker">Reviews</span><h2 class="titel" data-woerter="0.05" style="margin-top:22px">What patients say after.</h2></div></div>
+    <div class="raster3">
+      <div class="stimme" data-auftritt="0"><span class="sterne">★★★★★</span><p>"I hadn't been in six years. Nobody judged me, they just showed me the x-rays and made a plan I could afford."</p><small>Placeholder · First visit</small></div>
+      <div class="stimme" data-auftritt="0.08"><span class="sterne">★★★★★</span><p>"Cracked a tooth on a Saturday morning and was in the chair by eleven. The price was exactly what they said."</p><small>Placeholder · Emergency</small></div>
+      <div class="stimme" data-auftritt="0.16"><span class="sterne">★★★★★</span><p>"The aligner preview sold me. Seeing the end result before paying anything made it an easy yes."</p><small>Placeholder · Clear aligners</small></div>
+    </div>
+    <p class="hinweis">Concept website: reviews are placeholders written for this design and would be replaced by real, verified reviews.</p>
+  </section>
+
+  <section class="sektion" id="kosten" style="padding-top:0">
+    <div class="kopfzeile"><div><span class="kicker">Insurance &amp; payment</span><h2 class="titel" data-woerter="0.05" style="margin-top:22px">No surprises on the bill.</h2></div><p data-auftritt>Insured or not, you know the number before we start.</p></div>
+    <div class="kosten">
+      <div class="feld" data-auftritt="0">
+        <span class="kicker">With insurance</span>
+        <h3>We bill your insurer directly.</h3>
+        <p>Send us your plan details when you book. We check what's covered and tell you your share before the appointment.</p>
+        <ul><li>Coverage checked before you come in</li><li>Claims filed for you</li><li>Interest-free plans for the rest</li></ul>
+        <a class="knopf hell" href="#termin">Check my coverage <span>→</span></a>
+      </div>
+      <div class="feld plan" data-auftritt="0.1">
+        <span class="kicker" style="color:#8fd3cc">No insurance</span>
+        <h3>The Northside membership.</h3>
+        <div class="gross">$29<small> / month</small></div>
+        <ul><li>Two check-ups and cleans a year</li><li>All routine x-rays</li><li>One emergency visit included</li><li>15% off every other treatment</li></ul>
+        <a class="knopf" href="#termin" style="background:var(--koralle);box-shadow:none">Join and book <span>→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sektion faq" id="faq" style="padding-top:0">
+    <div><span class="kicker">FAQ</span><h2 class="titel" data-woerter="0.05" style="margin-top:22px">Asked before every first visit.</h2></div>
+    <div data-auftritt>
+      <details><summary>What's included in the $99 first visit?</summary><p>A full exam, digital x-rays, a professional clean and a written treatment plan with prices. If you need a deep clean instead, we tell you first and the $99 counts towards it.</p></details>
+      <details><summary>I'm really nervous. Can you help?</summary><p>Yes. Tell us when you book. We plan a longer appointment, explain every step before it happens and offer sedation if you want it.</p></details>
+      <details><summary>Do you take my insurance?</summary><p>We work with most major insurers and bill them directly. Add your plan when you book and we confirm your coverage before you come in.</p></details>
+      <details><summary>Can I pay in instalments?</summary><p>Treatments over $300 can be split into interest-free monthly payments. The monthly price is shown next to every treatment.</p></details>
+      <details><summary>What if it's an emergency?</summary><p>We keep emergency slots open every day, including Saturdays. Book online or call, and we'll see you the same day.</p></details>
+    </div>
+  </section>
+
+  <section class="sektion termin" id="termin">
+    <div>
+      <span class="kicker" style="color:#8fd3cc">Book online</span>
+      <h2 data-woerter="0.05" style="margin-top:22px">Pick a time. We'll handle the rest.</h2>
+      <p data-auftritt>New patients: exam, x-rays and clean for $99. You get a text confirmation and a reminder the day before.</p>
+    </div>
+    <div class="planer" data-auftritt="0.1">
+      <h3>1 · Choose a day</h3>
+      <div class="chips" id="tage"></div>
+      <h3>2 · Choose a time</h3>
+      <div class="chips" id="zeiten"></div>
+      <div class="auswahl">
+        <span>Your visit<b id="wahl">Tomorrow · 9:40 am</b></span>
+        <a class="knopf" id="buchen" href="mailto:hello@northside.example?subject=First%20visit">Request this time <span>→</span></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="fuss">
+  <span>Northside Dental Studio · Mon–Sat, 8 am–7 pm</span>
+  <span>Concept website — fictional practice</span>
+</footer>
+
+<div class="leiste">
+  <a class="knopf" href="#termin">Book $99 visit</a>
+  <a class="knopf hell" href="#kosten">Prices</a>
+</div>
+
+<a class="ob-schild" href="/#arbeiten"><i></i>Concept by Oroboros Design</a>
+
+<script src="/arbeiten/_gemeinsam/vendor/gsap.min.js"></script>
+<script src="/arbeiten/_gemeinsam/vendor/ScrollTrigger.min.js"></script>
+<script src="/arbeiten/_gemeinsam/vendor/lenis.min.js"></script>
+<script src="/arbeiten/_gemeinsam/bewegung.js"></script>
+<script>
+(function(){
+  var kopf=document.getElementById('kopf');
+  function kopfZustand(){kopf.classList.toggle('fest',window.scrollY>30)}
+  kopfZustand();window.addEventListener('scroll',kopfZustand,{passive:true});
+
+  /* Mini-Planer: Tage und Zeiten, Auswahl oben zusammengefasst */
+  var namen=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  var tage=document.getElementById('tage'),zeiten=document.getElementById('zeiten'),wahl=document.getElementById('wahl'),buchen=document.getElementById('buchen');
+  var heute=new Date(),gewaehlt={tag:null,zeit:'9:40 am'};
+  var liste=[];for(var d=1;liste.length<6;d++){var t=new Date(heute);t.setDate(heute.getDate()+d);if(t.getDay()!==0)liste.push(t)}
+  liste.forEach(function(t,i){
+    var b=document.createElement('button');b.type='button';b.className='chip';
+    b.innerHTML=(i===0?'Tomorrow':namen[t.getDay()])+'<small>'+t.toLocaleDateString('en-US',{month:'short',day:'numeric'})+'</small>';
+    b.setAttribute('aria-pressed',i===0?'true':'false');
+    b.dataset.name=i===0?'Tomorrow':namen[t.getDay()]+' '+t.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+    tage.appendChild(b);
+  });
+  gewaehlt.tag='Tomorrow';
+  ['8:20 am','9:40 am','11:00 am','1:30 pm','4:10 pm','6:00 pm'].forEach(function(z){
+    var b=document.createElement('button');b.type='button';b.className='chip';b.textContent=z;b.dataset.name=z;
+    b.setAttribute('aria-pressed',z===gewaehlt.zeit?'true':'false');zeiten.appendChild(b);
+  });
+  function waehle(gruppe,feld){gruppe.addEventListener('click',function(e){
+    var b=e.target.closest('.chip');if(!b)return;
+    gruppe.querySelectorAll('.chip').forEach(function(c){c.setAttribute('aria-pressed','false')});
+    b.setAttribute('aria-pressed','true');gewaehlt[feld]=b.dataset.name;
+    wahl.textContent=gewaehlt.tag+' · '+gewaehlt.zeit;
+    buchen.href='mailto:hello@northside.example?subject='+encodeURIComponent('First visit: '+gewaehlt.tag+', '+gewaehlt.zeit);
+  })}
+  waehle(tage,'tag');waehle(zeiten,'zeit');
+
+  /* Zahlen */
+  function zaehle(el){
+    var ziel=parseFloat(el.dataset.zahl),komma=el.dataset.komma?1:0,nach=el.dataset.nach||'';
+    function setze(v){var s=komma?v.toFixed(1):Math.round(v).toString();if(el.dataset.trenner)s=Number(s).toLocaleString('en-US');el.textContent=s+nach}
+    if(!window.gsap||window.OB.reduziert){setze(ziel);return}
+    var o={v:0};gsap.to(o,{v:ziel,duration:1.8,ease:'power3.out',onUpdate:function(){setze(o.v)}});
+  }
+  var zahlen=document.querySelectorAll('[data-zahl]');
+  if(!window.gsap||window.OB.reduziert){zahlen.forEach(zaehle);document.querySelectorAll('.schritt').forEach(function(s){s.classList.add('an')});return}
+
+  ScrollTrigger.create({trigger:'#zahlen',start:'top 92%',once:true,onEnter:function(){zahlen.forEach(zaehle)}});
+
+  /* Hero: Foto kommt weich herein */
+  gsap.fromTo('#heldfoto',{clipPath:'inset(12% 8% 12% 8% round 28px)',scale:1.06},{clipPath:'inset(0% 0% 0% 0% round 28px)',scale:1,duration:1.6,ease:'expo.inOut',delay:.15});
+  gsap.to('#heldfoto img',{yPercent:8,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
+  gsap.to('.schwebe.a',{y:-10,duration:2.6,ease:'sine.inOut',yoyo:true,repeat:-1});
+  gsap.to('.schwebe.b',{y:10,duration:3.1,ease:'sine.inOut',yoyo:true,repeat:-1});
+
+  /* Lächeln: Rahmen öffnet sich zur ganzen Fläche, Satz wird weiß */
+  var tl=gsap.timeline({scrollTrigger:{trigger:'#laecheln',start:'top top',end:'bottom bottom',scrub:.6}});
+  tl.to('#rahmen',{clipPath:'inset(0% 0% 0% 0% round 0px)',ease:'power2.inOut',duration:1})
+    .to('#rahmen img',{scale:1,ease:'power2.inOut',duration:1},0)
+    .to('#satz',{yPercent:-60,autoAlpha:0,duration:.35},.8)
+    .to('#unten',{opacity:1,duration:.3},.95)
+    .to({},{duration:.25});
+
+  /* Erster Besuch: Linie zeichnet sich, Kreise schalten an */
+  var schritte=document.querySelectorAll('.schritt');
+  gsap.to('#schrittlinie',{scaleX:1,ease:'none',scrollTrigger:{trigger:'#schritte',start:'top 75%',end:'bottom 55%',scrub:.5,
+    onUpdate:function(s){schritte.forEach(function(el,i){el.classList.toggle('an',s.progress>=i/schritte.length+.02||s.progress>.98)})}}});
+  if(matchMedia('(max-width:800px)').matches){schritte.forEach(function(el){ScrollTrigger.create({trigger:el,start:'top 75%',once:true,onEnter:function(){el.classList.add('an')}})})}
+
+  /* Praxis-Bild: ruhige Parallaxe */
+  gsap.fromTo('#praxisbild img',{yPercent:-12},{yPercent:0,ease:'none',scrollTrigger:{trigger:'#praxisbild',start:'top bottom',end:'bottom top',scrub:true}});
+})();
+</script>
+</body>
+</html>

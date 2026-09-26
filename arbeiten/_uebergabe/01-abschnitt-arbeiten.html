@@ -1,0 +1,91 @@
+<!-- ════════════════════════════════════════════════════════════════════
+     ABSCHNITT „ARBEITEN" für index.html (Akt II)
+     Einfügen: direkt NACH </section> von #leistungen, VOR <section id="ablauf">.
+     Danach die Nummern der folgenden .tag-Zeilen um eins erhöhen
+     (Ablauf 03, Standard 04, Einwände 05, Kontakt 06).
+     Der Stilblock unten gehört in den Stilblock im Kopf der Seite
+     (unter „03 Standard"). Diese Sektion braucht kein eigenes Skript.
+     ════════════════════════════════════════════════════════════════════ -->
+
+<section class="sec" id="arbeiten">
+  <span class="tag rise">02 — Arbeiten</span>
+  <h2 class="doc-title">Sehen Sie selbst. <br>Bevor Sie fragen.</h2>
+  <p class="lead rise">Vier Konzeptseiten für vier Branchen, gebaut wie für echte Kunden. Zwei zeigen, wie weit Bewegung und Bild eine Marke tragen. Zwei zeigen, wie eine Seite Termine und Anfragen einsammelt. Öffnen Sie eine und scrollen Sie.</p>
+
+  <div class="werk-raster">
+    <a class="werk rise" href="/arbeiten/halden/" target="_blank" rel="noopener">
+      <span class="werk-bild">
+        <img src="/arbeiten/vorschau/halden.webp" alt="Konzeptseite HALDEN, Architekturbüro: große Wortmarke mit einem auskragenden Betonhaus" width="1280" height="800" loading="lazy">
+        <img class="werk-zwei" src="/arbeiten/vorschau/halden-szene.webp" alt="" width="1280" height="800" loading="lazy">
+      </span>
+      <span class="werk-kopf"><span class="werk-art">Architektur · Showcase</span><span class="werk-pfeil" aria-hidden="true">→</span></span>
+      <h3>HALDEN</h3>
+      <p>Ein Büro für Häuser an rauen Orten. Scroll-Bühne, Fensterfahrt, Projektband — die Seite als Ausstellung.</p>
+    </a>
+    <a class="werk rise" href="/arbeiten/lumen/" target="_blank" rel="noopener">
+      <span class="werk-bild">
+        <img src="/arbeiten/vorschau/lumen.webp" alt="Konzeptseite LUMEN, Brow-Atelier: Serifenschrift und Nahaufnahme eines Auges" width="1280" height="800" loading="lazy">
+        <img class="werk-zwei" src="/arbeiten/vorschau/lumen-szene.webp" alt="" width="1280" height="800" loading="lazy">
+      </span>
+      <span class="werk-kopf"><span class="werk-art">Beauty · Termine</span><span class="werk-pfeil" aria-hidden="true">→</span></span>
+      <h3>LUMEN</h3>
+      <p>Ein Brow-Atelier mit Akademie. Vorher-nachher im Scroll, Preise mit Monatsrate, Buchung immer eine Daumenlänge entfernt.</p>
+    </a>
+    <a class="werk rise" href="/arbeiten/northside/" target="_blank" rel="noopener">
+      <span class="werk-bild">
+        <img src="/arbeiten/vorschau/northside.webp" alt="Konzeptseite Northside, Zahnarztpraxis: Überschrift und Patientin im Wartebereich" width="1280" height="800" loading="lazy">
+        <img class="werk-zwei" src="/arbeiten/vorschau/northside-szene.webp" alt="" width="1280" height="800" loading="lazy">
+      </span>
+      <span class="werk-kopf"><span class="werk-art">Praxis · Neupatienten</span><span class="werk-pfeil" aria-hidden="true">→</span></span>
+      <h3>Northside</h3>
+      <p>Eine Zahnarztpraxis, die Angst abbaut, bevor sie Termine füllt. Festpreise offen, Mitgliedschaft statt Versicherung, Buchung in zwei Klicks.</p>
+    </a>
+    <a class="werk rise" href="/arbeiten/ridgeline/" target="_blank" rel="noopener">
+      <span class="werk-bild">
+        <img src="/arbeiten/vorschau/ridgeline.webp" alt="Konzeptseite Ridgeline, Dachdecker: große Überschrift über einem Einfamilienhaus mit Anfrageformular" width="1280" height="800" loading="lazy">
+        <img class="werk-zwei" src="/arbeiten/vorschau/ridgeline-szene.webp" alt="" width="1280" height="800" loading="lazy">
+      </span>
+      <span class="werk-kopf"><span class="werk-art">Handwerk · Anfragen</span><span class="werk-pfeil" aria-hidden="true">→</span></span>
+      <h3>Ridgeline</h3>
+      <p>Ein Dachdecker nach dem Sturm. Das Dach wird im Scroll gescannt, das Formular steht schon im ersten Bild.</p>
+    </a>
+  </div>
+
+  <p class="werk-hinweis rise">Konzeptarbeiten: Marken und Bewertungen sind erfunden, Code und Bewegung sind echt — so, wie wir sie für Sie bauen.</p>
+  <a class="next rise" href="#kontakt">So etwas für Ihren Betrieb <span aria-hidden="true">→</span></a>
+</section>
+
+
+<!-- ── CSS: in den Stilblock im Kopf, unter „03 Standard" ──────────────── -->
+<style>
+/* ── Arbeiten ──────────────────────────────────────────────────────── */
+.werk-raster { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); max-width: 1320px; }
+.werk { display: block; text-decoration: none; color: inherit; }
+.werk:nth-child(even) { margin-top: clamp(0px, 8vh, 110px); }
+.werk-bild { position: relative; display: block; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 14px; border: 1px solid rgba(255, 255, 255, .12); background: #0b0b0b; }
+.werk-bild img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s cubic-bezier(.25,1,.5,1), opacity .7s cubic-bezier(.25,1,.5,1); }
+.werk-bild .werk-zwei { opacity: 0; transform: scale(1.06); }
+.werk:hover .werk-bild img, .werk:focus-visible .werk-bild img { transform: scale(1.03); }
+.werk:hover .werk-zwei, .werk:focus-visible .werk-zwei { opacity: 1; transform: scale(1); }
+.werk-kopf { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 22px 0 10px; }
+.werk-art { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; color: #d9a15c; }
+.werk-pfeil { width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .25); display: flex; align-items: center; justify-content: center; color: #fff6ed; font-size: 15px; transition: transform .35s ease, border-color .35s ease; }
+.werk:hover .werk-pfeil, .werk:focus-visible .werk-pfeil { transform: translateX(5px); border-color: #d9a15c; }
+.werk h3 { font-family: 'Italiana', serif; font-weight: 400; font-size: clamp(28px, 3vw, 44px); line-height: 1.05; color: #fff6ed; margin-bottom: 10px; }
+.werk p { font-size: 15px; line-height: 1.7; font-weight: 300; color: #d1d5db; max-width: 34em; }
+.werk-hinweis { margin-top: clamp(36px, 6vh, 64px); font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255, 255, 255, .62); max-width: 60em; line-height: 1.8; }
+@media (max-width: 1024px) {
+  .werk-raster { grid-template-columns: minmax(0, 1fr); }
+  .werk:nth-child(even) { margin-top: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .werk-bild img, .werk-pfeil { transition: none; }
+}
+</style>
+
+<!-- ── Kopf: in .header-actions VOR den Kontakt-Knopf ──────────────────── -->
+<!-- <a href="#arbeiten" class="nav-link werk-nav">Arbeiten</a>
+     CSS dazu:  .werk-nav { margin-right: 22px; }  @media (max-width: 640px) { .werk-nav { display: none; } } -->
+
+<!-- ── Fuß: in die Liste „Seite", nach Leistungen ───────────────────────── -->
+<!-- <li><a href="#arbeiten">Arbeiten</a></li> -->
