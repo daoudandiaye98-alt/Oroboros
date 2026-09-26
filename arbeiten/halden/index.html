@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HALDEN — Architecture that holds still · Concept by Oroboros Design</title>
+<meta name="description" content="Concept website for a fictional architecture studio. Designed and built by Oroboros Design.">
+<meta name="robots" content="noindex">
+<script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('ob-bewegt')</script>
+<link rel="stylesheet" href="/arbeiten/_gemeinsam/bewegung.css">
+<style>
+@font-face{font-family:Syne;src:url(/arbeiten/_gemeinsam/fonts/syne-latin-800-normal.woff2) format("woff2");font-weight:800;font-display:swap}
+@font-face{font-family:Syne;src:url(/arbeiten/_gemeinsam/fonts/syne-latin-600-normal.woff2) format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:Inter;src:url(/arbeiten/_gemeinsam/fonts/inter-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:Inter;src:url(/arbeiten/_gemeinsam/fonts/inter-latin-500-normal.woff2) format("woff2");font-weight:500;font-display:swap}
+:root{
+  --nacht:#0d0d0c; --knochen:#ece6dc; --beton:#8d877e; --glut:#c4703a; --linie:rgba(236,230,220,.14);
+  --standard:cubic-bezier(.4,0,.2,1); --klein:cubic-bezier(.22,.61,.36,1); --drama:cubic-bezier(.77,0,.175,1);
+  --rand:clamp(20px,4vw,64px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--nacht);color:var(--knochen)}
+body{font:400 16px/1.6 Inter,system-ui,sans-serif;background:var(--nacht);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit}
+.kicker{font:500 11px/1 Inter,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:var(--beton)}
+
+/* Lader */
+.lader{position:fixed;inset:0;z-index:100;background:var(--nacht);display:grid;place-items:end start;padding:var(--rand);transition:clip-path 1.2s var(--drama)}
+.lader b{font:800 clamp(64px,14vw,220px)/.8 Syne,sans-serif;letter-spacing:-.04em}
+.lader.weg{clip-path:inset(0 0 100% 0)}
+html:not(.ob-bewegt) .lader{display:none}
+
+/* Kopf */
+.kopf{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:22px var(--rand);mix-blend-mode:difference}
+.kopf .marke{font:800 18px/1 Syne,sans-serif;letter-spacing:.02em;text-decoration:none}
+.kopf nav{display:flex;gap:28px}
+.kopf nav a{font:500 12px/1 Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;opacity:.8;transition:opacity .5s var(--klein)}
+.kopf nav a:hover{opacity:1}
+@media(max-width:720px){.kopf nav a:not(:last-child){display:none}}
+
+/* Szene I — Wortmarke im Z-Sandwich */
+.buehne{position:relative;height:220vh}
+.buehne .fix{position:sticky;top:0;height:100vh;overflow:hidden}
+.wort{position:absolute;left:0;right:0;top:50%;transform:translateY(-58%);text-align:center;font:800 clamp(40px,14.2vw,280px)/.82 Syne,sans-serif;letter-spacing:-.045em;white-space:nowrap;color:var(--knochen);user-select:none}
+.wort.vorn{clip-path:inset(0 0 0 58%);z-index:3;pointer-events:none}
+.wort.hinten{z-index:1}
+.haus-rahmen{position:absolute;inset:0;z-index:2;display:grid;place-items:center;padding-top:5vh;pointer-events:none}
+.haus{width:min(62vw,980px);height:auto;filter:drop-shadow(0 40px 60px rgba(0,0,0,.65));will-change:transform}
+.notiz{position:absolute;z-index:4;font:500 11px/1.5 Inter,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--beton)}
+.notiz::before{content:"";display:block;width:36px;height:1px;background:var(--glut);margin-bottom:10px}
+.notiz.a{left:var(--rand);bottom:14vh}.notiz.b{right:var(--rand);top:22vh;text-align:right}.notiz.b::before{margin-left:auto}
+.notiz.c{right:var(--rand);bottom:14vh;text-align:right}.notiz.c::before{margin-left:auto}
+.leitsatz{position:absolute;left:var(--rand);top:20vh;max-width:28ch;z-index:4;font:600 clamp(18px,1.6vw,24px)/1.3 Syne,sans-serif}
+.pfeil{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);z-index:4;font:500 11px/1 Inter,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:var(--beton)}
+@media(max-width:720px){.haus{width:88vw}.haus-rahmen{padding-top:12vh}.leitsatz{top:15vh}.notiz.b{display:none}}
+
+/* Szene II — Manifest */
+.manifest{padding:22vh var(--rand) 18vh;display:grid;grid-template-columns:1fr;gap:6vh}
+.manifest p.gross{font:600 clamp(32px,5.2vw,86px)/1.04 Syne,sans-serif;letter-spacing:-.02em;max-width:17ch}
+.manifest p.gross em{font-style:normal;color:var(--glut)}
+.manifest .klein{max-width:44ch;margin-left:auto;color:var(--beton);font-size:17px}
+
+/* Szene III — das Fenster öffnet sich */
+.fenster{position:relative;height:260vh}
+.fenster .fix{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;place-items:center}
+.fenster figure{position:absolute;inset:0;clip-path:inset(34% 38% 34% 38% round 4px);will-change:clip-path}
+.fenster figure img{width:100%;height:100%;object-fit:cover;transform:scale(1.25);will-change:transform}
+.fenster .bildtext{position:absolute;left:var(--rand);bottom:8vh;z-index:2;max-width:34ch;font:600 clamp(20px,2vw,30px)/1.25 Syne,sans-serif;opacity:0}
+
+/* Szene IV — Arbeiten, quer */
+.quer{position:relative}
+.quer .fix{height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
+.quer .kopfzeile{padding:0 var(--rand) 5vh;display:flex;justify-content:space-between;align-items:end;gap:24px}
+.quer h2{font:800 clamp(40px,6vw,96px)/.9 Syne,sans-serif;letter-spacing:-.03em}
+.band{display:flex;gap:3vw;padding:0 var(--rand);width:max-content;will-change:transform}
+.karte{width:clamp(260px,30vw,460px);flex:none}
+.karte .bild{aspect-ratio:4/5;overflow:hidden;border-radius:3px;background:#1b1a18}
+.karte .bild img{width:100%;height:100%;object-fit:cover;transform:scale(1.08);transition:transform 1.2s var(--klein)}
+.karte:hover .bild img{transform:scale(1)}
+.karte .zeile{display:flex;justify-content:space-between;padding-top:14px;border-top:1px solid var(--linie);margin-top:14px;font-size:14px}
+.karte .zeile b{font:600 18px/1.2 Syne,sans-serif}
+.karte .zeile span{color:var(--beton)}
+
+/* Szene V — Zahlen */
+.zahlen{padding:20vh var(--rand);display:grid;grid-template-columns:repeat(3,1fr);gap:4vw;border-top:1px solid var(--linie)}
+.zahlen div b{display:block;font:800 clamp(56px,9vw,160px)/.85 Syne,sans-serif;letter-spacing:-.04em}
+.zahlen div span{display:block;margin-top:16px;color:var(--beton);max-width:22ch}
+@media(max-width:720px){.zahlen{grid-template-columns:1fr;gap:10vh}}
+
+/* Szene VI — Gespräch */
+.gespraech{min-height:100vh;padding:18vh var(--rand) 8vh;display:flex;flex-direction:column;justify-content:space-between;background:var(--knochen);color:var(--nacht)}
+.gespraech .kicker{color:#6d675e}
+.gespraech h2{font:800 clamp(48px,10vw,190px)/.86 Syne,sans-serif;letter-spacing:-.045em;margin-top:4vh}
+.knopf{display:inline-flex;align-items:center;gap:16px;margin-top:6vh;padding:22px 34px;border-radius:999px;background:var(--nacht);color:var(--knochen);text-decoration:none;font:500 15px/1 Inter,sans-serif;letter-spacing:.04em;transition:transform .7s var(--klein)}
+.knopf span{display:inline-block;transition:transform .7s var(--klein)}
+.knopf:hover span{transform:translateX(6px)}
+.fuss{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-top:10vh;padding-top:22px;border-top:1px solid rgba(13,13,12,.18);font-size:13px;color:#6d675e}
+
+/* Zeiger */
+.zeiger{position:fixed;left:0;top:0;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:#fff;mix-blend-mode:difference;pointer-events:none;z-index:99;transition:width .5s var(--klein),height .5s var(--klein),margin .5s var(--klein)}
+.zeiger.gross{width:56px;height:56px;margin:-28px 0 0 -28px}
+@media(hover:none){.zeiger{display:none}}
+html:not(.ob-bewegt) .fenster figure{clip-path:none}
+html:not(.ob-bewegt) .fenster .bildtext{opacity:1}
+</style>
+</head>
+<body>
+<div class="lader" aria-hidden="true"><b data-zahl>0</b></div>
+
+<header class="kopf">
+  <a class="marke" href="#oben">HALDEN</a>
+  <nav><a href="#arbeiten">Work</a><a href="#studio">Studio</a><a href="#gespraech">Contact</a></nav>
+</header>
+
+<main id="oben">
+  <section class="buehne" aria-label="HALDEN architecture studio">
+    <div class="fix">
+      <p class="leitsatz" data-woerter>Houses that hold still while everything around them moves.</p>
+      <div class="wort hinten" aria-hidden="true">HALDEN</div>
+      <div class="haus-rahmen"><img class="haus" src="/arbeiten/halden/img/haus.webp" alt="Cantilevered concrete house resting on a basalt rock" width="1600" height="1063"></div>
+      <div class="wort vorn" aria-hidden="true">HALDEN</div>
+      <p class="notiz a">Cantilever 11.4 m<br>Board-formed concrete</p>
+      <p class="notiz b">Basalt House<br>Faroe Islands · 2025</p>
+      <p class="notiz c">Architecture &amp; interiors<br>Copenhagen / Lisbon</p>
+      <p class="pfeil">Scroll</p>
+    </div>
+  </section>
+
+  <section class="manifest" id="studio">
+    <p class="kicker">The studio</p>
+    <p class="gross" data-woerter>We draw with <em>weight</em>, light and a lot of patience.</p>
+    <p class="klein" data-auftritt>HALDEN is a small practice for houses and retreats in difficult places — cliffs, coasts, deserts. We stay on site for a season before we draw a line, and we build fewer houses than we could. That is the whole method.</p>
+  </section>
+
+  <section class="fenster" aria-label="Interior of the Forest House">
+    <div class="fix">
+      <figure><img src="/arbeiten/halden/img/innen.webp" alt="Concrete living room with a floor-to-ceiling window onto a misty pine forest" width="2400" height="1350" loading="lazy"></figure>
+      <p class="bildtext">Forest House, Sweden — one window, one bench, the whole forest.</p>
+    </div>
+  </section>
+
+  <section class="quer" id="arbeiten" aria-label="Selected work">
+    <div class="fix">
+      <div class="kopfzeile"><h2 data-woerter>Selected work</h2><p class="kicker">2019 — 2025</p></div>
+      <div class="band">
+        <article class="karte"><div class="bild"><img src="/arbeiten/halden/img/pavillon.webp" alt="Timber pavilion on a lake at dusk" width="1200" height="1500" loading="lazy"></div><div class="zeile"><b>Lake Pavilion</b><span>Norway · 2024</span></div></article>
+        <article class="karte"><div class="bild"><img src="/arbeiten/halden/img/hof.webp" alt="Courtyard house with rammed earth walls and an olive tree" width="1200" height="1500" loading="lazy"></div><div class="zeile"><b>Olive Court</b><span>Alentejo · 2023</span></div></article>
+        <article class="karte"><div class="bild"><img src="/arbeiten/halden/img/kueste.webp" alt="Black timber studio on a rocky headland under a stormy sky" width="1200" height="1500" loading="lazy"></div><div class="zeile"><b>Storm Studio</b><span>Scotland · 2022</span></div></article>
+        <article class="karte"><div class="bild"><img src="/arbeiten/halden/img/treppe.webp" alt="Concrete stair lit by a slit of sunlight" width="1200" height="1607" loading="lazy"></div><div class="zeile"><b>Light Stair</b><span>Lisbon · 2021</span></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="zahlen" aria-label="Studio in numbers">
+    <div data-auftritt><b data-bis="38">38</b><span>houses built in eleven years — on purpose not more.</span></div>
+    <div data-auftritt=".1"><b data-bis="11">11</b><span>countries, most of them without a road to the site.</span></div>
+    <div data-auftritt=".2"><b data-bis="4">4</b><span>international awards for residential architecture.</span></div>
+  </section>
+
+  <section class="gespraech" id="gespraech">
+    <div>
+      <p class="kicker">New commissions · 2026</p>
+      <h2 data-woerter=".08">Tell us about the place.</h2>
+      <a class="knopf" href="mailto:hello@halden.example">Start a conversation <span>→</span></a>
+    </div>
+    <div class="fuss"><span>HALDEN Architects · Copenhagen / Lisbon</span><span>Concept website — fictional studio</span></div>
+  </section>
+</main>
+
+<div class="zeiger" aria-hidden="true"></div>
+<a class="ob-schild" href="/#arbeiten"><i></i>Concept by Oroboros Design</a>
+
+<script src="/arbeiten/_gemeinsam/vendor/gsap.min.js"></script>
+<script src="/arbeiten/_gemeinsam/vendor/ScrollTrigger.min.js"></script>
+<script src="/arbeiten/_gemeinsam/vendor/lenis.min.js"></script>
+<script src="/arbeiten/_gemeinsam/bewegung.js"></script>
+<script>
+(function(){
+  var OB=window.OB||{};
+  if(!window.gsap||OB.reduziert||!document.documentElement.classList.contains('ob-bewegt'))return;
+  var mm=gsap.matchMedia();
+
+  /* Lader: Zahl zählt, dann öffnet sich die Bühne */
+  var lader=document.querySelector('.lader'),zahl=lader.querySelector('[data-zahl]'),z={v:0};
+  OB.lenis&&OB.lenis.stop();
+  gsap.to(z,{v:100,duration:1.6,ease:'power2.inOut',onUpdate:function(){zahl.textContent=Math.round(z.v)},onComplete:function(){
+    lader.classList.add('weg');OB.lenis&&OB.lenis.start();
+    gsap.from('.haus',{yPercent:18,autoAlpha:0,scale:.92,duration:1.6,ease:'expo.out',delay:.35});
+    gsap.from('.wort',{yPercent:30,autoAlpha:0,duration:1.4,ease:'expo.out',delay:.2});
+    gsap.from('.notiz,.pfeil',{autoAlpha:0,y:16,duration:1,ease:'power3.out',stagger:.08,delay:.9});
+  }});
+
+  /* Szene I: das Haus steigt aus der Wortmarke, die Buchstaben weichen */
+  gsap.timeline({scrollTrigger:{trigger:'.buehne',start:'top top',end:'bottom bottom',scrub:true}})
+    .to('.haus',{scale:1.55,yPercent:-12,ease:'none'},0)
+    .to('.wort',{letterSpacing:'0.08em',autoAlpha:0,ease:'none'},0)
+    .to('.notiz,.leitsatz,.pfeil',{autoAlpha:0,ease:'none'},0);
+
+  /* Szene III: das Fenster öffnet sich mit dem Scroll */
+  gsap.timeline({scrollTrigger:{trigger:'.fenster',start:'top top',end:'bottom bottom',scrub:true}})
+    .to('.fenster figure',{clipPath:'inset(0% 0% 0% 0% round 0px)',ease:'none'},0)
+    .to('.fenster figure img',{scale:1,ease:'none'},0)
+    .to('.fenster .bildtext',{opacity:1,ease:'none'},.6);
+
+  /* Szene IV: quer — nur ab Tablet, auf dem Handy ein natürlicher Wisch-Streifen */
+  mm.add('(min-width: 721px)',function(){
+    var band=document.querySelector('.band'),fix=document.querySelector('.quer .fix');
+    var weg=function(){return band.scrollWidth-window.innerWidth};
+    gsap.to(band,{x:function(){return -weg()},ease:'none',scrollTrigger:{trigger:fix,start:'top top',end:function(){return '+='+weg()},pin:true,scrub:true,invalidateOnRefresh:true}});
+  });
+  mm.add('(max-width: 720px)',function(){
+    var band=document.querySelector('.band');band.style.overflowX='auto';band.style.width='auto';band.style.scrollSnapType='x mandatory';
+  });
+
+  /* Zahlen zählen hoch */
+  document.querySelectorAll('[data-bis]').forEach(function(b){
+    var ziel=+b.dataset.bis,o={v:0};
+    ScrollTrigger.create({trigger:b,start:'top 85%',once:true,onEnter:function(){gsap.to(o,{v:ziel,duration:1.6,ease:'power2.out',onUpdate:function(){b.textContent=Math.round(o.v)}})}});
+  });
+
+  /* Zeiger mit Nachzug (Lerp .077 wie im Werk) */
+  var zeiger=document.querySelector('.zeiger'),mx=innerWidth/2,my=innerHeight/2,x=mx,y=my;
+  addEventListener('pointermove',function(e){mx=e.clientX;my=e.clientY});
+  gsap.ticker.add(function(){x+=(mx-x)*.077*2.2;y+=(my-y)*.077*2.2;zeiger.style.transform='translate('+x+'px,'+y+'px)'});
+  document.querySelectorAll('a,.karte').forEach(function(a){a.addEventListener('pointerenter',function(){zeiger.classList.add('gross')});a.addEventListener('pointerleave',function(){zeiger.classList.remove('gross')})});
+})();
+</script>
+</body>
+</html>

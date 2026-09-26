@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ridgeline Roofing — Built for the storm after next · Concept by Oroboros Design</title>
+<meta name="description" content="Concept website for a fictional roofing and storm-repair company. Designed and built by Oroboros Design.">
+<meta name="robots" content="noindex">
+<script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('ob-bewegt')</script>
+<link rel="stylesheet" href="/arbeiten/_gemeinsam/bewegung.css">
+<style>
+@font-face{font-family:Archivo;src:url(/arbeiten/_gemeinsam/fonts/archivo-latin-600-normal.woff2) format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:Archivo;src:url(/arbeiten/_gemeinsam/fonts/archivo-latin-700-normal.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:Archivo;src:url(/arbeiten/_gemeinsam/fonts/archivo-latin-800-normal.woff2) format("woff2");font-weight:800;font-display:swap}
+@font-face{font-family:Inter;src:url(/arbeiten/_gemeinsam/fonts/inter-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:Inter;src:url(/arbeiten/_gemeinsam/fonts/inter-latin-500-normal.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:Inter;src:url(/arbeiten/_gemeinsam/fonts/inter-latin-600-normal.woff2) format("woff2");font-weight:600;font-display:swap}
+:root{
+  --kohle:#15181b; --schiefer:#23282d; --papier:#f1eee8; --stein:#d9d3c8; --grau:#6f6a62; --hellgrau:#a8a39a; --orange:#ec6a2c; --orange-dunkel:#c9531c; --linie:rgba(21,24,27,.12); --linie-hell:rgba(241,238,232,.14);
+  --klein:cubic-bezier(.22,.61,.36,1); --drama:cubic-bezier(.77,0,.175,1);
+  --rand:clamp(20px,5vw,88px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--papier);color:var(--kohle)}
+body{font:400 17px/1.65 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+h1,h2,h3{font-family:Archivo,Inter,sans-serif;font-weight:800;letter-spacing:-.025em;line-height:.98;text-transform:uppercase}
+.kicker{font:600 12px/1 Inter,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--orange)}
+.knopf{display:inline-flex;align-items:center;gap:12px;padding:19px 26px;background:var(--orange);color:#fff;text-decoration:none;font:700 14px/1 Archivo,sans-serif;letter-spacing:.08em;text-transform:uppercase;border:0;cursor:pointer;white-space:nowrap;transition:background .4s var(--klein),transform .4s var(--klein)}
+.knopf:hover{background:var(--orange-dunkel);transform:translateY(-2px)}
+.knopf.rand{background:transparent;box-shadow:inset 0 0 0 1.5px currentColor}
+.knopf.rand:hover{background:rgba(255,255,255,.08)}
+.knopf span{transition:transform .4s var(--klein)}.knopf:hover span{transform:translateX(4px)}
+.sektion{padding:clamp(90px,13vh,160px) var(--rand)}
+.titel{font-size:clamp(40px,5.6vw,92px);max-width:14ch}
+.dunkel{background:var(--kohle);color:var(--papier)}
+
+/* Kopf */
+.kopf{position:fixed;inset:0 0 auto;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 0 0 var(--rand);height:72px;color:#fff;transition:background .4s var(--klein),color .4s}
+.kopf.fest{background:rgba(21,24,27,.92);backdrop-filter:blur(10px)}
+.marke{display:flex;align-items:center;gap:12px;font:800 22px/1 Archivo,sans-serif;letter-spacing:.06em;text-decoration:none}
+.marke svg{width:30px;height:20px}
+.kopf nav{display:flex;align-items:center;height:100%}
+.kopf nav a:not(.knopf){font:600 13px/1 Inter,sans-serif;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;padding:0 18px;opacity:.8}
+.kopf nav a:not(.knopf):hover{opacity:1}
+.kopf .notruf{display:flex;flex-direction:column;justify-content:center;padding:0 24px;height:100%;border-left:1px solid var(--linie-hell);font:600 11px/1.3 Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;opacity:1!important}
+.kopf .notruf b{font:800 17px/1 Archivo,sans-serif;letter-spacing:.02em}
+.kopf .knopf{height:100%;padding:0 28px}
+@media(max-width:1000px){.kopf nav a:not(.knopf){display:none}.kopf .knopf{padding:0 18px;font-size:12px}}
+
+/* Hero */
+.hero{position:relative;min-height:100vh;display:flex;align-items:flex-end;overflow:hidden;color:#fff;padding:140px var(--rand) 64px}
+.hero .bg{position:absolute;inset:0}
+.hero .bg img{width:100%;height:100%;object-fit:cover;transform-origin:50% 40%}
+.hero .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(21,24,27,.82) 0%,rgba(21,24,27,.45) 55%,rgba(21,24,27,.2)),linear-gradient(0deg,rgba(21,24,27,.7),transparent 45%)}
+.hero .inhalt{position:relative;z-index:2;width:100%;display:grid;grid-template-columns:1.3fr .7fr;gap:5vw;align-items:end}
+.hero h1{font-size:clamp(52px,8.4vw,150px);letter-spacing:-.035em;line-height:.9}
+.hero h1 .o{color:var(--orange)}
+.hero .lead{max-width:34rem;margin-top:28px;font-size:clamp(17px,1.25vw,19px);color:#e3ded5}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.formular{background:var(--papier);color:var(--kohle);padding:30px;box-shadow:0 40px 80px -30px rgba(0,0,0,.6)}
+.formular h3{font-size:26px;margin-bottom:6px}
+.formular p{font-size:14px;color:var(--grau);margin-bottom:20px}
+.formular label{display:block;font:600 11px/1 Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--grau);margin:14px 0 7px}
+.formular input,.formular select{width:100%;font:500 16px/1.2 Inter,sans-serif;padding:14px 14px;border:1.5px solid var(--stein);background:#fff;color:var(--kohle);border-radius:0;outline:none;transition:border-color .3s}
+.formular input:focus,.formular select:focus{border-color:var(--orange)}
+.formular .knopf{width:100%;justify-content:center;margin-top:20px}
+.formular .klein{font-size:12px;color:var(--grau);margin-top:12px;margin-bottom:0}
+.formular .danke{display:none;margin-top:16px;padding:14px;background:var(--stein);font-size:14px}
+.hero .unten{position:absolute;left:var(--rand);bottom:18px;z-index:2;font:600 11px/1 Inter,sans-serif;letter-spacing:.2em;text-transform:uppercase;opacity:.6}
+@media(max-width:1000px){.hero .inhalt{grid-template-columns:1fr}.hero{padding-top:120px}.hero .unten{display:none}}
+
+/* Leiste Vertrauen */
+.vertrauen{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--linie)}
+.vertrauen div{padding:30px var(--rand) 30px 28px;border-right:1px solid var(--linie);font-size:14px;color:var(--grau)}
+.vertrauen div:first-child{padding-left:var(--rand)}
+.vertrauen b{display:block;font:800 20px/1.1 Archivo,sans-serif;text-transform:uppercase;color:var(--kohle);margin-bottom:4px}
+@media(max-width:900px){.vertrauen{grid-template-columns:1fr 1fr}.vertrauen div{padding:22px 20px}.vertrauen div:first-child{padding-left:20px}}
+
+/* Sturm — Scanner */
+.sturm{position:relative;height:320vh}
+.sturm .fix{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;grid-template-columns:.8fr 1.2fr;background:var(--kohle);color:var(--papier)}
+.sturm .text{padding:110px var(--rand) 60px;display:flex;flex-direction:column;justify-content:center}
+.sturm .text h2{font-size:clamp(36px,4vw,68px)}
+.sturm .text p{color:var(--hellgrau);margin-top:22px;max-width:28rem}
+.pruef{list-style:none;margin-top:34px;display:grid;gap:12px}
+.pruef li{display:flex;gap:14px;align-items:center;font:600 15px/1.2 Inter,sans-serif;color:var(--hellgrau);transition:color .4s}
+.pruef li i{width:24px;height:24px;flex:none;border:1.5px solid var(--linie-hell);display:grid;place-items:center;font-style:normal;font-size:13px;color:transparent;transition:background .4s,border-color .4s,color .4s}
+.pruef li.an{color:#fff}
+.pruef li.an i{background:var(--orange);border-color:var(--orange);color:#fff}
+.sturm .bild{position:relative;overflow:hidden}
+.sturm .bild img{width:100%;height:100%;object-fit:cover;filter:grayscale(.55) brightness(.62) contrast(1.05)}
+.sturm .bild .klar{position:absolute;inset:0;clip-path:inset(0 100% 0 0)}
+.sturm .bild .klar img{filter:none}
+.scanner{position:absolute;top:0;bottom:0;left:0;width:2px;background:var(--orange);box-shadow:0 0 24px 4px rgba(236,106,44,.55);z-index:3}
+.scanner::after{content:"SCANNING";position:absolute;top:50%;left:10px;font:700 10px/1 Archivo,sans-serif;letter-spacing:.24em;color:var(--orange);white-space:nowrap}
+.marker{position:absolute;z-index:4;display:flex;align-items:center;gap:10px;font:700 12px/1.2 Archivo,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#fff;opacity:0;transform:scale(.6);transition:opacity .45s var(--klein),transform .45s var(--klein)}
+.marker.an{opacity:1;transform:scale(1)}
+.marker::before{content:"";width:18px;height:18px;border-radius:50%;border:2px solid var(--orange);background:rgba(236,106,44,.25);box-shadow:0 0 0 6px rgba(236,106,44,.15)}
+.marker span{background:rgba(21,24,27,.82);padding:8px 10px}
+.sturm .prozent{position:absolute;right:24px;bottom:22px;z-index:4;font:800 clamp(40px,5vw,84px)/1 Archivo,sans-serif;color:#fff;letter-spacing:-.03em}
+.sturm .prozent small{display:block;font:600 11px/1 Inter,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--hellgrau);text-align:right;margin-top:8px}
+@media(max-width:900px){.sturm .fix{grid-template-columns:1fr;grid-template-rows:auto 1fr}.sturm .text{padding:96px 20px 20px}.sturm .text p{display:none}.pruef{margin-top:18px;grid-template-columns:1fr 1fr;gap:8px}.pruef li{font-size:13px}.sturm .prozent{top:14px;bottom:auto;right:16px;font-size:40px}}
+
+/* Ablauf */
+.ablauf{display:grid;grid-template-columns:.9fr 1.1fr;gap:6vw}
+.ablauf .links{position:sticky;top:120px;align-self:start}
+.ablauf .gross{font:800 clamp(120px,16vw,260px)/.8 Archivo,sans-serif;color:var(--orange);letter-spacing:-.05em;margin-top:40px;display:block;overflow:hidden;height:.8em}
+.ablauf .gross span{display:block;transition:transform .7s var(--drama)}
+.schritt{border-top:2px solid var(--kohle);padding:34px 0 70px;opacity:.35;transition:opacity .6s var(--klein)}
+.schritt.an{opacity:1}
+.schritt small{font:700 12px/1 Archivo,sans-serif;letter-spacing:.2em;color:var(--orange)}
+.schritt h3{font-size:clamp(28px,2.8vw,44px);margin:14px 0 14px}
+.schritt p{color:var(--grau);max-width:34rem}
+@media(max-width:900px){.ablauf{grid-template-columns:1fr}.ablauf .links{position:static}.ablauf .gross{display:none}.schritt{opacity:1;padding-bottom:40px}}
+
+/* Leistungen */
+.leistungen{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.leistung{grid-column:span 4;background:#fff;text-decoration:none;padding:32px;display:flex;flex-direction:column;gap:14px;min-height:280px;transition:background .5s var(--klein),color .5s var(--klein)}
+.leistung:hover{background:var(--kohle);color:var(--papier)}
+.leistung:hover p{color:var(--hellgrau)}
+.leistung h3{font-size:26px}
+.leistung p{color:var(--grau);font-size:15px;transition:color .5s}
+.leistung .mehr{margin-top:auto;font:700 12px/1 Archivo,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--orange)}
+.leistung.bild{grid-column:span 8;position:relative;padding:0;overflow:hidden;color:#fff;min-height:420px}
+.leistung.bild img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--klein)}
+.leistung.bild:hover img{transform:scale(1.05)}
+.leistung.bild .ueber{position:relative;z-index:2;margin-top:auto;padding:32px;background:linear-gradient(0deg,rgba(21,24,27,.85),transparent);display:flex;flex-direction:column;gap:12px}
+.leistung.bild p{color:#e3ded5}
+@media(max-width:1000px){.leistung,.leistung.bild{grid-column:span 12}.leistung{min-height:0}}
+
+/* Arbeiten */
+.arbeit{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;align-items:start}
+.arbeit figure{overflow:hidden;position:relative}
+.arbeit figure img{width:100%;height:115%;object-fit:cover}
+.arbeit figcaption{display:flex;justify-content:space-between;gap:12px;padding-top:14px;font:600 13px/1.3 Inter,sans-serif;color:var(--grau)}
+.arbeit figcaption b{font:800 15px/1.2 Archivo,sans-serif;text-transform:uppercase;color:var(--kohle)}
+.arbeit .a{grid-column:1/8}.arbeit .a .rahmen{aspect-ratio:16/10}
+.arbeit .b{grid-column:8/13;margin-top:18vh}.arbeit .b .rahmen{aspect-ratio:4/5}
+.arbeit .rahmen{overflow:hidden}
+@media(max-width:900px){.arbeit .a,.arbeit .b{grid-column:1/13;margin-top:0}}
+
+/* Zahlen */
+.zahlen{display:grid;grid-template-columns:repeat(4,1fr)}
+.zahlen div{padding:40px 24px 40px 0;border-top:1px solid var(--linie-hell)}
+.zahlen b{display:block;font:800 clamp(52px,6vw,104px)/1 Archivo,sans-serif;letter-spacing:-.04em}
+.zahlen span{color:var(--hellgrau);font-size:14px}
+@media(max-width:900px){.zahlen{grid-template-columns:1fr 1fr}}
+
+/* Vergleich */
+.vergleich{width:100%;border-collapse:collapse;margin-top:50px;font-size:16px}
+.vergleich th,.vergleich td{text-align:left;padding:20px 18px;border-bottom:1px solid var(--linie)}
+.vergleich th{font:800 15px/1 Archivo,sans-serif;text-transform:uppercase;letter-spacing:.06em}
+.vergleich td:first-child{font:600 12px/1.3 Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--grau);width:24%}
+.vergleich .hervor{background:#fff}
+.tabelle{overflow-x:auto}
+@media(max-width:700px){.vergleich{font-size:14px}.vergleich th,.vergleich td{padding:14px 10px}}
+
+/* Stimmen */
+.stimmen{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:50px}
+.stimme{background:var(--schiefer);padding:32px;display:flex;flex-direction:column;gap:20px}
+.stimme p{font-size:18px;line-height:1.5}
+.stimme small{color:var(--hellgrau);margin-top:auto}
+.sterne{color:var(--orange);letter-spacing:3px}
+.hinweis{margin-top:22px;font-size:13px;color:var(--hellgrau)}
+@media(max-width:900px){.stimmen{grid-template-columns:1fr}}
+
+/* Gebiet */
+.gebiet{display:grid;grid-template-columns:1fr 1fr;gap:6vw;align-items:center}
+.orte{display:flex;flex-wrap:wrap;gap:10px}
+.orte span{padding:12px 16px;background:#fff;font:600 14px/1 Inter,sans-serif}
+@media(max-width:900px){.gebiet{grid-template-columns:1fr}}
+
+/* FAQ */
+.faq{display:grid;grid-template-columns:.8fr 1.2fr;gap:6vw}
+.faq details{border-bottom:1px solid var(--linie);padding:24px 0}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:20px;font:700 19px/1.35 Archivo,sans-serif;text-transform:uppercase;letter-spacing:.01em}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-size:28px;line-height:.8;color:var(--orange);transition:transform .4s var(--klein)}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{margin-top:12px;color:var(--grau);max-width:40rem}
+@media(max-width:900px){.faq{grid-template-columns:1fr}}
+
+/* Schluss */
+.schluss{background:var(--orange);color:#fff;text-align:left}
+.schluss h2{font-size:clamp(52px,9vw,168px);letter-spacing:-.04em;line-height:.88}
+.schluss .zeile{display:flex;justify-content:space-between;align-items:end;gap:30px;flex-wrap:wrap;margin-top:50px}
+.schluss p{max-width:30rem;font-size:18px}
+.schluss .knopf{background:var(--kohle)}
+.schluss .knopf:hover{background:#000}
+.fuss{background:var(--kohle);color:var(--hellgrau);padding:34px var(--rand) 110px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-size:13px}
+
+.leiste{display:none}
+@media(max-width:900px){.leiste{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:60}.leiste .knopf{flex:1;justify-content:center;padding:20px 10px}.leiste .knopf.zwei{background:var(--kohle)}.ob-schild{bottom:72px}}
+</style>
+</head>
+<body>
+
+<header class="kopf" id="kopf">
+  <a class="marke" href="#top"><svg viewBox="0 0 30 20" fill="none" aria-hidden="true"><path d="M1 19L15 3l14 16" stroke="#ec6a2c" stroke-width="3"/><path d="M8 19l7-8 7 8" stroke="currentColor" stroke-width="2.4"/></svg>RIDGELINE</a>
+  <nav>
+    <a href="#leistungen">Services</a>
+    <a href="#sturm">Storm damage</a>
+    <a href="#arbeit">Our work</a>
+    <a href="#faq">FAQ</a>
+    <a class="notruf" href="#inspektion">24/7 storm line<b>Same-day tarping</b></a>
+    <a class="knopf" href="#inspektion">Free inspection</a>
+  </nav>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="bg"><img id="heldbild" src="/arbeiten/ridgeline/img/haus.webp" alt="Aerial view of a family home with a new dark shingle roof" width="2400" height="1357"></div>
+    <div class="inhalt">
+      <div>
+        <span class="kicker" data-auftritt="0.1">Roofing · Storm repair · Insurance claims</span>
+        <h1 data-woerter="0.07" style="margin-top:22px">Built for the storm <span class="o">after next.</span></h1>
+        <p class="lead" data-auftritt="0.4">Replacement, repair and storm restoration by our own crews. Free inspection with photos within 48 hours, and help with every step of your insurance claim.</p>
+        <div class="ctas" data-auftritt="0.55">
+          <a class="knopf" href="#inspektion">Book a free inspection <span>→</span></a>
+          <a class="knopf rand" href="#sturm">Storm damage? Start here</a>
+        </div>
+      </div>
+      <form class="formular" id="inspektion" data-auftritt="0.7" novalidate>
+        <h3>Free roof inspection</h3>
+        <p>Photos of every problem, a written quote, no obligation.</p>
+        <label for="f-plz">ZIP code</label><input id="f-plz" inputmode="numeric" autocomplete="off" placeholder="e.g. 60614">
+        <label for="f-art">What's going on?</label>
+        <select id="f-art"><option>Storm or hail damage</option><option>Leak or missing shingles</option><option>Roof is getting old</option><option>Metal roof quote</option><option>Gutters or siding</option></select>
+        <button class="knopf" type="submit">Check availability <span>→</span></button>
+        <p class="klein">Takes 30 seconds. We call back within 2 hours.</p>
+        <div class="danke" id="danke" role="status">This is a concept website, so nothing was sent. On the live site this opens the booking calendar.</div>
+      </form>
+    </div>
+    <span class="unten">Scroll</span>
+  </section>
+
+  <div class="vertrauen">
+    <div data-auftritt="0"><b>25 years</b>Workmanship warranty, in writing</div>
+    <div data-auftritt="0.06"><b>Own crews</b>No subcontractors on your roof</div>
+    <div data-auftritt="0.12"><b>Claim help</b>We meet your adjuster on site</div>
+    <div data-auftritt="0.18"><b><span class="sterne">★★★★★</span></b>4.9 average from homeowners</div>
+  </div>
+
+  <section class="sturm" id="sturm">
+    <div class="fix">
+      <div class="text">
+        <span class="kicker">Storm damage</span>
+        <h2 data-woerter="0.05" style="margin-top:20px">Storm last night? Here's what we check.</h2>
+        <p>Most storm damage can't be seen from the driveway. We walk every slope, photograph what we find and give you a report your insurer accepts.</p>
+        <ul class="pruef" id="pruef">
+          <li><i>✓</i>Lifted and missing shingles</li>
+          <li><i>✓</i>Exposed underlayment</li>
+          <li><i>✓</i>Hail bruising and granule loss</li>
+          <li><i>✓</i>Flashing and chimney seals</li>
+          <li><i>✓</i>Gutters, vents and decking</li>
+        </ul>
+      </div>
+      <div class="bild" id="scanbild">
+        <img src="/arbeiten/ridgeline/img/sturm.webp" alt="Storm-damaged roof with missing shingles" width="1600" height="1062" loading="lazy">
+        <div class="klar" id="klar"><img src="/arbeiten/ridgeline/img/sturm.webp" alt="" width="1600" height="1062" loading="lazy"></div>
+        <div class="scanner" id="scanner"></div>
+        <div class="marker" data-bei=".22" style="left:12%;top:38%"><span>Lifted shingles</span></div>
+        <div class="marker" data-bei=".4" style="left:30%;top:66%"><span>Exposed underlayment</span></div>
+        <div class="marker" data-bei=".6" style="left:52%;top:47%"><span>Granule loss</span></div>
+        <div class="marker" data-bei=".78" style="left:60%;top:22%"><span>Chimney flashing</span></div>
+        <div class="prozent"><span id="prozent">0</span>%<small>of roof inspected</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sektion ablauf">
+    <div class="links">
+      <span class="kicker">How it works</span>
+      <h2 class="titel" data-woerter="0.05" style="margin-top:22px">From damage to done in four steps.</h2>
+      <span class="gross" aria-hidden="true"><span id="nummer">01</span></span>
+    </div>
+    <div>
+      <div class="schritt" data-nr="01"><small>Step 01 · Day 1–2</small><h3>Inspect</h3><p>A certified inspector walks every slope and photographs every issue. If water is getting in, we tarp it the same day.</p></div>
+      <div class="schritt" data-nr="02"><small>Step 02 · Day 2</small><h3>Document</h3><p>You get a photo report and a written, itemised quote. Repair or replace, we tell you honestly which one you need.</p></div>
+      <div class="schritt" data-nr="03"><small>Step 03 · Week 1–3</small><h3>Claim</h3><p>If it's storm damage, we file with your insurer, meet the adjuster on your roof and make sure nothing is missed.</p></div>
+      <div class="schritt" data-nr="04"><small>Step 04 · 1–2 days on site</small><h3>Rebuild</h3><p>Our own crew replaces the roof, protects your garden, cleans up every nail with a magnet and hands you a 25-year warranty.</p></div>
+    </div>
+  </section>
+
+  <section class="sektion" id="leistungen" style="padding-top:0">
+    <span class="kicker">Services</span>
+    <h2 class="titel" data-woerter="0.05" style="margin:22px 0 50px">Everything above your walls.</h2>
+    <div class="leistungen">
+      <a class="leistung bild" href="#inspektion" data-auftritt="0"><img src="/arbeiten/ridgeline/img/metall.webp" alt="Standing-seam metal roof edge on a modern house" width="1400" height="930" loading="lazy"><div class="ueber"><h3>Metal roofing</h3><p>Standing-seam systems that last 50+ years and shrug off hail and wind.</p><span class="mehr">Get a metal quote →</span></div></a>
+      <a class="leistung" href="#inspektion" data-auftritt="0.08"><h3>Roof replacement</h3><p>Architectural shingles, synthetic underlayment and new flashing. Most homes done in one day.</p><span class="mehr">Free quote →</span></a>
+      <a class="leistung" href="#inspektion" data-auftritt="0"><h3>Repairs &amp; leaks</h3><p>Missing shingles, leaks around vents and chimneys, fixed within the week.</p><span class="mehr">Book a repair →</span></a>
+      <a class="leistung" href="#sturm" data-auftritt="0.08"><h3>Storm restoration</h3><p>Emergency tarping, full documentation and claim support from first call to final shingle.</p><span class="mehr">Storm help →</span></a>
+      <a class="leistung" href="#inspektion" data-auftritt="0.16"><h3>Gutters &amp; siding</h3><p>Seamless gutters, guards and siding, colour-matched to the new roof.</p><span class="mehr">Add to quote →</span></a>
+    </div>
+  </section>
+
+  <section class="sektion" id="arbeit" style="padding-top:0">
+    <span class="kicker">Recent work</span>
+    <h2 class="titel" data-woerter="0.05" style="margin:22px 0 50px">Roofs we'd sign our name on.</h2>
+    <div class="arbeit">
+      <figure class="a" data-auftritt><div class="rahmen"><img class="pb" src="/arbeiten/ridgeline/img/haus.webp" alt="Full roof replacement on a two-storey family home" width="2400" height="1357" loading="lazy"></div><figcaption><b>Full replacement</b><span>Architectural shingles · 1 day</span></figcaption></figure>
+      <figure class="b" data-auftritt><div class="rahmen"><img class="pb" src="/arbeiten/ridgeline/img/team.webp" alt="Roofing crew installing shingles with safety harnesses" width="1600" height="1062" loading="lazy"></div><figcaption><b>Hail claim</b><span>Insurer approved · 3 weeks</span></figcaption></figure>
+    </div>
+  </section>
+
+  <section class="sektion dunkel">
+    <span class="kicker">In numbers</span>
+    <h2 class="titel" data-woerter="0.05" style="margin:22px 0 60px">Nineteen years on the same roads.</h2>
+    <div class="zahlen" id="zahlen">
+      <div><b data-zahl="3100" data-trenner="1">0</b><span>roofs replaced</span></div>
+      <div><b data-zahl="48" data-nach="h">0</b><span>from call to written quote</span></div>
+      <div><b data-zahl="25">0</b><span>year workmanship warranty</span></div>
+      <div><b data-zahl="0">0</b><span>subcontractors</span></div>
+    </div>
+    <div class="stimmen">
+      <div class="stimme" data-auftritt="0"><span class="sterne">★★★★★</span><p>"They were on our roof the morning after the hailstorm, met the adjuster with us and the claim went through first time."</p><small>Placeholder · Storm claim</small></div>
+      <div class="stimme" data-auftritt="0.08"><span class="sterne">★★★★★</span><p>"Old roof off and new one on in a single day. They even found screws in the lawn we had lost years ago."</p><small>Placeholder · Replacement</small></div>
+      <div class="stimme" data-auftritt="0.16"><span class="sterne">★★★★★</span><p>"Three companies said replace. Ridgeline said repair, showed us the photos and saved us thousands."</p><small>Placeholder · Repair</small></div>
+    </div>
+    <p class="hinweis">Concept website: reviews are placeholders written for this design and would be replaced by real, verified reviews.</p>
+  </section>
+
+  <section class="sektion">
+    <span class="kicker">Shingle or metal?</span>
+    <h2 class="titel" data-woerter="0.05" style="margin-top:22px">The honest comparison.</h2>
+    <div class="tabelle" data-auftritt>
+      <table class="vergleich">
+        <thead><tr><th></th><th>Architectural shingles</th><th class="hervor">Standing-seam metal</th></tr></thead>
+        <tbody>
+          <tr><td>Lifespan</td><td>25–30 years</td><td class="hervor">50+ years</td></tr>
+          <tr><td>Typical cost</td><td>$9k–$16k</td><td class="hervor">$18k–$32k</td></tr>
+          <tr><td>Hail &amp; wind</td><td>Class 4 options, up to 130 mph</td><td class="hervor">Class 4, up to 160 mph</td></tr>
+          <tr><td>Best for</td><td>Best value per year on most homes</td><td class="hervor">Forever homes and storm corridors</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="sektion gebiet" style="padding-top:0">
+    <div>
+      <span class="kicker">Service area</span>
+      <h2 class="titel" data-woerter="0.05" style="margin-top:22px">Within 40 miles of our yard.</h2>
+    </div>
+    <div class="orte" data-auftritt>
+      <span>Cedar Hills</span><span>Maple Grove</span><span>Lakeview</span><span>North Ridge</span><span>Stonebrook</span><span>Willow Creek</span><span>Fairhaven</span><span>Oak Terrace</span><span>Pine Hollow</span><span>+ surrounding towns</span>
+    </div>
+  </section>
+
+  <section class="sektion faq" id="faq" style="padding-top:0">
+    <div><span class="kicker">FAQ</span><h2 class="titel" data-woerter="0.05" style="margin-top:22px">Questions before you call.</h2></div>
+    <div data-auftritt>
+      <details><summary>Is the inspection really free?</summary><p>Yes. You get the photos and a written report either way, and there's no obligation to use us.</p></details>
+      <details><summary>Will my insurance cover it?</summary><p>If the damage came from a storm or hail, usually yes, minus your deductible. We document everything and meet your adjuster so the claim is complete the first time.</p></details>
+      <details><summary>Repair or replace?</summary><p>If a repair gives you another ten good years, we'll say so. We show you the photos and let you decide.</p></details>
+      <details><summary>How long does a replacement take?</summary><p>Most homes are done in one day, larger or steeper roofs in two. We protect your garden and clean up every nail.</p></details>
+      <details><summary>Do you offer financing?</summary><p>Yes, monthly payment options on replacements, with a decision in minutes.</p></details>
+    </div>
+  </section>
+
+  <section class="sektion schluss">
+    <span class="kicker" style="color:#fff;opacity:.8">Free inspection · Photos included</span>
+    <h2 data-woerter="0.05" style="margin-top:24px">Know what's on your roof.</h2>
+    <div class="zeile">
+      <p data-auftritt>Book a free inspection. We're on your roof within 48 hours, and within hours after a storm.</p>
+      <a class="knopf" href="#inspektion" data-auftritt="0.1">Book my free inspection <span>→</span></a>
+    </div>
+  </section>
+</main>
+
+<footer class="fuss">
+  <span>Ridgeline Roofing &amp; Exteriors · Licensed and insured</span>
+  <span>Concept website — fictional company</span>
+</footer>
+
+<div class="leiste">
+  <a class="knopf" href="#inspektion">Free inspection</a>
+  <a class="knopf zwei" href="#sturm">Storm help</a>
+</div>
+
+<a class="ob-schild" href="/#arbeiten"><i></i>Concept by Oroboros Design</a>
+
+<script src="/arbeiten/_gemeinsam/vendor/gsap.min.js"></script>
+<script src="/arbeiten/_gemeinsam/vendor/ScrollTrigger.min.js"></script>
+<script src="/arbeiten/_gemeinsam/vendor/lenis.min.js"></script>
+<script src="/arbeiten/_gemeinsam/bewegung.js"></script>
+<script>
+(function(){
+  var kopf=document.getElementById('kopf');
+  function kopfZustand(){kopf.classList.toggle('fest',window.scrollY>40)}
+  kopfZustand();window.addEventListener('scroll',kopfZustand,{passive:true});
+
+  /* Formular: Konzept, sendet nichts */
+  document.getElementById('inspektion').addEventListener('submit',function(e){e.preventDefault();document.getElementById('danke').style.display='block'});
+
+  function zaehle(el){
+    var ziel=parseFloat(el.dataset.zahl),nach=el.dataset.nach||'';
+    function setze(v){var s=Math.round(v).toString();if(el.dataset.trenner)s=Number(s).toLocaleString('en-US');el.textContent=s+nach}
+    if(!window.gsap||window.OB.reduziert){setze(ziel);return}
+    var o={v:0};gsap.to(o,{v:ziel,duration:1.8,ease:'power3.out',onUpdate:function(){setze(o.v)}});
+  }
+  var zahlen=document.querySelectorAll('[data-zahl]');
+  var marker=document.querySelectorAll('.marker'),pruef=document.querySelectorAll('#pruef li'),prozent=document.getElementById('prozent');
+  var schritte=document.querySelectorAll('.schritt'),nummer=document.getElementById('nummer');
+
+  if(!window.gsap||window.OB.reduziert){
+    zahlen.forEach(zaehle);marker.forEach(function(m){m.classList.add('an')});pruef.forEach(function(l){l.classList.add('an')});
+    prozent.textContent='100';document.getElementById('klar').style.clipPath='none';document.getElementById('scanner').style.display='none';
+    schritte.forEach(function(s){s.classList.add('an')});return;
+  }
+
+  ScrollTrigger.create({trigger:'#zahlen',start:'top 92%',once:true,onEnter:function(){zahlen.forEach(zaehle)}});
+
+  /* Hero: Bild zieht sich beim Laden zurück, beim Scrollen weiter */
+  gsap.fromTo('#heldbild',{scale:1.18},{scale:1.04,duration:2.4,ease:'expo.out'});
+  gsap.to('#heldbild',{yPercent:12,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
+
+  /* Sturm: Scanner fährt über das Dach, legt Farbe frei, setzt Marker */
+  var p={v:0};
+  function scan(v){
+    var breite=document.getElementById('scanbild').offsetWidth;
+    gsap.set('#scanner',{x:v*breite});
+    gsap.set('#klar',{clipPath:'inset(0 '+((1-v)*100)+'% 0 0)'});
+    prozent.textContent=Math.round(v*100);
+    marker.forEach(function(m){m.classList.toggle('an',v>=parseFloat(m.dataset.bei))});
+    pruef.forEach(function(l,i){l.classList.toggle('an',v>=(i+1)/(pruef.length+1))});
+  }
+  scan(0);
+  gsap.to(p,{v:1,ease:'none',onUpdate:function(){scan(p.v)},scrollTrigger:{trigger:'#sturm',start:'top top',end:'bottom bottom',scrub:.6}});
+
+  /* Ablauf: aktiver Schritt, große Zahl rollt */
+  schritte.forEach(function(s){
+    ScrollTrigger.create({trigger:s,start:'top 60%',end:'bottom 60%',
+      onToggle:function(st){if(st.isActive){schritte.forEach(function(x){x.classList.remove('an')});s.classList.add('an');
+        gsap.fromTo(nummer,{yPercent:100},{yPercent:0,duration:.7,ease:'expo.out'});nummer.textContent=s.dataset.nr;}}});
+  });
+
+  /* Arbeiten: Parallaxe in den Rahmen */
+  document.querySelectorAll('.arbeit .pb').forEach(function(img){
+    gsap.fromTo(img,{yPercent:-12},{yPercent:0,ease:'none',scrollTrigger:{trigger:img.parentNode,start:'top bottom',end:'bottom top',scrub:true}});
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+/* Oroboros Design · Grundregeln der Konzeptseiten. Startzustand „unsichtbar"
+   nur, wenn html.ob-bewegt gesetzt ist (Kopf-Skript + bewegung.js). */
+.ob-w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .08em; margin-bottom: -.08em; }
+.ob-wi { display: inline-block; will-change: transform; }
+html.ob-bewegt [data-woerter] { visibility: hidden; }
+html.ob-bewegt [data-auftritt] { opacity: 0; visibility: hidden; }
+
+/* Das Konzept-Schild: ehrlich, klein, immer erreichbar. */
+.ob-schild {
+  position: fixed; left: 16px; bottom: 16px; z-index: 90;
+  display: inline-flex; align-items: center; gap: .55em;
+  padding: .55em .9em .55em .7em; border-radius: 999px;
+  font: 500 12px/1 system-ui, -apple-system, "Segoe UI", sans-serif; letter-spacing: .02em;
+  color: #f4efe6; background: rgba(14, 12, 10, .82); backdrop-filter: blur(8px);
+  text-decoration: none; border: 1px solid rgba(255, 255, 255, .12);
+  transition: transform .5s cubic-bezier(.22,.61,.36,1), background .5s cubic-bezier(.22,.61,.36,1);
+}
+.ob-schild:hover { transform: translateY(-2px); background: rgba(14, 12, 10, .95); }
+.ob-schild i { width: 7px; height: 7px; border-radius: 50%; background: #c08a4a; display: inline-block; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+@media (max-width: 560px) { .ob-schild { font-size: 11px; left: 12px; } }

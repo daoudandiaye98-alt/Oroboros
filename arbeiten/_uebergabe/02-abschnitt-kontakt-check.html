@@ -1,0 +1,138 @@
+<!-- ════════════════════════════════════════════════════════════════════
+     ABSCHNITT „KONTAKT" mit kostenlosem Website-Check — ERSETZT die ganze
+     bisherige Kontakt-Sektion (id kontakt) in index.html.
+
+     Das Formular schickt an Angels öffentliche Schnittstelle:
+       POST https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=anfrage
+     Angel legt die Anfrage als Hinweis in der App an, schickt eine Mail
+     (Antworten geht direkt an die anfragende Person) und einen Push.
+     Die Schnittstelle nimmt nur Aufrufe von https://oroboros-design.com und
+     https://www.oroboros-design.com an. Für eine Vercel-Vorschau muss deren
+     Adresse in Angels Umgebungsvariable MARKEN_ORIGINS stehen.
+
+     Scheitert die Zustellung, zeigt das Formular ehrlich den Fehler und die
+     direkten Wege (Mail, WhatsApp). Keine Anfrage geht still verloren.
+     ════════════════════════════════════════════════════════════════════ -->
+
+<section class="sec" id="kontakt">
+  <span class="tag rise">06 — Kontakt</span>
+  <h2 class="doc-title">Holen Sie sich <br>den Befund. Kostenlos.</h2>
+  <p class="lead rise">Nennen Sie uns Ihre Website. Wir prüfen sie auf Tempo, Mobilansicht, Auffindbarkeit und den Weg zur Anfrage — und schicken Ihnen innerhalb von 48 Stunden eine ehrliche Einschätzung. Ohne Verkaufsgespräch, ohne Verpflichtung.</p>
+
+  <div class="contact">
+    <form class="check rise" id="check" novalidate>
+      <div class="check-zeile">
+        <label for="c-name">Ihr Name</label>
+        <input id="c-name" name="name" autocomplete="name" required minlength="2" maxlength="120">
+      </div>
+      <div class="check-zeile">
+        <label for="c-mail">E-Mail</label>
+        <input id="c-mail" name="email" type="email" autocomplete="email" required maxlength="200">
+      </div>
+      <div class="check-zeile">
+        <label for="c-web">Ihre Website <span>(falls vorhanden)</span></label>
+        <input id="c-web" name="website" inputmode="url" autocomplete="url" placeholder="ihrbetrieb.de" maxlength="253">
+      </div>
+      <div class="check-zeile">
+        <label for="c-anliegen">Worum geht es?</label>
+        <select id="c-anliegen" name="anliegen">
+          <option value="website_check">Kostenloser Website-Check</option>
+          <option value="neue_website">Neue Website</option>
+          <option value="software">Software / Backend</option>
+          <option value="ki">KI in unseren Abläufen</option>
+          <option value="sonstiges">Etwas anderes</option>
+        </select>
+      </div>
+      <div class="check-zeile">
+        <label for="c-text">Was sollen wir wissen? <span>(optional)</span></label>
+        <textarea id="c-text" name="nachricht" rows="3" maxlength="2000" placeholder="Zum Beispiel: zu wenige Anfragen über die Seite, Relaunch bis Frühjahr"></textarea>
+      </div>
+      <!-- Honigtopf: für Menschen unsichtbar, Bots füllen ihn aus -->
+      <div class="check-topf" aria-hidden="true"><label for="c-firma">Firma</label><input id="c-firma" name="firma_web" tabindex="-1" autocomplete="off"></div>
+
+      <button class="cta-big check-senden" type="submit"><span>Befund anfordern</span><span class="go" aria-hidden="true">→</span></button>
+      <p class="check-status" id="check-status" role="status" aria-live="polite"></p>
+      <p class="check-klein">Wir verwenden Ihre Angaben nur, um Ihnen zu antworten. Mehr in der <a href="/datenschutz">Datenschutzerklärung</a>.</p>
+    </form>
+
+    <div class="contact-side rise">
+      <p>Lieber direkt? <span class="k">Beides geht sofort.</span></p>
+      <a class="cta-big ghost" href="https://wa.me/4917679219526" target="_blank" rel="noopener">
+        <span>WhatsApp · +49 176 79219526</span><span class="go" aria-hidden="true">→</span>
+      </a>
+      <a class="cta-big ghost" href="mailto:oroborosdesign@gmail.com?subject=Website-Check">
+        <span>oroborosdesign@gmail.com</span><span class="go" aria-hidden="true">→</span>
+      </a>
+      <p class="cta-note">Antwort innerhalb von 24 Stunden · Köln</p>
+      <p>Was Sie bekommen: <span class="k">drei konkrete Punkte</span>, die Ihre Seite heute Anfragen kosten, und <span class="k">was es kostet, sie zu beheben</span> — als Festpreis. Ob Sie uns danach beauftragen, entscheiden Sie.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── CSS: in den Stilblock im Kopf, unter „05 Kontakt" ───────────────── -->
+<style>
+/* ── Website-Check ─────────────────────────────────────────────────── */
+.check { max-width: 560px; }
+.check-zeile { margin-bottom: 18px; }
+.check label { display: block; margin-bottom: 8px; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; color: #d9a15c; }
+.check label span { color: rgba(255, 255, 255, .5); font-weight: 400; letter-spacing: 1px; text-transform: none; }
+.check input, .check select, .check textarea {
+  width: 100%; min-height: 52px; padding: 14px 16px;
+  font: 300 16px/1.5 'Outfit', system-ui, sans-serif; color: #fff6ed;
+  background: rgba(255, 255, 255, .04); border: 1px solid rgba(255, 255, 255, .18); border-radius: 12px;
+  outline: none; transition: border-color .3s, background .3s; -webkit-appearance: none; appearance: none;
+}
+.check select { background-image: linear-gradient(45deg, transparent 50%, #d9a15c 50%), linear-gradient(135deg, #d9a15c 50%, transparent 50%); background-position: calc(100% - 22px) 50%, calc(100% - 16px) 50%; background-size: 6px 6px; background-repeat: no-repeat; }
+.check select option { color: #000; }
+.check textarea { resize: vertical; min-height: 96px; }
+.check input::placeholder, .check textarea::placeholder { color: rgba(255, 255, 255, .35); }
+.check input:focus, .check select:focus, .check textarea:focus { border-color: #d9a15c; background: rgba(255, 255, 255, .06); }
+.check input[aria-invalid="true"] { border-color: #e0785f; }
+.check-topf { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.check-senden { width: 100%; border: 0; cursor: pointer; margin-top: 8px; font-family: inherit; }
+.check-senden[disabled] { opacity: .6; cursor: progress; }
+.check-status { min-height: 1.6em; margin-top: 14px; font-size: 14px; line-height: 1.6; color: #d1d5db; }
+.check-status.ok { color: #fff6ed; }
+.check-status.fehler { color: #e0785f; }
+.check-klein { margin-top: 6px; font-size: 12px; line-height: 1.6; color: rgba(255, 255, 255, .5); }
+.check-klein a { color: inherit; }
+.contact-side .cta-big.ghost { margin-bottom: 14px; }
+</style>
+
+<!-- ── JS: ans Ende von setupDocument() ─────────────────────────────────── -->
+<script>
+(function () {
+  const form = document.getElementById('check');
+  if (!form) return;
+  const ZIEL = 'https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=anfrage';
+  const status = document.getElementById('check-status');
+  const knopf = form.querySelector('.check-senden');
+  const sprache = document.documentElement.lang === 'en' ? 'en' : 'de';
+  const T = sprache === 'en'
+    ? { pruefen: 'Please enter your name and a valid email.', senden: 'Sending…', ok: 'Thank you. Your request has arrived — you will hear from us within 48 hours.', fehler: 'That did not go through. Please email oroborosdesign@gmail.com or use WhatsApp — both reach us immediately.' }
+    : { pruefen: 'Bitte Namen und eine gültige E-Mail angeben.', senden: 'Wird gesendet …', ok: 'Danke. Ihre Anfrage ist angekommen — Sie hören innerhalb von 48 Stunden von uns.', fehler: 'Das hat nicht geklappt. Schreiben Sie bitte an oroborosdesign@gmail.com oder per WhatsApp — beides erreicht uns sofort.' };
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const d = Object.fromEntries(new FormData(form).entries());
+    const name = form.elements.name, mail = form.elements.email;
+    name.setAttribute('aria-invalid', String(String(d.name).trim().length < 2));
+    mail.setAttribute('aria-invalid', String(!mail.checkValidity() || !String(d.email).trim()));
+    if (name.getAttribute('aria-invalid') === 'true' || mail.getAttribute('aria-invalid') === 'true') {
+      status.className = 'check-status fehler'; status.textContent = T.pruefen; return;
+    }
+    knopf.disabled = true; status.className = 'check-status'; status.textContent = T.senden;
+    try {
+      const r = await fetch(ZIEL, {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ ...d, sprache, quelle: location.pathname + (document.referrer ? ' ← ' + document.referrer.slice(0, 80) : '') }),
+      });
+      if (!r.ok) throw new Error(String(r.status));
+      form.reset(); status.className = 'check-status ok'; status.textContent = T.ok;
+    } catch (_) {
+      status.className = 'check-status fehler'; status.textContent = T.fehler;
+    } finally { knopf.disabled = false; }
+  });
+})();
+</script>
