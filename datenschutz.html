@@ -4,137 +4,90 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Datenschutzerklärung — Oroboros Design</title>
-<meta name="description" content="Datenschutzerklärung von Oroboros Design: welche Daten diese Seite verarbeitet — und welche nicht.">
-<meta name="robots" content="noindex">
-<link rel="canonical" href="https://oroboros-werk.vercel.app/datenschutz">
+<meta name="description" content="Datenschutzerklärung von Oroboros Design: was die Seite, das Website-Check-Formular, die KI-Beratung Angel und der Kauf über Stripe mit Ihren Daten tun.">
+<link rel="canonical" href="https://oroboros-design.com/datenschutz">
 <meta name="theme-color" content="#000000">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill='%23d9a15c' fill-rule='evenodd' d='M24 5.2A19 19 0 1 1 23.99 5.2ZM24 12.4A12.6 12.6 0 1 0 23.99 12.4Z'/%3E%3Cpath fill='%23d9a15c' d='M25.4 3.2 18.2 7.4l7.2 4.2z'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="vendor/img/logo.svg">
+<link rel="apple-touch-icon" href="vendor/img/apple-touch-icon.png">
+<link rel="preload" href="vendor/fonts/Outfit-300.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 @font-face{font-family:'Italiana';src:url(vendor/fonts/Italiana-400.woff2) format('woff2');font-weight:400;font-display:swap}
 @font-face{font-family:'Outfit';src:url(vendor/fonts/Outfit-300.woff2) format('woff2');font-weight:300;font-display:swap}
 @font-face{font-family:'Outfit';src:url(vendor/fonts/Outfit-400.woff2) format('woff2');font-weight:400;font-display:swap}
 @font-face{font-family:'Outfit';src:url(vendor/fonts/Outfit-600.woff2) format('woff2');font-weight:600;font-display:swap}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { background: #000000; }
-body { font-family: 'Outfit', sans-serif; color: #d1d5db; -webkit-font-smoothing: antialiased; }
-a:focus-visible, summary:focus-visible { outline: 2px solid #d9a15c; outline-offset: 4px; border-radius: 2px; }
-
-.main-header {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 60;
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 13px 60px;
-  background: rgba(0, 0, 0, .85);
-  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(255, 255, 255, .1);
-}
-.brand { display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; font-weight: 600; letter-spacing: 5px; text-transform: uppercase; color: #ffffff; text-decoration: none; }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { background: #000; scroll-padding-top: 96px; -webkit-text-size-adjust: 100%; }
+body { font-family: 'Outfit', system-ui, sans-serif; color: #d1d5db; background: #000; -webkit-font-smoothing: antialiased; }
+:focus-visible { outline: 2px solid #d9a15c; outline-offset: 4px; border-radius: 4px; }
+.sprung { position: fixed; left: 16px; top: -60px; z-index: 200; padding: 12px 18px; background: #fff6ed; color: #000; border-radius: 10px; font-size: 14px; font-weight: 600; text-decoration: none; }
+.sprung:focus { top: 16px; }
+.main-header { position: fixed; top: 0; left: 0; right: 0; z-index: 60; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 13px 60px; background: rgba(0,0,0,.85); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,.1); }
+.brand { display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; font-weight: 600; letter-spacing: 5px; text-transform: uppercase; color: #fff; text-decoration: none; }
 .brand svg { width: 1.05em; height: 1.05em; margin-right: .34em; color: #d9a15c; }
-.contact-btn {
-  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 24px;
-  background: #ffffff; color: #000000; text-decoration: none;
-  font-size: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; border-radius: 22px;
-}
-.contact-btn:hover { background: #f0f0f0; }
-
+.contact-btn { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 22px; background: #fff; color: #000; text-decoration: none; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; border-radius: 22px; }
+.contact-btn:hover { background: #fff6ed; }
 .legal { max-width: 780px; margin: 0 auto; padding: 130px 60px clamp(80px, 12vh, 140px); }
-.legal h1 { font-family: 'Italiana', serif; font-weight: 400; font-size: clamp(38px, 5vw, 72px); color: #fff6ed; margin-bottom: 32px; line-height: 1.05; }
-.legal h2 { font-family: 'Italiana', serif; font-weight: 400; font-size: clamp(22px, 2.4vw, 30px); color: #fff6ed; margin: 44px 0 12px; }
+.legal h1 { font-family: 'Italiana', serif; font-weight: 400; font-size: clamp(38px, 5vw, 72px); color: #fff6ed; margin-bottom: 18px; line-height: 1.05; }
+.legal .stand { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,.64); margin-bottom: 36px; }
+.legal h2 { font-family: 'Italiana', serif; font-weight: 400; font-size: clamp(22px, 2.4vw, 30px); color: #fff6ed; margin: 44px 0 12px; scroll-margin-top: 96px; }
+.legal h3 { font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; color: #d9a15c; font-weight: 600; margin: 26px 0 8px; }
 .legal p, .legal li { font-size: 15px; line-height: 1.8; font-weight: 300; color: #d1d5db; margin-bottom: 12px; }
-.legal ul { padding-left: 20px; }
+.legal ul, .legal ol { padding-left: 20px; }
 .legal a { color: #d9a15c; }
 .legal strong { color: #fff6ed; font-weight: 400; }
-.offen {
-  border: 1px solid #d9a15c; border-radius: 12px; padding: 20px 22px; margin-bottom: 40px;
-  font-size: 14px; line-height: 1.7; color: #fff6ed;
-}
-.offen b { color: #d9a15c; letter-spacing: 1px; text-transform: uppercase; font-size: 11px; display: block; margin-bottom: 8px; font-weight: 600; }
-.zurueck { display: inline-flex; align-items: center; min-height: 44px; margin-top: 48px; color: #d9a15c; text-decoration: none; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; }
+.legal .kasten { border: 1px solid rgba(255,255,255,.18); border-radius: 12px; padding: 20px 22px; margin: 18px 0 24px; }
+.legal .kasten p:last-child { margin-bottom: 0; }
+.legal nav.weiter { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 56px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.12); }
+.legal nav.weiter a { display: inline-flex; align-items: center; min-height: 44px; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; text-decoration: none; }
 @media (max-width: 1024px) { .main-header { padding: 13px 24px; } .legal { padding: 110px 24px 80px; } }
+@media (max-width: 420px) { .contact-btn { padding: 0 16px; } }
 </style>
 </head>
 <body>
+<a class="sprung" href="#inhalt">Zum Inhalt springen</a>
 <header class="main-header">
-  <a class="brand" href="/"><svg viewBox="0 0 48 48" aria-hidden="true">
-      <path fill="currentColor" fill-rule="evenodd" d="M24 5.2A19 19 0 1 1 23.99 5.2ZM24 12.4A12.6 12.6 0 1 0 23.99 12.4Z"/>
-      <path fill="currentColor" d="M25.4 3.2 18.2 7.4l7.2 4.2z"/>
-    </svg>roboros</a>
-  <a href="mailto:oroborosdesign@gmail.com?subject=Projektanfrage" class="contact-btn">Kontakt</a>
+  <a class="brand" href="/" aria-label="Oroboros Design — Startseite"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M24 5.2A19 19 0 1 1 23.99 5.2ZM24 12.4A12.6 12.6 0 1 0 23.99 12.4Z"/><path fill="currentColor" d="M25.4 3.2 18.2 7.4l7.2 4.2z"/></svg>roboros</a>
+  <a href="/#kontakt" class="contact-btn">Kontakt</a>
 </header>
-<main class="legal">
+<main class="legal" id="inhalt" tabindex="-1">
 <h1>Datenschutz&shy;erklärung</h1>
-
-<div class="offen"><b>Vor der öffentlichen Schaltung zu ergänzen</b>
-Die Anschrift des Verantwortlichen fehlt (siehe <a href="/impressum">Impressum</a>), und der
-Auftragsverarbeitungsvertrag mit dem Hoster ist zu schließen und hier zu benennen. Dieser Text
-beschreibt wahrheitsgemäß, was die Seite technisch tut — er ersetzt keine Rechtsberatung.
-Bis zur Freigabe trägt diese Seite <code>noindex</code>.</div>
+<p class="stand">Stand: 29. September 2026</p>
 
 <h2>Verantwortlicher</h2>
-<p>
-  Daouda Ndiaye, Oroboros Design, <strong>[Anschrift — offen]</strong>, Köln,
-  <a href="mailto:oroborosdesign@gmail.com">oroborosdesign@gmail.com</a>.
-</p>
+<p>Daouda Ndiaye, Oroboros Design, Eulenbergstraße 22, 51065 Köln, Deutschland · Telefon +49 151 58775031 · <a href="mailto:oroborosdesign@gmail.com">oroborosdesign@gmail.com</a>. Einen Datenschutzbeauftragten müssen wir nicht bestellen; für alle Fragen genügt eine E-Mail an diese Adresse.</p>
 
 <h2>Der kurze Teil zuerst</h2>
-<p>
-  Diese Seite setzt <strong>keine Cookies</strong>, bindet <strong>keine Analyse- oder
-  Tracking-Dienste</strong> ein und lädt <strong>keine externen Inhalte</strong>. Schriften,
-  Bilder und die 3D-Bibliothek liegen auf demselben Server wie die Seite selbst; beim Aufruf
-  verlässt Ihr Browser diese Domain nicht. Es gibt kein Kontaktformular und damit keine
-  Formularübermittlung. Ein Einwilligungsbanner ist deshalb nicht erforderlich.
-</p>
+<div class="kasten">
+  <p>Diese Seite setzt <strong>keine Cookies</strong> und bindet <strong>keine Analyse-, Werbe- oder Tracking-Dienste</strong> ein. Schriften, Bilder und die 3D-Bibliothek liegen auf unserem eigenen Server; beim bloßen Lesen verlässt Ihr Browser diese Domain nicht.</p>
+  <p>Daten fließen nur, wenn Sie selbst etwas auslösen: das Formular „Kostenloser Website-Check“ absenden, mit <strong>Angel</strong> sprechen, einen <strong>Kaufknopf</strong> drücken oder einem Verweis zu einem anderen Anbieter folgen. Was dann geschieht, steht unten, Abschnitt für Abschnitt.</p>
+</div>
 
-<h2>Server-Logdateien beim Hoster</h2>
-<p>
-  Die Seite wird bei der Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, USA,
-  gehostet. Beim Abruf werden technisch notwendige Zugriffsdaten verarbeitet: IP-Adresse,
-  Zeitpunkt, abgerufene Adresse, übertragene Datenmenge, Herkunftsseite, Browser- und
-  Betriebssystemkennung. Diese Daten sind zur Auslieferung und zum sicheren Betrieb
-  erforderlich; sie werden nicht mit anderen Datenquellen zusammengeführt.
-</p>
-<p>
-  Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO — unser berechtigtes Interesse an einer
-  technisch fehlerfreien und sicheren Darstellung. Die Übermittlung in die USA stützt sich
-  auf die Standardvertragsklauseln der Europäischen Kommission bzw. auf das
-  EU-US Data Privacy Framework.
-</p>
+<h2>Auslieferung der Seite (Hosting)</h2>
+<p>Die Seite wird von der Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, USA ausgeliefert. Beim Abruf verarbeitet Vercel die technisch notwendigen Zugriffsdaten: IP-Adresse, Zeitpunkt, abgerufene Adresse, übertragene Datenmenge, Herkunftsseite, Browser- und Betriebssystemkennung. Sie sind für die Auslieferung und den sicheren Betrieb erforderlich und werden nicht mit anderen Quellen zusammengeführt.</p>
+<p>Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO — unser berechtigtes Interesse an einer fehlerfreien und sicheren Seite. Vercel ist nach dem EU-US Data Privacy Framework zertifiziert; ergänzend gelten die Standardvertragsklauseln der EU-Kommission.</p>
 
-<h2>Kontaktaufnahme per E-Mail oder WhatsApp</h2>
-<p>
-  Wenn Sie uns schreiben, verarbeiten wir die von Ihnen übermittelten Angaben — Name,
-  Adresse, Anliegen — ausschließlich zur Bearbeitung Ihrer Anfrage. Rechtsgrundlage ist
-  Art. 6 Abs. 1 lit. b DSGVO bei vorvertraglichen Maßnahmen, sonst Art. 6 Abs. 1 lit. f DSGVO.
-  Wir löschen die Daten, sobald der Vorgang abgeschlossen ist und keine gesetzlichen
-  Aufbewahrungsfristen entgegenstehen.
-</p>
-<p>
-  Die E-Mail-Adresse wird bei Google Ireland Limited betrieben, die WhatsApp-Nummer bei der
-  WhatsApp Ireland Limited. Wenn Sie uns über WhatsApp schreiben, gelten zusätzlich deren
-  Datenschutzbestimmungen. Wollen Sie das vermeiden, nutzen Sie die E-Mail.
-</p>
+<h2 id="formular">Formular „Kostenloser Website-Check“</h2>
+<p>Wenn Sie das Formular absenden, übermitteln wir Name, E-Mail-Adresse, die angegebene Website, Ihr Anliegen, Ihre Nachricht, die Sprache der Seite und die Seite, von der Sie kommen, an unser eigenes Anfragesystem. Dort wird die Anfrage als Aufgabe abgelegt und uns per E-Mail und Push-Nachricht zugestellt. Wir verwenden die Angaben ausschließlich, um Ihre Website zu prüfen und Ihnen zu antworten.</p>
+<p>Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche Maßnahmen auf Ihre Anfrage). Beteiligte Dienstleister: Vercel Inc. (Betrieb der Schnittstelle), Supabase Inc. (Datenbank, Region EU), Resend Inc. (Zustellung der Benachrichtigungs-Mail) und Google Ireland Limited (Postfach). Zur Abwehr von Missbrauch zählen wir Anfragen je Absender über einen gesalzenen, nicht umkehrbaren Fingerabdruck der IP-Adresse; die Adresse selbst speichern wir dafür nicht. Wir löschen die Angaben, sobald der Vorgang abgeschlossen ist und keine gesetzlichen Aufbewahrungsfristen entgegenstehen.</p>
 
-<h2>Kontaktformular „Kostenloser Website-Check“</h2>
-<p>
-  Wenn Sie das Formular absenden, übermitteln wir Name, E-Mail-Adresse, die angegebene Website,
-  Ihr Anliegen und Ihre Nachricht an unser eigenes Anfragesystem. Dort wird die Anfrage als Aufgabe
-  für uns abgelegt und uns per E-Mail und Push-Nachricht zugestellt. Wir verwenden die Angaben
-  ausschließlich, um Ihre Website zu prüfen und Ihnen zu antworten. Rechtsgrundlage ist
-  Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche Maßnahmen auf Ihre Anfrage). Wir löschen die Angaben,
-  sobald der Vorgang abgeschlossen ist und keine gesetzlichen Aufbewahrungsfristen entgegenstehen.
-</p>
-<p>
-  Beteiligte Dienstleister: Vercel Inc. (Betrieb der Schnittstelle), Supabase Inc. (Datenbank,
-  Region EU), Resend Inc. (Zustellung der Benachrichtigungs-Mail) und Google Ireland Limited
-  (Postfach). Zur Abwehr von Missbrauch zählen wir Anfragen je Absender über einen gesalzenen
-  Fingerabdruck der IP-Adresse; die Adresse selbst speichern wir dafür nicht.
-</p>
+<h2 id="beratung">Beratung mit Angel (KI-Chat)</h2>
+<p>Angel ist ein KI-System, kein Mensch. Wenn Sie Angel schreiben, übermitteln wir Ihre Nachricht, die Sprache der Seite, die Seite, auf der Sie sich befinden, und eine zufällige Gesprächskennung an unsere Schnittstelle. Freiwillig können Sie Name und E-Mail-Adresse angeben, damit wir Ihnen antworten können. Das Gespräch wird gespeichert, damit Angel den Zusammenhang kennt und wir Ihr Anliegen weiterbearbeiten können.</p>
+<p>Um Antworten zu formulieren, gibt unsere Schnittstelle den Text des Gesprächs an Sprachmodelle weiter: Anthropic PBC (USA), Google (Gemini; Google Ireland Limited bzw. Google LLC) und OpenAI, L.L.C. (USA) — je nach Verfügbarkeit einer dieser Anbieter. Geben Sie im Gespräch bitte keine besonderen Kategorien personenbezogener Daten (etwa Gesundheitsdaten) an; Angel braucht sie nicht.</p>
+<p>Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, soweit das Gespräch einen Auftrag vorbereitet, sonst Art. 6 Abs. 1 lit. f DSGVO — unser berechtigtes Interesse, Fragen zu unseren Angeboten sofort zu beantworten. Beteiligt sind Vercel Inc. (Schnittstelle), Supabase Inc. (Speicherung, Region EU) und die genannten Modellanbieter. Wir speichern das Gespräch, solange es für die Bearbeitung Ihres Anliegens nötig ist, und löschen es danach, soweit keine gesetzlichen Aufbewahrungspflichten entgegenstehen. Angel trifft keine Entscheidungen, die Ihnen gegenüber rechtliche Wirkung entfalten (Art. 22 DSGVO); Preise und Angebote außerhalb der veröffentlichten Liste legt ein Mensch fest.</p>
+<p><strong>Im Browser</strong> legt der Chat für die Dauer der Sitzung zwei Einträge im <em>sessionStorage</em> an: die Gesprächskennung (<code>oroboros.angel.sitzung</code>) und den bisherigen Verlauf (<code>oroboros.angel.verlauf</code>), damit das Gespräch beim Neuladen nicht verloren geht. Beides ist für den von Ihnen gewünschten Chat unbedingt erforderlich (§ 25 Abs. 2 Nr. 2 TDDDG) und verschwindet, wenn Sie den Tab schließen. Solange Sie den Chat nicht öffnen, wird nichts gespeichert.</p>
 
-<h2>Was diese Seite in Ihrem Browser speichert</h2>
-<p>
-  Nichts. Kein <em>localStorage</em>, kein <em>sessionStorage</em>, keine Cookies,
-  keine Kennung, kein Zählpixel.
-</p>
+<h2 id="kauf">Kauf und Zahlung</h2>
+<p>Ein Kaufknopf führt über unsere Schnittstelle zur Bezahlseite von Stripe. Die Schnittstelle legt dabei einen Auftrag mit dem gewählten Angebot und der Herkunftskennung des Links an (zum Beispiel <code>ref=oroboros-website</code> oder den Namen einer empfehlenden Person). Die Zahlung wickelt die Stripe Payments Europe Ltd., 1 Grand Canal Street Lower, Dublin 2, Irland ab. Stripe erhält die Daten, die für die Zahlung nötig sind (Name, E-Mail-Adresse, Zahlungsmittel, Rechnungsanschrift), und stellt in unserem Auftrag Rechnungen aus. Kartendaten sehen wir nie.</p>
+<p>Wir speichern Ihre E-Mail-Adresse, das gekaufte Angebot, Betrag, Zeitpunkt und die Bestätigungen, die Sie im Kaufvorgang gegeben haben — zur Vertragserfüllung (Art. 6 Abs. 1 lit. b DSGVO) und wegen handels- und steuerrechtlicher Aufbewahrungspflichten (Art. 6 Abs. 1 lit. c DSGVO, bis zu zehn Jahre). Bestätigungen und Lieferungen senden wir über Resend Inc. (USA).</p>
+
+<h2>Kontakt per E-Mail, Telefon oder WhatsApp</h2>
+<p>Wenn Sie uns schreiben oder anrufen, verarbeiten wir Ihre Angaben ausschließlich zur Bearbeitung Ihrer Anfrage (Art. 6 Abs. 1 lit. b DSGVO bei vorvertraglichen Maßnahmen, sonst lit. f). Das Postfach betreibt die Google Ireland Limited, die WhatsApp-Nummer die WhatsApp Ireland Limited; bei WhatsApp gelten zusätzlich deren Datenschutzbestimmungen. Wollen Sie das vermeiden, schreiben Sie per E-Mail.</p>
+
+<h2>Verweise zu anderen Anbietern</h2>
+<p>Verweise auf Instagram, WhatsApp oder die Markenseiten von Nennbar, Losgeschickt und Bildtakt sind einfache Links. Erst wenn Sie ihnen folgen, verlassen Sie diese Seite; dann gilt die Datenschutzerklärung des jeweiligen Angebots. Für die Markenseiten ist das unsere eigene Erklärung unter <a href="https://angel-phi-eight.vercel.app/recht/datenschutz.html">angel-phi-eight.vercel.app/recht/datenschutz.html</a>.</p>
+
+<h2>Empfänger außerhalb der EU</h2>
+<p>Vercel, Resend, Anthropic und OpenAI sitzen in den USA; Google und Stripe verarbeiten auch außerhalb der EU. Die Übermittlung stützt sich auf das EU-US Data Privacy Framework beziehungsweise auf die Standardvertragsklauseln der EU-Kommission.</p>
 
 <h2>Ihre Rechte</h2>
 <ul>
@@ -143,16 +96,19 @@ Bis zur Freigabe trägt diese Seite <code>noindex</code>.</div>
   <li>Löschung (Art. 17 DSGVO) und Einschränkung der Verarbeitung (Art. 18 DSGVO)</li>
   <li>Datenübertragbarkeit (Art. 20 DSGVO)</li>
   <li>Widerspruch gegen Verarbeitungen auf Grundlage berechtigter Interessen (Art. 21 DSGVO)</li>
-  <li>Beschwerde bei einer Aufsichtsbehörde (Art. 77 DSGVO) — zuständig ist die Landesbeauftragte
-      für Datenschutz und Informationsfreiheit Nordrhein-Westfalen</li>
+  <li>Beschwerde bei einer Aufsichtsbehörde (Art. 77 DSGVO) — für uns zuständig ist die Landesbeauftragte für Datenschutz und Informationsfreiheit Nordrhein-Westfalen</li>
 </ul>
-<p>Für alle diese Anliegen genügt eine formlose E-Mail an
-  <a href="mailto:oroborosdesign@gmail.com">oroborosdesign@gmail.com</a>.</p>
+<p>Für alle diese Anliegen genügt eine formlose E-Mail an <a href="mailto:oroborosdesign@gmail.com">oroborosdesign@gmail.com</a>.</p>
 
-<h2>Stand</h2>
-<p>Diese Erklärung beschreibt den Stand der Seite zum Zeitpunkt ihrer Veröffentlichung.
-Ändert sich, was die Seite technisch tut, wird sie mitgeändert.</p>
-<a class="zurueck" href="/">← Zurück zur Seite</a>
+<h2>Änderungen</h2>
+<p>Diese Erklärung beschreibt, was die Seite heute technisch tut. Ändert sich das, ändern wir sie mit.</p>
+<nav class="weiter" aria-label="Rechtliches">
+  <a href="/">← Zur Startseite</a>
+  <a href="/impressum">Impressum</a>
+  <a href="/datenschutz">Datenschutz</a>
+  <a href="/agb">AGB</a>
+  <a href="/widerruf">Widerruf</a>
+</nav>
 </main>
 </body>
 </html>

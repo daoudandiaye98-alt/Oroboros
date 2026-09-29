@@ -1,0 +1,32 @@
+# Oroboros Design
+
+> AI company from Cologne, Germany — Oroboros Design, owner Daouda Ndiaye. Design and development in four AI fields: websites, AI visibility, AI automation and software, AI video and content. Run with Angel, the company's own AI assistant, who answers on the website in German and English. All prices are final prices in EUR (small business under § 19 of the German VAT Act, no VAT charged). Payment via Stripe.
+
+## Offers with prices
+
+- [Website in 48 hours (Oroboros Websites)](https://oroboros-design.com/en#websites): €1,500 fixed price; 50 % on order, the rest on acceptance; designed, built and handed over within two working days of the deposit. Code and access belong to the client.
+- [Nennbar — AI visibility](https://angel-phi-eight.vercel.app/nennbar/): makes a business readable for ChatGPT, Perplexity and Siri (llms.txt, structured data, FAQ). Free check in one minute; package €199; installation by us €99; monthly monitor €39/month; checklist for agencies €49 for 100 websites, €149 for 500 websites.
+- [Losgeschickt — job applications on autopilot](https://angel-phi-eight.vercel.app/losgeschickt/): finds matching jobs in Germany and writes cover letters from the CV. Beta €39 (seven days); Month €79/month; Plus €129/month.
+- [Bildtakt — AI video](https://angel-phi-eight.vercel.app/bildtakt/): vertical clips from a business's logo and photos. Auftakt €149 (three clips); Takt €299/month (eight clips a month).
+- [AI automation, Starter](https://oroboros-design.com/en#automation): €990 one-off; one workflow automated (enquiries, quotes, bookings, follow-ups), delivered with a handover.
+- [AI chat for websites](https://oroboros-design.com/en#ki-chat): €99/month; an assistant that answers visitors from the business's own information and takes enquiries.
+- [AI content, monthly](https://oroboros-design.com/en#inhalte): €149/month; eight posts a month for Instagram, Facebook or LinkedIn.
+
+## Free
+
+- [Website check](https://oroboros-design.com/en#kontakt): three concrete findings and a fixed price to fix them, within 48 hours.
+- [AI visibility check](https://angel-phi-eight.vercel.app/nennbar/): whether AI assistants can read and name a website, in one minute.
+
+## Contact
+
+- Email: oroborosdesign@gmail.com
+- WhatsApp: +49 176 79219526
+- Address: Eulenbergstraße 22, 51065 Köln, Germany
+- Live consultation with Angel: https://oroboros-design.com/en (English), https://oroboros-design.com/ (German)
+- Instagram: https://www.instagram.com/oroboros.design/
+
+## Pages
+
+- [Deutsch](https://oroboros-design.com/)
+- [English](https://oroboros-design.com/en)
+- [Impressum](https://oroboros-design.com/impressum) · [Datenschutz](https://oroboros-design.com/datenschutz) · [AGB](https://oroboros-design.com/agb) · [Widerruf](https://oroboros-design.com/widerruf)

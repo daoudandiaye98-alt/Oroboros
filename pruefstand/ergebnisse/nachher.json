@@ -1,0 +1,3179 @@
+{
+ "zeit": "2026-09-29T00:45:23.113Z",
+ "basis": "http://127.0.0.1:43027",
+ "wurzel": "/home/claude/oroboros",
+ "seiten": [
+  {
+   "pfad": "/",
+   "profil": "desktop",
+   "dauer": {
+    "laden": 1440,
+    "bildzeiten": 11894,
+    "folien": 8971,
+    "kontrastBuehne": 12328,
+    "dokument": 8445,
+    "kontrastDokument": 20,
+    "fokus": 5860
+   },
+   "statisch": {
+    "lang": "de",
+    "ueberschriften": {
+     "anzahl": 46,
+     "h1": 1,
+     "spruenge": [],
+     "liste": [
+      {
+       "stufe": 1,
+       "text": "Oroboros Design — KI-Unternehmen aus Köln"
+      },
+      {
+       "stufe": 2,
+       "text": "Bauen Sie das MorgenBauen Siedas Morgen"
+      },
+      {
+       "stufe": 2,
+       "text": "Werden Sie genanntWerden Siegenannt"
+      },
+      {
+       "stufe": 2,
+       "text": "Geben Sie abGeben Sie ab"
+      },
+      {
+       "stufe": 2,
+       "text": "Bleiben Sie vornBleiben Sievorn"
+      },
+      {
+       "stufe": 2,
+       "text": "Zwei Prüfungen, bevor Sie irgendetwas zahlen."
+      },
+      {
+       "stufe": 2,
+       "text": "Ein KI-Unternehmen. Vier Felder.Ein KI-Unternehmen.Vier Feld"
+      },
+      {
+       "stufe": 3,
+       "text": "Websites & Design"
+      },
+      {
+       "stufe": 3,
+       "text": "KI-Sichtbarkeit"
+      },
+      {
+       "stufe": 3,
+       "text": "KI-Automation & Software"
+      },
+      {
+       "stufe": 3,
+       "text": "KI-Video & Inhalte"
+      },
+      {
+       "stufe": 2,
+       "text": "Jedes Angebot mit Preis.Jedes Angebotmit Preis."
+      },
+      {
+       "stufe": 3,
+       "text": "Website in 48 Stunden"
+      },
+      {
+       "stufe": 3,
+       "text": "Genannt werden, wenn Kunden KI fragen"
+      },
+      {
+       "stufe": 3,
+       "text": "Bewerben ist Arbeit. Wir machen sie."
+      },
+      {
+       "stufe": 3,
+       "text": "Kurze Clips aus Ihren Fotos"
+      },
+      {
+       "stufe": 3,
+       "text": "Ein Ablauf, der ohne Sie läuft"
+      },
+      {
+       "stufe": 3,
+       "text": "Ein Assistent auf Ihrer Website"
+      },
+      {
+       "stufe": 3,
+       "text": "Acht Beiträge im Monat"
+      },
+      {
+       "stufe": 3,
+       "text": "Ihr Vorhaben passt in keine Zeile?"
+      },
+      {
+       "stufe": 2,
+       "text": "Sehen Sie selbst. Bevor Sie fragen.Sehen Sie selbst.Bevor Si"
+      },
+      {
+       "stufe": 3,
+       "text": "HALDEN"
+      },
+      {
+       "stufe": 3,
+       "text": "LUMEN"
+      },
+      {
+       "stufe": 3,
+       "text": "Northside"
+      },
+      {
+       "stufe": 3,
+       "text": "Ridgeline"
+      },
+      {
+       "stufe": 2,
+       "text": "Vier Schritte. Dann läuft es.Vier Schritte.Dann läuft es."
+      },
+      {
+       "stufe": 3,
+       "text": "Beratung"
+      },
+      {
+       "stufe": 3,
+       "text": "Angebot"
+      },
+      {
+       "stufe": 3,
+       "text": "Anzahlung"
+      },
+      {
+       "stufe": 3,
+       "text": "Lieferung in Tagen"
+      },
+      {
+       "stufe": 2,
+       "text": "Angel arbeitet. Auch nachts.Angel arbeitet.Auch nachts."
+      },
+      {
+       "stufe": 3,
+       "text": "Prüft"
+      },
+      {
+       "stufe": 3,
+       "text": "Antwortet"
+      },
+      {
+       "stufe": 3,
+       "text": "Liefert"
+      },
+      {
+       "stufe": 3,
+       "text": "Erinnert"
+      },
+      {
+       "stufe": 2,
+       "text": "Verlangen Sie einen Nachweis.Verlangen Sieeinen Nachweis."
+      },
+      {
+       "stufe": 3,
+       "text": "Strategie und Beleg"
+      },
+      {
+       "stufe": 3,
+       "text": "Oberfläche und Zugänglichkeit"
+      },
+      {
+       "stufe": 3,
+       "text": "Technik"
+      },
+      {
+       "stufe": 3,
+       "text": "Auffindbarkeit"
+      },
+      {
+       "stufe": 3,
+       "text": "Einwände? Fragen Sie ruhig."
+      },
+      {
+       "stufe": 2,
+       "text": "Holen Sie sich den Befund. Kostenlos.Holen Sie sichden Befun"
+      },
+      {
+       "stufe": 3,
+       "text": "Empfehlen Sie uns: 20 % vom ersten Auftrag"
+      },
+      {
+       "stufe": 2,
+       "text": "Seite"
+      },
+      {
+       "stufe": 2,
+       "text": "Angebote"
+      },
+      {
+       "stufe": 2,
+       "text": "Direkt"
+      }
+     ]
+    },
+    "ohneAlt": [],
+    "ohneLabel": [],
+    "ohneName": [],
+    "titel": "Oroboros Design — KI-Unternehmen aus Köln"
+   },
+   "webgl": [
+    {
+     "art": "webgl2",
+     "ok": true,
+     "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+    }
+   ],
+   "bildzeitenWebgl": {
+    "bilder": 255,
+    "p50": 33.2,
+    "p95": 50,
+    "p99": 66.6,
+    "max": 66.7,
+    "ueber50": 10
+   },
+   "guete": {
+    "stufe": 5,
+    "name": "halbtakt",
+    "skala": 0.6,
+    "grund": 0.25,
+    "funken": 240,
+    "takt": 2,
+    "pixel": 0.6,
+    "dpr": 1,
+    "mobil": false,
+    "erzwungen": true
+   },
+   "folien": [
+    {
+     "anker": 0,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 1
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-1"
+     ]
+    },
+    {
+     "anker": 0.34,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 1
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-2"
+     ]
+    },
+    {
+     "anker": 0.62,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 1
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-3"
+     ]
+    },
+    {
+     "anker": 0.94,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 1
+      }
+     ],
+     "lesbar": [
+      "slide-4"
+     ]
+    }
+   ],
+   "kontrastBuehne": {
+    "geprueft": 68,
+    "fehler": []
+   },
+   "waagerecht": {
+    "gescrollt": false,
+    "scrollBreiteMax": 1430,
+    "breite": 1440,
+    "ueberstand": []
+   },
+   "unsichtbarNachScroll": [],
+   "kontrastDokument": {
+    "geprueft": 290,
+    "fehler": [],
+    "anzahlFehler": 0,
+    "unsicher": 29
+   },
+   "fokus": {
+    "ziele": 78,
+    "fehler": [],
+    "verdeckt": []
+   },
+   "verweise": [
+    "#doc",
+    "#top",
+    "#was-wir-tun",
+    "#unternehmen",
+    "#arbeiten",
+    "#angel-abschnitt",
+    "#kontakt",
+    "/en",
+    "mailto:oroborosdesign@gmail.com",
+    "https://wa.me/4917679219526",
+    "https://angel-phi-eight.vercel.app/nennbar/",
+    "#websites",
+    "#nennbar",
+    "#automation",
+    "#bildtakt",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=website_48h&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=nennbar_paket&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=nennbar_einbau&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=nennbar_monitor&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=nennbar_pruefliste_100&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=nennbar_pruefliste_500&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/nennbar/pruefliste/",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=losgeschickt_beta&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=losgeschickt_monat&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=losgeschickt_plus&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/losgeschickt/",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=bildtakt_auftakt&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=bildtakt_takt&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/bildtakt/",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=ki_automation_starter&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=ki_chat_website&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=ki_content_takt&ref=oroboros-website",
+    "/agb",
+    "/widerruf",
+    "/arbeiten/halden",
+    "/arbeiten/lumen",
+    "/arbeiten/northside",
+    "/arbeiten/ridgeline",
+    "/datenschutz",
+    "mailto:oroborosdesign@gmail.com?subject=Website-Check",
+    "#ablauf",
+    "#ki-chat",
+    "#inhalte",
+    "https://www.instagram.com/oroboros.design/",
+    "/impressum",
+    "/datenschutz#beratung"
+   ],
+   "cls": 0.00013730817043895748,
+   "clsSumme": 0.0007382223079561044,
+   "clsQuellen": [],
+   "langeAufgaben": 112,
+   "langeNachLoad": 111,
+   "laengsteNachLoad": 253,
+   "laengsteGesamt": 253,
+   "konsole": [],
+   "konsoleUmgebung": [
+    {
+     "art": "warning",
+     "text": "[GroupMarkerNotSet(crbug.com/242999)!:A0702000A4150000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content."
+    },
+    {
+     "art": "warning",
+     "text": "[.WebGL-0x3d2c00104800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+    },
+    {
+     "art": "warning",
+     "text": "[.WebGL-0x3d2c00104800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+    },
+    {
+     "art": "warning",
+     "text": "[.WebGL-0x3d2c00104800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+    },
+    {
+     "art": "warning",
+     "text": "[.WebGL-0x3d2c00104800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)"
+    }
+   ],
+   "ausnahmen": [],
+   "fehlanfragen": []
+  },
+  {
+   "pfad": "/",
+   "profil": "mobil",
+   "dauer": {
+    "laden": 1448,
+    "bildzeiten": 12013,
+    "folien": 8648,
+    "kontrastBuehne": 11306,
+    "dokument": 12236,
+    "kontrastDokument": 18,
+    "fokus": 5247
+   },
+   "statisch": {
+    "lang": "de",
+    "ueberschriften": {
+     "anzahl": 46,
+     "h1": 1,
+     "spruenge": [],
+     "liste": [
+      {
+       "stufe": 1,
+       "text": "Oroboros Design — KI-Unternehmen aus Köln"
+      },
+      {
+       "stufe": 2,
+       "text": "Bauen Sie das MorgenBauen Siedas Morgen"
+      },
+      {
+       "stufe": 2,
+       "text": "Werden Sie genanntWerden Siegenannt"
+      },
+      {
+       "stufe": 2,
+       "text": "Geben Sie abGeben Sie ab"
+      },
+      {
+       "stufe": 2,
+       "text": "Bleiben Sie vornBleiben Sievorn"
+      },
+      {
+       "stufe": 2,
+       "text": "Zwei Prüfungen, bevor Sie irgendetwas zahlen."
+      },
+      {
+       "stufe": 2,
+       "text": "Ein KI-Unternehmen. Vier Felder.Ein KI-Unternehmen.Vier Feld"
+      },
+      {
+       "stufe": 3,
+       "text": "Websites & Design"
+      },
+      {
+       "stufe": 3,
+       "text": "KI-Sichtbarkeit"
+      },
+      {
+       "stufe": 3,
+       "text": "KI-Automation & Software"
+      },
+      {
+       "stufe": 3,
+       "text": "KI-Video & Inhalte"
+      },
+      {
+       "stufe": 2,
+       "text": "Jedes Angebot mit Preis.Jedes Angebotmit Preis."
+      },
+      {
+       "stufe": 3,
+       "text": "Website in 48 Stunden"
+      },
+      {
+       "stufe": 3,
+       "text": "Genannt werden, wenn Kunden KI fragen"
+      },
+      {
+       "stufe": 3,
+       "text": "Bewerben ist Arbeit. Wir machen sie."
+      },
+      {
+       "stufe": 3,
+       "text": "Kurze Clips aus Ihren Fotos"
+      },
+      {
+       "stufe": 3,
+       "text": "Ein Ablauf, der ohne Sie läuft"
+      },
+      {
+       "stufe": 3,
+       "text": "Ein Assistent auf Ihrer Website"
+      },
+      {
+       "stufe": 3,
+       "text": "Acht Beiträge im Monat"
+      },
+      {
+       "stufe": 3,
+       "text": "Ihr Vorhaben passt in keine Zeile?"
+      },
+      {
+       "stufe": 2,
+       "text": "Sehen Sie selbst. Bevor Sie fragen.Sehen Sie selbst.Bevor Si"
+      },
+      {
+       "stufe": 3,
+       "text": "HALDEN"
+      },
+      {
+       "stufe": 3,
+       "text": "LUMEN"
+      },
+      {
+       "stufe": 3,
+       "text": "Northside"
+      },
+      {
+       "stufe": 3,
+       "text": "Ridgeline"
+      },
+      {
+       "stufe": 2,
+       "text": "Vier Schritte. Dann läuft es.Vier Schritte.Dann läuft es."
+      },
+      {
+       "stufe": 3,
+       "text": "Beratung"
+      },
+      {
+       "stufe": 3,
+       "text": "Angebot"
+      },
+      {
+       "stufe": 3,
+       "text": "Anzahlung"
+      },
+      {
+       "stufe": 3,
+       "text": "Lieferung in Tagen"
+      },
+      {
+       "stufe": 2,
+       "text": "Angel arbeitet. Auch nachts.Angel arbeitet.Auch nachts."
+      },
+      {
+       "stufe": 3,
+       "text": "Prüft"
+      },
+      {
+       "stufe": 3,
+       "text": "Antwortet"
+      },
+      {
+       "stufe": 3,
+       "text": "Liefert"
+      },
+      {
+       "stufe": 3,
+       "text": "Erinnert"
+      },
+      {
+       "stufe": 2,
+       "text": "Verlangen Sie einen Nachweis.Verlangen Sieeinen Nachweis."
+      },
+      {
+       "stufe": 3,
+       "text": "Strategie und Beleg"
+      },
+      {
+       "stufe": 3,
+       "text": "Oberfläche und Zugänglichkeit"
+      },
+      {
+       "stufe": 3,
+       "text": "Technik"
+      },
+      {
+       "stufe": 3,
+       "text": "Auffindbarkeit"
+      },
+      {
+       "stufe": 3,
+       "text": "Einwände? Fragen Sie ruhig."
+      },
+      {
+       "stufe": 2,
+       "text": "Holen Sie sich den Befund. Kostenlos.Holen Sie sichden Befun"
+      },
+      {
+       "stufe": 3,
+       "text": "Empfehlen Sie uns: 20 % vom ersten Auftrag"
+      },
+      {
+       "stufe": 2,
+       "text": "Seite"
+      },
+      {
+       "stufe": 2,
+       "text": "Angebote"
+      },
+      {
+       "stufe": 2,
+       "text": "Direkt"
+      }
+     ]
+    },
+    "ohneAlt": [],
+    "ohneLabel": [],
+    "ohneName": [],
+    "titel": "Oroboros Design — KI-Unternehmen aus Köln"
+   },
+   "webgl": [
+    {
+     "art": "webgl2",
+     "ok": true,
+     "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+    }
+   ],
+   "bildzeitenWebgl": {
+    "bilder": 356,
+    "p50": 16.7,
+    "p95": 33.4,
+    "p99": 33.4,
+    "max": 33.4,
+    "ueber50": 0
+   },
+   "guete": {
+    "stufe": 5,
+    "name": "halbtakt",
+    "skala": 0.6,
+    "grund": 0.25,
+    "funken": 240,
+    "takt": 2,
+    "pixel": 0.8999999999999999,
+    "dpr": 3,
+    "mobil": true,
+    "erzwungen": true
+   },
+   "folien": [
+    {
+     "anker": 0,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 1
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-1"
+     ]
+    },
+    {
+     "anker": 0.34,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 1
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-2"
+     ]
+    },
+    {
+     "anker": 0.62,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 1
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-3"
+     ]
+    },
+    {
+     "anker": 0.94,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 1
+      }
+     ],
+     "lesbar": [
+      "slide-4"
+     ]
+    }
+   ],
+   "kontrastBuehne": {
+    "geprueft": 35,
+    "fehler": []
+   },
+   "waagerecht": {
+    "gescrollt": false,
+    "scrollBreiteMax": 390,
+    "breite": 390,
+    "ueberstand": []
+   },
+   "unsichtbarNachScroll": [],
+   "kontrastDokument": {
+    "geprueft": 290,
+    "fehler": [],
+    "anzahlFehler": 0,
+    "unsicher": 29
+   },
+   "fokus": {
+    "ziele": 73,
+    "fehler": [],
+    "verdeckt": []
+   },
+   "verweise": [
+    "#doc",
+    "#top",
+    "#was-wir-tun",
+    "#unternehmen",
+    "#arbeiten",
+    "#angel-abschnitt",
+    "#kontakt",
+    "/en",
+    "mailto:oroborosdesign@gmail.com",
+    "https://wa.me/4917679219526",
+    "https://angel-phi-eight.vercel.app/nennbar/",
+    "#websites",
+    "#nennbar",
+    "#automation",
+    "#bildtakt",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=website_48h&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=nennbar_paket&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=nennbar_einbau&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=nennbar_monitor&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=nennbar_pruefliste_100&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=nennbar_pruefliste_500&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/nennbar/pruefliste/",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=losgeschickt_beta&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=losgeschickt_monat&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=losgeschickt_plus&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/losgeschickt/",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=bildtakt_auftakt&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=bildtakt_takt&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/bildtakt/",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=ki_automation_starter&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=ki_chat_website&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=ki_content_takt&ref=oroboros-website",
+    "/agb",
+    "/widerruf",
+    "/arbeiten/halden",
+    "/arbeiten/lumen",
+    "/arbeiten/northside",
+    "/arbeiten/ridgeline",
+    "/datenschutz",
+    "mailto:oroborosdesign@gmail.com?subject=Website-Check",
+    "#ablauf",
+    "#ki-chat",
+    "#inhalte",
+    "https://www.instagram.com/oroboros.design/",
+    "/impressum",
+    "/datenschutz#beratung"
+   ],
+   "cls": 0,
+   "clsSumme": 0,
+   "clsQuellen": [],
+   "langeAufgaben": 42,
+   "langeNachLoad": 41,
+   "laengsteNachLoad": 231,
+   "laengsteGesamt": 231,
+   "konsole": [],
+   "konsoleUmgebung": [
+    {
+     "art": "warning",
+     "text": "[GroupMarkerNotSet(crbug.com/242999)!:A0702000A4150000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content."
+    }
+   ],
+   "ausnahmen": [],
+   "fehlanfragen": []
+  },
+  {
+   "pfad": "/en",
+   "profil": "desktop",
+   "dauer": {
+    "laden": 1475,
+    "bildzeiten": 11754,
+    "folien": 9013,
+    "kontrastBuehne": 11798,
+    "dokument": 8503,
+    "kontrastDokument": 41,
+    "fokus": 6332
+   },
+   "statisch": {
+    "lang": "en",
+    "ueberschriften": {
+     "anzahl": 46,
+     "h1": 1,
+     "spruenge": [],
+     "liste": [
+      {
+       "stufe": 1,
+       "text": "Oroboros Design — AI company from Cologne"
+      },
+      {
+       "stufe": 2,
+       "text": "Build tomorrowBuildtomorrow"
+      },
+      {
+       "stufe": 2,
+       "text": "Get namedGetnamed"
+      },
+      {
+       "stufe": 2,
+       "text": "Hand it offHand it off"
+      },
+      {
+       "stufe": 2,
+       "text": "Stay aheadStayahead"
+      },
+      {
+       "stufe": 2,
+       "text": "Two checks before you pay for anything."
+      },
+      {
+       "stufe": 2,
+       "text": "One AI company. Four fields.One AI company.Four fields."
+      },
+      {
+       "stufe": 3,
+       "text": "Websites & design"
+      },
+      {
+       "stufe": 3,
+       "text": "AI visibility"
+      },
+      {
+       "stufe": 3,
+       "text": "AI automation & software"
+      },
+      {
+       "stufe": 3,
+       "text": "AI video & content"
+      },
+      {
+       "stufe": 2,
+       "text": "Every offer with a price.Every offerwith a price."
+      },
+      {
+       "stufe": 3,
+       "text": "Website in 48 hours"
+      },
+      {
+       "stufe": 3,
+       "text": "Get named when customers ask AI"
+      },
+      {
+       "stufe": 3,
+       "text": "Applying is work. We do it."
+      },
+      {
+       "stufe": 3,
+       "text": "Short clips from your photos"
+      },
+      {
+       "stufe": 3,
+       "text": "One workflow that runs without you"
+      },
+      {
+       "stufe": 3,
+       "text": "An assistant on your website"
+      },
+      {
+       "stufe": 3,
+       "text": "Eight posts a month"
+      },
+      {
+       "stufe": 3,
+       "text": "Your project doesn’t fit a line?"
+      },
+      {
+       "stufe": 2,
+       "text": "See for yourself. Before you ask.See for yourself.Before you"
+      },
+      {
+       "stufe": 3,
+       "text": "HALDEN"
+      },
+      {
+       "stufe": 3,
+       "text": "LUMEN"
+      },
+      {
+       "stufe": 3,
+       "text": "Northside"
+      },
+      {
+       "stufe": 3,
+       "text": "Ridgeline"
+      },
+      {
+       "stufe": 2,
+       "text": "Four steps. Then it runs.Four steps.Then it runs."
+      },
+      {
+       "stufe": 3,
+       "text": "Consultation"
+      },
+      {
+       "stufe": 3,
+       "text": "Offer"
+      },
+      {
+       "stufe": 3,
+       "text": "Deposit"
+      },
+      {
+       "stufe": 3,
+       "text": "Delivery in days"
+      },
+      {
+       "stufe": 2,
+       "text": "Angel works. Even at night.Angel works.Even at night."
+      },
+      {
+       "stufe": 3,
+       "text": "Checks"
+      },
+      {
+       "stufe": 3,
+       "text": "Answers"
+      },
+      {
+       "stufe": 3,
+       "text": "Delivers"
+      },
+      {
+       "stufe": 3,
+       "text": "Reminds"
+      },
+      {
+       "stufe": 2,
+       "text": "Ask for proof.Ask forproof."
+      },
+      {
+       "stufe": 3,
+       "text": "Strategy and evidence"
+      },
+      {
+       "stufe": 3,
+       "text": "Interface and accessibility"
+      },
+      {
+       "stufe": 3,
+       "text": "Engineering"
+      },
+      {
+       "stufe": 3,
+       "text": "Findability"
+      },
+      {
+       "stufe": 3,
+       "text": "Objections? Ask away."
+      },
+      {
+       "stufe": 2,
+       "text": "Get your findings. Free.Get your findings.Free."
+      },
+      {
+       "stufe": 3,
+       "text": "Recommend us: 20 % of the first order"
+      },
+      {
+       "stufe": 2,
+       "text": "Page"
+      },
+      {
+       "stufe": 2,
+       "text": "Offers"
+      },
+      {
+       "stufe": 2,
+       "text": "Direct"
+      }
+     ]
+    },
+    "ohneAlt": [],
+    "ohneLabel": [],
+    "ohneName": [],
+    "titel": "Oroboros Design — AI company from Cologne, Germany"
+   },
+   "webgl": [
+    {
+     "art": "webgl2",
+     "ok": true,
+     "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+    }
+   ],
+   "bildzeitenWebgl": {
+    "bilder": 267,
+    "p50": 16.8,
+    "p95": 50,
+    "p99": 50.1,
+    "max": 66.7,
+    "ueber50": 4
+   },
+   "guete": {
+    "stufe": 5,
+    "name": "halbtakt",
+    "skala": 0.6,
+    "grund": 0.25,
+    "funken": 240,
+    "takt": 2,
+    "pixel": 0.6,
+    "dpr": 1,
+    "mobil": false,
+    "erzwungen": true
+   },
+   "folien": [
+    {
+     "anker": 0,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 1
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-1"
+     ]
+    },
+    {
+     "anker": 0.34,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 1
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-2"
+     ]
+    },
+    {
+     "anker": 0.62,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 1
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-3"
+     ]
+    },
+    {
+     "anker": 0.94,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 1
+      }
+     ],
+     "lesbar": [
+      "slide-4"
+     ]
+    }
+   ],
+   "kontrastBuehne": {
+    "geprueft": 68,
+    "fehler": []
+   },
+   "waagerecht": {
+    "gescrollt": false,
+    "scrollBreiteMax": 1430,
+    "breite": 1440,
+    "ueberstand": []
+   },
+   "unsichtbarNachScroll": [],
+   "kontrastDokument": {
+    "geprueft": 290,
+    "fehler": [],
+    "anzahlFehler": 0,
+    "unsicher": 29
+   },
+   "fokus": {
+    "ziele": 78,
+    "fehler": [],
+    "verdeckt": []
+   },
+   "verweise": [
+    "#doc",
+    "#top",
+    "#was-wir-tun",
+    "#unternehmen",
+    "#arbeiten",
+    "#angel-abschnitt",
+    "#kontakt",
+    "/",
+    "mailto:oroborosdesign@gmail.com",
+    "https://wa.me/4917679219526",
+    "https://angel-phi-eight.vercel.app/nennbar/",
+    "#websites",
+    "#nennbar",
+    "#automation",
+    "#bildtakt",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=website_48h&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=nennbar_paket&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=nennbar_einbau&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=nennbar_monitor&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=nennbar_pruefliste_100&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=nennbar_pruefliste_500&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/nennbar/pruefliste/",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=losgeschickt_beta&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=losgeschickt_monat&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=losgeschickt_plus&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/losgeschickt/",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=bildtakt_auftakt&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=bildtakt_takt&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/bildtakt/",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=ki_automation_starter&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=ki_chat_website&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=ki_content_takt&ref=oroboros-website",
+    "/agb",
+    "/widerruf",
+    "/arbeiten/halden",
+    "/arbeiten/lumen",
+    "/arbeiten/northside",
+    "/arbeiten/ridgeline",
+    "/datenschutz",
+    "mailto:oroborosdesign@gmail.com?subject=Website%20check",
+    "#ablauf",
+    "#ki-chat",
+    "#inhalte",
+    "https://www.instagram.com/oroboros.design/",
+    "/impressum",
+    "/datenschutz#beratung"
+   ],
+   "cls": 0.0008577084137088478,
+   "clsSumme": 0.0015567610543124138,
+   "clsQuellen": [],
+   "langeAufgaben": 122,
+   "langeNachLoad": 121,
+   "laengsteNachLoad": 253,
+   "laengsteGesamt": 253,
+   "konsole": [],
+   "konsoleUmgebung": [
+    {
+     "art": "warning",
+     "text": "[GroupMarkerNotSet(crbug.com/242999)!:A0702000A4150000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content."
+    }
+   ],
+   "ausnahmen": [],
+   "fehlanfragen": []
+  },
+  {
+   "pfad": "/en",
+   "profil": "mobil",
+   "dauer": {
+    "laden": 1368,
+    "bildzeiten": 11960,
+    "folien": 8905,
+    "kontrastBuehne": 11376,
+    "dokument": 11934,
+    "kontrastDokument": 17,
+    "fokus": 4874
+   },
+   "statisch": {
+    "lang": "en",
+    "ueberschriften": {
+     "anzahl": 46,
+     "h1": 1,
+     "spruenge": [],
+     "liste": [
+      {
+       "stufe": 1,
+       "text": "Oroboros Design — AI company from Cologne"
+      },
+      {
+       "stufe": 2,
+       "text": "Build tomorrowBuildtomorrow"
+      },
+      {
+       "stufe": 2,
+       "text": "Get namedGetnamed"
+      },
+      {
+       "stufe": 2,
+       "text": "Hand it offHand it off"
+      },
+      {
+       "stufe": 2,
+       "text": "Stay aheadStayahead"
+      },
+      {
+       "stufe": 2,
+       "text": "Two checks before you pay for anything."
+      },
+      {
+       "stufe": 2,
+       "text": "One AI company. Four fields.One AI company.Four fields."
+      },
+      {
+       "stufe": 3,
+       "text": "Websites & design"
+      },
+      {
+       "stufe": 3,
+       "text": "AI visibility"
+      },
+      {
+       "stufe": 3,
+       "text": "AI automation & software"
+      },
+      {
+       "stufe": 3,
+       "text": "AI video & content"
+      },
+      {
+       "stufe": 2,
+       "text": "Every offer with a price.Every offerwith a price."
+      },
+      {
+       "stufe": 3,
+       "text": "Website in 48 hours"
+      },
+      {
+       "stufe": 3,
+       "text": "Get named when customers ask AI"
+      },
+      {
+       "stufe": 3,
+       "text": "Applying is work. We do it."
+      },
+      {
+       "stufe": 3,
+       "text": "Short clips from your photos"
+      },
+      {
+       "stufe": 3,
+       "text": "One workflow that runs without you"
+      },
+      {
+       "stufe": 3,
+       "text": "An assistant on your website"
+      },
+      {
+       "stufe": 3,
+       "text": "Eight posts a month"
+      },
+      {
+       "stufe": 3,
+       "text": "Your project doesn’t fit a line?"
+      },
+      {
+       "stufe": 2,
+       "text": "See for yourself. Before you ask.See for yourself.Before you"
+      },
+      {
+       "stufe": 3,
+       "text": "HALDEN"
+      },
+      {
+       "stufe": 3,
+       "text": "LUMEN"
+      },
+      {
+       "stufe": 3,
+       "text": "Northside"
+      },
+      {
+       "stufe": 3,
+       "text": "Ridgeline"
+      },
+      {
+       "stufe": 2,
+       "text": "Four steps. Then it runs.Four steps.Then it runs."
+      },
+      {
+       "stufe": 3,
+       "text": "Consultation"
+      },
+      {
+       "stufe": 3,
+       "text": "Offer"
+      },
+      {
+       "stufe": 3,
+       "text": "Deposit"
+      },
+      {
+       "stufe": 3,
+       "text": "Delivery in days"
+      },
+      {
+       "stufe": 2,
+       "text": "Angel works. Even at night.Angel works.Even at night."
+      },
+      {
+       "stufe": 3,
+       "text": "Checks"
+      },
+      {
+       "stufe": 3,
+       "text": "Answers"
+      },
+      {
+       "stufe": 3,
+       "text": "Delivers"
+      },
+      {
+       "stufe": 3,
+       "text": "Reminds"
+      },
+      {
+       "stufe": 2,
+       "text": "Ask for proof.Ask forproof."
+      },
+      {
+       "stufe": 3,
+       "text": "Strategy and evidence"
+      },
+      {
+       "stufe": 3,
+       "text": "Interface and accessibility"
+      },
+      {
+       "stufe": 3,
+       "text": "Engineering"
+      },
+      {
+       "stufe": 3,
+       "text": "Findability"
+      },
+      {
+       "stufe": 3,
+       "text": "Objections? Ask away."
+      },
+      {
+       "stufe": 2,
+       "text": "Get your findings. Free.Get your findings.Free."
+      },
+      {
+       "stufe": 3,
+       "text": "Recommend us: 20 % of the first order"
+      },
+      {
+       "stufe": 2,
+       "text": "Page"
+      },
+      {
+       "stufe": 2,
+       "text": "Offers"
+      },
+      {
+       "stufe": 2,
+       "text": "Direct"
+      }
+     ]
+    },
+    "ohneAlt": [],
+    "ohneLabel": [],
+    "ohneName": [],
+    "titel": "Oroboros Design — AI company from Cologne, Germany"
+   },
+   "webgl": [
+    {
+     "art": "webgl2",
+     "ok": true,
+     "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+    }
+   ],
+   "bildzeitenWebgl": {
+    "bilder": 356,
+    "p50": 16.7,
+    "p95": 33.4,
+    "p99": 33.4,
+    "max": 50.1,
+    "ueber50": 1
+   },
+   "guete": {
+    "stufe": 5,
+    "name": "halbtakt",
+    "skala": 0.6,
+    "grund": 0.25,
+    "funken": 240,
+    "takt": 2,
+    "pixel": 0.8999999999999999,
+    "dpr": 3,
+    "mobil": true,
+    "erzwungen": true
+   },
+   "folien": [
+    {
+     "anker": 0,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 1
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-1"
+     ]
+    },
+    {
+     "anker": 0.34,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 1
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-2"
+     ]
+    },
+    {
+     "anker": 0.62,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 1
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-3"
+     ]
+    },
+    {
+     "anker": 0.94,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 1
+      }
+     ],
+     "lesbar": [
+      "slide-4"
+     ]
+    }
+   ],
+   "kontrastBuehne": {
+    "geprueft": 35,
+    "fehler": []
+   },
+   "waagerecht": {
+    "gescrollt": false,
+    "scrollBreiteMax": 390,
+    "breite": 390,
+    "ueberstand": []
+   },
+   "unsichtbarNachScroll": [],
+   "kontrastDokument": {
+    "geprueft": 290,
+    "fehler": [],
+    "anzahlFehler": 0,
+    "unsicher": 29
+   },
+   "fokus": {
+    "ziele": 73,
+    "fehler": [],
+    "verdeckt": []
+   },
+   "verweise": [
+    "#doc",
+    "#top",
+    "#was-wir-tun",
+    "#unternehmen",
+    "#arbeiten",
+    "#angel-abschnitt",
+    "#kontakt",
+    "/",
+    "mailto:oroborosdesign@gmail.com",
+    "https://wa.me/4917679219526",
+    "https://angel-phi-eight.vercel.app/nennbar/",
+    "#websites",
+    "#nennbar",
+    "#automation",
+    "#bildtakt",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=website_48h&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=nennbar_paket&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=nennbar_einbau&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=nennbar_monitor&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=nennbar_pruefliste_100&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=nennbar_pruefliste_500&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/nennbar/pruefliste/",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=losgeschickt_beta&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=losgeschickt_monat&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=losgeschickt_plus&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/losgeschickt/",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=bildtakt_auftakt&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=bildtakt_takt&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/bildtakt/",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=ki_automation_starter&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=ki_chat_website&ref=oroboros-website",
+    "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=ki_content_takt&ref=oroboros-website",
+    "/agb",
+    "/widerruf",
+    "/arbeiten/halden",
+    "/arbeiten/lumen",
+    "/arbeiten/northside",
+    "/arbeiten/ridgeline",
+    "/datenschutz",
+    "mailto:oroborosdesign@gmail.com?subject=Website%20check",
+    "#ablauf",
+    "#ki-chat",
+    "#inhalte",
+    "https://www.instagram.com/oroboros.design/",
+    "/impressum",
+    "/datenschutz#beratung"
+   ],
+   "cls": 0,
+   "clsSumme": 0,
+   "clsQuellen": [],
+   "langeAufgaben": 31,
+   "langeNachLoad": 31,
+   "laengsteNachLoad": 217,
+   "laengsteGesamt": 217,
+   "konsole": [],
+   "konsoleUmgebung": [
+    {
+     "art": "warning",
+     "text": "[GroupMarkerNotSet(crbug.com/242999)!:A0702000A4150000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content."
+    }
+   ],
+   "ausnahmen": [],
+   "fehlanfragen": []
+  }
+ ],
+ "bildzeiten": [
+  {
+   "pfad": "/",
+   "profil": "desktop",
+   "bildzeiten": {
+    "bilder": 419,
+    "p50": 16.7,
+    "p95": 16.8,
+    "p99": 16.8,
+    "max": 16.8,
+    "ueber50": 0
+   },
+   "zustand": {
+    "klassen": "js kein-webgl",
+    "zustand": {
+     "s": 0.9637094889768365,
+     "ziel": 1,
+     "tempo": 0.036290511023163496,
+     "naht": 0,
+     "mausX": 0,
+     "mausY": 0,
+     "webgl": false,
+     "grund": "kein Hardware-WebGL"
+    },
+    "guete": null
+   },
+   "ausnahmen": []
+  },
+  {
+   "pfad": "/",
+   "profil": "mobil",
+   "bildzeiten": {
+    "bilder": 419,
+    "p50": 16.7,
+    "p95": 16.8,
+    "p99": 16.8,
+    "max": 16.8,
+    "ueber50": 0
+   },
+   "zustand": {
+    "klassen": "js kein-webgl",
+    "zustand": {
+     "s": 0.963700317273914,
+     "ziel": 1,
+     "tempo": 0.03629968272608597,
+     "naht": 0,
+     "mausX": 0,
+     "mausY": 0,
+     "webgl": false,
+     "grund": "kein Hardware-WebGL"
+    },
+    "guete": null
+   },
+   "ausnahmen": []
+  },
+  {
+   "pfad": "/en",
+   "profil": "desktop",
+   "bildzeiten": {
+    "bilder": 418,
+    "p50": 16.7,
+    "p95": 16.7,
+    "p99": 16.8,
+    "max": 33.3,
+    "ueber50": 0
+   },
+   "zustand": {
+    "klassen": "js kein-webgl",
+    "zustand": {
+     "s": 0.9637025170497548,
+     "ziel": 1,
+     "tempo": 0.03629748295024515,
+     "naht": 0,
+     "mausX": 0,
+     "mausY": 0,
+     "webgl": false,
+     "grund": "kein Hardware-WebGL"
+    },
+    "guete": null
+   },
+   "ausnahmen": []
+  },
+  {
+   "pfad": "/en",
+   "profil": "mobil",
+   "bildzeiten": {
+    "bilder": 417,
+    "p50": 16.7,
+    "p95": 16.8,
+    "p99": 16.8,
+    "max": 49.9,
+    "ueber50": 0
+   },
+   "zustand": {
+    "klassen": "js kein-webgl",
+    "zustand": {
+     "s": 0.9636994014833682,
+     "ziel": 1,
+     "tempo": 0.03630059851663181,
+     "naht": 0,
+     "mausX": 0,
+     "mausY": 0,
+     "webgl": false,
+     "grund": "kein Hardware-WebGL"
+    },
+    "guete": null
+   },
+   "ausnahmen": []
+  }
+ ],
+ "leistung": [
+  {
+   "pfad": "/",
+   "profil": "desktop",
+   "drossel": 4,
+   "loadMs": 491,
+   "fcp": 420,
+   "fp": 420,
+   "lcp": {
+    "t": 420,
+    "groesse": 1287000,
+    "element": "IMG"
+   },
+   "dcl": 486.19999999925494,
+   "load": 486.59999999962747,
+   "erstesBuehnenbild": null,
+   "langeNachLoad": [],
+   "laengsteNachLoad": 0,
+   "langeVorLoad": [
+    216,
+    106
+   ],
+   "bytes": {
+    "gesamt": 220599,
+    "js": 0,
+    "css": 0,
+    "bild": 25942,
+    "schrift": 52744,
+    "html": 141913
+   },
+   "ausnahmen": []
+  },
+  {
+   "pfad": "/",
+   "profil": "mobil",
+   "drossel": 4,
+   "loadMs": 564,
+   "fcp": 316,
+   "fp": 316,
+   "lcp": {
+    "t": 316,
+    "groesse": 25250,
+    "element": "H2.slide-title"
+   },
+   "dcl": 543,
+   "load": 551.5,
+   "erstesBuehnenbild": null,
+   "langeNachLoad": [],
+   "laengsteNachLoad": 0,
+   "langeVorLoad": [
+    165,
+    162,
+    97
+   ],
+   "bytes": {
+    "gesamt": 221333,
+    "js": 0,
+    "css": 0,
+    "bild": 26676,
+    "schrift": 52744,
+    "html": 141913
+   },
+   "ausnahmen": []
+  },
+  {
+   "pfad": "/en",
+   "profil": "desktop",
+   "drossel": 4,
+   "loadMs": 557,
+   "fcp": 416,
+   "fp": 416,
+   "lcp": {
+    "t": 416,
+    "groesse": 1287000,
+    "element": "IMG"
+   },
+   "dcl": 554.3000000007451,
+   "load": 554.8000000007451,
+   "erstesBuehnenbild": null,
+   "langeNachLoad": [],
+   "laengsteNachLoad": 0,
+   "langeVorLoad": [
+    194,
+    190,
+    57
+   ],
+   "bytes": {
+    "gesamt": 221205,
+    "js": 0,
+    "css": 0,
+    "bild": 25942,
+    "schrift": 52744,
+    "html": 142519
+   },
+   "ausnahmen": []
+  }
+ ],
+ "reduziert": [
+  {
+   "pfad": "/",
+   "profil": "desktop",
+   "rafImLeerlaufProSek": 0,
+   "webgl": 0,
+   "standbild": {
+    "da": true,
+    "geladen": true,
+    "sichtbar": true,
+    "deck": 1
+   },
+   "folien": [
+    {
+     "anker": 0,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 1
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-1"
+     ]
+    },
+    {
+     "anker": 0.34,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 1
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-2"
+     ]
+    },
+    {
+     "anker": 0.62,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 1
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-3"
+     ]
+    },
+    {
+     "anker": 0.94,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 1
+      }
+     ],
+     "lesbar": [
+      "slide-4"
+     ]
+    }
+   ],
+   "dokumentSofortSichtbar": true,
+   "transformiert": [],
+   "laufendeUebergaenge": [],
+   "ausnahmen": [],
+   "ok": true
+  },
+  {
+   "pfad": "/",
+   "profil": "mobil",
+   "rafImLeerlaufProSek": 0,
+   "webgl": 0,
+   "standbild": {
+    "da": true,
+    "geladen": true,
+    "sichtbar": true,
+    "deck": 1
+   },
+   "folien": [
+    {
+     "anker": 0,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 1
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-1"
+     ]
+    },
+    {
+     "anker": 0.34,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 1
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-2"
+     ]
+    },
+    {
+     "anker": 0.62,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 1
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-3"
+     ]
+    },
+    {
+     "anker": 0.94,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 1
+      }
+     ],
+     "lesbar": [
+      "slide-4"
+     ]
+    }
+   ],
+   "dokumentSofortSichtbar": true,
+   "transformiert": [],
+   "laufendeUebergaenge": [],
+   "ausnahmen": [],
+   "ok": true
+  },
+  {
+   "pfad": "/en",
+   "profil": "desktop",
+   "rafImLeerlaufProSek": 0,
+   "webgl": 0,
+   "standbild": {
+    "da": true,
+    "geladen": true,
+    "sichtbar": true,
+    "deck": 1
+   },
+   "folien": [
+    {
+     "anker": 0,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 1
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-1"
+     ]
+    },
+    {
+     "anker": 0.34,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 1
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-2"
+     ]
+    },
+    {
+     "anker": 0.62,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 1
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-3"
+     ]
+    },
+    {
+     "anker": 0.94,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 1
+      }
+     ],
+     "lesbar": [
+      "slide-4"
+     ]
+    }
+   ],
+   "dokumentSofortSichtbar": true,
+   "transformiert": [],
+   "laufendeUebergaenge": [],
+   "ausnahmen": [],
+   "ok": true
+  }
+ ],
+ "ausfall": [
+  {
+   "pfad": "/",
+   "profil": "desktop",
+   "art": "modul-gesperrt",
+   "standbild": {
+    "da": true,
+    "sichtbar": true
+   },
+   "folien": [
+    {
+     "anker": 0,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 1
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-1"
+     ]
+    },
+    {
+     "anker": 0.34,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 1
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-2"
+     ]
+    },
+    {
+     "anker": 0.62,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 1
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-3"
+     ]
+    },
+    {
+     "anker": 0.94,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 1
+      }
+     ],
+     "lesbar": [
+      "slide-4"
+     ]
+    }
+   ],
+   "unsichtbar": 0,
+   "unsichtbarBeispiele": [],
+   "ausnahmen": [],
+   "ok": true
+  },
+  {
+   "pfad": "/",
+   "profil": "mobil",
+   "art": "kein-webgl",
+   "standbild": {
+    "da": true,
+    "sichtbar": true
+   },
+   "folien": [
+    {
+     "anker": 0,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 1
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-1"
+     ]
+    },
+    {
+     "anker": 0.34,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 1
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-2"
+     ]
+    },
+    {
+     "anker": 0.62,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 1
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-3"
+     ]
+    },
+    {
+     "anker": 0.94,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 1
+      }
+     ],
+     "lesbar": [
+      "slide-4"
+     ]
+    }
+   ],
+   "unsichtbar": 0,
+   "unsichtbarBeispiele": [],
+   "ausnahmen": [],
+   "ok": true
+  },
+  {
+   "pfad": "/en",
+   "profil": "desktop",
+   "art": "kein-webgl",
+   "standbild": {
+    "da": true,
+    "sichtbar": true
+   },
+   "folien": [
+    {
+     "anker": 0,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 1
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-1"
+     ]
+    },
+    {
+     "anker": 0.34,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 1
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-2"
+     ]
+    },
+    {
+     "anker": 0.62,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 1
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-3"
+     ]
+    },
+    {
+     "anker": 0.94,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 1
+      }
+     ],
+     "lesbar": [
+      "slide-4"
+     ]
+    }
+   ],
+   "unsichtbar": 0,
+   "unsichtbarBeispiele": [],
+   "ausnahmen": [],
+   "ok": true
+  }
+ ],
+ "angel": [
+  {
+   "pfad": "/",
+   "profil": "desktop",
+   "schritte": {
+    "kopfknopf": true,
+    "kontaktknopf": true,
+    "dialogOffen": true,
+    "ariaModal": true,
+    "beschriftet": true,
+    "ersteNachrichtLokal": true,
+    "ersteNachricht": "Angel:\nIch bin Angel. Sagen Sie mir in einem Satz, was Sie brauchen — eine Website, Sichtbarkeit in KI-Antworten, Automation oder Video.",
+    "fokusImDialog": true,
+    "maxlength": "1000",
+    "fokusfalle": true,
+    "anfrage1": {
+     "text": "Ich brauche eine neue Website für meinen Salon",
+     "sprache": "de",
+     "seite": "/"
+    },
+    "vertrag1": true,
+    "angebotsknopf": {
+     "href": "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=website_48h&ref=oroboros-website",
+     "target": null,
+     "text": "Website in 48 Stunden1.500 €"
+    },
+    "angebotRichtig": true,
+    "sitzungGespeichert": true,
+    "kontaktfelder": true,
+    "anfrage2": {
+     "text": "Gern, bitte per Mail",
+     "sprache": "de",
+     "seite": "/",
+     "sitzung": "audit-sitzung-1",
+     "kontakt": {
+      "name": "Audit Prüfer",
+      "email": "pruefer@example.com"
+     }
+    },
+    "vertrag2": true,
+    "drosselText": true,
+    "formularAngebot": true,
+    "escSchliesst": true,
+    "fokusZurueck": true
+   },
+   "ausnahmen": [],
+   "fehlend": [],
+   "ok": true
+  },
+  {
+   "pfad": "/",
+   "profil": "mobil",
+   "schritte": {
+    "kopfknopf": true,
+    "kontaktknopf": true,
+    "dialogOffen": true,
+    "ariaModal": true,
+    "beschriftet": true,
+    "ersteNachrichtLokal": true,
+    "ersteNachricht": "Angel:\nIch bin Angel. Sagen Sie mir in einem Satz, was Sie brauchen — eine Website, Sichtbarkeit in KI-Antworten, Automation oder Video.",
+    "fokusImDialog": true,
+    "maxlength": "1000",
+    "vollbild": true,
+    "fokusfalle": true,
+    "anfrage1": {
+     "text": "Ich brauche eine neue Website für meinen Salon",
+     "sprache": "de",
+     "seite": "/"
+    },
+    "vertrag1": true,
+    "angebotsknopf": {
+     "href": "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=website_48h&ref=oroboros-website",
+     "target": null,
+     "text": "Website in 48 Stunden1.500 €"
+    },
+    "angebotRichtig": true,
+    "sitzungGespeichert": true,
+    "kontaktfelder": true,
+    "anfrage2": {
+     "text": "Gern, bitte per Mail",
+     "sprache": "de",
+     "seite": "/",
+     "sitzung": "audit-sitzung-1",
+     "kontakt": {
+      "name": "Audit Prüfer",
+      "email": "pruefer@example.com"
+     }
+    },
+    "vertrag2": true,
+    "drosselText": true,
+    "formularAngebot": true,
+    "escSchliesst": true,
+    "fokusZurueck": true
+   },
+   "ausnahmen": [],
+   "fehlend": [],
+   "ok": true
+  },
+  {
+   "pfad": "/en",
+   "profil": "desktop",
+   "schritte": {
+    "kopfknopf": true,
+    "kontaktknopf": true,
+    "dialogOffen": true,
+    "ariaModal": true,
+    "beschriftet": true,
+    "ersteNachrichtLokal": true,
+    "ersteNachricht": "Angel:\nI’m Angel. Tell me in one sentence what you need — a website, visibility in AI answers, automation or video.",
+    "fokusImDialog": true,
+    "maxlength": "1000",
+    "fokusfalle": true,
+    "anfrage1": {
+     "text": "Ich brauche eine neue Website für meinen Salon",
+     "sprache": "en",
+     "seite": "/en"
+    },
+    "vertrag1": true,
+    "angebotsknopf": {
+     "href": "https://angel-phi-eight.vercel.app/api/oeffentlich?aktion=checkout&angebot=website_48h&ref=oroboros-website",
+     "target": null,
+     "text": "Website in 48 Stunden1.500 €"
+    },
+    "angebotRichtig": true,
+    "sitzungGespeichert": true,
+    "kontaktfelder": true,
+    "anfrage2": {
+     "text": "Gern, bitte per Mail",
+     "sprache": "en",
+     "seite": "/en",
+     "sitzung": "audit-sitzung-1",
+     "kontakt": {
+      "name": "Audit Prüfer",
+      "email": "pruefer@example.com"
+     }
+    },
+    "vertrag2": true,
+    "drosselText": true,
+    "formularAngebot": true,
+    "escSchliesst": true,
+    "fokusZurueck": true
+   },
+   "ausnahmen": [],
+   "fehlend": [],
+   "ok": true
+  }
+ ],
+ "formular": [
+  {
+   "pfad": "/",
+   "leerAbgewiesen": true,
+   "koerper": {
+    "name": "Audit Prüfer",
+    "email": "pruefer@example.com",
+    "website": "beispiel.de",
+    "anliegen": "website_check",
+    "nachricht": "Test aus dem Prüfstand",
+    "firma_web": "",
+    "sprache": "de",
+    "quelle": "/"
+   },
+   "felderDa": true,
+   "anliegenGueltig": true,
+   "status": "Danke. Ihre Anfrage ist angekommen — Sie hören innerhalb von 48 Stunden von uns.",
+   "ok": true,
+   "ausnahmen": []
+  },
+  {
+   "pfad": "/en",
+   "leerAbgewiesen": true,
+   "koerper": {
+    "name": "Audit Prüfer",
+    "email": "pruefer@example.com",
+    "website": "beispiel.de",
+    "anliegen": "website_check",
+    "nachricht": "Test aus dem Prüfstand",
+    "firma_web": "",
+    "sprache": "en",
+    "quelle": "/en"
+   },
+   "felderDa": true,
+   "anliegenGueltig": true,
+   "status": "Thank you. Your request has arrived — you will hear from us within 48 hours.",
+   "ok": true,
+   "ausnahmen": []
+  }
+ ],
+ "unterseiten": [
+  {
+   "pfad": "/agb",
+   "konsolenfehler": 0,
+   "warnungen": 0,
+   "ausnahmen": [],
+   "fehlanfragen": [],
+   "waagerecht": false
+  },
+  {
+   "pfad": "/arbeiten/halden",
+   "konsolenfehler": 0,
+   "warnungen": 0,
+   "ausnahmen": [],
+   "fehlanfragen": [],
+   "waagerecht": false
+  },
+  {
+   "pfad": "/arbeiten/lumen",
+   "konsolenfehler": 0,
+   "warnungen": 0,
+   "ausnahmen": [],
+   "fehlanfragen": [],
+   "waagerecht": false
+  },
+  {
+   "pfad": "/arbeiten/northside",
+   "konsolenfehler": 0,
+   "warnungen": 0,
+   "ausnahmen": [],
+   "fehlanfragen": [],
+   "waagerecht": false
+  },
+  {
+   "pfad": "/arbeiten/ridgeline",
+   "konsolenfehler": 0,
+   "warnungen": 0,
+   "ausnahmen": [],
+   "fehlanfragen": [],
+   "waagerecht": false
+  },
+  {
+   "pfad": "/datenschutz",
+   "konsolenfehler": 0,
+   "warnungen": 0,
+   "ausnahmen": [],
+   "fehlanfragen": [],
+   "waagerecht": false
+  },
+  {
+   "pfad": "/impressum",
+   "konsolenfehler": 0,
+   "warnungen": 0,
+   "ausnahmen": [],
+   "fehlanfragen": [],
+   "waagerecht": false
+  },
+  {
+   "pfad": "/widerruf",
+   "konsolenfehler": 0,
+   "warnungen": 0,
+   "ausnahmen": [],
+   "fehlanfragen": [],
+   "waagerecht": false
+  }
+ ],
+ "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+ "verweise": {
+  "intern": 149,
+  "kaputt": [],
+  "umwege": [],
+  "kauflinks": [
+   {
+    "seite": "/",
+    "angebot": "website_48h",
+    "ref": "oroboros-website",
+    "ok": true
+   },
+   {
+    "seite": "/",
+    "angebot": "nennbar_paket",
+    "ref": "oroboros-website",
+    "ok": true
+   },
+   {
+    "seite": "/",
+    "angebot": "nennbar_einbau",
+    "ref": "oroboros-website",
+    "ok": true
+   },
+   {
+    "seite": "/",
+    "angebot": "nennbar_monitor",
+    "ref": "oroboros-website",
+    "ok": true
+   },
+   {
+    "seite": "/",
+    "angebot": "nennbar_pruefliste_100",
+    "ref": "oroboros-website",
+    "ok": true
+   },
+   {
+    "seite": "/",
+    "angebot": "nennbar_pruefliste_500",
+    "ref": "oroboros-website",
+    "ok": true
+   },
+   {
+    "seite": "/",
+    "angebot": "losgeschickt_beta",
+    "ref": "oroboros-website",
+    "ok": true
+   },
+   {
+    "seite": "/",
+    "angebot": "losgeschickt_monat",
+    "ref": "oroboros-website",
+    "ok": true
+   },
+   {
+    "seite": "/",
+    "angebot": "losgeschickt_plus",
+    "ref": "oroboros-website",
+    "ok": true
+   },
+   {
+    "seite": "/",
+    "angebot": "bildtakt_auftakt",
+    "ref": "oroboros-website",
+    "ok": true
+   },
+   {
+    "seite": "/",
+    "angebot": "bildtakt_takt",
+    "ref": "oroboros-website",
+    "ok": true
+   },
+   {
+    "seite": "/",
+    "angebot": "ki_automation_starter",
+    "ref": "oroboros-website",
+    "ok": true
+   },
+   {
+    "seite": "/",
+    "angebot": "ki_chat_website",
+    "ref": "oroboros-website",
+    "ok": true
+   },
+   {
+    "seite": "/",
+    "angebot": "ki_content_takt",
+    "ref": "oroboros-website",
+    "ok": true
+   },
+   {
+    "seite": "/en",
+    "angebot": "website_48h",
+    "ref": "oroboros-website",
+    "ok": true
+   },
+   {
+    "seite": "/en",
+    "angebot": "nennbar_paket",
+    "ref": "oroboros-website",
+    "ok": true
+   },
+   {
+    "seite": "/en",
+    "angebot": "nennbar_einbau",
+    "ref": "oroboros-website",
+    "ok": true
+   },
+   {
+    "seite": "/en",
+    "angebot": "nennbar_monitor",
+    "ref": "oroboros-website",
+    "ok": true
+   },
+   {
+    "seite": "/en",
+    "angebot": "nennbar_pruefliste_100",
+    "ref": "oroboros-website",
+    "ok": true
+   },
+   {
+    "seite": "/en",
+    "angebot": "nennbar_pruefliste_500",
+    "ref": "oroboros-website",
+    "ok": true
+   },
+   {
+    "seite": "/en",
+    "angebot": "losgeschickt_beta",
+    "ref": "oroboros-website",
+    "ok": true
+   },
+   {
+    "seite": "/en",
+    "angebot": "losgeschickt_monat",
+    "ref": "oroboros-website",
+    "ok": true
+   },
+   {
+    "seite": "/en",
+    "angebot": "losgeschickt_plus",
+    "ref": "oroboros-website",
+    "ok": true
+   },
+   {
+    "seite": "/en",
+    "angebot": "bildtakt_auftakt",
+    "ref": "oroboros-website",
+    "ok": true
+   },
+   {
+    "seite": "/en",
+    "angebot": "bildtakt_takt",
+    "ref": "oroboros-website",
+    "ok": true
+   },
+   {
+    "seite": "/en",
+    "angebot": "ki_automation_starter",
+    "ref": "oroboros-website",
+    "ok": true
+   },
+   {
+    "seite": "/en",
+    "angebot": "ki_chat_website",
+    "ref": "oroboros-website",
+    "ok": true
+   },
+   {
+    "seite": "/en",
+    "angebot": "ki_content_takt",
+    "ref": "oroboros-website",
+    "ok": true
+   }
+  ],
+  "extern": [
+   "https://angel-phi-eight.vercel.app/bildtakt/",
+   "https://angel-phi-eight.vercel.app/losgeschickt/",
+   "https://angel-phi-eight.vercel.app/nennbar/",
+   "https://angel-phi-eight.vercel.app/nennbar/pruefliste/",
+   "https://angel-phi-eight.vercel.app/recht/datenschutz.html",
+   "https://oroboros-design.com/agb",
+   "https://oroboros-design.com/datenschutz",
+   "https://oroboros-design.com/impressum",
+   "https://oroboros-design.com/widerruf",
+   "https://wa.me/4917679219526",
+   "https://www.instagram.com/oroboros.design/",
+   "mailto:hello@halden.example",
+   "mailto:hello@lumen.example",
+   "mailto:hello@northside.example",
+   "mailto:oroborosdesign@gmail.com",
+   "tel:+4915158775031"
+  ]
+ },
+ "seo": {
+  "seiten": {
+   "/": {
+    "titel": "Oroboros Design — KI-Unternehmen aus Köln",
+    "titelLaenge": 41,
+    "beschreibung": "KI-Unternehmen aus Köln: Websites in 48 Stunden, Sichtbarkeit in ChatGPT &amp; Co., KI-Automation und KI-Video. Kostenloser Website-Check, Beratung mit Angel.",
+    "beschreibungLaenge": 158,
+    "canonical": "https://oroboros-design.com/",
+    "hreflang": [
+     "de=https://oroboros-design.com/",
+     "en=https://oroboros-design.com/en",
+     "x-default=https://oroboros-design.com/en"
+    ],
+    "og": {
+     "titel": "Oroboros Design — KI-Unternehmen aus Köln",
+     "bild": "https://oroboros-design.com/vendor/img/og.jpg",
+     "url": "https://oroboros-design.com/",
+     "beschreibung": true
+    },
+    "twitter": "summary_large_image",
+    "jsonLd": {
+     "bloecke": 1,
+     "fehler": 0,
+     "organisation": 2,
+     "service": 4,
+     "produkt": 3,
+     "angebote": 14
+    }
+   },
+   "/en": {
+    "titel": "Oroboros Design — AI company from Cologne, Germany",
+    "titelLaenge": 50,
+    "beschreibung": "AI company from Cologne: websites in 48 hours, visibility in ChatGPT &amp; co., AI automation and AI video. Free website check and a live consultation with Angel.",
+    "beschreibungLaenge": 162,
+    "canonical": "https://oroboros-design.com/en",
+    "hreflang": [
+     "de=https://oroboros-design.com/",
+     "en=https://oroboros-design.com/en",
+     "x-default=https://oroboros-design.com/en"
+    ],
+    "og": {
+     "titel": "Oroboros Design — AI company from Cologne",
+     "bild": "https://oroboros-design.com/vendor/img/og-en.jpg",
+     "url": "https://oroboros-design.com/en",
+     "beschreibung": true
+    },
+    "twitter": "summary_large_image",
+    "jsonLd": {
+     "bloecke": 1,
+     "fehler": 0,
+     "organisation": 2,
+     "service": 4,
+     "produkt": 3,
+     "angebote": 14
+    }
+   }
+  },
+  "robots": {
+   "da": true,
+   "verweistAufSitemap": true
+  },
+  "sitemap": {
+   "da": true,
+   "adressen": [
+    "https://oroboros-design.com/",
+    "https://oroboros-design.com/en",
+    "https://oroboros-design.com/impressum",
+    "https://oroboros-design.com/datenschutz",
+    "https://oroboros-design.com/agb",
+    "https://oroboros-design.com/widerruf"
+   ]
+  },
+  "ok": true
+ },
+ "zwilling": {
+  "stilGleich": true,
+  "skripteGleich": true,
+  "skripteDe": 2,
+  "skripteEn": 2,
+  "ids": {
+   "nurDe": [],
+   "nurEn": []
+  },
+  "kauflinksDe": 15,
+  "kauflinksEn": 15,
+  "kaufGleich": true,
+  "felder": {
+   "nurDe": [],
+   "nurEn": []
+  },
+  "ok": true
+ },
+ "zusammenfassung": {
+  "konsolenfehler": 0,
+  "konsolenwarnungen": 0,
+  "fehlanfragen": 0,
+  "unterseitenFehler": 0,
+  "clsMax": 0.001,
+  "laengsteAufgabeNachLoadMs": 0,
+  "laengsteAufgabeNachLoadWebglMs": 253,
+  "umgebungsmeldungen": 8,
+  "bildzeitP95Desktop": 16.8,
+  "bildzeitP95Mobil": 16.8,
+  "bildzeitP95DesktopWebgl": 50,
+  "bildzeitP95MobilWebgl": 33.4,
+  "buehneStandard": "Standbild: kein Hardware-WebGL",
+  "bilderUeber50ms": 15,
+  "fcp4xDesktopMs": 420,
+  "lcp4xDesktopMs": 420,
+  "fcp4xMobilMs": 316,
+  "lcp4xMobilMs": 316,
+  "kaputteVerweise": 0,
+  "kauflinksFalsch": 0,
+  "kauflinks": 28,
+  "kontrastFehlerDokument": 0,
+  "kontrastFehlerBuehne": 0,
+  "ueberschriftenFehler": 0,
+  "ohneAlt": 0,
+  "ohneLabel": 0,
+  "fokusOhneRing": 0,
+  "fokusUnterKopf": 0,
+  "waagerechtesScrollen": 0,
+  "ueberstand": 0,
+  "folienUeberlagert": 0,
+  "unsichtbarNachScroll": 0,
+  "reduziertOk": true,
+  "ausfallOk": true,
+  "angelOk": true,
+  "formularOk": true,
+  "seoOk": true,
+  "zwillingOk": true
+ }
+}

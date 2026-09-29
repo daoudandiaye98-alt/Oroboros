@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://oroboros-design.com/</loc>
+    <lastmod>2026-09-29</lastmod>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="de" href="https://oroboros-design.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://oroboros-design.com/en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://oroboros-design.com/en"/>
+  </url>
+  <url>
+    <loc>https://oroboros-design.com/en</loc>
+    <lastmod>2026-09-29</lastmod>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="de" href="https://oroboros-design.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://oroboros-design.com/en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://oroboros-design.com/en"/>
+  </url>
+  <url><loc>https://oroboros-design.com/impressum</loc><lastmod>2026-09-29</lastmod><priority>0.2</priority></url>
+  <url><loc>https://oroboros-design.com/datenschutz</loc><lastmod>2026-09-29</lastmod><priority>0.2</priority></url>
+  <url><loc>https://oroboros-design.com/agb</loc><lastmod>2026-09-29</lastmod><priority>0.2</priority></url>
+  <url><loc>https://oroboros-design.com/widerruf</loc><lastmod>2026-09-29</lastmod><priority>0.2</priority></url>
+</urlset>

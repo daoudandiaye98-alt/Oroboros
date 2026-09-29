@@ -1,0 +1,2849 @@
+{
+ "zeit": "2026-09-29T00:34:11.743Z",
+ "basis": "http://127.0.0.1:37215",
+ "wurzel": "/tmp/claude-0/-home-claude-angel/f3d96254-0eec-52c8-a9cf-864df505871f/scratchpad/alt",
+ "seiten": [
+  {
+   "pfad": "/",
+   "profil": "desktop",
+   "dauer": {
+    "laden": 5265,
+    "bildzeiten": 13329,
+    "folien": 24924,
+    "kontrastBuehne": 34997,
+    "dokument": 7326,
+    "kontrastDokument": 9,
+    "fokus": 8541
+   },
+   "statisch": {
+    "lang": "de",
+    "ueberschriften": {
+     "anzahl": 29,
+     "h1": 1,
+     "spruenge": [],
+     "liste": [
+      {
+       "stufe": 1,
+       "text": "Oroboros Design — Bronze und Zeit"
+      },
+      {
+       "stufe": 2,
+       "text": "Bauen Sie das Morgen"
+      },
+      {
+       "stufe": 2,
+       "text": "Zeigen Sie Größe"
+      },
+      {
+       "stufe": 2,
+       "text": "Geben Sie ab"
+      },
+      {
+       "stufe": 2,
+       "text": "Bleiben Sie vorn"
+      },
+      {
+       "stufe": 2,
+       "text": "Nehmen Sie alles drei. Aus einer Hand."
+      },
+      {
+       "stufe": 3,
+       "text": "Webdesign"
+      },
+      {
+       "stufe": 3,
+       "text": "Backend & Software"
+      },
+      {
+       "stufe": 3,
+       "text": "KI in Ihren Workflows"
+      },
+      {
+       "stufe": 3,
+       "text": "Beratung & Umsetzung"
+      },
+      {
+       "stufe": 2,
+       "text": "Sehen Sie selbst. Bevor Sie fragen."
+      },
+      {
+       "stufe": 3,
+       "text": "HALDEN"
+      },
+      {
+       "stufe": 3,
+       "text": "LUMEN"
+      },
+      {
+       "stufe": 3,
+       "text": "Northside"
+      },
+      {
+       "stufe": 3,
+       "text": "Ridgeline"
+      },
+      {
+       "stufe": 2,
+       "text": "Rechnen Sie mit vier Schritten."
+      },
+      {
+       "stufe": 3,
+       "text": "Gespräch"
+      },
+      {
+       "stufe": 3,
+       "text": "Festpreis"
+      },
+      {
+       "stufe": 3,
+       "text": "Bau"
+      },
+      {
+       "stufe": 3,
+       "text": "Übergabe"
+      },
+      {
+       "stufe": 2,
+       "text": "Verlangen Sie einen Nachweis."
+      },
+      {
+       "stufe": 3,
+       "text": "Strategie und Beleg"
+      },
+      {
+       "stufe": 3,
+       "text": "Oberfläche und Zugänglichkeit"
+      },
+      {
+       "stufe": 3,
+       "text": "Technik"
+      },
+      {
+       "stufe": 3,
+       "text": "Launch und Übergabe"
+      },
+      {
+       "stufe": 2,
+       "text": "Fragen Sie ruhig alles."
+      },
+      {
+       "stufe": 2,
+       "text": "Holen Sie sich den Befund. Kostenlos."
+      },
+      {
+       "stufe": 3,
+       "text": "Seite"
+      },
+      {
+       "stufe": 3,
+       "text": "Direkt"
+      }
+     ]
+    },
+    "ohneAlt": [],
+    "ohneLabel": [],
+    "ohneName": [],
+    "titel": "Oroboros Design — Bronze und Zeit"
+   },
+   "webgl": [
+    {
+     "art": "webgl2",
+     "ok": true,
+     "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+    }
+   ],
+   "bildzeitenWebgl": {
+    "bilder": 30,
+    "p50": 216.6,
+    "p95": 300,
+    "p99": 316.7,
+    "max": 316.7,
+    "ueber50": 30
+   },
+   "guete": null,
+   "folien": [
+    {
+     "anker": 0,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": []
+    },
+    {
+     "anker": 0.34,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": []
+    },
+    {
+     "anker": 0.62,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0.01
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": []
+    },
+    {
+     "anker": 0.94,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 1
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-3"
+     ]
+    }
+   ],
+   "kontrastBuehne": {
+    "geprueft": 43,
+    "fehler": []
+   },
+   "waagerecht": {
+    "gescrollt": false,
+    "scrollBreiteMax": 1440,
+    "breite": 1440,
+    "ueberstand": []
+   },
+   "unsichtbarNachScroll": [],
+   "kontrastDokument": {
+    "geprueft": 112,
+    "fehler": [],
+    "anzahlFehler": 0,
+    "unsicher": 0
+   },
+   "fokus": {
+    "ziele": 41,
+    "fehler": [
+     {
+      "ziel": "input#c-name||name",
+      "ring": false,
+      "deck": 1
+     },
+     {
+      "ziel": "input#c-mail||email",
+      "ring": false,
+      "deck": 1
+     },
+     {
+      "ziel": "input#c-web||website",
+      "ring": false,
+      "deck": 1
+     },
+     {
+      "ziel": "select#c-anliegen||Kostenloser Website-Check\n    ",
+      "ring": false,
+      "deck": 1
+     },
+     {
+      "ziel": "textarea#c-text||nachricht",
+      "ring": false,
+      "deck": 1
+     }
+    ],
+    "verdeckt": []
+   },
+   "verweise": [
+    "#slide-1",
+    "#slide-2",
+    "#slide-3",
+    "#slide-4",
+    "/en",
+    "#arbeiten",
+    "#kontakt",
+    "mailto:oroborosdesign@gmail.com",
+    "https://wa.me/4917679219526",
+    "mailto:oroborosdesign@gmail.com?subject=Anfrage%20%E2%80%94%20Webdesign",
+    "mailto:oroborosdesign@gmail.com?subject=Anfrage%20%E2%80%94%20Backend%20und%20Software",
+    "mailto:oroborosdesign@gmail.com?subject=Anfrage%20%E2%80%94%20KI%20in%20Workflows",
+    "mailto:oroborosdesign@gmail.com?subject=Anfrage%20%E2%80%94%20Beratung",
+    "/arbeiten/halden/",
+    "/arbeiten/lumen/",
+    "/arbeiten/northside/",
+    "/arbeiten/ridgeline/",
+    "/datenschutz",
+    "mailto:oroborosdesign@gmail.com?subject=Website-Check",
+    "#leistungen",
+    "#ablauf",
+    "#standard",
+    "#einwaende",
+    "/impressum"
+   ],
+   "cls": 0.024177512538580248,
+   "clsSumme": 0.11108423243393134,
+   "clsQuellen": [
+    {
+     "t": 488.30000000074506,
+     "v": 0.024177512538580248,
+     "quellen": [
+      ".cursor-outer",
+      ".header-nav",
+      ".header-actions"
+     ]
+    },
+    {
+     "t": 14656.900000000373,
+     "v": 0.002701997432002315,
+     "quellen": [
+      ".grid-dot",
+      ".grid-dot",
+      ".grid-dot"
+     ]
+    },
+    {
+     "t": 15333,
+     "v": 0.0028617689344618055,
+     "quellen": [
+      ".grid-dot",
+      ".grid-dot",
+      ".grid-dot"
+     ]
+    },
+    {
+     "t": 15744.599999999627,
+     "v": 0.00283255931712963,
+     "quellen": [
+      ".grid-dot",
+      ".grid-dot",
+      ".grid-dot"
+     ]
+    },
+    {
+     "t": 16256.400000000373,
+     "v": 0.0028710801866319445,
+     "quellen": [
+      ".grid-dot",
+      ".grid-dot",
+      ".grid-dot"
+     ]
+    },
+    {
+     "t": 17451,
+     "v": 0.002740641878858025,
+     "quellen": [
+      ".grid-dot",
+      ".grid-dot",
+      ".grid-dot"
+     ]
+    }
+   ],
+   "langeAufgaben": 352,
+   "langeNachLoad": 350,
+   "laengsteNachLoad": 3253,
+   "laengsteGesamt": 3253,
+   "konsole": [],
+   "konsoleUmgebung": [
+    {
+     "art": "warning",
+     "text": "[GroupMarkerNotSet(crbug.com/242999)!:A0702000843A0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content."
+    },
+    {
+     "art": "warning",
+     "text": "[.WebGL-0x3e440011b200]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+    },
+    {
+     "art": "warning",
+     "text": "[.WebGL-0x3e440011b200]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+    },
+    {
+     "art": "warning",
+     "text": "[.WebGL-0x3e440011b200]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+    },
+    {
+     "art": "warning",
+     "text": "[.WebGL-0x3e440011b200]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)"
+    }
+   ],
+   "ausnahmen": [],
+   "fehlanfragen": []
+  },
+  {
+   "pfad": "/",
+   "profil": "mobil",
+   "dauer": {
+    "laden": 5534,
+    "bildzeiten": 13972,
+    "folien": 24965,
+    "kontrastBuehne": 37764,
+    "dokument": 8370,
+    "kontrastDokument": 12,
+    "fokus": 8521
+   },
+   "statisch": {
+    "lang": "de",
+    "ueberschriften": {
+     "anzahl": 29,
+     "h1": 1,
+     "spruenge": [],
+     "liste": [
+      {
+       "stufe": 1,
+       "text": "Oroboros Design — Bronze und Zeit"
+      },
+      {
+       "stufe": 2,
+       "text": "Bauen Sie das Morgen"
+      },
+      {
+       "stufe": 2,
+       "text": "Zeigen Sie Größe"
+      },
+      {
+       "stufe": 2,
+       "text": "Geben Sie ab"
+      },
+      {
+       "stufe": 2,
+       "text": "Bleiben Sie vorn"
+      },
+      {
+       "stufe": 2,
+       "text": "Nehmen Sie alles drei. Aus einer Hand."
+      },
+      {
+       "stufe": 3,
+       "text": "Webdesign"
+      },
+      {
+       "stufe": 3,
+       "text": "Backend & Software"
+      },
+      {
+       "stufe": 3,
+       "text": "KI in Ihren Workflows"
+      },
+      {
+       "stufe": 3,
+       "text": "Beratung & Umsetzung"
+      },
+      {
+       "stufe": 2,
+       "text": "Sehen Sie selbst. Bevor Sie fragen."
+      },
+      {
+       "stufe": 3,
+       "text": "HALDEN"
+      },
+      {
+       "stufe": 3,
+       "text": "LUMEN"
+      },
+      {
+       "stufe": 3,
+       "text": "Northside"
+      },
+      {
+       "stufe": 3,
+       "text": "Ridgeline"
+      },
+      {
+       "stufe": 2,
+       "text": "Rechnen Sie mit vier Schritten."
+      },
+      {
+       "stufe": 3,
+       "text": "Gespräch"
+      },
+      {
+       "stufe": 3,
+       "text": "Festpreis"
+      },
+      {
+       "stufe": 3,
+       "text": "Bau"
+      },
+      {
+       "stufe": 3,
+       "text": "Übergabe"
+      },
+      {
+       "stufe": 2,
+       "text": "Verlangen Sie einen Nachweis."
+      },
+      {
+       "stufe": 3,
+       "text": "Strategie und Beleg"
+      },
+      {
+       "stufe": 3,
+       "text": "Oberfläche und Zugänglichkeit"
+      },
+      {
+       "stufe": 3,
+       "text": "Technik"
+      },
+      {
+       "stufe": 3,
+       "text": "Launch und Übergabe"
+      },
+      {
+       "stufe": 2,
+       "text": "Fragen Sie ruhig alles."
+      },
+      {
+       "stufe": 2,
+       "text": "Holen Sie sich den Befund. Kostenlos."
+      },
+      {
+       "stufe": 3,
+       "text": "Seite"
+      },
+      {
+       "stufe": 3,
+       "text": "Direkt"
+      }
+     ]
+    },
+    "ohneAlt": [],
+    "ohneLabel": [],
+    "ohneName": [],
+    "titel": "Oroboros Design — Bronze und Zeit"
+   },
+   "webgl": [
+    {
+     "art": "webgl2",
+     "ok": true,
+     "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+    }
+   ],
+   "bildzeitenWebgl": {
+    "bilder": 23,
+    "p50": 283.4,
+    "p95": 333.3,
+    "p99": 333.4,
+    "max": 333.4,
+    "ueber50": 23
+   },
+   "guete": null,
+   "folien": [
+    {
+     "anker": 0,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": []
+    },
+    {
+     "anker": 0.34,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": []
+    },
+    {
+     "anker": 0.62,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 1
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-2"
+     ]
+    },
+    {
+     "anker": 0.94,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 1
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-3"
+     ]
+    }
+   ],
+   "kontrastBuehne": {
+    "geprueft": 26,
+    "fehler": []
+   },
+   "waagerecht": {
+    "gescrollt": false,
+    "scrollBreiteMax": 390,
+    "breite": 390,
+    "ueberstand": []
+   },
+   "unsichtbarNachScroll": [],
+   "kontrastDokument": {
+    "geprueft": 112,
+    "fehler": [],
+    "anzahlFehler": 0,
+    "unsicher": 0
+   },
+   "fokus": {
+    "ziele": 41,
+    "fehler": [
+     {
+      "ziel": "input#c-name||name",
+      "ring": false,
+      "deck": 1
+     },
+     {
+      "ziel": "input#c-mail||email",
+      "ring": false,
+      "deck": 1
+     },
+     {
+      "ziel": "input#c-web||website",
+      "ring": false,
+      "deck": 1
+     },
+     {
+      "ziel": "select#c-anliegen||Kostenloser Website-Check\n    ",
+      "ring": false,
+      "deck": 1
+     },
+     {
+      "ziel": "textarea#c-text||nachricht",
+      "ring": false,
+      "deck": 1
+     }
+    ],
+    "verdeckt": []
+   },
+   "verweise": [
+    "#slide-1",
+    "#slide-2",
+    "#slide-3",
+    "#slide-4",
+    "/en",
+    "#arbeiten",
+    "#kontakt",
+    "mailto:oroborosdesign@gmail.com",
+    "https://wa.me/4917679219526",
+    "mailto:oroborosdesign@gmail.com?subject=Anfrage%20%E2%80%94%20Webdesign",
+    "mailto:oroborosdesign@gmail.com?subject=Anfrage%20%E2%80%94%20Backend%20und%20Software",
+    "mailto:oroborosdesign@gmail.com?subject=Anfrage%20%E2%80%94%20KI%20in%20Workflows",
+    "mailto:oroborosdesign@gmail.com?subject=Anfrage%20%E2%80%94%20Beratung",
+    "/arbeiten/halden/",
+    "/arbeiten/lumen/",
+    "/arbeiten/northside/",
+    "/arbeiten/ridgeline/",
+    "/datenschutz",
+    "mailto:oroborosdesign@gmail.com?subject=Website-Check",
+    "#leistungen",
+    "#ablauf",
+    "#standard",
+    "#einwaende",
+    "/impressum"
+   ],
+   "cls": 0.1208228286662042,
+   "clsSumme": 0.572233116842657,
+   "clsQuellen": [
+    {
+     "t": 15984.5,
+     "v": 0.01741940729299311,
+     "quellen": [
+      ".grid-dot",
+      ".grid-dot",
+      ".grid-dot"
+     ]
+    },
+    {
+     "t": 16921,
+     "v": 0.018578883690151406,
+     "quellen": [
+      ".grid-dot",
+      ".grid-dot",
+      ".grid-dot"
+     ]
+    },
+    {
+     "t": 17206.900000000373,
+     "v": 0.017942227025967,
+     "quellen": [
+      ".grid-dot",
+      ".grid-dot",
+      ".grid-dot"
+     ]
+    },
+    {
+     "t": 17790.300000000745,
+     "v": 0.017995325280269637,
+     "quellen": [
+      ".grid-dot",
+      ".grid-dot",
+      ".grid-dot"
+     ]
+    },
+    {
+     "t": 18957.200000001118,
+     "v": 0.01743277069280616,
+     "quellen": [
+      ".grid-dot",
+      ".grid-dot",
+      ".grid-dot"
+     ]
+    },
+    {
+     "t": 23173.200000001118,
+     "v": 0.014060341608454437,
+     "quellen": [
+      ".grid-dot",
+      ".grid-dot",
+      ".grid-dot"
+     ]
+    }
+   ],
+   "langeAufgaben": 309,
+   "langeNachLoad": 307,
+   "laengsteNachLoad": 3621,
+   "laengsteGesamt": 3621,
+   "konsole": [],
+   "konsoleUmgebung": [
+    {
+     "art": "warning",
+     "text": "[GroupMarkerNotSet(crbug.com/242999)!:A0702000843A0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content."
+    }
+   ],
+   "ausnahmen": [],
+   "fehlanfragen": []
+  },
+  {
+   "pfad": "/en",
+   "profil": "desktop",
+   "dauer": {
+    "laden": 5733,
+    "bildzeiten": 13232,
+    "folien": 24630,
+    "kontrastBuehne": 34801,
+    "dokument": 7428,
+    "kontrastDokument": 11,
+    "fokus": 8890
+   },
+   "statisch": {
+    "lang": "en",
+    "ueberschriften": {
+     "anzahl": 29,
+     "h1": 1,
+     "spruenge": [],
+     "liste": [
+      {
+       "stufe": 1,
+       "text": "Oroboros Design — Bronze and time"
+      },
+      {
+       "stufe": 2,
+       "text": "Build tomorrow"
+      },
+      {
+       "stufe": 2,
+       "text": "Look the part"
+      },
+      {
+       "stufe": 2,
+       "text": "Hand it off"
+      },
+      {
+       "stufe": 2,
+       "text": "Stay ahead"
+      },
+      {
+       "stufe": 2,
+       "text": "Take all three. From one studio."
+      },
+      {
+       "stufe": 3,
+       "text": "Web design"
+      },
+      {
+       "stufe": 3,
+       "text": "Backend & software"
+      },
+      {
+       "stufe": 3,
+       "text": "AI in your workflows"
+      },
+      {
+       "stufe": 3,
+       "text": "Consulting & delivery"
+      },
+      {
+       "stufe": 2,
+       "text": "See for yourself. Before you ask."
+      },
+      {
+       "stufe": 3,
+       "text": "HALDEN"
+      },
+      {
+       "stufe": 3,
+       "text": "LUMEN"
+      },
+      {
+       "stufe": 3,
+       "text": "Northside"
+      },
+      {
+       "stufe": 3,
+       "text": "Ridgeline"
+      },
+      {
+       "stufe": 2,
+       "text": "Expect four steps."
+      },
+      {
+       "stufe": 3,
+       "text": "Findings"
+      },
+      {
+       "stufe": 3,
+       "text": "Fixed price"
+      },
+      {
+       "stufe": 3,
+       "text": "Build"
+      },
+      {
+       "stufe": 3,
+       "text": "Handover"
+      },
+      {
+       "stufe": 2,
+       "text": "Ask for proof."
+      },
+      {
+       "stufe": 3,
+       "text": "Strategy and evidence"
+      },
+      {
+       "stufe": 3,
+       "text": "Interface and accessibility"
+      },
+      {
+       "stufe": 3,
+       "text": "Engineering"
+      },
+      {
+       "stufe": 3,
+       "text": "Launch and handover"
+      },
+      {
+       "stufe": 2,
+       "text": "Ask us anything."
+      },
+      {
+       "stufe": 2,
+       "text": "Get your findings. Free."
+      },
+      {
+       "stufe": 3,
+       "text": "Page"
+      },
+      {
+       "stufe": 3,
+       "text": "Direct"
+      }
+     ]
+    },
+    "ohneAlt": [],
+    "ohneLabel": [],
+    "ohneName": [],
+    "titel": "Oroboros Design — Web design, software and AI for businesses"
+   },
+   "webgl": [
+    {
+     "art": "webgl2",
+     "ok": true,
+     "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+    }
+   ],
+   "bildzeitenWebgl": {
+    "bilder": 28,
+    "p50": 233.3,
+    "p95": 283.3,
+    "p99": 283.3,
+    "max": 283.3,
+    "ueber50": 28
+   },
+   "guete": null,
+   "folien": [
+    {
+     "anker": 0,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": []
+    },
+    {
+     "anker": 0.34,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": []
+    },
+    {
+     "anker": 0.62,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0.09
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": []
+    },
+    {
+     "anker": 0.94,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 1
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-3"
+     ]
+    }
+   ],
+   "kontrastBuehne": {
+    "geprueft": 44,
+    "fehler": []
+   },
+   "waagerecht": {
+    "gescrollt": false,
+    "scrollBreiteMax": 1440,
+    "breite": 1440,
+    "ueberstand": []
+   },
+   "unsichtbarNachScroll": [],
+   "kontrastDokument": {
+    "geprueft": 114,
+    "fehler": [],
+    "anzahlFehler": 0,
+    "unsicher": 0
+   },
+   "fokus": {
+    "ziele": 42,
+    "fehler": [
+     {
+      "ziel": "input#c-name||name",
+      "ring": false,
+      "deck": 1
+     },
+     {
+      "ziel": "input#c-mail||email",
+      "ring": false,
+      "deck": 1
+     },
+     {
+      "ziel": "input#c-web||website",
+      "ring": false,
+      "deck": 1
+     },
+     {
+      "ziel": "select#c-anliegen||Free website check\n          N",
+      "ring": false,
+      "deck": 1
+     },
+     {
+      "ziel": "textarea#c-text||nachricht",
+      "ring": false,
+      "deck": 1
+     }
+    ],
+    "verdeckt": []
+   },
+   "verweise": [
+    "#slide-1",
+    "#slide-2",
+    "#slide-3",
+    "#slide-4",
+    "/",
+    "#arbeiten",
+    "#kontakt",
+    "mailto:oroborosdesign@gmail.com",
+    "https://wa.me/4917679219526",
+    "mailto:oroborosdesign@gmail.com?subject=Enquiry%20%E2%80%94%20Web%20design",
+    "mailto:oroborosdesign@gmail.com?subject=Enquiry%20%E2%80%94%20Backend%20and%20software",
+    "mailto:oroborosdesign@gmail.com?subject=Enquiry%20%E2%80%94%20AI%20in%20workflows",
+    "mailto:oroborosdesign@gmail.com?subject=Enquiry%20%E2%80%94%20Consulting",
+    "/arbeiten/halden/",
+    "/arbeiten/lumen/",
+    "/arbeiten/northside/",
+    "/arbeiten/ridgeline/",
+    "/datenschutz",
+    "mailto:oroborosdesign@gmail.com?subject=Website%20check",
+    "#leistungen",
+    "#ablauf",
+    "#standard",
+    "#einwaende",
+    "/impressum"
+   ],
+   "cls": 0.022004446373456794,
+   "clsSumme": 0.11567705394603589,
+   "clsQuellen": [
+    {
+     "t": 425,
+     "v": 0.022004446373456794,
+     "quellen": [
+      ".cursor-outer",
+      ".header-nav",
+      ".header-actions"
+     ]
+    },
+    {
+     "t": 15130.5,
+     "v": 0.0027158564814814814,
+     "quellen": [
+      ".grid-dot",
+      ".grid-dot",
+      ".grid-dot"
+     ]
+    },
+    {
+     "t": 16019.300000000745,
+     "v": 0.002902242476851852,
+     "quellen": [
+      ".grid-dot",
+      ".grid-dot",
+      ".grid-dot"
+     ]
+    },
+    {
+     "t": 16273.400000000373,
+     "v": 0.0028378915292245374,
+     "quellen": [
+      ".grid-dot",
+      ".grid-dot",
+      ".grid-dot"
+     ]
+    },
+    {
+     "t": 16791.699999999255,
+     "v": 0.002906256781684028,
+     "quellen": [
+      ".grid-dot",
+      ".grid-dot",
+      ".grid-dot"
+     ]
+    },
+    {
+     "t": 17817.400000000373,
+     "v": 0.0028400472005208335,
+     "quellen": [
+      ".grid-dot",
+      ".grid-dot",
+      ".grid-dot"
+     ]
+    }
+   ],
+   "langeAufgaben": 353,
+   "langeNachLoad": 352,
+   "laengsteNachLoad": 3582,
+   "laengsteGesamt": 3582,
+   "konsole": [],
+   "konsoleUmgebung": [
+    {
+     "art": "warning",
+     "text": "[GroupMarkerNotSet(crbug.com/242999)!:A0702000843A0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content."
+    }
+   ],
+   "ausnahmen": [],
+   "fehlanfragen": []
+  },
+  {
+   "pfad": "/en",
+   "profil": "mobil",
+   "dauer": {
+    "laden": 5585,
+    "bildzeiten": 13894,
+    "folien": 24877,
+    "kontrastBuehne": 37701,
+    "dokument": 8286,
+    "kontrastDokument": 11,
+    "fokus": 7276
+   },
+   "statisch": {
+    "lang": "en",
+    "ueberschriften": {
+     "anzahl": 29,
+     "h1": 1,
+     "spruenge": [],
+     "liste": [
+      {
+       "stufe": 1,
+       "text": "Oroboros Design — Bronze and time"
+      },
+      {
+       "stufe": 2,
+       "text": "Build tomorrow"
+      },
+      {
+       "stufe": 2,
+       "text": "Look the part"
+      },
+      {
+       "stufe": 2,
+       "text": "Hand it off"
+      },
+      {
+       "stufe": 2,
+       "text": "Stay ahead"
+      },
+      {
+       "stufe": 2,
+       "text": "Take all three. From one studio."
+      },
+      {
+       "stufe": 3,
+       "text": "Web design"
+      },
+      {
+       "stufe": 3,
+       "text": "Backend & software"
+      },
+      {
+       "stufe": 3,
+       "text": "AI in your workflows"
+      },
+      {
+       "stufe": 3,
+       "text": "Consulting & delivery"
+      },
+      {
+       "stufe": 2,
+       "text": "See for yourself. Before you ask."
+      },
+      {
+       "stufe": 3,
+       "text": "HALDEN"
+      },
+      {
+       "stufe": 3,
+       "text": "LUMEN"
+      },
+      {
+       "stufe": 3,
+       "text": "Northside"
+      },
+      {
+       "stufe": 3,
+       "text": "Ridgeline"
+      },
+      {
+       "stufe": 2,
+       "text": "Expect four steps."
+      },
+      {
+       "stufe": 3,
+       "text": "Findings"
+      },
+      {
+       "stufe": 3,
+       "text": "Fixed price"
+      },
+      {
+       "stufe": 3,
+       "text": "Build"
+      },
+      {
+       "stufe": 3,
+       "text": "Handover"
+      },
+      {
+       "stufe": 2,
+       "text": "Ask for proof."
+      },
+      {
+       "stufe": 3,
+       "text": "Strategy and evidence"
+      },
+      {
+       "stufe": 3,
+       "text": "Interface and accessibility"
+      },
+      {
+       "stufe": 3,
+       "text": "Engineering"
+      },
+      {
+       "stufe": 3,
+       "text": "Launch and handover"
+      },
+      {
+       "stufe": 2,
+       "text": "Ask us anything."
+      },
+      {
+       "stufe": 2,
+       "text": "Get your findings. Free."
+      },
+      {
+       "stufe": 3,
+       "text": "Page"
+      },
+      {
+       "stufe": 3,
+       "text": "Direct"
+      }
+     ]
+    },
+    "ohneAlt": [],
+    "ohneLabel": [],
+    "ohneName": [],
+    "titel": "Oroboros Design — Web design, software and AI for businesses"
+   },
+   "webgl": [
+    {
+     "art": "webgl2",
+     "ok": true,
+     "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+    }
+   ],
+   "bildzeitenWebgl": {
+    "bilder": 22,
+    "p50": 283.4,
+    "p95": 350,
+    "p99": 416.6,
+    "max": 416.6,
+    "ueber50": 22
+   },
+   "guete": null,
+   "folien": [
+    {
+     "anker": 0,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": []
+    },
+    {
+     "anker": 0.34,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": []
+    },
+    {
+     "anker": 0.62,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 1
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-2"
+     ]
+    },
+    {
+     "anker": 0.94,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 1
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-3"
+     ]
+    }
+   ],
+   "kontrastBuehne": {
+    "geprueft": 25,
+    "fehler": []
+   },
+   "waagerecht": {
+    "gescrollt": false,
+    "scrollBreiteMax": 390,
+    "breite": 390,
+    "ueberstand": []
+   },
+   "unsichtbarNachScroll": [],
+   "kontrastDokument": {
+    "geprueft": 114,
+    "fehler": [],
+    "anzahlFehler": 0,
+    "unsicher": 0
+   },
+   "fokus": {
+    "ziele": 42,
+    "fehler": [
+     {
+      "ziel": "input#c-name||name",
+      "ring": false,
+      "deck": 1
+     },
+     {
+      "ziel": "input#c-mail||email",
+      "ring": false,
+      "deck": 1
+     },
+     {
+      "ziel": "input#c-web||website",
+      "ring": false,
+      "deck": 1
+     },
+     {
+      "ziel": "select#c-anliegen||Free website check\n          N",
+      "ring": false,
+      "deck": 1
+     },
+     {
+      "ziel": "textarea#c-text||nachricht",
+      "ring": false,
+      "deck": 1
+     }
+    ],
+    "verdeckt": []
+   },
+   "verweise": [
+    "#slide-1",
+    "#slide-2",
+    "#slide-3",
+    "#slide-4",
+    "/",
+    "#arbeiten",
+    "#kontakt",
+    "mailto:oroborosdesign@gmail.com",
+    "https://wa.me/4917679219526",
+    "mailto:oroborosdesign@gmail.com?subject=Enquiry%20%E2%80%94%20Web%20design",
+    "mailto:oroborosdesign@gmail.com?subject=Enquiry%20%E2%80%94%20Backend%20and%20software",
+    "mailto:oroborosdesign@gmail.com?subject=Enquiry%20%E2%80%94%20AI%20in%20workflows",
+    "mailto:oroborosdesign@gmail.com?subject=Enquiry%20%E2%80%94%20Consulting",
+    "/arbeiten/halden/",
+    "/arbeiten/lumen/",
+    "/arbeiten/northside/",
+    "/arbeiten/ridgeline/",
+    "/datenschutz",
+    "mailto:oroborosdesign@gmail.com?subject=Website%20check",
+    "#leistungen",
+    "#ablauf",
+    "#standard",
+    "#einwaende",
+    "/impressum"
+   ],
+   "cls": 0.1241166526130495,
+   "clsSumme": 0.5703010820547307,
+   "clsQuellen": [
+    {
+     "t": 16148.099999999627,
+     "v": 0.017253364013179607,
+     "quellen": [
+      ".grid-dot",
+      ".grid-dot",
+      ".grid-dot"
+     ]
+    },
+    {
+     "t": 16711.5,
+     "v": 0.01832085365020051,
+     "quellen": [
+      ".grid-dot",
+      ".grid-dot",
+      ".grid-dot"
+     ]
+    },
+    {
+     "t": 17233.299999998882,
+     "v": 0.018271114468669067,
+     "quellen": [
+      ".grid-dot",
+      ".grid-dot",
+      ".grid-dot"
+     ]
+    },
+    {
+     "t": 17554.400000000373,
+     "v": 0.01788887466459216,
+     "quellen": [
+      ".grid-dot",
+      ".grid-dot",
+      ".grid-dot"
+     ]
+    },
+    {
+     "t": 18885.099999999627,
+     "v": 0.016917474958878524,
+     "quellen": [
+      ".grid-dot",
+      ".grid-dot",
+      ".grid-dot"
+     ]
+    },
+    {
+     "t": 22569.900000000373,
+     "v": 0.014169028568843053,
+     "quellen": [
+      ".grid-dot",
+      ".grid-dot",
+      ".grid-dot"
+     ]
+    }
+   ],
+   "langeAufgaben": 299,
+   "langeNachLoad": 298,
+   "laengsteNachLoad": 3622,
+   "laengsteGesamt": 3622,
+   "konsole": [],
+   "konsoleUmgebung": [
+    {
+     "art": "warning",
+     "text": "[GroupMarkerNotSet(crbug.com/242999)!:A0702000843A0000]Automatic fallback to software WebGL has been deprecated. Please use the --enable-unsafe-swiftshader (about:flags#enable-unsafe-swiftshader) flag to opt in to lower security guarantees for trusted content."
+    }
+   ],
+   "ausnahmen": [],
+   "fehlanfragen": []
+  }
+ ],
+ "bildzeiten": [
+  {
+   "pfad": "/",
+   "profil": "desktop",
+   "bildzeiten": {
+    "bilder": 27,
+    "p50": 233.3,
+    "p95": 300,
+    "p99": 300.1,
+    "max": 300.1,
+    "ueber50": 27
+   },
+   "zustand": {
+    "klassen": "",
+    "zustand": null,
+    "guete": null
+   },
+   "ausnahmen": []
+  },
+  {
+   "pfad": "/",
+   "profil": "mobil",
+   "bildzeiten": {
+    "bilder": 23,
+    "p50": 283.3,
+    "p95": 300.1,
+    "p99": 316.7,
+    "max": 316.7,
+    "ueber50": 23
+   },
+   "zustand": {
+    "klassen": "",
+    "zustand": null,
+    "guete": null
+   },
+   "ausnahmen": []
+  },
+  {
+   "pfad": "/en",
+   "profil": "desktop",
+   "bildzeiten": {
+    "bilder": 30,
+    "p50": 216.7,
+    "p95": 283.4,
+    "p99": 300,
+    "max": 300,
+    "ueber50": 30
+   },
+   "zustand": {
+    "klassen": "",
+    "zustand": null,
+    "guete": null
+   },
+   "ausnahmen": []
+  },
+  {
+   "pfad": "/en",
+   "profil": "mobil",
+   "bildzeiten": {
+    "bilder": 22,
+    "p50": 283.4,
+    "p95": 316.6,
+    "p99": 333.4,
+    "max": 333.4,
+    "ueber50": 22
+   },
+   "zustand": {
+    "klassen": "",
+    "zustand": null,
+    "guete": null
+   },
+   "ausnahmen": []
+  }
+ ],
+ "leistung": [
+  {
+   "pfad": "/",
+   "profil": "desktop",
+   "drossel": 4,
+   "loadMs": 922,
+   "fcp": 284,
+   "fp": 284,
+   "lcp": null,
+   "dcl": 910.2999999988824,
+   "load": 916,
+   "erstesBuehnenbild": null,
+   "langeNachLoad": [
+    5545,
+    745
+   ],
+   "laengsteNachLoad": 5545,
+   "langeVorLoad": [
+    114,
+    662
+   ],
+   "bytes": {
+    "gesamt": 1439931,
+    "js": 1272972,
+    "css": 0,
+    "bild": 22832,
+    "schrift": 52744,
+    "html": 91383
+   },
+   "ausnahmen": []
+  },
+  {
+   "pfad": "/",
+   "profil": "mobil",
+   "drossel": 4,
+   "loadMs": 1005,
+   "fcp": 276,
+   "fp": 276,
+   "lcp": {
+    "t": 276,
+    "groesse": 22848,
+    "element": "H2.slide-title"
+   },
+   "dcl": 963.5999999996275,
+   "load": 979.0999999996275,
+   "erstesBuehnenbild": null,
+   "langeNachLoad": [
+    5639,
+    709,
+    594
+   ],
+   "laengsteNachLoad": 5639,
+   "langeVorLoad": [
+    135,
+    722
+   ],
+   "bytes": {
+    "gesamt": 1439931,
+    "js": 1272972,
+    "css": 0,
+    "bild": 22832,
+    "schrift": 52744,
+    "html": 91383
+   },
+   "ausnahmen": []
+  },
+  {
+   "pfad": "/en",
+   "profil": "desktop",
+   "drossel": 4,
+   "loadMs": 942,
+   "fcp": 284,
+   "fp": 284,
+   "lcp": null,
+   "dcl": 921.1999999992549,
+   "load": 935,
+   "erstesBuehnenbild": null,
+   "langeNachLoad": [
+    5671
+   ],
+   "laengsteNachLoad": 5671,
+   "langeVorLoad": [
+    125,
+    677
+   ],
+   "bytes": {
+    "gesamt": 1439581,
+    "js": 1272972,
+    "css": 0,
+    "bild": 22832,
+    "schrift": 52744,
+    "html": 91033
+   },
+   "ausnahmen": []
+  }
+ ],
+ "reduziert": [
+  {
+   "pfad": "/",
+   "profil": "desktop",
+   "rafImLeerlaufProSek": 5,
+   "webgl": 1,
+   "standbild": {
+    "da": true,
+    "geladen": true,
+    "sichtbar": false,
+    "deck": 0
+   },
+   "folien": [
+    {
+     "anker": 0,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 1
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-1"
+     ]
+    },
+    {
+     "anker": 0.34,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": []
+    },
+    {
+     "anker": 0.62,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 1
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-2"
+     ]
+    },
+    {
+     "anker": 0.94,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 1
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-3"
+     ]
+    }
+   ],
+   "dokumentSofortSichtbar": true,
+   "transformiert": [
+    "img.werk-zwei matrix(1.06, 0, 0, 1.06, 0, 0)"
+   ],
+   "laufendeUebergaenge": [],
+   "ausnahmen": [],
+   "ok": false
+  },
+  {
+   "pfad": "/",
+   "profil": "mobil",
+   "rafImLeerlaufProSek": 4,
+   "webgl": 1,
+   "standbild": {
+    "da": true,
+    "geladen": true,
+    "sichtbar": false,
+    "deck": 0
+   },
+   "folien": [
+    {
+     "anker": 0,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 1
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-1"
+     ]
+    },
+    {
+     "anker": 0.34,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": []
+    },
+    {
+     "anker": 0.62,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 1
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-2"
+     ]
+    },
+    {
+     "anker": 0.94,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 1
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-3"
+     ]
+    }
+   ],
+   "dokumentSofortSichtbar": true,
+   "transformiert": [
+    "img.werk-zwei matrix(1.06, 0, 0, 1.06, 0, 0)"
+   ],
+   "laufendeUebergaenge": [],
+   "ausnahmen": [],
+   "ok": false
+  },
+  {
+   "pfad": "/en",
+   "profil": "desktop",
+   "rafImLeerlaufProSek": 5,
+   "webgl": 1,
+   "standbild": {
+    "da": true,
+    "geladen": true,
+    "sichtbar": false,
+    "deck": 0
+   },
+   "folien": [
+    {
+     "anker": 0,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 1
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-1"
+     ]
+    },
+    {
+     "anker": 0.34,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": []
+    },
+    {
+     "anker": 0.62,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 1
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-2"
+     ]
+    },
+    {
+     "anker": 0.94,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 1
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": [
+      "slide-3"
+     ]
+    }
+   ],
+   "dokumentSofortSichtbar": true,
+   "transformiert": [
+    "img.werk-zwei matrix(1.06, 0, 0, 1.06, 0, 0)"
+   ],
+   "laufendeUebergaenge": [],
+   "ausnahmen": [],
+   "ok": false
+  }
+ ],
+ "ausfall": [
+  {
+   "pfad": "/",
+   "profil": "desktop",
+   "art": "modul-gesperrt",
+   "standbild": {
+    "da": true,
+    "sichtbar": false
+   },
+   "folien": [
+    {
+     "anker": 0,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 1
+      },
+      {
+       "id": "slide-2",
+       "deck": 1
+      },
+      {
+       "id": "slide-3",
+       "deck": 1
+      },
+      {
+       "id": "slide-4",
+       "deck": 1
+      }
+     ],
+     "lesbar": [
+      "slide-1",
+      "slide-2",
+      "slide-3",
+      "slide-4"
+     ]
+    },
+    {
+     "anker": 0.34,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 1
+      },
+      {
+       "id": "slide-2",
+       "deck": 1
+      },
+      {
+       "id": "slide-3",
+       "deck": 1
+      },
+      {
+       "id": "slide-4",
+       "deck": 1
+      }
+     ],
+     "lesbar": [
+      "slide-1",
+      "slide-2",
+      "slide-3",
+      "slide-4"
+     ]
+    },
+    {
+     "anker": 0.62,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 1
+      },
+      {
+       "id": "slide-2",
+       "deck": 1
+      },
+      {
+       "id": "slide-3",
+       "deck": 1
+      },
+      {
+       "id": "slide-4",
+       "deck": 1
+      }
+     ],
+     "lesbar": [
+      "slide-1",
+      "slide-2",
+      "slide-3",
+      "slide-4"
+     ]
+    },
+    {
+     "anker": 0.94,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 1
+      },
+      {
+       "id": "slide-2",
+       "deck": 1
+      },
+      {
+       "id": "slide-3",
+       "deck": 1
+      },
+      {
+       "id": "slide-4",
+       "deck": 1
+      }
+     ],
+     "lesbar": [
+      "slide-1",
+      "slide-2",
+      "slide-3",
+      "slide-4"
+     ]
+    }
+   ],
+   "unsichtbar": 67,
+   "unsichtbarBeispiele": [
+    {
+     "el": "p Oberfläche, System, Automatisierung. Sie",
+     "deck": 0
+    },
+    {
+     "el": "a 01\n      WebdesignDie Oberfläche, die Ih",
+     "deck": 0
+    },
+    {
+     "el": "h3 Webdesign",
+     "deck": 0
+    },
+    {
+     "el": "p Die Oberfläche, die Ihre Kundschaft sieh",
+     "deck": 0
+    },
+    {
+     "el": "a 02\n      Backend & SoftwareWas hinter de",
+     "deck": 0
+    },
+    {
+     "el": "h3 Backend & Software",
+     "deck": 0
+    }
+   ],
+   "ausnahmen": [],
+   "ok": false
+  },
+  {
+   "pfad": "/",
+   "profil": "mobil",
+   "art": "kein-webgl",
+   "standbild": {
+    "da": true,
+    "sichtbar": false
+   },
+   "folien": [
+    {
+     "anker": 0,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": []
+    },
+    {
+     "anker": 0.34,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": []
+    },
+    {
+     "anker": 0.62,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": []
+    },
+    {
+     "anker": 0.94,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": []
+    }
+   ],
+   "unsichtbar": 67,
+   "unsichtbarBeispiele": [
+    {
+     "el": "p Oberfläche, System, Automatisierung. Sie",
+     "deck": 0
+    },
+    {
+     "el": "a 01\n      WebdesignDie Oberfläche, die Ih",
+     "deck": 0
+    },
+    {
+     "el": "h3 Webdesign",
+     "deck": 0
+    },
+    {
+     "el": "p Die Oberfläche, die Ihre Kundschaft sieh",
+     "deck": 0
+    },
+    {
+     "el": "a 02\n      Backend & SoftwareWas hinter de",
+     "deck": 0
+    },
+    {
+     "el": "h3 Backend & Software",
+     "deck": 0
+    }
+   ],
+   "ausnahmen": [
+    "Error creating WebGL context."
+   ],
+   "ok": false
+  },
+  {
+   "pfad": "/en",
+   "profil": "desktop",
+   "art": "kein-webgl",
+   "standbild": {
+    "da": true,
+    "sichtbar": false
+   },
+   "folien": [
+    {
+     "anker": 0,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": []
+    },
+    {
+     "anker": 0.34,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": []
+    },
+    {
+     "anker": 0.62,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": []
+    },
+    {
+     "anker": 0.94,
+     "folien": [
+      {
+       "id": "slide-1",
+       "deck": 0
+      },
+      {
+       "id": "slide-2",
+       "deck": 0
+      },
+      {
+       "id": "slide-3",
+       "deck": 0
+      },
+      {
+       "id": "slide-4",
+       "deck": 0
+      }
+     ],
+     "lesbar": []
+    }
+   ],
+   "unsichtbar": 67,
+   "unsichtbarBeispiele": [
+    {
+     "el": "p Interface, system, automation. You don't",
+     "deck": 0
+    },
+    {
+     "el": "a 01\n      Web designThe interface your cu",
+     "deck": 0
+    },
+    {
+     "el": "h3 Web design",
+     "deck": 0
+    },
+    {
+     "el": "p The interface your customers see, built ",
+     "deck": 0
+    },
+    {
+     "el": "a 02\n      Backend & softwareWhat has to r",
+     "deck": 0
+    },
+    {
+     "el": "h3 Backend & software",
+     "deck": 0
+    }
+   ],
+   "ausnahmen": [
+    "Error creating WebGL context."
+   ],
+   "ok": false
+  }
+ ],
+ "angel": [
+  {
+   "pfad": "/",
+   "profil": "desktop",
+   "schritte": {
+    "kopfknopf": false
+   },
+   "ok": false,
+   "fehlt": true
+  },
+  {
+   "pfad": "/",
+   "profil": "mobil",
+   "schritte": {
+    "kopfknopf": false
+   },
+   "ok": false,
+   "fehlt": true
+  },
+  {
+   "pfad": "/en",
+   "profil": "desktop",
+   "schritte": {
+    "kopfknopf": false
+   },
+   "ok": false,
+   "fehlt": true
+  }
+ ],
+ "formular": [
+  {
+   "pfad": "/",
+   "leerAbgewiesen": true,
+   "koerper": {
+    "name": "Audit Prüfer",
+    "email": "pruefer@example.com",
+    "website": "beispiel.de",
+    "anliegen": "website_check",
+    "nachricht": "Test aus dem Prüfstand",
+    "firma_web": "",
+    "sprache": "de",
+    "quelle": "/"
+   },
+   "felderDa": true,
+   "anliegenGueltig": true,
+   "status": "Danke. Ihre Anfrage ist angekommen — Sie hören innerhalb von 48 Stunden von uns.",
+   "ok": true,
+   "ausnahmen": []
+  },
+  {
+   "pfad": "/en",
+   "leerAbgewiesen": true,
+   "koerper": {
+    "name": "Audit Prüfer",
+    "email": "pruefer@example.com",
+    "website": "beispiel.de",
+    "anliegen": "website_check",
+    "nachricht": "Test aus dem Prüfstand",
+    "firma_web": "",
+    "sprache": "en",
+    "quelle": "/en"
+   },
+   "felderDa": true,
+   "anliegenGueltig": true,
+   "status": "Thank you. Your request has arrived — you will hear from us within 48 hours.",
+   "ok": true,
+   "ausnahmen": []
+  }
+ ],
+ "unterseiten": [
+  {
+   "pfad": "/arbeiten/halden",
+   "konsolenfehler": 0,
+   "warnungen": 0,
+   "ausnahmen": [],
+   "fehlanfragen": [],
+   "waagerecht": false
+  },
+  {
+   "pfad": "/arbeiten/lumen",
+   "konsolenfehler": 0,
+   "warnungen": 0,
+   "ausnahmen": [],
+   "fehlanfragen": [],
+   "waagerecht": false
+  },
+  {
+   "pfad": "/arbeiten/northside",
+   "konsolenfehler": 0,
+   "warnungen": 0,
+   "ausnahmen": [],
+   "fehlanfragen": [],
+   "waagerecht": false
+  },
+  {
+   "pfad": "/arbeiten/ridgeline",
+   "konsolenfehler": 0,
+   "warnungen": 0,
+   "ausnahmen": [],
+   "fehlanfragen": [],
+   "waagerecht": false
+  },
+  {
+   "pfad": "/datenschutz",
+   "konsolenfehler": 0,
+   "warnungen": 0,
+   "ausnahmen": [],
+   "fehlanfragen": [],
+   "waagerecht": false
+  },
+  {
+   "pfad": "/impressum",
+   "konsolenfehler": 0,
+   "warnungen": 0,
+   "ausnahmen": [],
+   "fehlanfragen": [],
+   "waagerecht": false
+  }
+ ],
+ "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+ "verweise": {
+  "intern": 94,
+  "kaputt": [],
+  "umwege": [
+   {
+    "seite": "/",
+    "href": "/arbeiten/halden/",
+    "grund": "Umleitung → /arbeiten/halden",
+    "nurHinweis": true
+   },
+   {
+    "seite": "/",
+    "href": "/arbeiten/lumen/",
+    "grund": "Umleitung → /arbeiten/lumen",
+    "nurHinweis": true
+   },
+   {
+    "seite": "/",
+    "href": "/arbeiten/northside/",
+    "grund": "Umleitung → /arbeiten/northside",
+    "nurHinweis": true
+   },
+   {
+    "seite": "/",
+    "href": "/arbeiten/ridgeline/",
+    "grund": "Umleitung → /arbeiten/ridgeline",
+    "nurHinweis": true
+   },
+   {
+    "seite": "/en",
+    "href": "/arbeiten/halden/",
+    "grund": "Umleitung → /arbeiten/halden",
+    "nurHinweis": true
+   },
+   {
+    "seite": "/en",
+    "href": "/arbeiten/lumen/",
+    "grund": "Umleitung → /arbeiten/lumen",
+    "nurHinweis": true
+   },
+   {
+    "seite": "/en",
+    "href": "/arbeiten/northside/",
+    "grund": "Umleitung → /arbeiten/northside",
+    "nurHinweis": true
+   },
+   {
+    "seite": "/en",
+    "href": "/arbeiten/ridgeline/",
+    "grund": "Umleitung → /arbeiten/ridgeline",
+    "nurHinweis": true
+   }
+  ],
+  "kauflinks": [],
+  "extern": [
+   "https://ec.europa.eu/consumers/odr/",
+   "https://oroboros-werk.vercel.app/datenschutz",
+   "https://oroboros-werk.vercel.app/impressum",
+   "https://wa.me/4917679219526",
+   "mailto:hello@halden.example",
+   "mailto:hello@lumen.example",
+   "mailto:hello@northside.example",
+   "mailto:oroborosdesign@gmail.com",
+   "nullimage/svg+xml,%3Csvg xmlns="
+  ]
+ },
+ "seo": {
+  "seiten": {
+   "/": {
+    "titel": "Oroboros Design — Bronze und Zeit",
+    "titelLaenge": 33,
+    "beschreibung": "Digitalstudio aus Köln: Webdesign, Software und KI im Workflow. Kostenloser Website-Check mit Befund in 48 Stunden. Ein Studio, ein Ansprechpartner, ein Festpreis.",
+    "beschreibungLaenge": 163,
+    "canonical": "https://oroboros-design.com/",
+    "hreflang": [
+     "de=https://oroboros-design.com/",
+     "en=https://oroboros-design.com/en",
+     "x-default=https://oroboros-design.com/en"
+    ],
+    "og": {
+     "titel": "Oroboros Design — Bronze und Zeit",
+     "bild": "https://oroboros-design.com/vendor/img/og.jpg",
+     "url": "https://oroboros-design.com/",
+     "beschreibung": true
+    },
+    "twitter": "summary_large_image",
+    "jsonLd": {
+     "bloecke": 0,
+     "fehler": 0,
+     "organisation": 0,
+     "service": 0,
+     "produkt": 0,
+     "angebote": 0
+    }
+   },
+   "/en": {
+    "titel": "Oroboros Design — Web design, software and AI for businesses",
+    "titelLaenge": 60,
+    "beschreibung": "Digital studio from Cologne, Germany: web design, backend and software, AI in your workflows. Free website check with findings in 48 hours. One studio, one contact, one fixed price.",
+    "beschreibungLaenge": 181,
+    "canonical": "https://oroboros-design.com/en",
+    "hreflang": [
+     "de=https://oroboros-design.com/",
+     "en=https://oroboros-design.com/en",
+     "x-default=https://oroboros-design.com/en"
+    ],
+    "og": {
+     "titel": "Oroboros Design — Web design, software and AI",
+     "bild": "https://oroboros-design.com/vendor/img/og.jpg",
+     "url": "https://oroboros-design.com/en",
+     "beschreibung": true
+    },
+    "twitter": "summary_large_image",
+    "jsonLd": {
+     "bloecke": 0,
+     "fehler": 0,
+     "organisation": 0,
+     "service": 0,
+     "produkt": 0,
+     "angebote": 0
+    }
+   }
+  },
+  "robots": {
+   "da": false,
+   "verweistAufSitemap": false
+  },
+  "sitemap": {
+   "da": false,
+   "adressen": []
+  },
+  "ok": false
+ },
+ "zwilling": {
+  "stilGleich": true,
+  "skripteGleich": true,
+  "skripteDe": 3,
+  "skripteEn": 3,
+  "ids": {
+   "nurDe": [],
+   "nurEn": []
+  },
+  "kauflinksDe": 0,
+  "kauflinksEn": 0,
+  "kaufGleich": true,
+  "felder": {
+   "nurDe": [],
+   "nurEn": []
+  },
+  "ok": true
+ },
+ "zusammenfassung": {
+  "konsolenfehler": 0,
+  "konsolenwarnungen": 0,
+  "fehlanfragen": 0,
+  "unterseitenFehler": 0,
+  "clsMax": 0.124,
+  "laengsteAufgabeNachLoadMs": 5671,
+  "laengsteAufgabeNachLoadWebglMs": 3622,
+  "umgebungsmeldungen": 8,
+  "bildzeitP95Desktop": 300,
+  "bildzeitP95Mobil": 316.6,
+  "bildzeitP95DesktopWebgl": 300,
+  "bildzeitP95MobilWebgl": 350,
+  "buehneStandard": "alt",
+  "bilderUeber50ms": 103,
+  "fcp4xDesktopMs": 284,
+  "lcp4xDesktopMs": 0,
+  "fcp4xMobilMs": 276,
+  "lcp4xMobilMs": 276,
+  "kaputteVerweise": 0,
+  "kauflinksFalsch": 0,
+  "kauflinks": 0,
+  "kontrastFehlerDokument": 0,
+  "kontrastFehlerBuehne": 0,
+  "ueberschriftenFehler": 0,
+  "ohneAlt": 0,
+  "ohneLabel": 0,
+  "fokusOhneRing": 20,
+  "fokusUnterKopf": 0,
+  "waagerechtesScrollen": 0,
+  "ueberstand": 0,
+  "folienUeberlagert": 10,
+  "unsichtbarNachScroll": 0,
+  "reduziertOk": false,
+  "ausfallOk": false,
+  "angelOk": false,
+  "formularOk": true,
+  "seoOk": false,
+  "zwillingOk": true
+ }
+}
