@@ -1,0 +1,744 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>CAFE ESPECIAL · Entwurf Oroboros Design</title>
+<meta name="description" content="CAFE ESPECIAL – Mexican Restaurant, Cantina und Tequila-Mezcal-Bar in Köln-Deutz und Saarbrücken. Täglich frisch und selbstgemacht, rund 100 Tequila und Mezcals.">
+<link rel="icon" href="https://www.cafe-especial.com/wp-content/uploads/2022/10/cropped-cafe-especial-favicon-32x32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --noche:#1B1238;
+  --noche-2:#241848;
+  --noche-3:#33265F;
+  --cempa:#F59E1B;
+  --cempa-hi:#FFB547;
+  --rosa:#E5197E;
+  --turq:#2BB3A3;
+  --lila:#A58BE6;
+  --papel:#F7EBD6;
+  --papel-2:#EAD7B6;
+  --tinta:#2B1A10;
+  --tinta-2:#5C4130;
+  --f-display:'Big Shoulders Display','Arial Narrow',Impact,sans-serif;
+  --f-text:'Newsreader',Georgia,'Times New Roman',serif;
+  --gutter:16px;
+  --max:1180px;
+  --hint-h:44px;
+}
+@media (min-width:768px){:root{--gutter:32px;--hint-h:34px}}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--noche);
+  color:var(--papel);
+  font-family:var(--f-text);
+  font-size:1.0625rem;
+  line-height:1.6;
+  overflow-x:clip;
+  padding-bottom:76px;
+}
+@media (min-width:960px){body{padding-bottom:0;font-size:1.125rem}}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+h1,h2,h3{font-family:var(--f-display);font-weight:800;line-height:.95;margin:0;letter-spacing:.005em}
+p{margin:0}
+:focus-visible{outline:3px solid var(--cempa);outline-offset:3px;border-radius:4px}
+.wrap{max-width:var(--max);margin-inline:auto;padding-inline:var(--gutter)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+section[id]{scroll-margin-top:calc(var(--hint-h) + 8px)}
+
+/* ---------- Hinweisbalken ---------- */
+.hint{
+  position:sticky;top:0;z-index:60;
+  min-height:var(--hint-h);
+  background:var(--tinta);
+  color:rgba(247,235,214,.86);
+  font-family:var(--f-text);
+  font-size:.71rem;line-height:1.3;
+  border-bottom:1px solid rgba(245,158,27,.35);
+}
+.hint .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:var(--hint-h);padding-block:5px}
+.hint a{color:var(--cempa-hi);text-decoration:none;white-space:nowrap;font-weight:500}
+.hint a:hover{text-decoration:underline}
+.hint a{text-align:right}
+@media (max-width:767px){.hint .hn{display:block}.hint .hs{display:none}}
+@media (min-width:768px){.hint{font-size:.8rem}}
+
+/* ---------- Kopf ---------- */
+.head{
+  position:relative;z-index:2;
+  background:var(--papel) url("https://www.cafe-especial.com/wp-content/uploads/2022/08/bg_beige_scratched.jpg") center/cover;
+  color:var(--tinta);
+  border-bottom:3px solid var(--tinta);
+}
+.head .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:12px}
+.logo{display:block;width:min(230px,62vw)}
+.logo img{width:100%;height:auto}
+.nav{display:none;align-items:center;gap:26px}
+.nav a{font-family:var(--f-display);font-weight:700;font-size:1.2rem;text-decoration:none;color:var(--tinta)}
+.nav a:hover{color:var(--rosa)}
+@media (min-width:960px){.nav{display:flex}.logo{width:270px}}
+
+/* ---------- Knöpfe ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  min-height:52px;padding:12px 26px;
+  font-family:var(--f-display);font-weight:800;font-size:1.45rem;letter-spacing:.02em;line-height:1;
+  text-decoration:none;border-radius:999px;border:2px solid transparent;cursor:pointer;
+  transition:background-color .15s, color .15s, transform .15s;
+}
+.btn-primary{background:var(--cempa);color:var(--noche)}
+.btn-primary:hover{background:var(--cempa-hi)}
+.btn-primary:active{transform:translateY(1px)}
+.btn-line{background:transparent;color:var(--papel);border-color:rgba(247,235,214,.5);font-size:1.2rem;min-height:46px;padding:10px 20px}
+.btn-line:hover{border-color:var(--cempa);color:var(--cempa-hi)}
+.btn-ink{background:var(--tinta);color:var(--papel);font-size:1.2rem;min-height:46px;padding:10px 20px}
+.btn-ink:hover{background:#4a2f1d}
+.nav .btn{font-size:1.15rem;min-height:42px;padding:8px 18px;color:var(--noche)}
+.nav .btn:hover{color:var(--noche)}
+
+/* ---------- Hero ---------- */
+.hero{
+  position:relative;
+  background:
+    radial-gradient(120% 60% at 78% 108%, rgba(245,158,27,.16), rgba(245,158,27,0) 62%),
+    radial-gradient(70% 40% at 0% 100%, rgba(229,25,126,.12), rgba(229,25,126,0) 70%),
+    var(--noche);
+  padding:clamp(96px,22vw,150px) 0 56px;
+  overflow:hidden;
+}
+.garland{position:absolute;left:0;right:0;top:-2px;height:clamp(84px,14vw,128px);width:100%;pointer-events:none}
+.pp-string{fill:none;stroke:rgba(247,235,214,.55);stroke-width:1.4}
+.pp-flag{transform-box:fill-box;transform-origin:50% 0;animation:pp-drop .9s cubic-bezier(.2,.9,.25,1.15) both;animation-delay:var(--d,0ms)}
+.pp-flag.sway{animation:pp-sway 7s ease-in-out infinite;animation-delay:var(--s,0ms)}
+@keyframes pp-drop{from{transform:scaleY(0) rotate(-6deg);opacity:0}to{transform:none;opacity:1}}
+@keyframes pp-sway{0%,100%{transform:rotate(0)}25%{transform:rotate(1.6deg)}75%{transform:rotate(-1.6deg)}}
+
+.hero-grid{display:grid;gap:40px;position:relative}
+.hero-date{font-style:italic;font-weight:500;font-size:1.25rem;color:var(--cempa-hi);margin-bottom:6px}
+.hero h1{
+  font-weight:900;
+  font-size:clamp(5rem,23.5vw,9.4rem);
+  line-height:.84;
+  letter-spacing:-.005em;
+  color:var(--papel);
+  text-shadow:.045em .045em 0 var(--rosa);
+  margin-bottom:28px;
+}
+.hero h1 span{display:block}
+@media (min-width:960px){
+  .hero{padding-top:124px}
+  .garland{height:112px}
+  .hero-grid{grid-template-columns:1fr 1fr;align-items:start;gap:56px}
+  .hero h1{white-space:nowrap;font-size:min(9rem,10.6vw);line-height:.9;margin-bottom:26px}
+  .hero h1 span{display:inline}
+  .hero .countdown{margin:20px 0}
+  .arch{justify-self:end;margin-top:-4px}
+}
+.city-switch{display:inline-grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:14px;background:rgba(247,235,214,.08);border:1px solid rgba(247,235,214,.18);width:100%;max-width:440px}
+.city-switch button{
+  appearance:none;border:0;cursor:pointer;border-radius:10px;
+  background:transparent;color:var(--papel);
+  padding:9px 10px 8px;text-align:left;font:inherit;line-height:1.15;
+}
+.city-switch button b{display:block;font-family:var(--f-display);font-weight:800;font-size:1.35rem;letter-spacing:.01em}
+.city-switch button small{font-size:.86rem;opacity:.8}
+.city-switch button[aria-pressed="true"]{background:var(--papel);color:var(--noche)}
+.city-switch button[aria-pressed="true"] small{opacity:1;color:var(--tinta-2)}
+.countdown{margin:22px 0 22px}
+.cd-cells{display:flex;gap:clamp(14px,4vw,26px)}
+.cd-cell{display:flex;flex-direction:column;min-width:0}
+.cd-num{font-family:var(--f-display);font-weight:800;font-size:clamp(2.6rem,12vw,3.6rem);line-height:.9;color:var(--cempa);font-variant-numeric:tabular-nums}
+.cd-lab{font-size:.82rem;opacity:.75;margin-top:4px}
+.cd-cap{font-style:italic;font-size:.95rem;opacity:.8;margin-top:8px}
+.cd-done{font-family:var(--f-display);font-weight:800;font-size:2.2rem;color:var(--cempa)}
+.hero-cta{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.hero-cta .btn{width:100%;max-width:440px;min-height:60px;font-size:1.7rem}
+.hero-note{font-size:.95rem;opacity:.82;max-width:44ch}
+.hero-text{margin-top:30px;max-width:52ch;font-size:1.08rem;color:rgba(247,235,214,.9)}
+
+.arch{margin:0;justify-self:center;width:100%;max-width:470px}
+.arch-frame{padding:9px;border:2px solid var(--cempa);border-radius:999px 999px 10px 10px / 235px 235px 10px 10px;}
+.arch-frame img{width:100%;aspect-ratio:47/36;object-fit:cover;border-radius:999px 999px 4px 4px / 226px 226px 4px 4px;background:var(--noche-3)}
+.arch figcaption{font-style:italic;font-size:.9rem;opacity:.7;margin-top:10px;text-align:center}
+@media (max-width:959px){.arch{max-width:420px;justify-self:start}}
+
+/* ---------- Abschnitte ---------- */
+.band{padding-block:clamp(64px,10vw,112px)}
+.band-tight{padding-block:clamp(48px,8vw,80px)}
+.h2{font-size:clamp(3rem,12vw,5.4rem);font-weight:900}
+.tagline{font-style:italic;font-size:1.3rem;margin-top:8px}
+.lead{font-size:1.15rem;max-width:58ch}
+
+/* Der Abend */
+.abend{background:var(--noche)}
+.abend-grid{display:grid;gap:44px}
+@media (min-width:960px){.abend-grid{grid-template-columns:1fr 1fr;gap:72px;align-items:start}}
+.abend .h2{color:var(--papel);margin-bottom:18px}
+.abend-list{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:16px}
+.abend-list li{display:grid;grid-template-columns:26px 1fr;gap:14px;align-items:start;font-size:1.2rem;line-height:1.35}
+.flag-mark{width:22px;height:26px;margin-top:2px;
+  clip-path:polygon(0 0,100% 0,100% 78%,87.5% 100%,75% 78%,62.5% 100%,50% 78%,37.5% 100%,25% 78%,12.5% 100%,0 78%)}
+.contest{
+  border:2px solid var(--rosa);border-radius:18px;padding:26px 22px 24px;
+  background:linear-gradient(180deg,rgba(229,25,126,.10),rgba(229,25,126,0) 70%);
+}
+.contest h3{font-size:clamp(2.2rem,8vw,3rem);color:var(--papel);margin-bottom:14px}
+.contest p+p{margin-top:12px}
+.contest .btn{margin-top:22px;width:100%}
+@media (min-width:600px){.contest .btn{width:auto}}
+
+/* 40 Jahre */
+.jahre{background:var(--noche-2);padding-bottom:clamp(64px,10vw,104px)}
+.collage{height:clamp(150px,22vw,300px);overflow:hidden;border-bottom:3px solid var(--cempa)}
+.collage img{width:100%;height:100%;object-fit:cover;object-position:46% 40%}
+.jahre-grid{display:grid;gap:28px;padding-top:clamp(48px,8vw,80px);align-items:center}
+@media (min-width:768px){.jahre-grid{grid-template-columns:220px 1fr;gap:56px}}
+.badge{width:min(200px,52vw)}
+.jahre h2{font-size:clamp(3rem,13vw,6rem);font-weight:900;color:var(--papel);margin-bottom:18px}
+.nw{white-space:nowrap}
+.jahre blockquote{margin:0;font-size:clamp(1.25rem,4.6vw,1.6rem);line-height:1.4;font-style:italic;max-width:46ch;color:rgba(247,235,214,.95)}
+.jahre .orig{margin-top:16px;opacity:.75;font-size:1rem}
+
+/* Food (Tag) */
+.food{
+  background:var(--papel) url("https://www.cafe-especial.com/wp-content/uploads/2022/08/bg_beige_scratched.jpg") center/cover;
+  color:var(--tinta);
+}
+.food-grid,.drinks-grid{display:grid;gap:40px}
+.drinks-grid{gap:28px}
+.dr-b .lead{margin-top:0}
+@media (min-width:960px){
+  .food-grid{grid-template-columns:1.05fr .95fr;gap:64px}
+  .drinks-grid{grid-template-columns:1.1fr .9fr;grid-template-areas:"a b" "p b";column-gap:64px;row-gap:34px;align-items:start}
+  .dr-a{grid-area:a}.dr-photo{grid-area:p}.dr-b{grid-area:b;padding-top:12px}
+}
+.food .h2{color:var(--tinta)}
+.food .tagline{color:var(--rosa);font-weight:500}
+.food .lead{margin-top:22px}
+.board{margin-top:34px;padding-top:22px;border-top:2px solid var(--tinta)}
+.board p{font-style:italic;font-size:1.1rem}
+.board ul{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:2px 20px}
+.board li{font-family:var(--f-display);font-weight:900;font-size:clamp(2.1rem,9vw,3.1rem);line-height:1.05;color:var(--tinta)}
+.board li:nth-child(3n+1){color:#B0521A}
+.links{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.sublinks{margin-top:14px;font-size:.98rem}
+.sublinks a{text-underline-offset:3px}
+.photo{margin:0}
+.photo img{width:100%;border-radius:8px;aspect-ratio:578/234;object-fit:cover}
+.food .photo img{border:6px solid #fff;box-shadow:0 1px 0 var(--papel-2)}
+.photo figcaption{font-style:italic;font-size:.9rem;margin-top:8px;opacity:.75}
+.dishes-title{font-size:1.7rem;color:var(--tinta);margin-top:30px}
+.dishes{margin:16px 0 0;display:grid;gap:18px}
+.dish{display:grid;gap:2px;padding-bottom:16px;border-bottom:1px dashed rgba(43,26,16,.35)}
+.dish dt{font-family:var(--f-display);font-weight:800;font-size:1.5rem;line-height:1.1}
+.dish dd{margin:0;color:var(--tinta-2)}
+.tag{display:inline-block;font-family:var(--f-text);font-size:.8rem;font-weight:600;color:#1E6B5C;border:1px solid #1E6B5C;border-radius:999px;padding:0 8px;margin-left:8px;vertical-align:.25em}
+.lunch{margin-top:20px;font-size:1rem;color:var(--tinta-2)}
+
+/* Drinks (Nacht) */
+.drinks{background:var(--noche)}
+.drinks .tagline{color:var(--cempa-hi)}
+.hundred{font-family:var(--f-display);font-weight:900;font-size:clamp(2.6rem,11vw,4.6rem);line-height:.95;margin-top:28px;color:var(--papel)}
+.hundred em{font-style:normal;color:var(--cempa)}
+.drinks .lead{margin-top:20px;color:rgba(247,235,214,.9)}
+.facts{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:12px}
+.facts li{padding-left:22px;position:relative}
+.facts li::before{content:"";position:absolute;left:0;top:.62em;width:10px;height:10px;background:var(--turq);transform:rotate(45deg)}
+.menus{margin-top:30px;display:grid;gap:10px}
+.menus .row{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.menus .city{font-family:var(--f-display);font-weight:800;font-size:1.3rem;min-width:112px}
+.drinks .photo img{border-radius:10px}
+
+/* Spontan */
+.spontan{background:var(--cempa);color:var(--noche)}
+.spontan h2{font-size:clamp(2.9rem,11.5vw,6.4rem);font-weight:900;max-width:12ch}
+.spontan .big{font-size:clamp(1.25rem,4.4vw,1.65rem);line-height:1.42;max-width:44ch;margin-top:22px}
+.spontan .small{margin-top:16px;max-width:60ch;font-size:1.02rem;color:#3A2410}
+@media (min-width:960px){
+  .spontan .wrap{display:grid;grid-template-columns:1.1fr .9fr;column-gap:64px;align-items:center}
+  .spontan h2{font-size:5.6rem;max-width:9ch}
+  .spontan .big{margin-top:0}
+}
+
+/* Standorte */
+.orte{background:var(--noche)}
+.orte-head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:20px;margin-bottom:30px}
+.orte .city-switch{max-width:380px}
+.ort{display:grid;gap:28px}
+@media (min-width:960px){.ort{grid-template-columns:1fr 1fr;gap:56px;align-items:start}}
+.ort .photo img{aspect-ratio:598/260;border-radius:10px}
+.ort h3{font-size:clamp(2.6rem,10vw,3.6rem);font-weight:900;color:var(--papel)}
+.ort dl{margin:20px 0 0;display:grid;gap:14px}
+.ort dt{font-size:.88rem;opacity:.7}
+.ort dd{margin:0;font-size:1.15rem;line-height:1.4}
+.ort dd a{text-underline-offset:3px}
+.ort .tel{font-family:var(--f-display);font-weight:800;font-size:2rem;text-decoration:none;color:var(--cempa)}
+.ort .links{margin-top:24px}
+
+/* Kleine Wege */
+.wege{background:var(--noche-2)}
+.wege-grid{display:grid;gap:22px;margin-top:30px}
+@media (min-width:860px){.wege-grid{grid-template-columns:1fr 1fr;gap:28px}}
+.ticket{
+  position:relative;background:var(--papel);color:var(--tinta);border-radius:14px;padding:28px 24px 26px;
+  -webkit-mask:radial-gradient(circle 13px at 0 50%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 13px at 100% 50%,#0000 98%,#000) right/51% 100% no-repeat;
+          mask:radial-gradient(circle 13px at 0 50%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 13px at 100% 50%,#0000 98%,#000) right/51% 100% no-repeat;
+}
+.ticket,.gruppe{display:flex;flex-direction:column;align-items:flex-start}
+.ticket .btn{margin-top:auto !important}
+.ticket p{margin-bottom:20px}
+.ticket h3,.gruppe h3{font-size:clamp(2.1rem,8vw,2.7rem);margin-bottom:12px}
+.ticket .btn{margin-top:20px}
+.gruppe{border:1.5px solid rgba(247,235,214,.3);border-radius:14px;padding:28px 24px 26px}
+.gruppe .btn{margin-top:20px}
+.gruppe .xmas{margin-top:22px;padding-top:18px;border-top:1px solid rgba(247,235,214,.2);font-size:1rem;color:rgba(247,235,214,.88)}
+.gruppe .xmas a{color:var(--cempa-hi);text-underline-offset:3px}
+
+/* Inhaber-Notiz */
+.inhaber{background:var(--noche);padding-block:clamp(56px,8vw,88px)}
+.note{
+  max-width:780px;background:rgba(247,235,214,.05);
+  border:1.5px dashed rgba(247,235,214,.35);border-radius:12px;
+  padding:26px 22px;color:rgba(247,235,214,.92)
+}
+.note h2{font-size:clamp(1.9rem,7vw,2.5rem);font-weight:800;color:var(--papel)}
+.note ul{margin:18px 0 0;padding:0;list-style:none;display:grid;gap:16px}
+.note li{padding-left:20px;position:relative;font-size:1rem}
+.note li::before{content:"";position:absolute;left:0;top:.55em;width:9px;height:9px;border-radius:50%;background:var(--cempa)}
+.note li b{display:block;font-weight:600;font-size:1.06rem;color:var(--papel)}
+.note .sig{margin-top:20px;font-size:.92rem;font-style:italic;opacity:.75}
+.note .sig a{color:var(--cempa-hi)}
+
+/* Fuß */
+.foot{background:var(--tinta);color:rgba(247,235,214,.8);font-size:.95rem;padding-block:34px}
+.foot .wrap{display:grid;gap:14px}
+.foot nav{display:flex;flex-wrap:wrap;gap:8px 22px}
+.foot a{color:var(--papel);text-underline-offset:3px}
+.foot img{width:200px;opacity:.95}
+
+/* Daumenleiste (Handy) */
+.thumb{
+  position:fixed;left:0;right:0;bottom:0;z-index:55;
+  display:grid;grid-template-columns:1fr 1fr 1.35fr;gap:8px;
+  padding:8px 10px calc(8px + env(safe-area-inset-bottom));
+  background:rgba(27,18,56,.96);border-top:1px solid rgba(247,235,214,.18);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+.thumb a{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:54px;border-radius:12px;text-decoration:none;line-height:1.05;
+  border:1px solid rgba(247,235,214,.28);color:var(--papel)
+}
+.thumb a b{font-family:var(--f-display);font-weight:800;font-size:1.25rem;letter-spacing:.01em}
+.thumb a small{font-size:.74rem;opacity:.75;margin-top:2px}
+.thumb a.main{background:var(--cempa);color:var(--noche);border-color:var(--cempa)}
+.thumb a.main small{opacity:.85}
+@media (min-width:960px){.thumb{display:none}}
+
+.is-missing{display:none !important}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .pp-flag,.pp-flag.sway{animation:none}
+  .btn{transition:none}
+}
+</style>
+</head>
+<body>
+
+<div class="hint" role="note">
+  <div class="wrap">
+    <span>Entwurf von Oroboros Design für CAFE ESPECIAL · nicht die offizielle Seite</span>
+    <a href="tel:+4915158775031"><span class="hn">Daouda Ndiaye</span><span class="hs"> · </span><span class="hn">0151 58775031</span></a>
+  </div>
+</div>
+
+<header class="head">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="CAFE ESPECIAL, zum Seitenanfang">
+      <img src="https://www.cafe-especial.com/wp-content/uploads/2022/08/header_cafe-especial-original.png" width="720" height="162" alt="CAFE ESPECIAL – The Original, Mexican Restaurant Cantina, Tequila Mezcal Bar, since 1986">
+    </a>
+    <nav class="nav" aria-label="Hauptnavigation">
+      <a href="#fest">Día de los Muertos</a>
+      <a href="#food">Food</a>
+      <a href="#drinks">Drinks</a>
+      <a href="#standorte">Standorte</a>
+      <a class="btn btn-primary" data-city-href="res" href="https://mytools.aleno.me/reservations/v2.0/reservations.html?k=eyJrIjoid2l2dTVrM2lsNm15cnBiOWlwdzZ4bmViajhycnVkaWRpZ280bGZwODBsbzlhNGlweTEiLCJyIjoiRWdXQVFiNEszZHpSRE1MNFQiLCJzIjoiaHR0cHM6Ly9teXRvb2xzLmFsZW5vLm1lLyJ9" target="_blank" rel="noopener">Tisch sichern</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="fest" aria-labelledby="hero-title">
+  <svg class="garland" id="garland" viewBox="0 0 1200 130" preserveAspectRatio="xMidYMin slice" aria-hidden="true"></svg>
+  <div class="wrap">
+    <p class="hero-date">Freitag, 6. November 2026</p>
+    <h1 id="hero-title"><span>Día de los</span> <span>Muertos</span></h1>
+  </div>
+  <div class="wrap hero-grid">
+    <div>
+      <div class="city-switch" role="group" aria-label="Standort wählen">
+        <button type="button" data-city="koeln" aria-pressed="true"><b>Köln</b><small>ab 20 Uhr</small></button>
+        <button type="button" data-city="saar" aria-pressed="false"><b>Saarbrücken</b><small>ab 19 Uhr, mit Kostüm-Contest</small></button>
+      </div>
+
+      <div class="countdown" id="countdown" aria-label="Countdown bis Freitagabend, 6. November">
+        <div class="cd-cells" aria-hidden="true">
+          <div class="cd-cell"><span class="cd-num" data-cd="d">–</span><span class="cd-lab">Tage</span></div>
+          <div class="cd-cell"><span class="cd-num" data-cd="h">–</span><span class="cd-lab">Stunden</span></div>
+          <div class="cd-cell"><span class="cd-num" data-cd="m">–</span><span class="cd-lab">Minuten</span></div>
+          <div class="cd-cell"><span class="cd-num" data-cd="s">–</span><span class="cd-lab">Sekunden</span></div>
+        </div>
+        <p class="cd-cap" aria-hidden="true">bis Freitagabend</p>
+      </div>
+
+      <div class="hero-cta">
+        <a class="btn btn-primary" data-city-href="resDia" href="https://mytools.aleno.me/reservations/v2.0/reservations.html?k=eyJrIjoid2l2dTVrM2lsNm15cnBiOWlwdzZ4bmViajhycnVkaWRpZ280bGZwODBsbzlhNGlweTEiLCJyIjoiRWdXQVFiNEszZHpSRE1MNFQiLCJzIjoiaHR0cHM6Ly9teXRvb2xzLmFsZW5vLm1lLyJ9&amp;date=2026-11-06" target="_blank" rel="noopener">Tisch sichern</a>
+        <p class="hero-note">Öffnet das Buchungsformular für <span data-city-text="name">Köln</span> am 6.&nbsp;November. Die Plätze sind begrenzt, eine Reservierung ist an diesem Abend dringend erforderlich.</p>
+      </div>
+
+      <p class="hero-text">Der Día de los Muertos, der „Tag der Toten“, wird in der Woche von Allerheiligen in Mexiko gefeiert und ist einer der wichtigsten Feiertage, an dem traditionell der Verstorbenen gedacht wird. Wie jedes Jahr am ersten Novemberwochenende feiert das CAFE ESPECIAL ihn in Köln und Saarbrücken.</p>
+    </div>
+
+    <figure class="arch">
+      <div class="arch-frame">
+        <img data-city-src="inside" src="https://www.cafe-especial.com/wp-content/uploads/2022/08/cafe-especial-cologne_innen.jpg" width="598" height="260" alt="Café Especial Köln Innenansicht mit langer Bar" onerror="this.closest('figure').classList.add('is-missing')">
+      </div>
+      <figcaption data-city-text="insideCap">CAFE ESPECIAL Köln, die Bar</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ================= DER ABEND ================= -->
+<section class="abend band-tight" aria-labelledby="abend-title">
+  <div class="wrap abend-grid">
+    <div>
+      <h2 class="h2" id="abend-title">So feiern wir</h2>
+      <p class="lead">Am Tag der Veranstaltung präsentieren sich beide Lokale ganz im Zeichen des Festes.</p>
+      <ul class="abend-list">
+        <li><span class="flag-mark" style="background:var(--cempa)"></span>Die Lokale sind festlich geschmückt</li>
+        <li><span class="flag-mark" style="background:var(--rosa)"></span>Das Team ist traditionell kostümiert und geschminkt</li>
+        <li><span class="flag-mark" style="background:var(--turq)"></span>Es gibt Tequila Specials</li>
+        <li><span class="flag-mark" style="background:var(--lila)"></span>Ein traditioneller Altar ist zu bewundern</li>
+      </ul>
+    </div>
+    <article class="contest" aria-labelledby="contest-title">
+      <h3 id="contest-title">Kostüm-Contest in Saarbrücken</h3>
+      <p>Wer sich passend kostümiert, nimmt automatisch teil. Bei Kostüm und Make-up sind keine Grenzen gesetzt: je traditioneller, bunter und ausgefallener, desto besser.</p>
+      <p>Drei Gewinner werden am Abend gekürt, es gibt tolle Preise, und das beste Kostüm erhält die beliebte Gewinner-Trophäe.</p>
+      <p>Allein, mit Freunden oder mit der Familie dabei? Sag es uns bei der Reservierung, dann kümmern wir uns am Abend um Euch. Natürlich kannst Du auch einfach reservieren und Dir das Spektakel ansehen.</p>
+      <a class="btn btn-primary" href="https://mytools.aleno.me/reservations/v2.0/reservations.html?k=eyJrIjoid2l2dTVrM2lsNm15cnBiOWlwdzZ4bmViajhycnVkaWRpZ280bGZwODBsbzlhNGlweTEiLCJyIjoiSFJEUk5IOTRjR29iM3ZlaUgiLCJzIjoiaHR0cHM6Ly9teXRvb2xzLmFsZW5vLm1lLyJ9&amp;date=2026-11-06" target="_blank" rel="noopener">In Saarbrücken reservieren und anmelden</a>
+    </article>
+  </div>
+</section>
+
+<!-- ================= 40 JAHRE ================= -->
+<section class="jahre" aria-labelledby="jahre-title">
+  <figure class="collage" style="margin:0">
+    <img src="https://www.cafe-especial.com/wp-content/uploads/2022/08/home-header-cafe-especial-mexican-restaurant.jpg"
+         srcset="https://www.cafe-especial.com/wp-content/uploads/2022/08/home-header-cafe-especial-mexican-restaurant-980x213.jpg 980w, https://www.cafe-especial.com/wp-content/uploads/2022/08/home-header-cafe-especial-mexican-restaurant-1280x279.jpg 1280w, https://www.cafe-especial.com/wp-content/uploads/2022/08/home-header-cafe-especial-mexican-restaurant.jpg 1907w"
+         sizes="100vw" width="1907" height="415" loading="lazy" alt="Die Collage aus dem Kopf der CAFE-ESPECIAL-Seite: alte mexikanische Motive, Musiker, Tequila-Etikett" onerror="this.closest('figure').classList.add('is-missing')">
+  </figure>
+  <div class="wrap jahre-grid">
+    <img class="badge" src="https://www.cafe-especial.com/wp-content/uploads/2026/10/2026_40jahre-cafe-especial.png" width="240" height="240" loading="lazy" alt="Jubiläumssiegel: 40 Años CAFE ESPECIAL, 1986 bis 2026" onerror="this.classList.add('is-missing')">
+    <div>
+      <h2 id="jahre-title">40 Jahre · <span class="nw">1986–2026</span></h2>
+      <blockquote>Viele der Gäste sagen auch nach über 40 Jahren noch, dass das CAFE ESPECIAL genauso geblieben ist, wie sie es im Herzen hatten.</blockquote>
+      <p class="orig">The Original: Mexican Madness, Mexican Restaurant, Cantina, Tequila- und Mezcal-Bar.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOD ================= -->
+<section class="food band" id="food" aria-labelledby="food-title">
+  <div class="wrap food-grid">
+    <div>
+      <h2 class="h2" id="food-title">Food</h2>
+      <p class="tagline">Fresh. Tasty. Healthy.</p>
+      <p class="lead">Frische, mexikanische Küche: Das ist CAFE ESPECIAL. Die traditionellen Speisen und Spezialitäten reichen von leicht und gesund bis deftig und würzig, auch vegan und vegetarisch.</p>
+      <div class="board">
+        <p>Täglich frisch und selbstgemacht:</p>
+        <ul>
+          <li>Bohnenmus</li><li>Guacamole</li><li>Chips</li><li>Saucen</li><li>Dressings</li><li>Dips</li>
+        </ul>
+      </div>
+      <div class="links">
+        <a class="btn btn-ink" href="https://www.cafe-especial.com/druckversion/koeln-speisekarte/" target="_blank" rel="noopener">Speisekarte Köln</a>
+        <a class="btn btn-ink" href="https://www.cafe-especial.com/druckversion/saarbruecken-speisekarte/" target="_blank" rel="noopener">Speisekarte Saarbrücken</a>
+      </div>
+      <p class="sublinks">Mittagskarte: <a href="https://www.cafe-especial.com/druckversion/koeln-mittagskarte/" target="_blank" rel="noopener">Köln</a>, <a href="https://www.cafe-especial.com/druckversion/saarbruecken-mittagskarte/" target="_blank" rel="noopener">Saarbrücken</a></p>
+    </div>
+    <div>
+      <figure class="photo">
+        <img src="https://www.cafe-especial.com/wp-content/uploads/2022/08/teaser_food.jpg" width="578" height="234" loading="lazy" alt="Drei Gerichte aus der Küche des CAFE ESPECIAL" onerror="this.closest('figure').classList.add('is-missing')">
+      </figure>
+      <h3 class="dishes-title">Aus der Kölner Karte</h3>
+      <dl class="dishes">
+        <div class="dish"><dt>Guacamole <span class="tag">vegan</span></dt><dd>Dip aus frischen Avocados, Tomaten und Zwiebeln, serviert mit einer Schale Maistortilla-Chips.</dd></div>
+        <div class="dish"><dt>Sonora del rey <span class="tag">vegetarisch</span></dt><dd>Mexikanisches Bohnenmus mit Sauerrahm, Guacamole und frittierten Weizentortillaecken.</dd></div>
+        <div class="dish"><dt>Pollo Mole Negro</dt><dd>Gegrillte Hähnchenbrustfilets in „der“ traditionellen Festtagssauce, der Mole Negro, serviert in einer heißen Pfanne, dazu mexikanischer Reis, Bohnenmus und Weizentortillas.</dd></div>
+      </dl>
+      <p class="lunch">Mittagstisch montags bis freitags: in Köln von 12 bis 15 Uhr, in Saarbrücken von 11:30 bis 15 Uhr.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DRINKS ================= -->
+<section class="drinks band" id="drinks" aria-labelledby="drinks-title">
+  <div class="wrap drinks-grid">
+    <div class="dr-a">
+      <h2 class="h2" id="drinks-title">Drinks</h2>
+      <p class="tagline">Cocktails. Tequila. Beer.</p>
+      <p class="hundred">Rund <em>100</em> verschiedene Tequila und Mezcals.</p>
+    </div>
+    <figure class="photo dr-photo">
+      <img src="https://www.cafe-especial.com/wp-content/uploads/2022/08/teaser_drinks.jpg" width="578" height="234" loading="lazy" alt="Cocktails und mexikanische Biere an der Bar des CAFE ESPECIAL" onerror="this.closest('figure').classList.add('is-missing')">
+    </figure>
+    <div class="dr-b">
+      <p class="lead">Die Masters of Margaritas findest Du hier: alles, was ein Cocktail-Herz begehrt, dazu traumhaft frische Margaritas und natürlich das echt mexikanische Bier.</p>
+      <ul class="facts">
+        <li>Frag an der Bar nach der Tequila-Karte</li>
+        <li>Mexikanisches Bier wie Corona, Salitos und Sol, in Köln auch im Bucket</li>
+        <li>Pitcher Hour in Köln: täglich 17:30 bis 18:30 und 22:30 bis 23:30 Uhr</li>
+      </ul>
+      <div class="menus">
+        <div class="row"><span class="city">Köln</span>
+          <a class="btn btn-line" href="https://www.cafe-especial.com/druckversion/koeln-getraenke/" target="_blank" rel="noopener">Getränke</a>
+          <a class="btn btn-line" href="https://www.cafe-especial.com/druckversion/koeln-cocktails/" target="_blank" rel="noopener">Cocktails</a>
+        </div>
+        <div class="row"><span class="city">Saarbrücken</span>
+          <a class="btn btn-line" href="https://www.cafe-especial.com/druckversion/saarbruecken-getraenke/" target="_blank" rel="noopener">Getränke</a>
+          <a class="btn btn-line" href="https://www.cafe-especial.com/druckversion/saarbruecken-cocktails/" target="_blank" rel="noopener">Cocktails</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SPONTAN ================= -->
+<section class="spontan band" aria-labelledby="spontan-title">
+  <div class="wrap">
+    <h2 id="spontan-title">Eine Reservierung ist kein „Muss“.</h2>
+    <div>
+      <p class="big">Komm einfach jederzeit vorbei. Und falls wir in dem Moment voll sind: Schnapp Dir einen Drink an der Bar, wir geben Dir einen Tisch, so schnell wir können.</p>
+      <p class="small">Durch Stornierungen werden immer wieder mal Tische frei und automatisch online angezeigt. Bei schönem Wetter gibt es zusätzliche Plätze auf der Terrasse.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STANDORTE ================= -->
+<section class="orte band" id="standorte" aria-labelledby="orte-title">
+  <div class="wrap">
+    <div class="orte-head">
+      <h2 class="h2" id="orte-title">So findest Du uns</h2>
+      <div class="city-switch" role="group" aria-label="Standort wählen">
+        <button type="button" data-city="koeln" aria-pressed="true"><b>Köln</b><small>Deutz</small></button>
+        <button type="button" data-city="saar" aria-pressed="false"><b>Saarbrücken</b><small>Innenstadt</small></button>
+      </div>
+    </div>
+
+    <div class="ort" aria-live="polite">
+      <figure class="photo">
+        <img data-city-src="outside" src="https://www.cafe-especial.com/wp-content/uploads/2022/08/cafe-especial-cologne_aussen.jpg" width="598" height="260" loading="lazy" alt="Café Especial Köln Außenansicht mit Terrasse" onerror="this.closest('figure').classList.add('is-missing')">
+      </figure>
+      <div>
+        <h3 data-city-text="title">Köln-Deutz</h3>
+        <dl>
+          <div><dt>Adresse</dt><dd><a data-city-href="route" href="https://www.google.com/maps/search/?api=1&amp;query=CAFE%20ESPECIAL%20Neuh%C3%B6fferstr.%2032%2050679%20K%C3%B6ln" target="_blank" rel="noopener" data-city-text="address">Neuhöfferstr. 32, 50679 Köln</a></dd></div>
+          <div><dt>Öffnungszeiten</dt><dd data-city-text="hours">Montag bis Sonntag, ab 12 Uhr bis open end</dd></div>
+          <div><dt>Telefon</dt><dd><a class="tel" data-city-href="tel" href="tel:+49221814755" data-city-text="telLabel">0221 814755</a></dd></div>
+          <div><dt>E-Mail</dt><dd><a data-city-href="mail" href="mailto:koeln@cafe-especial.com" data-city-text="mailLabel">koeln@cafe-especial.com</a></dd></div>
+        </dl>
+        <div class="links">
+          <a class="btn btn-primary" data-city-href="res" href="https://mytools.aleno.me/reservations/v2.0/reservations.html?k=eyJrIjoid2l2dTVrM2lsNm15cnBiOWlwdzZ4bmViajhycnVkaWRpZ280bGZwODBsbzlhNGlweTEiLCJyIjoiRWdXQVFiNEszZHpSRE1MNFQiLCJzIjoiaHR0cHM6Ly9teXRvb2xzLmFsZW5vLm1lLyJ9" target="_blank" rel="noopener">Tisch reservieren</a>
+          <a class="btn btn-line" data-city-href="route" href="https://www.google.com/maps/search/?api=1&amp;query=CAFE%20ESPECIAL%20Neuh%C3%B6fferstr.%2032%2050679%20K%C3%B6ln" target="_blank" rel="noopener">Route planen</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= GUTSCHEIN & GRUPPEN ================= -->
+<section class="wege band-tight" aria-labelledby="wege-title">
+  <div class="wrap">
+    <h2 class="h2" id="wege-title">Gutscheine und Gruppen</h2>
+    <div class="wege-grid">
+      <article class="ticket" aria-labelledby="gs-title">
+        <h3 id="gs-title">Gutschein verschenken</h3>
+        <p>Schreib uns, in welcher Höhe und für wen der Gutschein ausgestellt werden soll. Wir schicken Dir die Bankverbindung und nach Zahlungseingang den persönlichen Gutschein, an Dich oder direkt an die beschenkte Person.</p>
+        <a class="btn btn-ink" id="gs-mail" href="mailto:gutschein@cafe-especial.com?subject=Mein%20Gutschein%20f%C3%BCrs%20CAFE%20ESPECIAL">Gutschein per E-Mail bestellen</a>
+      </article>
+      <article class="gruppe" aria-labelledby="gr-title">
+        <h3 id="gr-title">Gruppen und besondere Anlässe</h3>
+        <p>Für Gruppenreservierungen, besondere Anlässe und Wünsche ist Uli für Dich da: <a href="mailto:u.cardenas@cafe-especial.com">u.cardenas@cafe-especial.com</a></p>
+        <a class="btn btn-line" id="gr-mail" href="mailto:u.cardenas@cafe-especial.com?subject=Gruppenanfrage">Uli schreiben</a>
+        <p class="xmas">Weihnachtsfeier im mexikanischen Ambiente: Bis 20 Personen buchst Du Deinen Wunschtermin direkt im <a data-city-href="res" href="https://mytools.aleno.me/reservations/v2.0/reservations.html?k=eyJrIjoid2l2dTVrM2lsNm15cnBiOWlwdzZ4bmViajhycnVkaWRpZ280bGZwODBsbzlhNGlweTEiLCJyIjoiRWdXQVFiNEszZHpSRE1MNFQiLCJzIjoiaHR0cHM6Ly9teXRvb2xzLmFsZW5vLm1lLyJ9" target="_blank" rel="noopener">Buchungsformular für <span data-city-text="name">Köln</span></a>, für größere Gruppen schreib uns eine E-Mail.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= INHABER ================= -->
+<section class="inhaber" aria-labelledby="inh-title">
+  <div class="wrap">
+    <div class="note">
+      <h2 id="inh-title">Was sich gegenüber Ihrer jetzigen Seite ändert</h2>
+      <ul>
+        <li><b>Specials werden zur Bühne statt Banner.</b>Der Día de los Muertos steht ganz oben, mit Countdown, Uhrzeit je Standort und eigenem Reservierungsknopf, statt als Bild, in dem die Schrift steckt. Das 40-Jahre-Siegel erscheint einmal und würdig, nicht doppelt.</li>
+        <li><b>Adresse, Telefon und Reservierung auf dem Handy mit einem Daumen.</b>Anrufen, Route und Tisch sichern liegen immer unten am Rand. Die Reservierung öffnet direkt Ihr aleno-Formular, ohne Widget- und Anker-Umwege, und jede Karte hat eine feste Adresse.</li>
+        <li><b>Zoomen erlaubt und schneller.</b>Gäste können wieder mit zwei Fingern vergrößern. Die Seite kommt ohne Baukasten-Ballast aus, lädt schneller und hat eine echte Beschreibung für Google statt eines leeren Feldes.</li>
+      </ul>
+      <p class="sig">Entwurf und Rückfragen: Daouda Ndiaye, Oroboros Design, <a href="tel:+4915158775031">0151 58775031</a></p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p>Ein Entwurf von Oroboros Design für CAFE ESPECIAL. Texte, Fotos und Logo stammen von cafe-especial.com.</p>
+    <nav aria-label="Weitere Seiten von CAFE ESPECIAL">
+      <a href="https://www.cafe-especial.com/jobs/" target="_blank" rel="noopener">Jobs in Köln und Saarbrücken</a>
+      <a href="https://www.instagram.com/cafe_especial_the_mexican" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.cafe-especial.com/impressum/" target="_blank" rel="noopener">Impressum</a>
+    </nav>
+  </div>
+</footer>
+
+<nav class="thumb" aria-label="Schnellzugriff">
+  <a data-city-href="tel" href="tel:+49221814755"><b>Anrufen</b><small data-city-text="name">Köln</small></a>
+  <a data-city-href="route" href="https://www.google.com/maps/search/?api=1&amp;query=CAFE%20ESPECIAL%20Neuh%C3%B6fferstr.%2032%2050679%20K%C3%B6ln" target="_blank" rel="noopener"><b>Route</b><small data-city-text="name">Köln</small></a>
+  <a class="main" data-city-href="res" href="https://mytools.aleno.me/reservations/v2.0/reservations.html?k=eyJrIjoid2l2dTVrM2lsNm15cnBiOWlwdzZ4bmViajhycnVkaWRpZ280bGZwODBsbzlhNGlweTEiLCJyIjoiRWdXQVFiNEszZHpSRE1MNFQiLCJzIjoiaHR0cHM6Ly9teXRvb2xzLmFsZW5vLm1lLyJ9" target="_blank" rel="noopener"><b>Tisch sichern</b><small data-city-text="name">Köln</small></a>
+</nav>
+
+<script>
+(function(){
+  var UP = 'https://www.cafe-especial.com/wp-content/uploads/2022/08/';
+  var ALENO = 'https://mytools.aleno.me/reservations/v2.0/reservations.html?k=';
+  var CITIES = {
+    koeln: {
+      name: 'Köln', title: 'Köln-Deutz',
+      address: 'Neuhöfferstr. 32, 50679 Köln',
+      hours: 'Montag bis Sonntag, ab 12 Uhr bis open end',
+      tel: 'tel:+49221814755', telLabel: '0221 814755',
+      mail: 'mailto:koeln@cafe-especial.com', mailLabel: 'koeln@cafe-especial.com',
+      res: ALENO + 'eyJrIjoid2l2dTVrM2lsNm15cnBiOWlwdzZ4bmViajhycnVkaWRpZ280bGZwODBsbzlhNGlweTEiLCJyIjoiRWdXQVFiNEszZHpSRE1MNFQiLCJzIjoiaHR0cHM6Ly9teXRvb2xzLmFsZW5vLm1lLyJ9',
+      route: 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('CAFE ESPECIAL Neuhöfferstr. 32 50679 Köln'),
+      inside: UP + 'cafe-especial-cologne_innen.jpg', insideAlt: 'Café Especial Köln Innenansicht mit langer Bar', insideCap: 'CAFE ESPECIAL Köln, die Bar',
+      outside: UP + 'cafe-especial-cologne_aussen.jpg', outsideAlt: 'Café Especial Köln Außenansicht mit Terrasse'
+    },
+    saar: {
+      name: 'Saarbrücken', title: 'Saarbrücken',
+      address: 'Kronenstraße 1, 66111 Saarbrücken',
+      hours: 'Montag bis Samstag ab 11:30 Uhr bis open end, sonntags und an Feiertagen ab 12 Uhr',
+      tel: 'tel:+496813906619', telLabel: '0681 3906619',
+      mail: 'mailto:saarbruecken@cafe-especial.com', mailLabel: 'saarbruecken@cafe-especial.com',
+      res: ALENO + 'eyJrIjoid2l2dTVrM2lsNm15cnBiOWlwdzZ4bmViajhycnVkaWRpZ280bGZwODBsbzlhNGlweTEiLCJyIjoiSFJEUk5IOTRjR29iM3ZlaUgiLCJzIjoiaHR0cHM6Ly9teXRvb2xzLmFsZW5vLm1lLyJ9',
+      route: 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('CAFE ESPECIAL Kronenstraße 1 66111 Saarbrücken'),
+      inside: UP + 'cafe-especial-sarrebruck_innen.jpg', insideAlt: 'Café Especial Saarbrücken Innenansicht mit Bilderwand', insideCap: 'CAFE ESPECIAL Saarbrücken, der Gastraum',
+      outside: UP + 'cafe-especial-sarrebruck_aussen.jpg', outsideAlt: 'Café Especial Saarbrücken Außenansicht'
+    }
+  };
+  CITIES.koeln.resDia = CITIES.koeln.res + '&date=2026-11-06';
+  CITIES.saar.resDia = CITIES.saar.res + '&date=2026-11-06';
+
+  function setCity(key){
+    var c = CITIES[key]; if(!c) return;
+    document.querySelectorAll('[data-city]').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.city === key ? 'true' : 'false'); });
+    document.querySelectorAll('[data-city-text]').forEach(function(el){ var v = c[el.dataset.cityText]; if(v != null) el.textContent = v; });
+    document.querySelectorAll('[data-city-href]').forEach(function(el){ var v = c[el.dataset.cityHref]; if(v) el.href = v; });
+    document.querySelectorAll('[data-city-src]').forEach(function(img){
+      var k = img.dataset.citySrc;
+      var fig = img.closest('figure'); if(fig) fig.classList.remove('is-missing');
+      img.src = c[k]; img.alt = c[k + 'Alt'] || '';
+    });
+    var gr = document.getElementById('gr-mail');
+    if(gr){
+      gr.href = 'mailto:u.cardenas@cafe-especial.com?subject=' + encodeURIComponent('Gruppenanfrage ' + c.name) +
+        '&body=' + encodeURIComponent('Hallo Uli,\n\nwir möchten in ' + c.name + ' mit einer Gruppe kommen.\n\nDatum:\nUhrzeit:\nPersonen:\nAnlass / Wünsche:\n\nViele Grüße\n');
+    }
+    try { localStorage.setItem('ce-city', key); } catch(e) {}
+  }
+  document.querySelectorAll('[data-city]').forEach(function(b){ b.addEventListener('click', function(){ setCity(b.dataset.city); }); });
+
+  var gs = document.getElementById('gs-mail');
+  if(gs){
+    gs.href = 'mailto:gutschein@cafe-especial.com?subject=' + encodeURIComponent('Mein Gutschein fürs CAFE ESPECIAL') +
+      '&body=' + encodeURIComponent('Hallo CAFE ESPECIAL,\n\nich möchte einen Gutschein bestellen.\n\nBetrag:\nAusgestellt für:\nZusenden an (Name und Adresse oder E-Mail):\n\nViele Grüße\n');
+  }
+
+  var saved = null; try { saved = localStorage.getItem('ce-city'); } catch(e) {}
+  setCity(saved === 'saar' ? 'saar' : 'koeln');
+
+  /* Countdown bis Fr, 06.11.2026, 20:00 Uhr Berlin (Start Köln, MEZ = UTC+1) */
+  var TARGET = Date.UTC(2026, 10, 6, 19, 0, 0);
+  var cd = document.getElementById('countdown');
+  var cells = {}; ['d','h','m','s'].forEach(function(k){ cells[k] = cd.querySelector('[data-cd="' + k + '"]'); });
+  function pad(n){ return (n < 10 ? '0' : '') + n; }
+  var timer;
+  function tick(){
+    var diff = TARGET - Date.now();
+    if(diff <= 0){
+      clearInterval(timer);
+      var after = Date.now() - TARGET;
+      cd.innerHTML = after < 12 * 3600 * 1000
+        ? '<p class="cd-done">Heute Abend ist es so weit.</p>'
+        : '<p class="cd-done">Danke fürs Mitfeiern.</p>';
+      return;
+    }
+    var s = Math.floor(diff / 1000);
+    cells.d.textContent = Math.floor(s / 86400);
+    cells.h.textContent = pad(Math.floor(s % 86400 / 3600));
+    cells.m.textContent = pad(Math.floor(s % 3600 / 60));
+    cells.s.textContent = pad(s % 60);
+  }
+  tick(); timer = setInterval(tick, 1000);
+
+  /* Papel picado */
+  var svg = document.getElementById('garland');
+  if(svg){
+    var NS = 'http://www.w3.org/2000/svg';
+    var cut = '';
+    for(var x = 10; x <= 90; x += 10) cut += '<circle cx="' + x + '" cy="15" r="2.3"/>';
+    for(var k = 0; k < 8; k++) cut += '<ellipse cx="50" cy="38" rx="4.6" ry="9" transform="rotate(' + (k * 45) + ' 50 54)"/>';
+    cut += '<circle cx="50" cy="54" r="6.5"/>';
+    for(var j = 0; j < 12; j++){ var a = j * Math.PI / 6; cut += '<circle cx="' + (50 + 31 * Math.cos(a)).toFixed(1) + '" cy="' + (54 + 31 * Math.sin(a)).toFixed(1) + '" r="1.8"/>'; }
+    [[14,30],[86,30],[14,80],[86,80]].forEach(function(p){ cut += '<path d="M' + p[0] + ' ' + (p[1]-6) + 'l5 6-5 6-5-6z"/>'; });
+    for(var t = 14; t <= 86; t += 12) cut += '<path d="M' + (t-3.5) + ' 92h7l-3.5 5z"/>';
+    var fringe = 'M0 0H100V104';
+    for(var f = 100, up = true; f > 0; f -= 5, up = !up) fringe += 'L' + (f - 5) + ' ' + (up ? 112 : 104);
+    fringe += 'Z';
+    var W = 1200, y0 = 8, sag = 30, step = 92, fw = 70, fh = 84;
+    var colors = ['#F59E1B','#E5197E','#2BB3A3','#A58BE6','#F7EBD6','#FFB547'];
+    var html = '<defs><mask id="ppm" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="120"><rect width="100" height="120" fill="#fff"/><g fill="#000">' + cut + '</g></mask>' +
+               '<symbol id="pp" viewBox="0 0 100 120"><path d="' + fringe + '" mask="url(#ppm)"/><rect width="100" height="5" fill="rgba(0,0,0,.18)"/></symbol></defs>' +
+               '<path class="pp-string" d="M0 ' + y0 + ' Q600 ' + (y0 + 2 * sag) + ' 1200 ' + y0 + '"/>';
+    var i = 0;
+    for(var px = step / 2; px < W; px += step, i++){
+      var tt = px / W, py = y0 + 4 * sag * tt * (1 - tt);
+      var slope = 4 * sag * (1 - 2 * tt) / W, ang = Math.atan(slope) * 180 / Math.PI;
+      html += '<g transform="translate(' + (px - fw / 2).toFixed(1) + ' ' + (py - 1).toFixed(1) + ') rotate(' + ang.toFixed(2) + ' ' + (fw / 2) + ' 0)">' +
+              '<g class="pp-flag" style="--d:' + (Math.abs(i - 6) * 70) + 'ms;--s:' + (i * 410 % 2300) + 'ms">' +
+              '<use href="#pp" width="' + fw + '" height="' + fh + '" style="fill:' + colors[i % colors.length] + '"/></g></g>';
+    }
+    svg.innerHTML = html;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(!reduce){
+      setTimeout(function(){ svg.querySelectorAll('.pp-flag').forEach(function(g){ g.classList.add('sway'); }); }, 1700);
+    }
+  }
+})();
+</script>
+</body>
+</html>
