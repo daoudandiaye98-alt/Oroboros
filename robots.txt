@@ -1,31 +1,40 @@
 # Oroboros Design — oroboros-design.com
 User-agent: *
 Allow: /
+Disallow: /vorschau/
 
 # KI-Assistenten sind ausdrücklich willkommen: wir verkaufen Sichtbarkeit in KI-Antworten
 # und halten uns selbst daran.
 User-agent: GPTBot
 Allow: /
+Disallow: /vorschau/
 
 User-agent: OAI-SearchBot
 Allow: /
+Disallow: /vorschau/
 
 User-agent: ChatGPT-User
 Allow: /
+Disallow: /vorschau/
 
 User-agent: ClaudeBot
 Allow: /
+Disallow: /vorschau/
 
 User-agent: Claude-SearchBot
 Allow: /
+Disallow: /vorschau/
 
 User-agent: PerplexityBot
 Allow: /
+Disallow: /vorschau/
 
 User-agent: Google-Extended
 Allow: /
+Disallow: /vorschau/
 
 User-agent: Applebot-Extended
 Allow: /
+Disallow: /vorschau/
 
 Sitemap: https://oroboros-design.com/sitemap.xml
