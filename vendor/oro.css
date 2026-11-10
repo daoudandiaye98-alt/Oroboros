@@ -283,3 +283,11 @@ html:not(.js) .buehne-fest { position: relative; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
 }
+
+/* Sprachwahl: auf jeder Breite sichtbar — internationale Besucher finden Englisch ohne Menü. */
+.kopf nav a.sprache { font: 600 .82rem/1 var(--text); letter-spacing: .12em; min-width: 44px; justify-content: center; border: 1px solid currentColor; border-radius: 999px; min-height: 32px; padding: 0 10px; opacity: .8; }
+@media (max-width: 860px) { .kopf nav a.sprache { min-height: 44px; border: 0; padding: 0; } }
+.kopf .eng-nur { display: none; }
+@media (max-width: 440px) { .kopf nav a.eng-weg { display: none; } }
+@media (max-width: 400px) { .kopf .knopf .eng-weg { display: none; } .kopf .knopf .eng-nur { display: inline; } .kopf nav a.sprache { min-width: 36px; } }
+@media (max-width: 360px) { .kopf { gap: 8px; } .kopf nav { gap: 4px; } .kopf .knopf.klein { padding: 0 14px; } .marke { letter-spacing: .1em; gap: 8px; } }
