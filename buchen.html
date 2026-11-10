@@ -19,6 +19,7 @@
 <link rel="apple-touch-icon" href="/vendor/img/apple-touch-icon.png">
 <link rel="preload" href="/vendor/fonts/Sora-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/vendor/fonts/Outfit-400.woff2" as="font" type="font/woff2" crossorigin>
+<script>try{if(/[?&]lang=de(&|$)/.test(location.search))document.cookie='lang=de;path=/;max-age=31536000;SameSite=Lax'}catch(e){}</script>
 <script>(function(h){h.classList.add('js');try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)h.classList.add('still')}catch(e){}})(document.documentElement);</script>
 <link rel="stylesheet" href="/vendor/oro.css">
 <style>
@@ -81,10 +82,10 @@ fieldset.schritt .wahlen { clear: both; }
   </a>
   <nav aria-label="Seite">
     <a class="weit" href="/#preise">Preise</a>
-    <a href="/portfolio">Portfolio</a>
+    <a class="eng-weg" href="/portfolio">Portfolio</a>
     <a class="weit" href="/#fragen">Fragen</a>
-    <a class="weit" href="/en/book" hreflang="en" lang="en">EN</a>
-    <a class="knopf klein" href="#wahl" aria-current="page">Jetzt buchen</a>
+    <a class="sprache" href="/en/book" hreflang="en" lang="en" aria-label="English">EN</a>
+    <a class="knopf klein" href="#wahl" aria-current="page"><span class="eng-weg">Jetzt buchen</span><span class="eng-nur">Buchen</span></a>
   </nav>
 </header>
 

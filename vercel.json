@@ -36,9 +36,73 @@
           "value": "public, max-age=31536000, immutable"
         }
       ]
+    },
+    {
+      "source": "/",
+      "headers": [
+        {
+          "key": "Vary",
+          "value": "Accept-Language, Cookie"
+        }
+      ]
+    },
+    {
+      "source": "/buchen",
+      "headers": [
+        {
+          "key": "Vary",
+          "value": "Accept-Language, Cookie"
+        }
+      ]
     }
   ],
   "redirects": [
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept-language",
+          "value": "^(?!\\s*de)[a-zA-Z].*"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "lang"
+        },
+        {
+          "type": "cookie",
+          "key": "lang",
+          "value": "de"
+        }
+      ],
+      "destination": "/en",
+      "permanent": false
+    },
+    {
+      "source": "/buchen",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept-language",
+          "value": "^(?!\\s*de)[a-zA-Z].*"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "lang"
+        },
+        {
+          "type": "cookie",
+          "key": "lang",
+          "value": "de"
+        }
+      ],
+      "destination": "/en/book",
+      "permanent": false
+    },
     {
       "source": "/arbeiten",
       "destination": "/portfolio",

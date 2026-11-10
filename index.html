@@ -31,6 +31,7 @@
 <link rel="preload" href="/vendor/fonts/InstrumentSerif-400-italic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" href="/vendor/img/band-still.webp" media="(min-aspect-ratio: 1/1)" fetchpriority="high">
 <link rel="preload" as="image" href="/vendor/img/band-still-hoch.webp" media="(max-aspect-ratio: 1/1)" fetchpriority="high">
+<script>try{if(/[?&]lang=de(&|$)/.test(location.search))document.cookie='lang=de;path=/;max-age=31536000;SameSite=Lax'}catch(e){}</script>
 <script>(function(h){h.classList.add('js');try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)h.classList.add('still')}catch(e){}})(document.documentElement);</script>
 <link rel="stylesheet" href="/vendor/oro.css">
 <script type="application/ld+json">
@@ -80,11 +81,11 @@
   </a>
   <nav aria-label="Seite">
     <a class="weit" href="#preise">Preise</a>
-    <a href="/portfolio">Portfolio</a>
+    <a class="eng-weg" href="/portfolio">Portfolio</a>
     <a class="weit" href="#ablauf">Ablauf</a>
     <a class="weit" href="#fragen">Fragen</a>
-    <a class="weit" href="/en" hreflang="en" lang="en">EN</a>
-    <a class="knopf klein" href="#preise">Jetzt buchen</a>
+    <a class="sprache" href="/en" hreflang="en" lang="en" aria-label="English">EN</a>
+    <a class="knopf klein" href="#preise"><span class="eng-weg">Jetzt buchen</span><span class="eng-nur">Buchen</span></a>
   </nav>
 </header>
 
