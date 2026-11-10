@@ -1,13 +1,13 @@
 {
- "am": "2026-11-10T17:47:46.065Z",
+ "am": "2026-11-10T18:35:29.720Z",
  "basis": "http://127.0.0.1:4173",
  "netz": false,
- "kontrollen": 134,
+ "kontrollen": 180,
  "rot": 0,
  "gewicht": {
-  "index.html": 26.1,
+  "index.html": 26.8,
   "oro.css": 27.3,
-  "regie.js": 12,
+  "regie.js": 12.7,
   "band.js": 23.9,
   "three (nur mit Grafikkarte)": 655,
   "Standbild quer": 58,
@@ -376,12 +376,224 @@
    }
   },
   {
+   "name": "/en @390: keine Fehler in der Konsole",
+   "ok": true,
+   "wert": []
+  },
+  {
+   "name": "/en @390: kein waagerechter Überlauf",
+   "ok": true,
+   "wert": "390 > 390"
+  },
+  {
+   "name": "/en @390: genau eine h1",
+   "ok": true,
+   "wert": 1
+  },
+  {
+   "name": "/en @390: alle Bilder geladen, alle mit alt",
+   "ok": true,
+   "wert": {
+    "kaputt": [],
+    "ohneAlt": 0
+   }
+  },
+  {
+   "name": "/en @390: Trefferflächen ≥ 44 px",
+   "ok": true,
+   "wert": []
+  },
+  {
+   "name": "/en @768: keine Fehler in der Konsole",
+   "ok": true,
+   "wert": []
+  },
+  {
+   "name": "/en @768: kein waagerechter Überlauf",
+   "ok": true,
+   "wert": "768 > 768"
+  },
+  {
+   "name": "/en @768: genau eine h1",
+   "ok": true,
+   "wert": 1
+  },
+  {
+   "name": "/en @768: alle Bilder geladen, alle mit alt",
+   "ok": true,
+   "wert": {
+    "kaputt": [],
+    "ohneAlt": 0
+   }
+  },
+  {
+   "name": "/en @1440: keine Fehler in der Konsole",
+   "ok": true,
+   "wert": []
+  },
+  {
+   "name": "/en @1440: kein waagerechter Überlauf",
+   "ok": true,
+   "wert": "1440 > 1440"
+  },
+  {
+   "name": "/en @1440: genau eine h1",
+   "ok": true,
+   "wert": 1
+  },
+  {
+   "name": "/en @1440: alle Bilder geladen, alle mit alt",
+   "ok": true,
+   "wert": {
+    "kaputt": [],
+    "ohneAlt": 0
+   }
+  },
+  {
+   "name": "/en: Titel und Beschreibung gesetzt",
+   "ok": true,
+   "wert": [
+    52,
+    169
+   ]
+  },
+  {
+   "name": "/en @1920: keine Fehler in der Konsole",
+   "ok": true,
+   "wert": []
+  },
+  {
+   "name": "/en @1920: kein waagerechter Überlauf",
+   "ok": true,
+   "wert": "1920 > 1920"
+  },
+  {
+   "name": "/en @1920: genau eine h1",
+   "ok": true,
+   "wert": 1
+  },
+  {
+   "name": "/en @1920: alle Bilder geladen, alle mit alt",
+   "ok": true,
+   "wert": {
+    "kaputt": [],
+    "ohneAlt": 0
+   }
+  },
+  {
+   "name": "/en/book @390: keine Fehler in der Konsole",
+   "ok": true,
+   "wert": []
+  },
+  {
+   "name": "/en/book @390: kein waagerechter Überlauf",
+   "ok": true,
+   "wert": "390 > 390"
+  },
+  {
+   "name": "/en/book @390: genau eine h1",
+   "ok": true,
+   "wert": 1
+  },
+  {
+   "name": "/en/book @390: alle Bilder geladen, alle mit alt",
+   "ok": true,
+   "wert": {
+    "kaputt": [],
+    "ohneAlt": 0
+   }
+  },
+  {
+   "name": "/en/book @390: Trefferflächen ≥ 44 px",
+   "ok": true,
+   "wert": []
+  },
+  {
+   "name": "/en/book @768: keine Fehler in der Konsole",
+   "ok": true,
+   "wert": []
+  },
+  {
+   "name": "/en/book @768: kein waagerechter Überlauf",
+   "ok": true,
+   "wert": "768 > 768"
+  },
+  {
+   "name": "/en/book @768: genau eine h1",
+   "ok": true,
+   "wert": 1
+  },
+  {
+   "name": "/en/book @768: alle Bilder geladen, alle mit alt",
+   "ok": true,
+   "wert": {
+    "kaputt": [],
+    "ohneAlt": 0
+   }
+  },
+  {
+   "name": "/en/book @1440: keine Fehler in der Konsole",
+   "ok": true,
+   "wert": []
+  },
+  {
+   "name": "/en/book @1440: kein waagerechter Überlauf",
+   "ok": true,
+   "wert": "1440 > 1440"
+  },
+  {
+   "name": "/en/book @1440: genau eine h1",
+   "ok": true,
+   "wert": 1
+  },
+  {
+   "name": "/en/book @1440: alle Bilder geladen, alle mit alt",
+   "ok": true,
+   "wert": {
+    "kaputt": [],
+    "ohneAlt": 0
+   }
+  },
+  {
+   "name": "/en/book: Titel und Beschreibung gesetzt",
+   "ok": true,
+   "wert": [
+    66,
+    140
+   ]
+  },
+  {
+   "name": "/en/book @1920: keine Fehler in der Konsole",
+   "ok": true,
+   "wert": []
+  },
+  {
+   "name": "/en/book @1920: kein waagerechter Überlauf",
+   "ok": true,
+   "wert": "1920 > 1920"
+  },
+  {
+   "name": "/en/book @1920: genau eine h1",
+   "ok": true,
+   "wert": 1
+  },
+  {
+   "name": "/en/book @1920: alle Bilder geladen, alle mit alt",
+   "ok": true,
+   "wert": {
+    "kaputt": [],
+    "ohneAlt": 0
+   }
+  },
+  {
    "name": "Titel je Seite verschieden",
    "ok": true,
    "wert": [
     "Website ab 99 € in 48 Stunden — Oroboros Design, Köln",
     "Website buchen — Standard 99 € oder Premium 199 € · Oroboros Design",
-    "Portfolio — so bauen wir · Oroboros Design"
+    "Portfolio — so bauen wir · Oroboros Design",
+    "Your website in 48 hours, from €99 — Oroboros Design",
+    "Book your website — Standard €99 or Premium €199 · Oroboros Design"
    ]
   },
   {
@@ -390,17 +602,17 @@
    "wert": 200
   },
   {
-   "name": "Link /buchen → 200",
+   "name": "Link /en → 200",
    "ok": true,
    "wert": 200
   },
   {
-   "name": "Link /buchen?paket=standard → 200",
+   "name": "Link /buchen?paket=standard&zahlung=rechnung → 200",
    "ok": true,
    "wert": 200
   },
   {
-   "name": "Link /buchen?paket=premium → 200",
+   "name": "Link /buchen?paket=premium&zahlung=rechnung → 200",
    "ok": true,
    "wert": 200
   },
@@ -440,12 +652,22 @@
    "wert": 200
   },
   {
+   "name": "Link /buchen → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
    "name": "Link /impressum → 200",
    "ok": true,
    "wert": 200
   },
   {
    "name": "Link / → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Link /en/book → 200",
    "ok": true,
    "wert": 200
   },
@@ -709,7 +931,7 @@
    "name": "Bühne: Rad-Scroll erreicht s=1 und das Dokument",
    "ok": true,
    "wert": {
-    "s": 0.9995781599813301,
+    "s": 0.9996707397236323,
     "y": 4800,
     "preise": true
    }
@@ -718,6 +940,14 @@
    "name": "Bühne: keine Fehler in der Konsole",
    "ok": true,
    "wert": []
+  },
+  {
+   "name": "/en: Bühne läuft, Zeiger auf Englisch",
+   "ok": true,
+   "wert": {
+    "name": "Your details",
+    "fehler": []
+   }
   },
   {
    "name": "Rückfall „reduzierte Bewegung“: Standbild, Angebot lesbar, keine Ausnahme",
@@ -801,6 +1031,50 @@
    "name": "Buchen: unlesbare Angaben fallen auf den Standard",
    "ok": true,
    "wert": "https://angel.oroboros-design.com/api/oeffentlich?aktion=checkout&angebot=website_standard&ref=oroboros-website"
+  },
+  {
+   "name": "Startseite: Paketknöpfe direkt zur Kasse",
+   "ok": true,
+   "wert": [
+    "https://angel.oroboros-design.com/api/oeffentlich?aktion=checkout&angebot=website_standard&ref=oroboros-website",
+    "https://angel.oroboros-design.com/api/oeffentlich?aktion=checkout&angebot=website_premium&ref=oroboros-website"
+   ]
+  },
+  {
+   "name": "/en: Paketknöpfe direkt zur englischen Kasse",
+   "ok": true,
+   "wert": [
+    "https://angel.oroboros-design.com/api/oeffentlich?aktion=checkout&angebot=website_standard&lang=en&ref=oroboros-website-en",
+    "https://angel.oroboros-design.com/api/oeffentlich?aktion=checkout&angebot=website_premium&lang=en&ref=oroboros-website-en"
+   ]
+  },
+  {
+   "name": "/en?ref=kalt-…: die Herkunft aus der Kaltmail geht mit zur Kasse",
+   "ok": true,
+   "wert": [
+    "https://angel.oroboros-design.com/api/oeffentlich?aktion=checkout&angebot=website_standard&lang=en&ref=kalt-0a1b2c3d4e5f6071",
+    "https://angel.oroboros-design.com/api/oeffentlich?aktion=checkout&angebot=website_premium&lang=en&ref=kalt-0a1b2c3d4e5f6071"
+   ]
+  },
+  {
+   "name": "/en/book: Standard",
+   "ok": true,
+   "wert": "https://angel.oroboros-design.com/api/oeffentlich?aktion=checkout&angebot=website_standard&lang=en&ref=oroboros-website-en"
+  },
+  {
+   "name": "/en/book: Premium",
+   "ok": true,
+   "wert": "https://angel.oroboros-design.com/api/oeffentlich?aktion=checkout&angebot=website_premium&lang=en&ref=oroboros-website-en"
+  },
+  {
+   "name": "/en/book: Vorwahl und Herkunft aus der Kaltmail",
+   "ok": true,
+   "wert": "https://angel.oroboros-design.com/api/oeffentlich?aktion=checkout&angebot=website_premium&lang=en&ref=kalt-0a1b2c3d4e5f6071"
+  },
+  {
+   "name": "/en/book: Knopf nennt den Preis",
+   "ok": true,
+   "wert": "Pay €199 & start"
   },
   {
    "name": "Tastatur: erster Halt ist der Sprunglink, Fokus sichtbar",
@@ -898,7 +1172,7 @@
   {
    "name": "Gewicht: erstes Bild ohne Szene unter 300 KB (unkomprimiert)",
    "ok": true,
-   "wert": "207 KB"
+   "wert": "208 KB"
   }
  ]
 }

@@ -40,13 +40,18 @@
   ],
   "redirects": [
     {
-      "source": "/en",
-      "destination": "/",
+      "source": "/arbeiten",
+      "destination": "/portfolio",
       "permanent": false
     },
     {
-      "source": "/arbeiten",
-      "destination": "/portfolio",
+      "source": "/en/buchen",
+      "destination": "/en/book",
+      "permanent": false
+    },
+    {
+      "source": "/en/portfolio",
+      "destination": "/en#work",
       "permanent": false
     }
   ]

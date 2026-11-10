@@ -16,7 +16,7 @@ const WURZEL = join(dirname(fileURLToPath(import.meta.url)), '..');
 const BASIS = process.env.BASIS || 'http://127.0.0.1:4173';
 const NETZ = process.argv.includes('--netz');
 const KASSE = 'https://angel.oroboros-design.com/api/oeffentlich';
-const SEITEN = ['/', '/buchen', '/portfolio'];
+const SEITEN = ['/', '/buchen', '/portfolio', '/en', '/en/book'];
 const WEITERE = ['/impressum', '/datenschutz', '/agb', '/widerruf', '/mail/launch', '/arbeiten/halden', '/arbeiten/lumen', '/arbeiten/northside', '/arbeiten/ridgeline'];
 const BREITEN = [[390, 844], [768, 1024], [1440, 900], [1920, 1080]];
 const SWGL = ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'];
@@ -103,6 +103,16 @@ const r404 = await fetch(BASIS + '/gibt-es-nicht'); ok('Unbekannte Adresse → 4
   ok('Bühne: keine Fehler in der Konsole', fehler.length === 0, fehler.slice(0, 3));
   await ctx.close();
 }
+{ // Bühne auf /en: dieselbe Regie, englische Beschriftung
+  const ctx = await b.newContext({ viewport: { width: 1440, height: 900 } });
+  const p = await ctx.newPage(); const fehler = []; horche(p, fehler);
+  await p.goto(BASIS + '/en?webgl=erzwingen&guete=fest&zeit=0', { waitUntil: 'load' });
+  await p.waitForFunction(() => document.documentElement.classList.contains('buehne-lebt'), null, { timeout: 30000 }).catch(() => {});
+  await p.evaluate(() => window.__band.springe(0.34)); await p.waitForTimeout(300);
+  const name = await p.evaluate(() => document.getElementById('zeiger-name').textContent);
+  ok('/en: Bühne läuft, Zeiger auf Englisch', name === 'Your details' && fehler.length === 0, { name, fehler: fehler.slice(0, 2) });
+  await ctx.close();
+}
 for (const [name, opt, vorher] of [
   ['reduzierte Bewegung', { reducedMotion: 'reduce' }, null],
   ['kein WebGL', {}, null],
@@ -131,6 +141,17 @@ for (const [name, opt, vorher] of [
   await p.locator('input[value=standard]').check(); ok('Buchen: Standard · Rechnung', (await ziel()) === soll('rechnung_anfordern', 'website_standard'), await ziel());
   await p.goto(BASIS + '/buchen?paket=premium&ref=mail-launch'); ok('Buchen: Vorwahl und Herkunft aus der Mail', (await ziel()) === soll('checkout', 'website_premium', 'mail-launch'), await ziel());
   await p.goto(BASIS + '/buchen?paket=x&ref=%3Cscript%3E'); ok('Buchen: unlesbare Angaben fallen auf den Standard', (await ziel()) === soll('checkout', 'website_standard'), await ziel());
+  /* Ein Klick zur Kasse (10.11.): die Paketknöpfe der Startseiten führen direkt zu Stripe — Deutsch und Englisch. */
+  const pakete = async (pfad) => { await p.goto(BASIS + pfad); return p.evaluate(() => [...document.querySelectorAll('.paket .unten .knopf')].map((a) => a.href)); };
+  ok('Startseite: Paketknöpfe direkt zur Kasse', JSON.stringify(await pakete('/')) === JSON.stringify([soll('checkout', 'website_standard'), soll('checkout', 'website_premium')]), await pakete('/'));
+  const en = (angebot, ref = 'oroboros-website-en') => `${KASSE}?aktion=checkout&angebot=${angebot}&lang=en&ref=${ref}`;
+  ok('/en: Paketknöpfe direkt zur englischen Kasse', JSON.stringify(await pakete('/en')) === JSON.stringify([en('website_standard'), en('website_premium')]), await pakete('/en'));
+  ok('/en?ref=kalt-…: die Herkunft aus der Kaltmail geht mit zur Kasse', JSON.stringify(await pakete('/en?ref=kalt-0a1b2c3d4e5f6071')) === JSON.stringify([en('website_standard', 'kalt-0a1b2c3d4e5f6071'), en('website_premium', 'kalt-0a1b2c3d4e5f6071')]), await pakete('/en?ref=kalt-0a1b2c3d4e5f6071'));
+  await p.goto(BASIS + '/en/book');
+  ok('/en/book: Standard', (await ziel()) === `${KASSE}?aktion=checkout&angebot=website_standard&lang=en&ref=oroboros-website-en`, await ziel());
+  await p.locator('input[value=premium]').check(); ok('/en/book: Premium', (await ziel()) === `${KASSE}?aktion=checkout&angebot=website_premium&lang=en&ref=oroboros-website-en`, await ziel());
+  await p.goto(BASIS + '/en/book?package=premium&ref=kalt-0a1b2c3d4e5f6071'); ok('/en/book: Vorwahl und Herkunft aus der Kaltmail', (await ziel()) === `${KASSE}?aktion=checkout&angebot=website_premium&lang=en&ref=kalt-0a1b2c3d4e5f6071`, await ziel());
+  ok('/en/book: Knopf nennt den Preis', /Pay €199 & start/.test(await p.evaluate(() => document.getElementById('b-knopf').textContent)), await p.evaluate(() => document.getElementById('b-knopf').textContent));
   await p.goto(BASIS + '/'); await p.keyboard.press('Tab');
   const fokus = await p.evaluate(() => ({ text: document.activeElement.textContent.trim(), umriss: getComputedStyle(document.activeElement).outlineStyle }));
   ok('Tastatur: erster Halt ist der Sprunglink, Fokus sichtbar', /Preisen springen/.test(fokus.text) && fokus.umriss !== 'none', fokus);
@@ -165,6 +186,8 @@ if (NETZ) {
   for (const a of ['website_standard', 'website_premium']) {
     const k = await fetch(`${KASSE}?aktion=checkout&angebot=${a}&ref=pruefstand`, { redirect: 'manual' });
     ok(`Netz: Kasse ${a} → 303 zu Stripe`, k.status === 303 && /^https:\/\/checkout\.stripe\.com\//.test(k.headers.get('location') || ''), k.status);
+    const ke = await fetch(`${KASSE}?aktion=checkout&angebot=${a}&lang=en&ref=pruefstand`, { redirect: 'manual' });
+    ok(`Netz: englische Kasse ${a} → 303 zu Stripe`, ke.status === 303 && /^https:\/\/checkout\.stripe\.com\//.test(ke.headers.get('location') || ''), ke.status);
     const r = await fetch(`${KASSE}?aktion=rechnung_anfordern&angebot=${a}&ref=pruefstand`); const t = await r.text();
     ok(`Netz: Rechnung ${a} → Formular mit Preis`, r.status === 200 && /Rechnung erstellen/.test(t) && t.includes(a === 'website_standard' ? '99' : '199'), r.status + ' ' + (t.match(/<h1>([^<]*)/) || [])[1]);
   }

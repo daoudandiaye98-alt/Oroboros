@@ -19,8 +19,10 @@ All prices are final prices. As a small business under § 19 UStG (Germany), no 
 
 ## Pages
 
-- [Home](https://oroboros-design.com/): offer, prices, process, questions
-- [Book](https://oroboros-design.com/buchen): package and payment choice
+- [Home (German)](https://oroboros-design.com/): offer, prices, process, questions
+- [Home (English)](https://oroboros-design.com/en): the same offer in English, for clients outside Germany
+- [Book (German)](https://oroboros-design.com/buchen): package and payment choice, card or invoice
+- [Book (English)](https://oroboros-design.com/en/book): package choice, card payment via Stripe
 - [Portfolio](https://oroboros-design.com/portfolio): concept sites to scroll through (brands and reviews are invented, code and motion are real)
 - [Terms](https://oroboros-design.com/agb) · [Right of withdrawal](https://oroboros-design.com/widerruf) · [Privacy](https://oroboros-design.com/datenschutz) · [Legal notice](https://oroboros-design.com/impressum)
 

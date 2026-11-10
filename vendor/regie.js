@@ -16,12 +16,17 @@
   var H = document.documentElement;
   var Q = new URLSearchParams(location.search);
   var still = H.classList.contains('still');
+  /* Sprache aus <html lang>: dieselbe Regie für / und /en. */
+  var EN = String(H.lang || '').slice(0, 2) === 'en';
+  var T = EN
+    ? { namen: ['The offer', 'Your details', 'The build', 'Online'], pflicht: 'Please enter your name and a valid email address.', senden: 'Sending …', ok: 'Thank you. Your question has arrived — you will hear from us within one working day.', fehler: 'That did not work. Please write to info@oroboros-design.com or on WhatsApp — both reach us right away.' }
+    : { namen: ['Das Angebot', 'Ihre Angaben', 'Der Bau', 'Online'], pflicht: 'Bitte Namen und eine gültige E-Mail angeben.', senden: 'Wird gesendet …', ok: 'Danke. Ihre Frage ist angekommen — Sie hören innerhalb eines Werktags von uns.', fehler: 'Das hat nicht geklappt. Schreiben Sie bitte an info@oroboros-design.com oder per WhatsApp — beides erreicht uns sofort.' };
 
   var FOLIEN = [
-    { ein: [-1, -0.5], aus: [0.06, 0.13], nr: '00 / 03', name: 'Das Angebot' },
-    { ein: [0.2, 0.27], aus: [0.4, 0.46], nr: '01 / 03', name: 'Ihre Angaben' },
-    { ein: [0.5, 0.57], aus: [0.68, 0.74], nr: '02 / 03', name: 'Der Bau' },
-    { ein: [0.76, 0.82], aus: [0.88, 0.93], nr: '03 / 03', name: 'Online' },
+    { ein: [-1, -0.5], aus: [0.06, 0.13], nr: '00 / 03', name: T.namen[0] },
+    { ein: [0.2, 0.27], aus: [0.4, 0.46], nr: '01 / 03', name: T.namen[1] },
+    { ein: [0.5, 0.57], aus: [0.68, 0.74], nr: '02 / 03', name: T.namen[2] },
+    { ein: [0.76, 0.82], aus: [0.88, 0.93], nr: '03 / 03', name: T.namen[3] },
   ];
   var GLAETTUNG = { scroll: 4.2, maus: 3.0 };
 
@@ -174,15 +179,15 @@
       name.setAttribute('aria-invalid', String(String(d.name).trim().length < 2));
       mail.setAttribute('aria-invalid', String(!mail.checkValidity() || !String(d.email).trim()));
       if (name.getAttribute('aria-invalid') === 'true' || mail.getAttribute('aria-invalid') === 'true') {
-        status.className = 'status fehler'; status.textContent = 'Bitte Namen und eine gültige E-Mail angeben.';
+        status.className = 'status fehler'; status.textContent = T.pflicht;
         (name.getAttribute('aria-invalid') === 'true' ? name : mail).focus();
         return;
       }
-      knopf.disabled = true; status.className = 'status'; status.textContent = 'Wird gesendet …';
-      d.sprache = 'de'; d.quelle = location.pathname + (document.referrer ? ' ← ' + document.referrer.slice(0, 80) : '');
+      knopf.disabled = true; status.className = 'status'; status.textContent = T.senden;
+      d.sprache = EN ? 'en' : 'de'; d.quelle = location.pathname + (document.referrer ? ' ← ' + document.referrer.slice(0, 80) : '');
       fetch(ZIEL, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(d) })
-        .then(function (r) { if (!r.ok) throw new Error(String(r.status)); form.reset(); status.className = 'status ok'; status.textContent = 'Danke. Ihre Frage ist angekommen — Sie hören innerhalb eines Werktags von uns.'; })
-        .catch(function () { status.className = 'status fehler'; status.textContent = 'Das hat nicht geklappt. Schreiben Sie bitte an info@oroboros-design.com oder per WhatsApp — beides erreicht uns sofort.'; })
+        .then(function (r) { if (!r.ok) throw new Error(String(r.status)); form.reset(); status.className = 'status ok'; status.textContent = T.ok; })
+        .catch(function () { status.className = 'status fehler'; status.textContent = T.fehler; })
         .then(function () { knopf.disabled = false; });
     });
   }
