@@ -1,0 +1,904 @@
+{
+ "am": "2026-11-10T17:47:46.065Z",
+ "basis": "http://127.0.0.1:4173",
+ "netz": false,
+ "kontrollen": 134,
+ "rot": 0,
+ "gewicht": {
+  "index.html": 26.1,
+  "oro.css": 27.3,
+  "regie.js": 12,
+  "band.js": 23.9,
+  "three (nur mit Grafikkarte)": 655,
+  "Standbild quer": 58,
+  "Standbild hoch": 55.1,
+  "Schriften": 83.4
+ },
+ "befunde": [
+  {
+   "name": "Kontrast tinte auf perle ≥ 4.5",
+   "ok": true,
+   "wert": 16.81
+  },
+  {
+   "name": "Kontrast leise auf perle ≥ 4.5",
+   "ok": true,
+   "wert": 6.26
+  },
+  {
+   "name": "Kontrast leise auf papier ≥ 4.5",
+   "ok": true,
+   "wert": 6.72
+  },
+  {
+   "name": "Kontrast gold-tief auf perle ≥ 4.5",
+   "ok": true,
+   "wert": 5.65
+  },
+  {
+   "name": "Kontrast licht auf nacht ≥ 4.5",
+   "ok": true,
+   "wert": 18.06
+  },
+  {
+   "name": "Kontrast licht-leise auf nacht ≥ 4.5",
+   "ok": true,
+   "wert": 10.59
+  },
+  {
+   "name": "Kontrast gold auf nacht ≥ 4.5",
+   "ok": true,
+   "wert": 11.02
+  },
+  {
+   "name": "Kontrast tinte auf gold ≥ 4.5",
+   "ok": true,
+   "wert": 10.44
+  },
+  {
+   "name": "Kontrast perle auf tinte ≥ 4.5",
+   "ok": true,
+   "wert": 16.81
+  },
+  {
+   "name": "/ @390: keine Fehler in der Konsole",
+   "ok": true,
+   "wert": []
+  },
+  {
+   "name": "/ @390: kein waagerechter Überlauf",
+   "ok": true,
+   "wert": "390 > 390"
+  },
+  {
+   "name": "/ @390: genau eine h1",
+   "ok": true,
+   "wert": 1
+  },
+  {
+   "name": "/ @390: alle Bilder geladen, alle mit alt",
+   "ok": true,
+   "wert": {
+    "kaputt": [],
+    "ohneAlt": 0
+   }
+  },
+  {
+   "name": "/ @390: Trefferflächen ≥ 44 px",
+   "ok": true,
+   "wert": []
+  },
+  {
+   "name": "/ @768: keine Fehler in der Konsole",
+   "ok": true,
+   "wert": []
+  },
+  {
+   "name": "/ @768: kein waagerechter Überlauf",
+   "ok": true,
+   "wert": "768 > 768"
+  },
+  {
+   "name": "/ @768: genau eine h1",
+   "ok": true,
+   "wert": 1
+  },
+  {
+   "name": "/ @768: alle Bilder geladen, alle mit alt",
+   "ok": true,
+   "wert": {
+    "kaputt": [],
+    "ohneAlt": 0
+   }
+  },
+  {
+   "name": "/ @1440: keine Fehler in der Konsole",
+   "ok": true,
+   "wert": []
+  },
+  {
+   "name": "/ @1440: kein waagerechter Überlauf",
+   "ok": true,
+   "wert": "1440 > 1440"
+  },
+  {
+   "name": "/ @1440: genau eine h1",
+   "ok": true,
+   "wert": 1
+  },
+  {
+   "name": "/ @1440: alle Bilder geladen, alle mit alt",
+   "ok": true,
+   "wert": {
+    "kaputt": [],
+    "ohneAlt": 0
+   }
+  },
+  {
+   "name": "/: Titel und Beschreibung gesetzt",
+   "ok": true,
+   "wert": [
+    53,
+    157
+   ]
+  },
+  {
+   "name": "/ @1920: keine Fehler in der Konsole",
+   "ok": true,
+   "wert": []
+  },
+  {
+   "name": "/ @1920: kein waagerechter Überlauf",
+   "ok": true,
+   "wert": "1920 > 1920"
+  },
+  {
+   "name": "/ @1920: genau eine h1",
+   "ok": true,
+   "wert": 1
+  },
+  {
+   "name": "/ @1920: alle Bilder geladen, alle mit alt",
+   "ok": true,
+   "wert": {
+    "kaputt": [],
+    "ohneAlt": 0
+   }
+  },
+  {
+   "name": "/buchen @390: keine Fehler in der Konsole",
+   "ok": true,
+   "wert": []
+  },
+  {
+   "name": "/buchen @390: kein waagerechter Überlauf",
+   "ok": true,
+   "wert": "390 > 390"
+  },
+  {
+   "name": "/buchen @390: genau eine h1",
+   "ok": true,
+   "wert": 1
+  },
+  {
+   "name": "/buchen @390: alle Bilder geladen, alle mit alt",
+   "ok": true,
+   "wert": {
+    "kaputt": [],
+    "ohneAlt": 0
+   }
+  },
+  {
+   "name": "/buchen @390: Trefferflächen ≥ 44 px",
+   "ok": true,
+   "wert": []
+  },
+  {
+   "name": "/buchen @768: keine Fehler in der Konsole",
+   "ok": true,
+   "wert": []
+  },
+  {
+   "name": "/buchen @768: kein waagerechter Überlauf",
+   "ok": true,
+   "wert": "768 > 768"
+  },
+  {
+   "name": "/buchen @768: genau eine h1",
+   "ok": true,
+   "wert": 1
+  },
+  {
+   "name": "/buchen @768: alle Bilder geladen, alle mit alt",
+   "ok": true,
+   "wert": {
+    "kaputt": [],
+    "ohneAlt": 0
+   }
+  },
+  {
+   "name": "/buchen @1440: keine Fehler in der Konsole",
+   "ok": true,
+   "wert": []
+  },
+  {
+   "name": "/buchen @1440: kein waagerechter Überlauf",
+   "ok": true,
+   "wert": "1440 > 1440"
+  },
+  {
+   "name": "/buchen @1440: genau eine h1",
+   "ok": true,
+   "wert": 1
+  },
+  {
+   "name": "/buchen @1440: alle Bilder geladen, alle mit alt",
+   "ok": true,
+   "wert": {
+    "kaputt": [],
+    "ohneAlt": 0
+   }
+  },
+  {
+   "name": "/buchen: Titel und Beschreibung gesetzt",
+   "ok": true,
+   "wert": [
+    67,
+    131
+   ]
+  },
+  {
+   "name": "/buchen @1920: keine Fehler in der Konsole",
+   "ok": true,
+   "wert": []
+  },
+  {
+   "name": "/buchen @1920: kein waagerechter Überlauf",
+   "ok": true,
+   "wert": "1920 > 1920"
+  },
+  {
+   "name": "/buchen @1920: genau eine h1",
+   "ok": true,
+   "wert": 1
+  },
+  {
+   "name": "/buchen @1920: alle Bilder geladen, alle mit alt",
+   "ok": true,
+   "wert": {
+    "kaputt": [],
+    "ohneAlt": 0
+   }
+  },
+  {
+   "name": "/portfolio @390: keine Fehler in der Konsole",
+   "ok": true,
+   "wert": []
+  },
+  {
+   "name": "/portfolio @390: kein waagerechter Überlauf",
+   "ok": true,
+   "wert": "390 > 390"
+  },
+  {
+   "name": "/portfolio @390: genau eine h1",
+   "ok": true,
+   "wert": 1
+  },
+  {
+   "name": "/portfolio @390: alle Bilder geladen, alle mit alt",
+   "ok": true,
+   "wert": {
+    "kaputt": [],
+    "ohneAlt": 0
+   }
+  },
+  {
+   "name": "/portfolio @390: Trefferflächen ≥ 44 px",
+   "ok": true,
+   "wert": []
+  },
+  {
+   "name": "/portfolio @768: keine Fehler in der Konsole",
+   "ok": true,
+   "wert": []
+  },
+  {
+   "name": "/portfolio @768: kein waagerechter Überlauf",
+   "ok": true,
+   "wert": "768 > 768"
+  },
+  {
+   "name": "/portfolio @768: genau eine h1",
+   "ok": true,
+   "wert": 1
+  },
+  {
+   "name": "/portfolio @768: alle Bilder geladen, alle mit alt",
+   "ok": true,
+   "wert": {
+    "kaputt": [],
+    "ohneAlt": 0
+   }
+  },
+  {
+   "name": "/portfolio @1440: keine Fehler in der Konsole",
+   "ok": true,
+   "wert": []
+  },
+  {
+   "name": "/portfolio @1440: kein waagerechter Überlauf",
+   "ok": true,
+   "wert": "1440 > 1440"
+  },
+  {
+   "name": "/portfolio @1440: genau eine h1",
+   "ok": true,
+   "wert": 1
+  },
+  {
+   "name": "/portfolio @1440: alle Bilder geladen, alle mit alt",
+   "ok": true,
+   "wert": {
+    "kaputt": [],
+    "ohneAlt": 0
+   }
+  },
+  {
+   "name": "/portfolio: Titel und Beschreibung gesetzt",
+   "ok": true,
+   "wert": [
+    42,
+    151
+   ]
+  },
+  {
+   "name": "/portfolio @1920: keine Fehler in der Konsole",
+   "ok": true,
+   "wert": []
+  },
+  {
+   "name": "/portfolio @1920: kein waagerechter Überlauf",
+   "ok": true,
+   "wert": "1920 > 1920"
+  },
+  {
+   "name": "/portfolio @1920: genau eine h1",
+   "ok": true,
+   "wert": 1
+  },
+  {
+   "name": "/portfolio @1920: alle Bilder geladen, alle mit alt",
+   "ok": true,
+   "wert": {
+    "kaputt": [],
+    "ohneAlt": 0
+   }
+  },
+  {
+   "name": "Titel je Seite verschieden",
+   "ok": true,
+   "wert": [
+    "Website ab 99 € in 48 Stunden — Oroboros Design, Köln",
+    "Website buchen — Standard 99 € oder Premium 199 € · Oroboros Design",
+    "Portfolio — so bauen wir · Oroboros Design"
+   ]
+  },
+  {
+   "name": "Link /portfolio → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Link /buchen → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Link /buchen?paket=standard → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Link /buchen?paket=premium → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Link /agb → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Link /widerruf → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Link /arbeiten/halden → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Link /arbeiten/lumen → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Link /arbeiten/northside → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Link /arbeiten/ridgeline → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Link /datenschutz → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Link /impressum → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Link / → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Link /impressum → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Link /datenschutz → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Link /agb → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Link /widerruf → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Link /mail/launch → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Link /arbeiten/halden → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Link /arbeiten/lumen → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Link /arbeiten/northside → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Link /arbeiten/ridgeline → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "/impressum @390: lädt ohne Fehler, kein Überlauf",
+   "ok": true,
+   "wert": {
+    "fehler": [],
+    "sw": 390,
+    "cw": 390
+   }
+  },
+  {
+   "name": "/datenschutz @390: lädt ohne Fehler, kein Überlauf",
+   "ok": true,
+   "wert": {
+    "fehler": [],
+    "sw": 390,
+    "cw": 390
+   }
+  },
+  {
+   "name": "/agb @390: lädt ohne Fehler, kein Überlauf",
+   "ok": true,
+   "wert": {
+    "fehler": [],
+    "sw": 390,
+    "cw": 390
+   }
+  },
+  {
+   "name": "/widerruf @390: lädt ohne Fehler, kein Überlauf",
+   "ok": true,
+   "wert": {
+    "fehler": [],
+    "sw": 390,
+    "cw": 390
+   }
+  },
+  {
+   "name": "/mail/launch @390: lädt ohne Fehler, kein Überlauf",
+   "ok": true,
+   "wert": {
+    "fehler": [
+     "Failed to load resource: net::ERR_FAILED",
+     "Failed to load resource: net::ERR_FAILED"
+    ],
+    "sw": 390,
+    "cw": 390
+   }
+  },
+  {
+   "name": "/arbeiten/halden @390: lädt ohne Fehler, kein Überlauf",
+   "ok": true,
+   "wert": {
+    "fehler": [],
+    "sw": 390,
+    "cw": 390
+   }
+  },
+  {
+   "name": "/arbeiten/lumen @390: lädt ohne Fehler, kein Überlauf",
+   "ok": true,
+   "wert": {
+    "fehler": [],
+    "sw": 390,
+    "cw": 390
+   }
+  },
+  {
+   "name": "/arbeiten/northside @390: lädt ohne Fehler, kein Überlauf",
+   "ok": true,
+   "wert": {
+    "fehler": [],
+    "sw": 390,
+    "cw": 390
+   }
+  },
+  {
+   "name": "/arbeiten/ridgeline @390: lädt ohne Fehler, kein Überlauf",
+   "ok": true,
+   "wert": {
+    "fehler": [],
+    "sw": 390,
+    "cw": 390
+   }
+  },
+  {
+   "name": "Unbekannte Adresse → 404 mit eigener Seite",
+   "ok": true,
+   "wert": 404
+  },
+  {
+   "name": "Bühne: Szene startet (html.buehne-lebt)",
+   "ok": true,
+   "wert": null
+  },
+  {
+   "name": "Bühne s=0: genau eine Folie lesbar, die anderen inert",
+   "ok": true,
+   "wert": [
+    {
+     "an": true,
+     "o": 1,
+     "inert": false
+    },
+    {
+     "an": false,
+     "o": 0,
+     "inert": true
+    },
+    {
+     "an": false,
+     "o": 0,
+     "inert": true
+    },
+    {
+     "an": false,
+     "o": 0,
+     "inert": true
+    }
+   ]
+  },
+  {
+   "name": "Bühne s=0.34: genau eine Folie lesbar, die anderen inert",
+   "ok": true,
+   "wert": [
+    {
+     "an": false,
+     "o": 1,
+     "inert": true
+    },
+    {
+     "an": true,
+     "o": 1,
+     "inert": false
+    },
+    {
+     "an": false,
+     "o": 0,
+     "inert": true
+    },
+    {
+     "an": false,
+     "o": 0,
+     "inert": true
+    }
+   ]
+  },
+  {
+   "name": "Bühne s=0.62: genau eine Folie lesbar, die anderen inert",
+   "ok": true,
+   "wert": [
+    {
+     "an": false,
+     "o": 1,
+     "inert": true
+    },
+    {
+     "an": false,
+     "o": 1,
+     "inert": true
+    },
+    {
+     "an": true,
+     "o": 1,
+     "inert": false
+    },
+    {
+     "an": false,
+     "o": 0,
+     "inert": true
+    }
+   ]
+  },
+  {
+   "name": "Bühne s=0.86: genau eine Folie lesbar, die anderen inert",
+   "ok": true,
+   "wert": [
+    {
+     "an": false,
+     "o": 1,
+     "inert": true
+    },
+    {
+     "an": false,
+     "o": 1,
+     "inert": true
+    },
+    {
+     "an": false,
+     "o": 1,
+     "inert": true
+    },
+    {
+     "an": true,
+     "o": 1,
+     "inert": false
+    }
+   ]
+  },
+  {
+   "name": "Bühne s=1: das Bild ist Perle (244,242,236 ± 6), der Kopf hell",
+   "ok": true,
+   "wert": {
+    "farbe": [
+     244,
+     242,
+     236
+    ],
+    "kopfHell": true,
+    "finale": 1
+   }
+  },
+  {
+   "name": "Bühne: Rad-Scroll erreicht s=1 und das Dokument",
+   "ok": true,
+   "wert": {
+    "s": 0.9995781599813301,
+    "y": 4800,
+    "preise": true
+   }
+  },
+  {
+   "name": "Bühne: keine Fehler in der Konsole",
+   "ok": true,
+   "wert": []
+  },
+  {
+   "name": "Rückfall „reduzierte Bewegung“: Standbild, Angebot lesbar, keine Ausnahme",
+   "ok": true,
+   "wert": {
+    "kl": "js still",
+    "h1": 1,
+    "knopf": true,
+    "buehne": 844,
+    "vh": 844,
+    "bild": 1080,
+    "fehler": []
+   }
+  },
+  {
+   "name": "Rückfall „reduzierte Bewegung“: three.js wird nicht geladen",
+   "ok": true,
+   "wert": [
+    "http://127.0.0.1:4173/vendor/regie.js"
+   ]
+  },
+  {
+   "name": "Rückfall „kein WebGL“: Standbild, Angebot lesbar, keine Ausnahme",
+   "ok": true,
+   "wert": {
+    "kl": "js ohne-buehne",
+    "h1": 1,
+    "knopf": true,
+    "buehne": 844,
+    "vh": 844,
+    "bild": 1080,
+    "fehler": []
+   }
+  },
+  {
+   "name": "Rückfall „kein WebGL“: three.js wird nicht geladen",
+   "ok": true,
+   "wert": [
+    "http://127.0.0.1:4173/vendor/regie.js"
+   ]
+  },
+  {
+   "name": "Rückfall „Modul band.js gesperrt“: Standbild, Angebot lesbar, keine Ausnahme",
+   "ok": true,
+   "wert": {
+    "kl": "js ohne-buehne",
+    "h1": 1,
+    "knopf": true,
+    "buehne": 844,
+    "vh": 844,
+    "bild": 1080,
+    "fehler": []
+   }
+  },
+  {
+   "name": "Buchen: Standard · sofort",
+   "ok": true,
+   "wert": "https://angel.oroboros-design.com/api/oeffentlich?aktion=checkout&angebot=website_standard&ref=oroboros-website"
+  },
+  {
+   "name": "Buchen: Premium · sofort",
+   "ok": true,
+   "wert": "https://angel.oroboros-design.com/api/oeffentlich?aktion=checkout&angebot=website_premium&ref=oroboros-website"
+  },
+  {
+   "name": "Buchen: Premium · Rechnung",
+   "ok": true,
+   "wert": "https://angel.oroboros-design.com/api/oeffentlich?aktion=rechnung_anfordern&angebot=website_premium&ref=oroboros-website"
+  },
+  {
+   "name": "Buchen: Standard · Rechnung",
+   "ok": true,
+   "wert": "https://angel.oroboros-design.com/api/oeffentlich?aktion=rechnung_anfordern&angebot=website_standard&ref=oroboros-website"
+  },
+  {
+   "name": "Buchen: Vorwahl und Herkunft aus der Mail",
+   "ok": true,
+   "wert": "https://angel.oroboros-design.com/api/oeffentlich?aktion=checkout&angebot=website_premium&ref=mail-launch"
+  },
+  {
+   "name": "Buchen: unlesbare Angaben fallen auf den Standard",
+   "ok": true,
+   "wert": "https://angel.oroboros-design.com/api/oeffentlich?aktion=checkout&angebot=website_standard&ref=oroboros-website"
+  },
+  {
+   "name": "Tastatur: erster Halt ist der Sprunglink, Fokus sichtbar",
+   "ok": true,
+   "wert": {
+    "text": "Zu den Preisen springen",
+    "umriss": "solid"
+   }
+  },
+  {
+   "name": "Mail: unter 102 KB (Gmail kürzt darüber)",
+   "ok": true,
+   "wert": "27 KB"
+  },
+  {
+   "name": "Mail: kein Platzhalter in der gefüllten Fassung",
+   "ok": true,
+   "wert": []
+  },
+  {
+   "name": "Mail: jedes Bild mit alt, Breite und Höhe",
+   "ok": true,
+   "wert": 5
+  },
+  {
+   "name": "Mail: nur eigene Ziele (Domain, WhatsApp, mailto, tel)",
+   "ok": true,
+   "wert": []
+  },
+  {
+   "name": "Mail: Buchen, Portfolio und Rückfrage vorhanden",
+   "ok": true,
+   "wert": 22
+  },
+  {
+   "name": "Mail-Ziel /mail/launch → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Mail-Ziel /portfolio → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Mail-Ziel /buchen → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Mail-Ziel /arbeiten/halden → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Mail-Ziel /arbeiten/lumen → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Mail-Ziel /arbeiten/northside → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Mail-Ziel /arbeiten/ridgeline → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Mail-Ziel /impressum → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Mail-Ziel /datenschutz → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Mail-Ziel /agb → 200",
+   "ok": true,
+   "wert": 200
+  },
+  {
+   "name": "Mail: Impressum und Abmeldung im Fuß",
+   "ok": true,
+   "wert": ""
+  },
+  {
+   "name": "Mail: Klartext-Fassung vorhanden",
+   "ok": true,
+   "wert": ""
+  },
+  {
+   "name": "Gewicht: erstes Bild ohne Szene unter 300 KB (unkomprimiert)",
+   "ok": true,
+   "wert": "207 KB"
+  }
+ ]
+}

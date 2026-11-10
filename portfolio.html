@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Portfolio — so bauen wir · Oroboros Design</title>
+<meta name="description" content="Fünf Seiten zum Durchscrollen: Architektur, Beauty, Praxis, Handwerk — und diese Website selbst. So sehen Standard und Premium bei Oroboros Design aus.">
+<link rel="canonical" href="https://oroboros-design.com/portfolio">
+<meta name="theme-color" content="#f4f2ec">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Oroboros Design">
+<meta property="og:title" content="Portfolio — so bauen wir">
+<meta property="og:description" content="Fünf Seiten zum Durchscrollen. So sehen Standard und Premium bei Oroboros Design aus.">
+<meta property="og:url" content="https://oroboros-design.com/portfolio">
+<meta property="og:image" content="https://oroboros-design.com/vendor/img/og.jpg">
+<link rel="icon" type="image/svg+xml" href="/vendor/img/logo.svg">
+<link rel="apple-touch-icon" href="/vendor/img/apple-touch-icon.png">
+<link rel="preload" href="/vendor/fonts/Sora-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/vendor/fonts/Outfit-400.woff2" as="font" type="font/woff2" crossorigin>
+<script>(function(h){h.classList.add('js');try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)h.classList.add('still')}catch(e){}})(document.documentElement);</script>
+<link rel="stylesheet" href="/vendor/oro.css">
+<style>
+.stuecke { max-width: 1500px; margin: 0 auto; display: grid; gap: clamp(56px, 9vw, 150px); }
+.stueck { display: grid; gap: clamp(20px, 3vw, 48px); grid-template-columns: minmax(0, 1fr); align-items: end; }
+@media (min-width: 980px) { .stueck { grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); } .stueck:nth-child(even) { grid-template-columns: minmax(0, 1fr) minmax(0, 1.55fr); } .stueck:nth-child(even) .bilder { order: 2; } }
+.bilder { position: relative; display: block; text-decoration: none; }
+.bilder .gross { border-radius: 22px; overflow: hidden; aspect-ratio: 16 / 10; background: var(--nacht); box-shadow: 0 50px 90px -60px rgba(14, 16, 34, .7); }
+.bilder img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.1s var(--k-auftritt); }
+.bilder:hover .gross img { transform: scale(1.04); }
+.bilder .klein { position: absolute; right: clamp(-28px, -2vw, -10px); bottom: clamp(-34px, -3vw, -14px); width: 38%; border-radius: 14px; overflow: hidden; aspect-ratio: 16 / 10; box-shadow: 0 0 0 5px var(--perle), 0 30px 60px -30px rgba(14, 16, 34, .7); transition: transform .9s var(--k-auftritt); }
+.stueck:nth-child(even) .bilder .klein { right: auto; left: clamp(-28px, -2vw, -10px); }
+.bilder:hover .klein { transform: translate3d(0, -8px, 0); }
+@media (max-width: 979px) { .bilder .klein { right: 12px !important; left: auto !important; bottom: -22px; } .stueck .worte { margin-top: 18px; } }
+.worte .etikett { color: var(--gold-tief); }
+.worte h2 { margin-top: 12px; font: 600 clamp(2.2rem, 5vw, 4.6rem)/.96 var(--anzeige); letter-spacing: -.045em; }
+.worte > p { margin-top: 14px; color: var(--leise); max-width: 30em; font-size: clamp(1.02rem, 1.2vw, 1.15rem); }
+.worte ul { margin: 22px 0 26px; border-top: 1px solid var(--tinte); }
+.worte li { padding: 11px 0; border-bottom: 1px solid var(--linie); font-size: .98rem; display: flex; gap: 12px; }
+.worte li::before { content: "→"; color: var(--gold-tief); }
+.selbst { max-width: 1500px; margin: 0 auto clamp(56px, 9vw, 150px); border-radius: clamp(22px, 2.6vw, 36px); overflow: hidden; position: relative; background: var(--nacht); color: var(--licht); display: block; text-decoration: none; isolation: isolate; }
+.selbst img { width: 100%; height: clamp(360px, 52vw, 680px); object-fit: cover; object-position: 62% 50%; transition: transform 1.4s var(--k-auftritt); }
+.selbst:hover img { transform: scale(1.03); }
+.selbst::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(6, 7, 22, .9) 0%, rgba(6, 7, 22, .55) 38%, rgba(6, 7, 22, 0) 66%); }
+.selbst .worte { position: absolute; z-index: 1; left: clamp(20px, 4vw, 64px); bottom: clamp(20px, 4vw, 64px); max-width: min(560px, 80%); }
+.selbst .worte .etikett { color: var(--gold); }
+.selbst .worte p { color: var(--licht-leise); }
+.selbst .textlink { margin-top: 14px; }
+@media (max-width: 700px) { .selbst::after { background: linear-gradient(180deg, rgba(6, 7, 22, .1) 0%, rgba(6, 7, 22, .92) 64%); } .selbst img { object-position: 68% 30%; height: 520px; } }
+</style>
+</head>
+<body>
+<a class="sprung" href="#stuecke">Zu den Arbeiten springen</a>
+
+<header class="kopf hell" id="kopf">
+  <a class="marke" href="/" aria-label="Oroboros Design — zur Startseite">
+    <svg viewBox="0 0 26 26" aria-hidden="true"><circle class="ring" cx="13" cy="13" r="9.6" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="51 9.3" transform="rotate(-62 13 13)"/></svg>
+    OROBOROS<small>Design</small>
+  </a>
+  <nav aria-label="Seite">
+    <a class="weit" href="/#preise">Preise</a>
+    <a href="/portfolio" aria-current="page">Portfolio</a>
+    <a class="weit" href="/#fragen">Fragen</a>
+    <a class="knopf klein" href="/buchen">Jetzt buchen</a>
+  </nav>
+</header>
+
+<main class="dok seite" id="dok">
+  <div class="kopfzeile zwei">
+    <p class="etikett">Portfolio</p>
+    <h1>Öffnen. Scrollen. <em>So bauen wir.</em></h1>
+    <p>Keine Bildergalerie: Jede Arbeit ist eine echte Seite, die Sie im Browser durchscrollen. Die Etiketten zeigen, an welchem Paket sich der Umfang orientiert.</p>
+  </div>
+
+  <a class="selbst auf" href="/">
+    <img src="/vendor/img/band-still.webp" width="1920" height="1200" alt="Die Startseite von Oroboros Design: ein leuchtender Ring, durch den Website-Platten laufen — hinten Bauplan, vorn fertig" fetchpriority="high">
+    <div class="worte">
+      <p class="etikett">Diese Website · Eigenbau</p>
+      <h2>Das Band</h2>
+      <p>Die Seite, auf der Sie gerade sind, ist das erste Stück im Portfolio: eine 3D-Szene, die am Scroll hängt, und eine Buchung in zwei Klicks.</p>
+      <span class="textlink">Zur Startseite <span class="pfeil" aria-hidden="true">→</span></span>
+    </div>
+  </a>
+
+  <div class="stuecke" id="stuecke">
+    <article class="stueck auf">
+      <a class="bilder" href="/arbeiten/halden" aria-label="HALDEN öffnen">
+        <div class="gross"><img src="/arbeiten/vorschau/halden.webp" width="1280" height="800" loading="lazy" decoding="async" alt="Konzeptseite HALDEN: große Wortmarke, davor ein auskragendes Betonhaus auf einem Felsen"></div>
+        <div class="klein"><img src="/arbeiten/vorschau/halden-szene.webp" width="1280" height="800" loading="lazy" decoding="async" alt="HALDEN weiter unten: Projektband mit Architekturaufnahmen"></div>
+      </a>
+      <div class="worte">
+        <p class="etikett">Architektur · Premium</p>
+        <h2>HALDEN</h2>
+        <p>Ein Büro für Häuser an rauen Orten. Die Seite ist eine Ausstellung: ein Objekt, eine Wortmarke, viel Ruhe.</p>
+        <ul><li>Scroll-Bühne mit Objekt vor und hinter der Schrift</li><li>Fensterfahrt und Projektband</li><li>Für Marken, bei denen das Bild verkauft</li></ul>
+        <a class="knopf tinte" href="/arbeiten/halden">Seite öffnen <span class="pfeil" aria-hidden="true">→</span></a>
+      </div>
+    </article>
+
+    <article class="stueck auf">
+      <a class="bilder" href="/arbeiten/lumen" aria-label="LUMEN öffnen">
+        <div class="gross"><img src="/arbeiten/vorschau/lumen.webp" width="1280" height="800" loading="lazy" decoding="async" alt="Konzeptseite LUMEN: Serifenüberschrift neben der Nahaufnahme eines Auges"></div>
+        <div class="klein"><img src="/arbeiten/vorschau/lumen-szene.webp" width="1280" height="800" loading="lazy" decoding="async" alt="LUMEN weiter unten: Vorher-nachher-Vergleich"></div>
+      </a>
+      <div class="worte">
+        <p class="etikett">Beauty · Premium</p>
+        <h2>LUMEN</h2>
+        <p>Ein Brow-Atelier mit Akademie. Zwei Zielgruppen, zwei Wege — und die Buchung immer eine Daumenlänge entfernt.</p>
+        <ul><li>Vorher-nachher im Scroll</li><li>Preise mit Monatsrate, Akademie eigens erzählt</li><li>Für Studios mit Behandlung und Schulung</li></ul>
+        <a class="knopf tinte" href="/arbeiten/lumen">Seite öffnen <span class="pfeil" aria-hidden="true">→</span></a>
+      </div>
+    </article>
+
+    <article class="stueck auf">
+      <a class="bilder" href="/arbeiten/northside" aria-label="Northside öffnen">
+        <div class="gross"><img src="/arbeiten/vorschau/northside.webp" width="1280" height="800" loading="lazy" decoding="async" alt="Konzeptseite Northside: Überschrift und Patientin im Wartebereich einer Zahnarztpraxis"></div>
+        <div class="klein"><img src="/arbeiten/vorschau/northside-szene.webp" width="1280" height="800" loading="lazy" decoding="async" alt="Northside weiter unten: Preisübersicht und Terminbuchung"></div>
+      </a>
+      <div class="worte">
+        <p class="etikett">Praxis · Standard</p>
+        <h2>Northside</h2>
+        <p>Eine Zahnarztpraxis, die Angst abbaut, bevor sie Termine füllt. Alles Wichtige auf einer Seite.</p>
+        <ul><li>Festpreise offen, Buchung in zwei Klicks</li><li>Vertrauen zuerst: Team, Bewertungen, Ablauf</li><li>Für Praxen und Dienstleister mit Terminen</li></ul>
+        <a class="knopf tinte" href="/arbeiten/northside">Seite öffnen <span class="pfeil" aria-hidden="true">→</span></a>
+      </div>
+    </article>
+
+    <article class="stueck auf">
+      <a class="bilder" href="/arbeiten/ridgeline" aria-label="Ridgeline öffnen">
+        <div class="gross"><img src="/arbeiten/vorschau/ridgeline.webp" width="1280" height="800" loading="lazy" decoding="async" alt="Konzeptseite Ridgeline: große Überschrift über einem Einfamilienhaus mit Anfrageformular"></div>
+        <div class="klein"><img src="/arbeiten/vorschau/ridgeline-szene.webp" width="1280" height="800" loading="lazy" decoding="async" alt="Ridgeline weiter unten: das Dach wird im Scroll gescannt"></div>
+      </a>
+      <div class="worte">
+        <p class="etikett">Handwerk · Standard</p>
+        <h2>Ridgeline</h2>
+        <p>Ein Dachdecker nach dem Sturm. Wer hier landet, hat ein Problem — das Formular steht schon im ersten Bild.</p>
+        <ul><li>Anfrage ohne Umweg, Telefon immer sichtbar</li><li>Ein Scan-Effekt, der die Leistung erklärt</li><li>Für Handwerk und Notdienste</li></ul>
+        <a class="knopf tinte" href="/arbeiten/ridgeline">Seite öffnen <span class="pfeil" aria-hidden="true">→</span></a>
+      </div>
+    </article>
+  </div>
+
+  <p style="max-width:1500px;margin:clamp(56px,8vw,110px) auto 0;color:var(--leise);font-size:.95rem">Konzeptarbeiten: Marken und Bewertungen sind erfunden, Code und Bewegung sind echt — so, wie wir sie für Sie bauen.</p>
+</main>
+
+<section class="schluss" aria-labelledby="t-schluss" style="margin-bottom:clamp(8px,1.4vw,20px)">
+  <h2 id="t-schluss">Und jetzt <em>Ihre Seite.</em></h2>
+  <p>Standard 99&nbsp;€, Premium 199&nbsp;€. Buchen dauert zwei Minuten.</p>
+  <div class="wahl">
+    <a class="knopf" href="/buchen">Jetzt buchen <span class="pfeil" aria-hidden="true">→</span></a>
+    <a class="textlink" href="/#preise">Pakete vergleichen <span class="pfeil" aria-hidden="true">→</span></a>
+  </div>
+</section>
+
+<footer class="fuss dok">
+  <div class="unten" style="margin-top:0">
+    <span>© 2026 Oroboros Design · Daouda Ndiaye · Köln</span>
+    <nav aria-label="Rechtliches"><a href="/impressum">Impressum</a><a href="/datenschutz">Datenschutz</a><a href="/agb">AGB</a><a href="/widerruf">Widerruf</a></nav>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var auf = [].slice.call(document.querySelectorAll('.auf'));
+  if (document.documentElement.classList.contains('still') || !('IntersectionObserver' in window)) { auf.forEach(function (e) { e.classList.add('da'); }); return; }
+  var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('da'); io.unobserve(e.target); } }); }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+  auf.forEach(function (e) { io.observe(e); });
+})();
+</script>
+</body>
+</html>
