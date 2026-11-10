@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Book your website — Standard €99 or Premium €199 · Oroboros Design</title>
+<meta name="description" content="Booked in two minutes: choose your package, pay securely with Stripe, and the questionnaire opens right after. Fixed price, no subscription.">
+<link rel="canonical" href="https://oroboros-design.com/en/book">
+<link rel="alternate" hreflang="de" href="https://oroboros-design.com/buchen">
+<link rel="alternate" hreflang="en" href="https://oroboros-design.com/en/book">
+<meta name="theme-color" content="#f4f2ec">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Oroboros Design">
+<meta property="og:locale" content="en_GB">
+<meta property="og:title" content="Book your website — from €99">
+<meta property="og:description" content="Choose a package, pay by card, done. Fixed price, no subscription.">
+<meta property="og:url" content="https://oroboros-design.com/en/book">
+<meta property="og:image" content="https://oroboros-design.com/vendor/img/og.jpg">
+<link rel="icon" type="image/svg+xml" href="/vendor/img/logo.svg">
+<link rel="apple-touch-icon" href="/vendor/img/apple-touch-icon.png">
+<link rel="preload" href="/vendor/fonts/Sora-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/vendor/fonts/Outfit-400.woff2" as="font" type="font/woff2" crossorigin>
+<script>(function(h){h.classList.add('js');try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)h.classList.add('still')}catch(e){}})(document.documentElement);</script>
+<link rel="stylesheet" href="/vendor/oro.css">
+<style>
+.buchung { display: grid; gap: clamp(24px, 4vw, 64px); grid-template-columns: minmax(0, 1fr); max-width: 1500px; margin: 0 auto; align-items: start; }
+@media (min-width: 1000px) { .buchung { grid-template-columns: minmax(0, 1.35fr) minmax(340px, .9fr); } }
+.schritt { border-top: 1px solid var(--tinte); padding: 22px 0 clamp(28px, 4vw, 48px); }
+.schritt legend, .schritt h2 { padding: 0; display: flex; align-items: baseline; gap: 14px; font: 600 clamp(1.3rem, 2.2vw, 1.9rem)/1.1 var(--anzeige); letter-spacing: -.03em; margin-bottom: 18px; }
+.schritt legend span, .schritt h2 span { font: 500 .78rem/1 var(--mono); letter-spacing: .12em; color: var(--gold-tief); }
+fieldset.schritt { border-width: 1px 0 0; border-style: solid; border-color: var(--tinte); margin: 0; min-width: 0; }
+fieldset.schritt legend { float: left; width: 100%; }
+fieldset.schritt .wahlen { clear: both; }
+/* Schmal: erst die zwei Wahlen, dann die Buchung mit dem Knopf, dann der Ausblick. */
+@media (max-width: 999px) { .buchung > .links { display: contents; } .buchung fieldset:nth-of-type(1) { order: 1; } .buchung fieldset:nth-of-type(2) { order: 2; } .beleg { order: 3; } .buchung .ausblick { order: 4; } .buchung noscript { order: 5; } }
+.wahlen { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 640px) { .wahlen { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.option { position: relative; display: block; cursor: pointer; }
+.option input { position: absolute; z-index: 2; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.option .karte { display: grid; gap: 6px; height: 100%; padding: 20px 22px 22px; border-radius: 20px; background: var(--papier); box-shadow: inset 0 0 0 1px var(--linie); transition: box-shadow .25s var(--k-standard), background-color .25s var(--k-standard), transform .5s var(--k-auftritt); }
+.option:hover .karte { transform: translateY(-2px); }
+.option input:checked + .karte { background: #fff; box-shadow: inset 0 0 0 2.5px var(--tinte), 0 22px 44px -30px rgba(14, 16, 34, .55); }
+.option input:focus-visible + .karte { outline: 3px solid var(--tinte); outline-offset: 3px; }
+.option .zeile { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.option b { font: 600 1.2rem/1.2 var(--anzeige); letter-spacing: -.02em; }
+.option .preis { font: 600 1.6rem/1 var(--anzeige); letter-spacing: -.04em; white-space: nowrap; }
+.option p { color: var(--leise); font-size: .98rem; }
+.option .punkt { position: absolute; right: 16px; bottom: 16px; width: 24px; height: 24px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--linie); background: transparent; transition: background-color .25s var(--k-standard), box-shadow .25s var(--k-standard); pointer-events: none; }
+.option input:checked ~ .punkt { background: var(--gold) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 12.4l3.3 3.3 6.8-7.4' fill='none' stroke='%230e1022' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% no-repeat; box-shadow: none; }
+.option .tipp { justify-self: start; font: 500 .68rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; padding: 7px 10px; border-radius: 999px; background: var(--gold); color: var(--tinte); margin-bottom: 4px; }
+.danach { display: grid; gap: 0; counter-reset: d; }
+.danach li { counter-increment: d; display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 4px 12px; padding: 12px 0; border-bottom: 1px solid var(--linie); }
+.danach li::before { content: counter(d); grid-row: 1 / span 2; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font: 600 .8rem/1 var(--mono); background: var(--tinte); color: var(--perle); margin-top: 2px; }
+.danach b { font-weight: 600; } .danach span { color: var(--leise); font-size: .98rem; }
+
+.beleg { position: relative; padding: clamp(24px, 3vw, 40px); border-radius: 28px; background: radial-gradient(120% 90% at 100% 0%, #1d2468 0%, rgba(29, 36, 104, 0) 60%), var(--nacht); color: var(--licht); overflow: hidden; }
+@media (min-width: 1000px) { .beleg { position: sticky; top: calc(var(--kopf) + 24px); } }
+.beleg::after { content: ""; position: absolute; right: -170px; top: -170px; width: 400px; height: 400px; border-radius: 50%; border: 2px solid rgba(255, 178, 36, .55); box-shadow: 0 0 60px rgba(255, 178, 36, .35), inset 0 0 60px rgba(255, 178, 36, .18); pointer-events: none; }
+.beleg > * { position: relative; z-index: 1; }
+.beleg .etikett { color: var(--gold); }
+.beleg h2 { margin-top: 14px; font: 600 clamp(1.5rem, 2.4vw, 2rem)/1.1 var(--anzeige); letter-spacing: -.03em; }
+.beleg .summe { margin-top: 18px; font: 600 clamp(4rem, 8vw, 6.4rem)/.9 var(--anzeige); letter-spacing: -.06em; }
+.beleg dl { margin: 22px 0; display: grid; gap: 0; }
+.beleg dl div { display: flex; justify-content: space-between; gap: 16px; padding: 11px 0; border-top: 1px solid rgba(255, 255, 255, .14); font-size: .98rem; }
+.beleg dt { color: var(--licht-leise); } .beleg dd { text-align: right; font-weight: 600; }
+.beleg .knopf { width: 100%; }
+.beleg small { display: block; margin-top: 14px; color: var(--licht-leise); font-size: .88rem; }
+.beleg small a { color: var(--licht); }
+.ruf { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: .96rem; }
+.ruf a { display: inline-flex; align-items: center; min-height: 44px; color: var(--licht); }
+.direkt { display: grid; gap: 10px; margin-top: 18px; }
+.direkt a { display: flex; justify-content: space-between; gap: 12px; padding: 14px 16px; border-radius: 14px; background: var(--papier); box-shadow: inset 0 0 0 1px var(--linie); text-decoration: none; font-weight: 600; }
+</style>
+</head>
+<body>
+<a class="sprung" href="#wahl">Skip to booking</a>
+
+<header class="kopf hell" id="kopf">
+  <a class="marke" href="/en" aria-label="Oroboros Design — home">
+    <svg viewBox="0 0 26 26" aria-hidden="true"><circle class="ring" cx="13" cy="13" r="9.6" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="51 9.3" transform="rotate(-62 13 13)"/></svg>
+    OROBOROS<small>Design</small>
+  </a>
+  <nav aria-label="Page">
+    <a class="weit" href="/en#prices">Prices</a>
+    <a href="/en#work">Work</a>
+    <a class="weit" href="/en#faq">FAQ</a>
+    <a class="weit" href="/buchen" hreflang="de" lang="de">DE</a>
+    <a class="knopf klein" href="#wahl" aria-current="page">Book now</a>
+  </nav>
+</header>
+
+<main class="dok seite" id="dok">
+  <div class="kopfzeile">
+    <p class="etikett">Book · 2 minutes</p>
+    <h1>One decision. <em>Then we build.</em></h1>
+    <p>Choose your package and pay securely with Stripe. The questionnaire opens right after — ten minutes, and the belt starts running.</p>
+  </div>
+
+  <form class="buchung" id="wahl" action="https://angel.oroboros-design.com/api/oeffentlich" method="get">
+    <div class="links">
+      <fieldset class="schritt">
+        <legend><span>01</span> Your package</legend>
+        <div class="wahlen">
+          <label class="option">
+            <input type="radio" name="paket" value="standard" checked>
+            <span class="karte">
+              <span class="zeile"><b>Standard</b><span class="preis">€99</span></span>
+              <p>One page with up to five sections, designed for every device. One round of revisions, live in 48 hours.</p>
+            </span>
+            <span class="punkt" aria-hidden="true"></span>
+          </label>
+          <label class="option">
+            <input type="radio" name="paket" value="premium">
+            <span class="karte">
+              <span class="tipp">Our pick</span>
+              <span class="zeile"><b>Premium</b><span class="preis">€199</span></span>
+              <p>Up to five pages, custom design with motion, appointment booking connected. Two rounds of revisions, ready in five working days.</p>
+            </span>
+            <span class="punkt" aria-hidden="true"></span>
+          </label>
+        </div>
+      </fieldset>
+
+      <section class="schritt ausblick" aria-labelledby="t-next">
+        <h2 id="t-next"><span>02</span> What happens next</h2>
+        <ol class="danach">
+          <li><b>Confirmation by email</b><span>Right away, with your receipt.</span></li>
+          <li><b>Questionnaire</b><span>Ten minutes: services, contact, opening hours, logo and photos.</span></li>
+          <li><b>Draft in your browser</b><span>You see your site, name changes and approve.</span></li>
+          <li><b>Online</b><span>We connect your domain and hand over files and access.</span></li>
+        </ol>
+      </section>
+    </div>
+
+    <aside class="beleg" aria-live="polite" aria-labelledby="b-titel">
+      <p class="etikett">Your booking</p>
+      <h2 id="b-titel"><span id="b-paket">Standard website</span></h2>
+      <p class="summe">€<span id="b-preis">99</span></p>
+      <dl>
+        <div><dt>Payment</dt><dd>now, securely via Stripe</dd></div>
+        <div><dt>Ready</dt><dd id="b-frist">in 48 hours</dd></div>
+        <div><dt>VAT</dt><dd>none (small business, Germany)</dd></div>
+        <div><dt>Ongoing costs</dt><dd>none</dd></div>
+      </dl>
+      <a class="knopf" id="b-weiter" rel="nofollow" href="https://angel.oroboros-design.com/api/oeffentlich?aktion=checkout&amp;angebot=website_standard&amp;lang=en&amp;ref=oroboros-website-en"><span id="b-knopf">Pay €99 &amp; start</span> <span class="pfeil" aria-hidden="true">→</span></a>
+      <small>By booking you accept our <a href="/agb" hreflang="de">terms (German)</a>. Consumers have a <a href="/widerruf" hreflang="de">right of withdrawal</a>. The price is final. Prefer an invoice? <a href="mailto:info@oroboros-design.com?subject=Invoice%20request">Email us</a>.</small>
+      <p class="ruf"><span style="color:var(--licht-leise)">A question first?</span>
+        <a href="https://wa.me/4917679219526?text=Hello%2C%20I%20have%20a%20question%20about%20booking.">WhatsApp</a>
+        <a href="mailto:info@oroboros-design.com?subject=Question%20about%20booking">Email</a>
+        <a href="tel:+4915158775031">Call</a>
+      </p>
+    </aside>
+
+    <noscript>
+      <div class="direkt">
+        <p>Without JavaScript, choose directly:</p>
+        <a rel="nofollow" href="https://angel.oroboros-design.com/api/oeffentlich?aktion=checkout&amp;angebot=website_standard&amp;lang=en&amp;ref=oroboros-website-en">Standard · €99 · pay now <span>→</span></a>
+        <a rel="nofollow" href="https://angel.oroboros-design.com/api/oeffentlich?aktion=checkout&amp;angebot=website_premium&amp;lang=en&amp;ref=oroboros-website-en">Premium · €199 · pay now <span>→</span></a>
+      </div>
+    </noscript>
+  </form>
+</main>
+
+<footer class="fuss dok">
+  <div class="unten" style="margin-top:0">
+    <span>© 2026 Oroboros Design · Daouda Ndiaye · Cologne, Germany</span>
+    <nav aria-label="Legal"><a href="/impressum" hreflang="de">Legal notice</a><a href="/datenschutz" hreflang="de">Privacy</a><a href="/agb" hreflang="de">Terms</a><a href="/widerruf" hreflang="de">Withdrawal</a></nav>
+  </div>
+</footer>
+
+<script>
+/* Booking: one choice, one link. Checkout lives at Angel (aktion=checkout, offers website_standard / website_premium, lang=en). */
+(function () {
+  'use strict';
+  var KASSE = 'https://angel.oroboros-design.com/api/oeffentlich';
+  var PAKETE = {
+    standard: { angebot: 'website_standard', titel: 'Standard website', preis: '99', frist: 'in 48 hours' },
+    premium: { angebot: 'website_premium', titel: 'Premium website', preis: '199', frist: 'in five working days' },
+  };
+  var form = document.getElementById('wahl'), q = new URLSearchParams(location.search);
+  /* Origin for attribution (from the email link), otherwise the website itself. */
+  var ref = q.get('ref'); if (!ref || !/^[a-z0-9:_.-]{1,80}$/i.test(ref)) ref = 'oroboros-website-en';
+  var vor = q.get('package') || q.get('paket'); if (PAKETE[vor]) form.elements.paket.value = vor;
+  var el = function (id) { return document.getElementById(id); };
+  function setzen() {
+    var p = PAKETE[form.elements.paket.value] || PAKETE.standard;
+    el('b-paket').textContent = p.titel; el('b-preis').textContent = p.preis; el('b-frist').textContent = p.frist;
+    el('b-knopf').textContent = 'Pay \u20ac' + p.preis + ' & start';
+    el('b-weiter').href = KASSE + '?' + new URLSearchParams({ aktion: 'checkout', angebot: p.angebot, lang: 'en', ref: ref }).toString();
+  }
+  form.addEventListener('change', setzen);
+  form.addEventListener('submit', function (e) { e.preventDefault(); location.href = el('b-weiter').href; });
+  setzen();
+})();
+</script>
+</body>
+</html>
