@@ -148,6 +148,8 @@ for (const [name, opt, vorher] of [
   ok('/en: Paketknöpfe direkt zur englischen Kasse', JSON.stringify(await pakete('/en')) === JSON.stringify([en('website_standard'), en('website_premium')]), await pakete('/en'));
   ok('/en?ref=kalt-…: die Herkunft aus der Kaltmail geht mit zur Kasse', JSON.stringify(await pakete('/en?ref=kalt-0a1b2c3d4e5f6071')) === JSON.stringify([en('website_standard', 'kalt-0a1b2c3d4e5f6071'), en('website_premium', 'kalt-0a1b2c3d4e5f6071')]), await pakete('/en?ref=kalt-0a1b2c3d4e5f6071'));
   await p.goto(BASIS + '/en/book');
+  ok('/en/book nach /en?ref=kalt-…: die Herkunft bleibt in der Sitzung', (await ziel()) === `${KASSE}?aktion=checkout&angebot=website_standard&lang=en&ref=kalt-0a1b2c3d4e5f6071`, await ziel());
+  await p.evaluate(() => sessionStorage.clear()); await p.goto(BASIS + '/en/book');
   ok('/en/book: Standard', (await ziel()) === `${KASSE}?aktion=checkout&angebot=website_standard&lang=en&ref=oroboros-website-en`, await ziel());
   await p.locator('input[value=premium]').check(); ok('/en/book: Premium', (await ziel()) === `${KASSE}?aktion=checkout&angebot=website_premium&lang=en&ref=oroboros-website-en`, await ziel());
   await p.goto(BASIS + '/en/book?package=premium&ref=kalt-0a1b2c3d4e5f6071'); ok('/en/book: Vorwahl und Herkunft aus der Kaltmail', (await ziel()) === `${KASSE}?aktion=checkout&angebot=website_premium&lang=en&ref=kalt-0a1b2c3d4e5f6071`, await ziel());
