@@ -179,7 +179,7 @@ fieldset.schritt .wahlen { clear: both; }
   };
   var form = document.getElementById('wahl'), q = new URLSearchParams(location.search);
   /* Origin for attribution (from the email link), otherwise the website itself. */
-  var ref = q.get('ref'); if (!ref || !/^[a-z0-9:_.-]{1,80}$/i.test(ref)) ref = 'oroboros-website-en';
+  var ref = q.get('ref'); if (!ref || !/^[a-z0-9:_.-]{1,80}$/i.test(ref)) { try { ref = sessionStorage.getItem('oro-kalt-ref'); } catch (e) { ref = null; } if (!ref || !/^kalt-[0-9a-f]{6,32}$/.test(ref)) ref = 'oroboros-website-en'; }
   var vor = q.get('package') || q.get('paket'); if (PAKETE[vor]) form.elements.paket.value = vor;
   var el = function (id) { return document.getElementById(id); };
   function setzen() {
@@ -191,6 +191,20 @@ fieldset.schritt .wahlen { clear: both; }
   form.addEventListener('change', setzen);
   form.addEventListener('submit', function (e) { e.preventDefault(); location.href = el('b-weiter').href; });
   setzen();
+})();
+</script>
+<script>
+/* Launch-Kaltmail (11.11.): ein Klick aus der Mail (?ref=kalt-…) wird einmal je Sitzung an Angel gemeldet — ohne Cookie,
+   ohne Kennung des Besuchers, nur „dieser Betrieb kam“. Die Herkunft geht an die Kasse und an /en/book weiter. */
+(function () {
+  var q = new URLSearchParams(location.search), ref = q.get('ref'), S = 'oro-kalt-ref';
+  try { if (ref && /^kalt-[0-9a-f]{6,32}$/.test(ref)) sessionStorage.setItem(S, ref); else ref = sessionStorage.getItem(S); } catch (e) {}
+  if (!ref || !/^kalt-[0-9a-f]{6,32}$/.test(ref)) return;
+  var schon = false; try { schon = sessionStorage.getItem(S + ':' + location.pathname) === '1'; sessionStorage.setItem(S + ':' + location.pathname, '1'); } catch (e) {}
+  if (!schon) try { fetch('https://angel.oroboros-design.com/api/oeffentlich?aktion=kalt_besuch&ref=' + encodeURIComponent(ref) + '&seite=' + encodeURIComponent(location.pathname), { mode: 'no-cors', keepalive: true, credentials: 'omit' }); } catch (e) {}
+  document.querySelectorAll('a[href*="aktion=checkout"], a[href^="/en/book"]').forEach(function (a) {
+    try { var u = new URL(a.href, location.href); u.searchParams.set('ref', ref); a.href = u.pathname.indexOf('/en/book') === 0 && u.origin === location.origin ? u.pathname + u.search + u.hash : u.toString(); } catch (e) {}
+  });
 })();
 </script>
 </body>
