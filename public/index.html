@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mare Liberum · the free sea of agents</title>
+<meta name="description" content="An ownerless open index of MCP servers, A2A agents and paid x402 services. Free to search, free to join, free to mirror.">
+<meta property="og:title" content="Mare Liberum · the free sea of agents">
+<meta property="og:description" content="One open sea for every agent. Search it, join it, mirror it.">
+<link rel="ard" href="/.well-known/ard.json">
+<style>
+:root{color-scheme:dark;--bg:#04101c;--panel:#0b1d30;--line:#1d3550;--ink:#eaf4ff;--soft:#a9c2da;--acc:#7fd4ff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+main{max-width:760px;margin:0 auto;padding:40px 20px 64px}
+h1{font-size:clamp(2rem,7vw,3.2rem);line-height:1.08;margin:0 0 12px;letter-spacing:-.02em}
+h2{font-size:1.15rem;margin:40px 0 12px}p{margin:0 0 14px;color:var(--soft)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:26px 0}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.stat b{display:block;font-size:1.6rem;color:var(--ink)}.stat span{color:var(--soft);font-size:.9rem}
+form{display:flex;gap:10px;flex-wrap:wrap}label{display:block;width:100%;font-weight:600;margin-bottom:2px}
+input{flex:1 1 220px;min-width:0;padding:13px 14px;border-radius:10px;border:1px solid var(--line);background:#071626;color:var(--ink);font:inherit}
+button{padding:13px 20px;border-radius:10px;border:0;background:var(--acc);color:#02101c;font:inherit;font-weight:700;cursor:pointer}
+input:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+ol{list-style:none;padding:0;margin:18px 0 0}li{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px;overflow-wrap:anywhere}
+li strong{display:block}li small{color:var(--soft)}.tag{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:1px 9px;font-size:.78rem;color:var(--acc);margin-right:6px}
+code{background:#071626;border:1px solid var(--line);border-radius:6px;padding:2px 6px;font-size:.88rem;overflow-wrap:anywhere}
+a{color:var(--acc)}table{width:100%;border-collapse:collapse}td{padding:8px 0;border-bottom:1px solid var(--line);vertical-align:top}td:first-child{color:var(--soft);width:34%;padding-right:12px}
+</style>
+</head>
+<body>
+<main>
+<h1>Mare Liberum</h1>
+<p>The free sea of agents. One open index of MCP servers, A2A agents and paid x402 services, gathered from every public lake. It belongs to nobody: search it, join it, mirror it.</p>
+<div class="stats" aria-live="polite">
+<div class="stat"><b id="s-entries">…</b><span>entries in the sea</span></div>
+<div class="stat"><b id="s-paid">…</b><span>paid services</span></div>
+<div class="stat"><b id="s-hosts">…</b><span>endpoint hosts</span></div>
+</div>
+<h2>Search the sea</h2>
+<form id="f"><label for="q">What do you need?</label><input id="q" name="q" autocomplete="off" placeholder="read a web page as markdown" required><button>Search</button></form>
+<ol id="out" aria-live="polite"></ol>
+<h2>For agents</h2>
+<table>
+<tr><td>ARD search</td><td><code>POST /search {"query":{"text":"..."}}</code></td></tr>
+<tr><td>MCP</td><td><code>/mcp</code> · tools search, get, join, stats</td></tr>
+<tr><td>Manifest</td><td><a href="/.well-known/ard.json">/.well-known/ard.json</a></td></tr>
+<tr><td>Open data</td><td><a href="/dump?limit=100">/dump</a> · NDJSON, page with <code>after</code></td></tr>
+<tr><td>Source</td><td><a href="/source/README.md">README</a> · <a href="/source/core.mjs">core.mjs</a> · <a href="/source/mem.mjs">mem.mjs</a> · <a href="/source/build.mjs">build.mjs</a></td></tr>
+</table>
+<h2>Join the sea</h2>
+<p>Publish <code>/.well-known/ard.json</code> or <code>/.well-known/agent-card.json</code> on your domain. Your domain speaks for itself.</p>
+<form id="j"><label for="d">Your domain</label><input id="d" name="d" autocomplete="off" placeholder="your-domain.com" required><button>Join</button></form>
+<p id="jout" aria-live="polite" style="margin-top:14px"></p>
+</main>
+<script>
+const $=(i)=>document.getElementById(i),n=(v)=>v==null?'…':Number(v).toLocaleString('en');
+fetch('/stats').then(r=>r.json()).then(s=>{$('s-entries').textContent=n(s.entries);$('s-paid').textContent=n(s.paid);$('s-hosts').textContent=n(s.endpointHosts)}).catch(()=>{});
+$('f').addEventListener('submit',async(e)=>{e.preventDefault();const out=$('out');out.textContent='';const li0=document.createElement('li');li0.textContent='Searching…';out.append(li0);
+ try{const r=await (await fetch('/search?pageSize=10&q='+encodeURIComponent($('q').value))).json();out.textContent='';
+ for(const x of r.results||[]){const li=document.createElement('li'),t=document.createElement('strong'),d=document.createElement('div'),m=document.createElement('small'),k=document.createElement('span');
+ k.className='tag';k.textContent=x.metadata?.kind||'';t.append(k,document.createTextNode(x.displayName||''));d.textContent=x.description||'';
+ const ep=x.metadata?.endpoints?.[0],pay=x.metadata?.pay?.priceUsd;m.textContent=[ep?(ep.url||ep.identifier):'',pay!=null?('$'+pay+' per call'):'','score '+x.score].filter(Boolean).join(' · ');li.append(t,d,m);out.append(li)}
+ if(!(r.results||[]).length){const li=document.createElement('li');li.textContent='The sea has no match for these words yet. Try other words.';out.append(li)}}catch{out.textContent='';const li=document.createElement('li');li.textContent='The node is waking up. Search again in a moment.';out.append(li)}});
+$('j').addEventListener('submit',async(e)=>{e.preventDefault();$('jout').textContent='Reading your domain…';
+ try{const r=await (await fetch('/join',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({url:$('d').value})})).json();
+ $('jout').textContent=r.joined?(r.joined.length+' entries joined. '+r.next):(r.error?.message||'Try again in a moment.')}catch{$('jout').textContent='Try again in a moment.'}});
+</script>
+</body>
+</html>

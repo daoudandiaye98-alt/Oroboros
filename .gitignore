@@ -1,0 +1,7 @@
+node_modules
+data
+public/source
+public/build.json
+.vercel
+probe
+package-lock.json

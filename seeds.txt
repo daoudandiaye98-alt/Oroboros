@@ -1,0 +1,10 @@
+# Domains that publish their own manifest (/.well-known/ard.json, ai-catalog.json or agent-card.json).
+# The node re-reads them at every refresh. Add a line, or call POST /join.
+angel.oroboros-design.com
+huggingface.co
+zapier.com
+clickhouse.com
+airtable.com
+datarobot.com
+roboflow.com
+cisco.com
