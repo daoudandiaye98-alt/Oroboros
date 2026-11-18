@@ -201,6 +201,7 @@ export async function join(db, input) {
   const { host, found, rows: good } = await readDomain(input);
   if (good.length) await upsert(db, good);
   const durable = (await db('mare_state_get', { key: 'durable' })) !== false;
+  console.log('mare_join', JSON.stringify({ domain: host, entries: good.length, found }));
   return { domain: host, found, joined: good.map((r) => r.id), durable,
     next: !good.length ? 'Publish /.well-known/ard.json or /.well-known/agent-card.json on this domain, then call join again.'
       : durable ? 'Your entries are searchable now.' : 'Your entries are searchable on this node now and get re-read from your domain at every refresh.' };

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Agentmap: https://mare-liberum.vercel.app/.well-known/ard.json
